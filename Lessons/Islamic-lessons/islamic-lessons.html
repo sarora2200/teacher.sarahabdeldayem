@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Islamic Studies lessons with Teacher Sarah — Duas, Prophets' stories, Islamic manners, Salah, and everyday practices for young learners.">
+<title>Islamic Studies Lessons | Learning with Sarah | دروس الدراسات الإسلامية</title>
+ <!-- Website tab icon (favicon) -->
+  <link rel="icon" type="image/png" href="../../images/quran.png">
+  <link rel="apple-touch-icon" href="images/quran.png">
+<link rel="icon" type="image/png" href="images/quran.png">
+<link rel="apple-touch-icon" href="images/quran.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --cream: #fdf8f0;
+    --warm-white: #fffaf3;
+    --sage: #8ba888;
+    --sage-dark: #5c7a58;
+    --gold: #d4a24c;
+    --gold-dark: #a87d2c;
+    --peach: #e8b48c;
+    --lilac: #b8a5d1;
+    --text: #2d2416;
+    --text-soft: #5c5040;
+    --border: #e8dcc8;
+    --shadow: 0 4px 24px rgba(90, 70, 40, 0.08);
+    --shadow-lg: 0 12px 40px rgba(90, 70, 40, 0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Nunito Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  .ar {
+    font-family: 'Amiri', serif;
+    direction: rtl;
+    unicode-bidi: embed;
+  }
+
+  /* ============ LANGUAGE TOGGLE ============ */
+  .lang-toggle-wrap {
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    z-index: 100;
+  }
+
+  .lang-toggle {
+    display: flex;
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    padding: 4px;
+    box-shadow: var(--shadow);
+  }
+
+  .lang-toggle button {
+    border: none;
+    background: transparent;
+    color: var(--text-soft);
+    font-family: 'Nunito Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 8px 16px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .lang-toggle button.active {
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(212, 162, 76, 0.35);
+  }
+
+  html[lang="ar"] .en-only { display: none !important; }
+  html[lang="en"] .ar-only { display: none !important; }
+
+  /* ============ CONTAINER ============ */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ============ HERO ============ */
+  .hero {
+    background: linear-gradient(180deg, var(--warm-white) 0%, var(--cream) 100%);
+    padding: 100px 0 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: "☾";
+    position: absolute;
+    top: 40px;
+    left: 30px;
+    font-size: 8rem;
+    color: var(--gold);
+    opacity: 0.08;
+    font-family: 'Amiri', serif;
+    line-height: 1;
+  }
+
+  .hero::after {
+    content: "✧";
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    font-size: 6rem;
+    color: var(--sage);
+    opacity: 0.12;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--sage), var(--sage-dark));
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 1.5px;
+    padding: 8px 20px;
+    border-radius: 50px;
+    margin-bottom: 20px;
+    box-shadow: 0 6px 20px rgba(139, 168, 136, 0.35);
+  }
+
+  .hero h1 {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    color: var(--text);
+  }
+
+  .hero h1 em {
+    font-family: 'Amiri', serif;
+    font-style: normal;
+    color: var(--gold-dark);
+    display: block;
+    font-size: 1.3em;
+    margin-top: 6px;
+  }
+
+  .hero p.lead {
+    font-size: 1.15rem;
+    color: var(--text-soft);
+    max-width: 620px;
+    margin: 0 auto 30px;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Nunito Sans', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 14px 28px;
+    border-radius: 50px;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: #fff;
+    box-shadow: 0 8px 24px rgba(212, 162, 76, 0.35);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(212, 162, 76, 0.5);
+  }
+
+  .btn-quiet {
+    background: transparent;
+    color: var(--text);
+    border: 2px solid var(--border);
+  }
+
+  .btn-quiet:hover {
+    border-color: var(--sage);
+    color: var(--sage-dark);
+  }
+
+  /* ============ SECTIONS ============ */
+  section {
+    padding: 60px 0;
+  }
+
+  .section-heading {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: var(--sage-dark);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .section-heading h2 {
+    font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+
+  .section-heading p {
+    color: var(--text-soft);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* ============ LESSON CARDS ============ */
+  .lessons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  .lesson-card {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 32px 26px;
+    text-decoration: none;
+    color: var(--text);
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .lesson-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 5px;
+    background: var(--accent, var(--gold));
+  }
+
+  .lesson-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--accent, var(--gold));
+  }
+
+  .lesson-card .icon {
+    font-size: 2.8rem;
+    margin-bottom: 16px;
+    display: block;
+    font-family: 'Amiri', serif;
+    color: var(--accent, var(--gold));
+    line-height: 1;
+  }
+
+  .lesson-card .kicker {
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: var(--accent, var(--gold-dark));
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .lesson-card h3 {
+    font-size: 1.3rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+
+  .lesson-card p {
+    color: var(--text-soft);
+    font-size: 0.98rem;
+    margin-bottom: 18px;
+    flex-grow: 1;
+  }
+
+  .lesson-card .meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--accent, var(--gold-dark));
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+
+  .lesson-card .meta .arrow {
+    transition: transform 0.3s;
+  }
+
+  .lesson-card:hover .meta .arrow {
+    transform: translateX(4px);
+  }
+
+  /* Accent colors per card */
+  .card-sage   { --accent: var(--sage);     --accent-dark: var(--sage-dark); }
+  .card-gold   { --accent: var(--gold);     --accent-dark: var(--gold-dark); }
+  .card-peach  { --accent: var(--peach);    --accent-dark: #c8845a; }
+  .card-lilac  { --accent: var(--lilac);    --accent-dark: #7e68a8; }
+
+  /* ============ FEATURES ============ */
+  .features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 24px;
+    margin-top: 40px;
+  }
+
+  .feature {
+    text-align: center;
+    padding: 24px 16px;
+  }
+
+  .feature .emoji {
+    font-size: 2.4rem;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .feature h4 {
+    font-size: 1rem;
+    font-weight: 800;
+    margin-bottom: 6px;
+  }
+
+  .feature p {
+    font-size: 0.9rem;
+    color: var(--text-soft);
+  }
+
+  /* ============ CTA ============ */
+  .cta {
+    background: linear-gradient(135deg, var(--sage), var(--sage-dark));
+    color: #fff;
+    border-radius: 32px;
+    padding: 60px 40px;
+    text-align: center;
+    margin: 40px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta::before {
+    content: "۞";
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    font-size: 12rem;
+    font-family: 'Amiri', serif;
+    opacity: 0.08;
+    line-height: 1;
+  }
+
+  .cta h2 {
+    font-size: clamp(1.5rem, 3.5vw, 2rem);
+    font-weight: 800;
+    margin-bottom: 12px;
+  }
+
+  .cta p {
+    opacity: 0.9;
+    max-width: 500px;
+    margin: 0 auto 24px;
+  }
+
+  .cta .btn-primary {
+    background: #fff;
+    color: var(--sage-dark);
+  }
+
+  .cta .btn-primary:hover {
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  }
+
+  /* ============ FOOTER ============ */
+  footer {
+    text-align: center;
+    padding: 40px 24px;
+    color: var(--text-soft);
+    font-size: 0.9rem;
+    border-top: 1px solid var(--border);
+    margin-top: 40px;
+  }
+
+  footer strong {
+    color: var(--gold-dark);
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 640px) {
+    .hero { padding: 80px 0 40px; }
+    .hero::before, .hero::after { font-size: 5rem; }
+    .cta { padding: 40px 24px; }
+    .lang-toggle-wrap { top: 12px; right: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ LANGUAGE TOGGLE ============ -->
+<div class="lang-toggle-wrap">
+  <div class="lang-toggle">
+    <button id="btnEn" class="active" onclick="setLang('en')">🇬🇧 English</button>
+    <button id="btnAr" onclick="setLang('ar')">🇪🇬 العربية</button>
+  </div>
+</div>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="container">
+    <span class="hero-badge">
+      <span class="en-only">ISLAMIC STUDIES · دروس إسلامية</span>
+      <span class="ar-only">الدِّرَاسَاتُ الْإِسْلَامِيَّة</span>
+    </span>
+
+    <h1>
+      <span class="en-only">Learn Islamic Studies<br><em>with purpose &amp; warmth</em></span>
+      <span class="ar-only">تعلَّم الدِّرَاسَات الإِسْلَامِيَّة<br><em>بهدفٍ ودِفء</em></span>
+    </h1>
+
+    <p class="lead">
+      <span class="en-only">
+        Duas, Prophets' stories, Islamic manners, Salah, and everyday practices —
+        taught step by step with love, clarity, and age-appropriate content for young learners.
+      </span>
+      <span class="ar-only">
+        الأدعية، وقصص الأنبياء، والآداب الإسلامية، والصلاة، والممارسات اليومية —
+        تُدرَّس خطوةً بخطوة بمحبة ووضوح ومحتوى مناسب لعمر المتعلمين الصغار.
+      </span>
+    </p>
+
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#lessons">
+        <span class="en-only">Explore lessons →</span>
+        <span class="ar-only">اكتشف الدروس ←</span>
+      </a>
+      <a class="btn btn-quiet" href="../index.html">
+        <span class="en-only">← Back to home</span>
+        <span class="ar-only">العودة للرئيسية →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LESSONS ============ -->
+<section id="lessons">
+  <div class="container">
+    <div class="section-heading">
+      <span class="eyebrow">
+        <span class="en-only">YOUR LEARNING PATH</span>
+        <span class="ar-only">مَسَارُ التَّعَلُّم</span>
+      </span>
+      <h2>
+        <span class="en-only">Choose a lesson to begin</span>
+        <span class="ar-only">اختر درسًا للبدء</span>
+      </h2>
+      <p>
+        <span class="en-only">Each lesson is short, visual, and interactive — perfect for young learners and families.</span>
+        <span class="ar-only">كل درس قصير وبصري وتفاعلي — مثالي للمتعلمين الصغار والعائلات.</span>
+      </p>
+    </div>
+
+    <div class="lessons-grid">
+      <!-- Lesson 1: Duas -->
+      <a class="lesson-card card-sage" href="Lessons/Islamic-studies/duas.html">
+        <span class="icon">🤲</span>
+        <span class="kicker">
+          <span class="en-only">LESSON 01</span>
+          <span class="ar-only">الدَّرْسُ الأَوَّل</span>
+        </span>
+        <h3>
+          <span class="en-only">Daily Duas</span>
+          <span class="ar-only">الأَدْعِيَةُ الْيَوْمِيَّة</span>
+        </h3>
+        <p>
+          <span class="en-only">Learn the duas for morning, evening, eating, sleeping, and travelling — with meaning and pronunciation.</span>
+          <span class="ar-only">تعلَّم أدعية الصباح والمساء والطعام والنوم والسفر — مع المعنى والنطق.</span>
+        </p>
+        <span class="meta">
+          <span class="en-only">Start lesson</span>
+          <span class="ar-only">ابدأ الدرس</span>
+          <span class="arrow">→</span>
+        </span>
+      </a>
+
+      <!-- Lesson 2: Prophets -->
+      <a class="lesson-card card-gold" href="Lessons/Islamic-studies/prophets.html">
+        <span class="icon">📖</span>
+        <span class="kicker">
+          <span class="en-only">LESSON 02</span>
+          <span class="ar-only">الدَّرْسُ الثَّانِي</span>
+        </span>
+        <h3>
+          <span class="en-only">Stories of the Prophets</span>
+          <span class="ar-only">قِصَصُ الأَنْبِيَاء</span>
+        </h3>
+        <p>
+          <span class="en-only">Beautiful stories of the Prophets — with lessons, values, and reflection questions for young minds.</span>
+          <span class="ar-only">قصص الأنبياء الجميلة — مع الدروس والقيم وأسئلة التأمل للعقول الصغيرة.</span>
+        </p>
+        <span class="meta">
+          <span class="en-only">Start lesson</span>
+          <span class="ar-only">ابدأ الدرس</span>
+          <span class="arrow">→</span>
+        </span>
+      </a>
+
+      <!-- Lesson 3: Manners -->
+      <a class="lesson-card card-peach" href="Lessons/Islamic-studies/manners.html">
+        <span class="icon">☾</span>
+        <span class="kicker">
+          <span class="en-only">LESSON 03</span>
+          <span class="ar-only">الدَّرْسُ الثَّالِث</span>
+        </span>
+        <h3>
+          <span class="en-only">Islamic Manners</span>
+          <span class="ar-only">الآدَابُ الإِسْلَامِيَّة</span>
+        </h3>
+        <p>
+          <span class="en-only">Kindness, honesty, respect for parents, and good manners — taught through everyday examples.</span>
+          <span class="ar-only">اللطف والصدق وبر الوالدين والأخلاق الحسنة — من خلال أمثلة من الحياة اليومية.</span>
+        </p>
+        <span class="meta">
+          <span class="en-only">Start lesson</span>
+          <span class="ar-only">ابدأ الدرس</span>
+          <span class="arrow">→</span>
+        </span>
+      </a>
+
+      <!-- Lesson 4: Salah -->
+      <a class="lesson-card card-lilac" href="Lessons/Islamic-studies/salah.html">
+        <span class="icon">🧎</span>
+        <span class="kicker">
+          <span class="en-only">LESSON 04</span>
+          <span class="ar-only">الدَّرْسُ الرَّابِع</span>
+        </span>
+        <h3>
+          <span class="en-only">Learning Salah</span>
+          <span class="ar-only">تَعَلُّمُ الصَّلَاة</span>
+        </h3>
+        <p>
+          <span class="en-only">A gentle introduction to the five daily prayers — steps, meanings, and beautiful illustrations.</span>
+          <span class="ar-only">مقدمة لطيفة للصلوات الخمس اليومية — الخطوات والمعاني مع رسوم توضيحية جميلة.</span>
+        </p>
+        <span class="meta">
+          <span class="en-only">Start lesson</span>
+          <span class="ar-only">ابدأ الدرس</span>
+          <span class="arrow">→</span>
+        </span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FEATURES ============ -->
+<section style="background: var(--warm-white);">
+  <div class="container">
+    <div class="section-heading">
+      <span class="eyebrow">
+        <span class="en-only">WHAT MAKES THIS DIFFERENT</span>
+        <span class="ar-only">مَا يُمَيِّزُ هَذِهِ الدُّرُوس</span>
+      </span>
+      <h2>
+        <span class="en-only">Designed for young hearts</span>
+        <span class="ar-only">مُصَمَّمَة لِلْقُلُوبِ الصَّغِيرَة</span>
+      </h2>
+    </div>
+
+    <div class="features">
+      <div class="feature">
+        <span class="emoji">🎨</span>
+        <h4>
+          <span class="en-only">Visual &amp; friendly</span>
+          <span class="ar-only">بَصَرِي وَوُدِّيّ</span>
+        </h4>
+        <p>
+          <span class="en-only">Colorful cards, emojis, and simple words.</span>
+          <span class="ar-only">بطاقات مُلَوَّنة ورموز تعبيرية وكلمات بسيطة.</span>
+        </p>
+      </div>
+
+      <div class="feature">
+        <span class="emoji">🎧</span>
+        <h4>
+          <span class="en-only">Audio pronunciation</span>
+          <span class="ar-only">نُطْقٌ صَوْتِيّ</span>
+        </h4>
+        <p>
+          <span class="en-only">Listen and repeat, with clear Arabic audio.</span>
+          <span class="ar-only">استمع وكرِّر مع صوت عربي واضح.</span>
+        </p>
+      </div>
+
+      <div class="feature">
+        <span class="emoji">🏅</span>
+        <h4>
+          <span class="en-only">Certificates</span>
+          <span class="ar-only">شَهَادَاتُ إِتْقَان</span>
+        </h4>
+        <p>
+          <span class="en-only">Rewards motivate young learners to finish.</span>
+          <span class="ar-only">المكافآت تُحَفِّزُ الصِّغَارَ عَلَى الْإِكْمَال.</span>
+        </p>
+      </div>
+
+      <div class="feature">
+        <span class="emoji">🌱</span>
+        <h4>
+          <span class="en-only">Gentle pace</span>
+          <span class="ar-only">وَتِيرَةٌ لَطِيفَة</span>
+        </h4>
+        <p>
+          <span class="en-only">No rush — learning with love and barakah.</span>
+          <span class="ar-only">بِلَا عَجَلَة — تَعَلُّمٌ بِمَحَبَّةٍ وَبَرَكَة.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section>
+  <div class="container">
+    <div class="cta">
+      <h2>
+        <span class="en-only">Ready to start?</span>
+        <span class="ar-only">هَلْ أَنْتَ مُسْتَعِدٌّ لِلْبَدْء؟</span>
+      </h2>
+      <p>
+        <span class="en-only">Book a lesson with Teacher Sarah, or explore the lessons at your own pace.</span>
+        <span class="ar-only">احجز درسًا مع المعلمة سارة، أو استكشف الدروس بالوتيرة التي تُنَاسِبُك.</span>
+      </p>
+      <a class="btn btn-primary" href="https://wa.link/6372rm" target="_blank" rel="noopener">
+        <span class="en-only">Ask about lessons ↗</span>
+        <span class="ar-only">اسْتَفْسِرْ عَنِ الدُّرُوس ↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <p>
+    © <span id="year"></span> —
+    <span class="en-only">Islamic Studies · <strong>Learning with Sarah</strong></span>
+    <span class="ar-only">الدراسات الإسلامية · <strong>سارة للتعلّم</strong></span>
+  </p>
+  <p style="margin-top: 6px;">Quran • Arabic • Islamic Studies | القرآن • العربية • الدراسات الإسلامية</p>
+</footer>
+
+<script>
+/* ============================================================
+   LANGUAGE TOGGLE
+   ============================================================ */
+let currentLang = "en";
+
+function setLang(lang) {
+  currentLang = lang;
+  const html = document.documentElement;
+  html.lang = lang;
+  html.dir = lang === "ar" ? "rtl" : "ltr";
+
+  document.getElementById("btnEn").classList.toggle("active", lang === "en");
+  document.getElementById("btnAr").classList.toggle("active", lang === "ar");
+
+  try { localStorage.setItem("preferredLangIslamicStudies", lang); } catch (e) {}
+}
+
+// Restore saved language
+try {
+  const saved = localStorage.getItem("preferredLangIslamicStudies");
+  if (saved === "ar") setLang("ar");
+} catch (e) {}
+
+/* ============================================================
+   FOOTER YEAR
+   ============================================================ */
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
