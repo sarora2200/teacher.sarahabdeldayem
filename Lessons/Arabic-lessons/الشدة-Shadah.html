@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>مغامرات الشَّدَّة | The Adventure of Shaddah</title>
+ <!-- Website tab icon (favicon) -->
+  <link rel="icon" type="image/png" href="../../images/quran.png">
+  <link rel="apple-touch-icon" href="images/quran.png">
 
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Poppins:wght@400;500;700;900&family=Amiri:wght@400;700&family=Baloo+Bhaijaan+2:wght@400;600;800&display=swap" rel="stylesheet">
@@ -70,6 +73,90 @@
   }
   @keyframes spin {
     to { transform: rotate(360deg); }
+  }
+    /* ============ VIDEO SECTION ============ */
+  .video-embed-wrap {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 24px;
+    align-items: stretch;
+  }
+
+  .video-embed-frame {
+    position: relative;
+    background: #000;
+    border: 1px solid rgba(245, 197, 66, 0.25);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    aspect-ratio: 16 / 9;
+  }
+
+  .video-embed-frame iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+
+  .video-notes {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(245, 197, 66, 0.25);
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .video-notes h3 {
+    color: var(--gold);
+    font-size: 1.15rem;
+    margin-bottom: 8px;
+  }
+
+  .video-points {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .video-points li {
+    position: relative;
+    padding-inline-start: 26px;
+    font-size: 0.98rem;
+    color: #d6e3f5;
+    line-height: 1.6;
+  }
+
+  .video-points li::before {
+    content: "✦";
+    position: absolute;
+    inset-inline-start: 0;
+    top: 0;
+    color: var(--teal);
+    font-size: 1rem;
+  }
+
+  .video-link-btn {
+    align-self: flex-start;
+    display: inline-block;
+    text-decoration: none;
+    margin-top: 6px;
+  }
+
+  /* Responsive: stack on mobile */
+  @media (max-width: 800px) {
+    .video-embed-wrap {
+      grid-template-columns: 1fr;
+    }
   }
 </style>
 </head>
@@ -168,6 +255,63 @@
       <p class="italic text-slate-300 mt-3">"Muhammad = Muham + mad"</p>
     </div>
   </section>
+
+  <!-- ============ VIDEO EXPLANATION ============ -->
+<section id="video">
+  <h2 class="section-title">
+    <span class="ar-only">شرح بالفيديو 🎬</span>
+    <span class="en-only">Video Explanation 🎬</span>
+  </h2>
+  <p style="margin-bottom:18px; color:#b8cce6;">
+    <span class="ar-only">شاهد الشرح الكامل لقاعدة الشَّدَّة قبل البدء بالتطبيق.</span>
+    <span class="en-only">Watch the complete explanation of the Shaddah rule before practising.</span>
+  </p>
+
+  <div class="video-embed-wrap">
+    <div class="video-embed-frame">
+      <iframe
+        src="https://www.youtube.com/embed/AIGUZM65fiw"
+        title="شرح الشَّدَّة"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen></iframe>
+    </div>
+
+    <div class="video-notes">
+      <h3>
+        <span class="ar-only">📌 نقاط مهمة من الفيديو</span>
+        <span class="en-only">📌 Key points from the video</span>
+      </h3>
+      <ul class="video-points">
+        <li>
+          <span class="ar-only">الشَّدَّة تعني أن الحرف يُنطَق مرَّتين: ساكنًا ثم متحرِّكًا.</span>
+          <span class="en-only">Shaddah means the letter is pronounced twice: silent, then with a vowel.</span>
+        </li>
+        <li>
+          <span class="ar-only">الشَّدَّة تُكتَب فوق الحرف على شكل رأس صغير.</span>
+          <span class="en-only">The Shaddah mark (ّ) is written above the letter.</span>
+        </li>
+        <li>
+          <span class="ar-only">الحرف المشدَّد يُحفَظ زمنه قليلًا عن الحرف العادي.</span>
+          <span class="en-only">A doubled letter is held slightly longer than a single one.</span>
+        </li>
+        <li>
+          <span class="ar-only">أمثلة: مُحَمَّد، اللَّه، رَبَّنَا، الرَّحْمَن.</span>
+          <span class="en-only">Examples: Muhammad, Allah, Rabbana, Ar-Rahman.</span>
+        </li>
+      </ul>
+
+      <a class="button btn-primary video-link-btn"
+         href="https://www.youtube.com/watch?v=AIGUZM65fiw"
+         target="_blank" rel="noopener">
+        <span class="ar-only">شاهد على يوتيوب ↗</span>
+        <span class="en-only">Watch on YouTube ↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+
 
   <!-- ============ STEP 2: LETTER CARDS ============ -->
   <section class="my-12">

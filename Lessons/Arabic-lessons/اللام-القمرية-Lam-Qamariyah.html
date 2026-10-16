@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>مغامرات اللام القمرية | The Adventure of the Moon Lam</title>
+ <!-- Website tab icon (favicon) -->
+  <link rel="icon" type="image/png" href="../../images/quran.png">
+  <link rel="apple-touch-icon" href="images/quran.png">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Poppins:wght@400;500;700;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 <style>
   /* ============ RESET & BASE ============ */
@@ -603,6 +606,92 @@
   /* ============ LANGUAGE VISIBILITY ============ */
   html[lang="ar"] .en-only { display: none !important; }
   html[lang="en"] .ar-only { display: none !important; }
+
+  /* ============ VIDEO SECTION ============ */
+.video-embed-wrap {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 24px;
+  align-items: stretch;
+}
+
+.video-embed-frame {
+  position: relative;
+  background: #000;
+  border: 1px solid var(--card-border);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  aspect-ratio: 16 / 9;
+}
+
+.video-embed-frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+.video-notes {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.video-notes h3 {
+  color: var(--gold);
+  font-size: 1.15rem;
+  margin-bottom: 8px;
+}
+
+.video-points {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.video-points li {
+  position: relative;
+  padding-inline-start: 26px;
+  font-size: 0.98rem;
+  color: #d6e3f5;
+  line-height: 1.6;
+}
+
+.video-points li::before {
+  content: "✦";
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0;
+  color: var(--teal);
+  font-size: 1rem;
+}
+
+.video-link-btn {
+  align-self: flex-start;
+  display: inline-block;
+  text-decoration: none;
+  margin-top: 6px;
+}
+
+/* Responsive: stack on mobile */
+@media (max-width: 800px) {
+  .video-embed-wrap {
+    grid-template-columns: 1fr;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -709,6 +798,62 @@
           <br><strong>ا، ب، غ، ح، ج، ك، و، خ، ف، ع، ق، ي، م، هـ</strong>
         </span>
       </p>
+    </div>
+  </section>
+
+    <!-- ============ VIDEO EXPLANATION ============ -->
+  <section id="video">
+    <h2 class="section-title">
+      <span class="ar-only">شرح بالفيديو 🎬</span>
+      <span class="en-only">Video Explanation 🎬</span>
+    </h2>
+    <p style="margin-bottom:18px; color:#b8cce6;">
+      <span class="ar-only">شاهد الشرح الكامل لقاعدة اللام القمرية قبل البدء بالتطبيق.</span>
+      <span class="en-only">Watch the complete explanation of the Moon Lam rule before practising.</span>
+    </p>
+
+    <div class="video-embed-wrap">
+      <div class="video-embed-frame">
+        <iframe
+          src="https://www.youtube.com/embed/y1UD8cl-glM"
+          title="شرح اللام القمرية"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen></iframe>
+      </div>
+
+      <div class="video-notes">
+        <h3>
+          <span class="ar-only">📌 نقاط مهمة من الفيديو</span>
+          <span class="en-only">📌 Key points from the video</span>
+        </h3>
+        <ul class="video-points">
+          <li>
+            <span class="ar-only">اللام القمرية تُكتب وتُنطق دائمًا.</span>
+            <span class="en-only">The Moon Lam is always written and pronounced.</span>
+          </li>
+          <li>
+            <span class="ar-only">الحروف القمرية عددها 14 حرفًا.</span>
+            <span class="en-only">There are 14 Moon Letters.</span>
+          </li>
+          <li>
+            <span class="ar-only">تأتي اللام ساكنة وواضحة بعد الحرف القمري.</span>
+            <span class="en-only">The Lam is silent-clear with Sukoon after the Moon Letter.</span>
+          </li>
+          <li>
+            <span class="ar-only">الجملة الجامعة: «ابْغِ حَجَّكَ وَخَفْ عَقِيمَهُ».</span>
+            <span class="en-only">Mnemonic: "Ibghī ḥajjaka wa khaf ʿaqīmahu".</span>
+          </li>
+        </ul>
+
+        <a class="button btn-primary video-link-btn"
+           href="https://www.youtube.com/watch?v=y1UD8cl-glM"
+           target="_blank" rel="noopener">
+          <span class="ar-only">شاهد على يوتيوب ↗</span>
+          <span class="en-only">Watch on YouTube ↗</span>
+        </a>
+      </div>
     </div>
   </section>
 
