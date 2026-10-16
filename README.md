@@ -1,4 +1,4 @@
-# Learning with Noor | نور للتعلّم
+# Learning with Sarah | سارة للتعلّم
 
 A responsive bilingual (English/Arabic) starter website for a Quran, Arabic, and Islamic Studies teacher.
 
