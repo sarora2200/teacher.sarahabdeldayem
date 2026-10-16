@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Learning Salah | الصلاة | Learning with Sarah</title>
+<link rel="icon" type="image/png" href="../../images/quran.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #fdf8f0;
+    --warm-white: #fffaf3;
+    --sage: #8ba888;
+    --sage-dark: #5c7a58;
+    --gold: #d4a24c;
+    --gold-dark: #a87d2c;
+    --lilac: #b8a5d1;
+    --lilac-dark: #7e68a8;
+    --text: #2d2416;
+    --text-soft: #5c5040;
+    --border: #e8dcc8;
+    --shadow: 0 4px 24px rgba(90, 70, 40, 0.08);
+    --shadow-lg: 0 12px 40px rgba(90, 70, 40, 0.12);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Nunito Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+  .ar { font-family: 'Amiri', serif; direction: rtl; unicode-bidi: embed; }
+  html[lang="ar"] body { font-family: 'Amiri', serif; }
+  html[lang="ar"] .en-only { display: none !important; }
+  html[lang="en"] .ar-only { display: none !important; }
+
+  .lang-toggle-wrap { position: fixed; top: 18px; right: 18px; z-index: 100; }
+  .lang-toggle {
+    display: flex; background: var(--warm-white); border: 1px solid var(--border);
+    border-radius: 50px; padding: 4px; box-shadow: var(--shadow);
+  }
+  .lang-toggle button {
+    border: none; background: transparent; color: var(--text-soft);
+    font-family: 'Nunito Sans', sans-serif; font-weight: 700; font-size: 0.85rem;
+    padding: 8px 16px; border-radius: 50px; cursor: pointer; transition: all 0.3s;
+  }
+  .lang-toggle button.active {
+    background: linear-gradient(135deg, var(--lilac), var(--lilac-dark));
+    color: #fff; box-shadow: 0 4px 12px rgba(184, 165, 209, 0.35);
+  }
+
+  .container { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(180deg, var(--warm-white) 0%, var(--cream) 100%);
+    padding: 100px 0 50px; text-align: center; position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: "🧎"; position: absolute; top: 40px; left: 30px;
+    font-size: 7rem; opacity: 0.1; line-height: 1;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--lilac), var(--lilac-dark));
+    color: #fff; font-weight: 700; font-size: 0.78rem; letter-spacing: 1.5px;
+    padding: 8px 20px; border-radius: 50px; margin-bottom: 20px;
+    box-shadow: 0 6px 20px rgba(184, 165, 209, 0.4);
+  }
+  .hero h1 {
+    font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; margin-bottom: 16px;
+  }
+  .hero h1 em {
+    font-family: 'Amiri', serif; font-style: normal; color: var(--lilac-dark);
+    display: block; font-size: 1.4em; margin-top: 6px;
+  }
+  .hero p {
+    color: var(--text-soft); font-size: 1.1rem; max-width: 620px; margin: 0 auto 30px;
+  }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-weight: 700; padding: 14px 28px; border-radius: 50px;
+    text-decoration: none; cursor: pointer; border: none; transition: all 0.3s;
+    font-family: 'Nunito Sans', sans-serif;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--lilac), var(--lilac-dark));
+    color: #fff; box-shadow: 0 8px 24px rgba(184, 165, 209, 0.4);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(184, 165, 209, 0.5); }
+  .btn-quiet {
+    background: transparent; color: var(--text); border: 2px solid var(--border);
+  }
+  .btn-quiet:hover { border-color: var(--lilac); color: var(--lilac-dark); }
+
+  section { padding: 50px 0; }
+
+  .section-heading { margin-bottom: 32px; text-align: center; }
+  .eyebrow {
+    display: inline-block; font-size: 0.75rem; font-weight: 800;
+    letter-spacing: 2px; color: var(--lilac-dark); text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .section-heading h2 {
+    font-size: clamp(1.5rem, 3.5vw, 2rem); font-weight: 800; margin-bottom: 10px;
+  }
+  .section-heading p { color: var(--text-soft); max-width: 620px; margin: 0 auto; }
+
+  /* PRAYER STEPS */
+  .steps { display: flex; flex-direction: column; gap: 20px; }
+  .step {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 24px;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    transition: all 0.3s;
+    position: relative;
+  }
+  .step:hover {
+    box-shadow: var(--shadow-lg);
+    border-color: var(--lilac);
+    transform: translateY(-2px);
+  }
+  .step.playing {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(212, 162, 76, 0.2), var(--shadow-lg);
+  }
+  .step-num {
+    flex-shrink: 0;
+    width: 48px; height: 48px;
+    background: linear-gradient(135deg, var(--lilac), var(--lilac-dark));
+    color: #fff; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 1.2rem;
+    box-shadow: 0 4px 12px rgba(184, 165, 209, 0.4);
+  }
+  .step-content { flex: 1; }
+  .step-content h3 {
+    font-size: 1.15rem; font-weight: 800; margin-bottom: 6px;
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  }
+  .step-content h3 .ar-name {
+    font-family: 'Amiri', serif; color: var(--lilac-dark);
+    font-size: 1.3em; font-weight: 700;
+  }
+  .step-content p { color: var(--text-soft); font-size: 0.98rem; }
+  .step-content .arabic {
+    font-family: 'Amiri', serif; color: var(--lilac-dark);
+    background: rgba(184, 165, 209, 0.1);
+    padding: 8px 16px; border-radius: 12px;
+    display: inline-block; margin-top: 10px;
+    font-size: 1.15rem;
+  }
+
+  /* PRAYERS */
+  .prayers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+  }
+  .prayer {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 24px 16px;
+    text-align: center;
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .prayer:hover {
+    border-color: var(--gold);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+  .prayer.playing {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(212, 162, 76, 0.2), var(--shadow-lg);
+  }
+  .prayer .icon { font-size: 2rem; display: block; margin-bottom: 10px; }
+  .prayer h4 {
+    font-size: 1.15rem; font-weight: 800; margin-bottom: 4px;
+  }
+  .prayer h4 span { font-family: 'Amiri', serif; color: var(--lilac-dark); }
+  .prayer small { color: var(--text-soft); font-size: 0.85rem; }
+
+  /* ============ AUDIO BUTTON ============ */
+  .audio-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    align-self: flex-start;
+    background: linear-gradient(135deg, var(--lilac), var(--lilac-dark));
+    color: #fff;
+    border: none;
+    font-family: 'Nunito Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.92rem;
+    padding: 10px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 6px 16px rgba(184, 165, 209, 0.4);
+    margin-top: 12px;
+  }
+
+  .audio-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(184, 165, 209, 0.55);
+  }
+
+  .audio-btn:active { transform: scale(0.97); }
+  .audio-btn:disabled { opacity: 0.7; cursor: wait; }
+
+  .audio-btn .speaker {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  .audio-loading {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    flex-shrink: 0;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .playing-wave {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    height: 14px;
+  }
+  .playing-wave span {
+    display: inline-block;
+    width: 3px;
+    background: #fff;
+    border-radius: 2px;
+    animation: wave 0.9s ease-in-out infinite;
+  }
+  .playing-wave span:nth-child(1) { height: 6px; animation-delay: 0s; }
+  .playing-wave span:nth-child(2) { height: 12px; animation-delay: 0.15s; }
+  .playing-wave span:nth-child(3) { height: 8px; animation-delay: 0.3s; }
+  .playing-wave span:nth-child(4) { height: 14px; animation-delay: 0.45s; }
+  @keyframes wave {
+    0%, 100% { transform: scaleY(0.5); }
+    50% { transform: scaleY(1.2); }
+  }
+
+  /* Small audio button for prayer cards */
+  .prayer .audio-btn {
+    font-size: 0.78rem;
+    padding: 6px 14px;
+    margin-top: 12px;
+  }
+  .prayer .audio-btn .speaker { width: 14px; height: 14px; }
+
+  /* CTA */
+  .cta {
+    background: linear-gradient(135deg, var(--lilac), var(--lilac-dark));
+    color: #fff; border-radius: 28px; padding: 50px 36px; text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .cta::before {
+    content: "☾"; position: absolute; top: -30px; right: -20px;
+    font-size: 12rem; font-family: 'Amiri', serif; opacity: 0.08; line-height: 1;
+  }
+  .cta h2 { font-size: clamp(1.4rem, 3vw, 1.9rem); margin-bottom: 10px; }
+  .cta p { opacity: 0.9; max-width: 500px; margin: 0 auto 22px; }
+  .cta .btn-primary { background: #fff; color: var(--lilac-dark); }
+
+  footer {
+    text-align: center; padding: 40px 24px; color: var(--text-soft);
+    font-size: 0.9rem; border-top: 1px solid var(--border); margin-top: 40px;
+  }
+  footer strong { color: var(--gold-dark); }
+
+  @media (max-width: 640px) {
+    .hero { padding: 80px 0 30px; }
+    .hero::before { font-size: 5rem; }
+    .step { flex-direction: column; text-align: center; align-items: center; }
+    .lang-toggle-wrap { top: 12px; right: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="lang-toggle-wrap">
+  <div class="lang-toggle">
+    <button id="btnEn" class="active" onclick="setLang('en')">🇬🇧 English</button>
+    <button id="btnAr" onclick="setLang('ar')">🇪🇬 العربية</button>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <span class="hero-badge">
+      <span class="en-only">LESSON 04 · ISLAMIC STUDIES</span>
+      <span class="ar-only">الدَّرْسُ الرَّابِع · الدِّرَاسَات الإِسْلَامِيَّة</span>
+    </span>
+    <h1>
+      <span class="en-only">Learning <em>Salah</em></span>
+      <span class="ar-only">تَعَلُّمُ <em>الصَّلَاة</em></span>
+    </h1>
+    <p>
+      <span class="en-only">A gentle step-by-step introduction to the five daily prayers — listen to each prayer and every phrase with clear Arabic audio.</span>
+      <span class="ar-only">مقدمة لطيفة خطوةً بخطوة للصلوات الخمس اليومية — استمع إلى كل صلاة وكل ذكر بصوت عربي واضح.</span>
+    </p>
+    <div style="margin-top: 24px;">
+      <a class="btn btn-quiet" href="../Islamic-studies/islamic-lessons.html">
+        <span class="en-only">← Back to Islamic Studies</span>
+        <span class="ar-only">← العودة للدراسات الإسلامية</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- THE FIVE PRAYERS -->
+<section>
+  <div class="container">
+    <div class="section-heading">
+      <span class="eyebrow">
+        <span class="en-only">THE FIVE DAILY PRAYERS</span>
+        <span class="ar-only">الصَّلَوَاتُ الْخَمْسُ</span>
+      </span>
+      <h2>
+        <span class="en-only">Prayers throughout the day</span>
+        <span class="ar-only">الصَّلَوَاتُ عَلَى مَدَارِ الْيَوْم</span>
+      </h2>
+      <p>
+        <span class="en-only">Tap the 🔊 button on each prayer to hear its Arabic name.</span>
+        <span class="ar-only">اضغط على زر 🔊 عند كل صلاة لسماع اسمها بالعربية.</span>
+      </p>
+    </div>
+
+    <div class="prayers-grid">
+      <div class="prayer" data-tts="صَلَاةُ الْفَجْر">
+        <span class="icon">🌅</span>
+        <h4>Fajr <span>الفَجْر</span></h4>
+        <small><span class="en-only">Before sunrise</span><span class="ar-only">قبل الشروق</span></small>
+        <button class="audio-btn" onclick="playSalah(this)">
+          <svg class="speaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
+            <path d="M16 9a5 5 0 0 1 0 6"/>
+            <path d="M19.364 18.364a9 9 0 0 0 0-12.728"/>
+          </svg>
+          <span class="btn-label">
+            <span class="en-only">Listen</span>
+            <span class="ar-only">اسْتَمِعْ</span>
+          </span>
+        </button>
+      </div>
+
+      <div class="prayer" data-tts="صَلَاةُ الظُّهْر">
+        <span class="icon">☀️</span>
+        <h4>Dhuhr <span>الظُّهْر</span></h4>
+        <small><span class="en-only">After midday</span><span class="ar-only">بعد الزوال</span></small>
+        <button class="audio-btn" onclick="playSalah(this)">
+          <svg class="speaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
+            <path d="M16 9a5 5 0 0 1 0 6"/>
+            <path d="M19.364 18.364a9 9 0 0 0 0-12.728"/>
+          </svg>
+          <span class="btn-label">
+            <span class="en-only">Listen</span>
+            <span class="ar-only">اسْتَمِعْ</span>
+          </span>
+        </button>
+      </div>
+
+      <div class="prayer" data-tts="صَلَاةُ الْعَصْر">
+        <span class="icon">🌤️</span>
+        <h4>Asr <span>العَصْر</span></h4>
+        <small><span class="en-only">Afternoon</span><span class="ar-only">بعد الظهر</span></small>
+        <button class="audio-btn" onclick="playSalah(this)">
+          <svg class="speaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
+            <path d="M16 9a5 5 0 0 1 0 6"/>
+            <path d="M19.364 18.364a9 9 0 0 0 0-12.728"/>
+          </svg>
+          <span class="btn-label">
+            <span class="en-only">Listen</span>
+            <span class="ar-only">اسْتَمِعْ</span>
+          </span>
+        </button>
+      </div>
+
+      <div class="prayer" data-tts="صَلَاةُ الْمَغْرِب">
+        <span class="icon">🌇</span>
+        <h4>Maghrib <span>المَغْرِب</span></h4>
+        <small><span class="en-only">After sunset</span><span class="ar-only">بعد الغروب</span></small>
+        <button class="audio-btn" onclick="playSalah(this)">
+          <svg class="speaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
+            <path d="M16 9a5 5 0 0 1 0 6"/>
+            <path d="M19.364 18.364a9 9 0 0 0 0-12.728"/>
+          </svg>
+          <span class="btn-label">
+            <span class="en-only">Listen</span>
+            <span class="ar-only">اسْتَمِعْ</span>
+          </span>
+        </button>
+      </div>
+
+      <div class="prayer" data-tts="صَلَاةُ الْعِشَاء">
+        <span class="icon">🌙</span>
+        <h4>Isha <span>العِشَاء</span></h4>
+        <small><span class="en-only">At night</span><span class="ar-only">في الليل</span></small>
+        <button class="audio-btn" onclick="playSalah(this)">
+          <svg class="speaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
+            <path d="M16 9a5 5 0 0 1 0 6"/>
+            <path d="M19.364 18.364a9 9 0 0 0 0-12.728"/>
+          </svg>
+          <span class="btn-label">
+            <span class="en-only">Listen</span>
+            <span class="ar-only">اسْتَمِعْ</span>
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STEPS OF PRAYER -->
+<section style="background: var(--warm-white);">
+  <div class="container">
+    <div class="section-heading">
+      <span class="eyebrow">
+        <span class="en-only">STEP BY STEP</span>
+        <span class="ar-only">خُطْوَةً بِخُطْوَة</span>
+      </span>
+      <h2>
+        <span class="en-only">How we pray</span>
+        <span class="ar-only">كَيْفَ نُصَلِّي</span>
+      </h2>
+      <p>
+        <span class="en-only">Press the 🔊 button on each step to hear its Arabic phrase clearly.</span>
+        <span class="ar-only">اضغط على زر 🔊 في كل خطوة لسماع ذكرها بالعربية بوضوح.</span>
+      </p>
+    </div>
+
+    <div class="steps">
+      <!-- Step 1 -->
+      <div class="step" data-tts="اللَّهُ أَكْبَر">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>
+            <span class="en-only">Intention &amp; Takbir</span>
+            <span class="ar-only">النِّيَّة وَتَكْبِيرَة الإِحْرَام</span>
+          </h3>
+          <p>
+            <span class="en-only">We make a quiet intention in our heart, then raise our hands and say:</span>
+            <span class="ar-only">نُبَيِّتُ النِّيَّةَ فِي الْقَلْب، ثُمَّ نَرْفَعُ الْيَدَيْنِ وَنَقُول:</span>
+          </p>
+          <div class="arabic">اللَّهُ أَكْبَر</div>
+          <button class="audio-btn" onclick="playSalah(this)">
+            <svg class="speaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
+              <path d="M16 9a5 5 0 0 1 0 6"/>
+              <path d="M19.364 18.364a9 9 0 0 0 0-12.728"/>
+            </svg>
+            <span class="btn-label">
+              <span class="en-only">Listen</span>
+              <span class="ar-only">اسْتَمِعْ</span>
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="step" data-tts="بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيم">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>
+            <span class="en-only">Standing &amp; Reciting Al-Fatiha</span>
+            <span class="ar-only">الْقِيَام وَقِرَاءَة الْفَاتِحَة</span>
+          </h3>
+          <p>
+            <span class="en-only">We stand calmly, place our hands on our chest, and recite Surah Al-Fatiha — the opening of the Quran.</span>
+            <span class="ar-only">نَقِفُ بِهُدُوء، وَنَضَعُ الْيَدَيْنِ عَلَى الصَّدْر، وَنَقْرَأُ سُورَةَ الْفَاتِحَة — فَاتِحَةَ الْكِتَاب.</span>
+          </p>
+          <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيم</div>
+          <button class="audio-btn" onclick="playSalah(this)">
+            <svg class="speaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
+              <path d="M16 9a5 5 0 0 1 0 6"/>
+              <path d="M19.364 18.364a9 9 0 0 0 0-12.728"/>
+            </svg>
+            <span class="btn-label">
+              <span class="en-only">Listen</span>
+              <span class="ar-only">اسْتَمِعْ</span>
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="step" data-tts="سُبْحَانَ رَبِّيَ الْعَظِيم">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>
+            <span class="en-only">Rukūʿ (Bowing)</span>
+            <span class="ar-only">الرُّكُوع</span>
+          </h3>
+          <p>
+            <span class="en-only">We bow down with a straight back and say:</span>
+            <span class="ar-only">نَنْحَنِي بِظَهْرٍ مُسْتَقِيم وَنَقُول:</span>
+          </p>
+          <div class="arabic">سُبْحَانَ رَبِّيَ الْعَظِيم</div>
+          <button class="audio-btn" onclick="playSalah(this)">
+            <svg class="speaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
+              <path d="M16 9a5 5 0 0 1 0 6"/>
+              <path d="M19.364 18.364a9 9 0 0 0 0-12.728"/>
+            </svg>
+            <span class="btn-label">
+              <span class="en-only">Listen</span>
+              <span class="ar-only">اسْتَمِعْ</span>
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="step" data-tts="سُبْحَانَ رَبِّيَ الْأَعْلَى">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h3>
+            <span class="en-only">Sujūd (Prostration)</span>
+            <span class="ar-only">السُّجُود</span>
+          </h3>
+          <p>
+            <span class="en-only">We place our forehead on the ground — the closest we are to Allah — and say:</span>
+            <span class="ar-only">نَضَعُ الْجَبْهَةَ عَلَى الْأَرْض — أَقْرَبُ مَا نَكُونُ إِلَى اللَّه — وَنَقُول:</span>
+          </p>
+          <div class="arabic">سُبْحَانَ رَبِّيَ الْأَعْلَى</div>
+          <button class="audio-btn" onclick="playSalah(this)">
+            <svg class="speaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
+              <path d="M16 9a5 5 0 0 1 0 6"/>
+              <path d="M19.364 18.364a9 9 0 0 0 0-12.728"/>
+            </svg>
+            <span class="btn-label">
+              <span class="en-only">Listen</span>
+              <span class="ar-only">اسْتَمِعْ</span>
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 5 -->
+      <div class="step" data-tts="السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللَّه">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <h3>
+            <span class="en-only">Tashahhud &amp; Tasleem</span>
+            <span class="ar-only">التَّشَهُّد وَالتَّسْلِيم</span>
+          </h3>
+          <p>
+            <span class="en-only">At the end, we sit, recite the Tashahhud, and finish by turning our head to the right and left saying:</span>
+            <span class="ar-only">فِي النِّهَايَة، نَجْلِسُ وَنَقْرَأُ التَّشَهُّد، وَنُخْتَمُ بِالِالْتِفَاتِ يَمِينًا وَشِمَالًا وَنَقُول:</span>
+          </p>
+          <div class="arabic">السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللَّه</div>
+          <button class="audio-btn" onclick="playSalah(this)">
+            <svg class="speaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
+              <path d="M16 9a5 5 0 0 1 0 6"/>
+              <path d="M19.364 18.364a9 9 0 0 0 0-12.728"/>
+            </svg>
+            <span class="btn-label">
+              <span class="en-only">Listen</span>
+              <span class="ar-only">اسْتَمِعْ</span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section>
+  <div class="container">
+    <div class="cta">
+      <h2>
+        <span class="en-only">Ready to learn Salah step by step?</span>
+        <span class="ar-only">مُسْتَعِدٌّ لِتَعَلُّمِ الصَّلَاة خُطْوَةً بِخُطْوَة؟</span>
+      </h2>
+      <p>
+        <span class="en-only">Book a lesson with Teacher Sarah for guided prayer practice.</span>
+        <span class="ar-only">احجز درسًا مع المعلمة سارة للتدريب الموجَّه على الصلاة.</span>
+      </p>
+      <a class="btn btn-primary" href="https://wa.link/6372rm" target="_blank" rel="noopener">
+        <span class="en-only">Ask about lessons ↗</span>
+        <span class="ar-only">اسْتَفْسِرْ عَنِ الدُّرُوس ↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© <span id="year"></span> — <span class="en-only">Learning with Sarah</span><span class="ar-only">سارة للتعلّم</span></p>
+</footer>
+
+<!-- Azure TTS config -->
+<script src="../../config.js"></script>
+
+<script>
+/* ============================================================
+   AZURE NEURAL TTS CONFIGURATION
+   ============================================================ */
+const AZURE_TTS_CONFIG = window.AZURE_TTS_CONFIG || {
+  subscriptionKey: "",
+  region: "",
+  voice: "ar-SA-HamedNeural"
+};
+
+/* ============================================================
+   LANGUAGE TOGGLE
+   ============================================================ */
+let currentLang = "en";
+function setLang(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+  document.getElementById("btnEn").classList.toggle("active", lang === "en");
+  document.getElementById("btnAr").classList.toggle("active", lang === "ar");
+  try { localStorage.setItem("preferredLangSalah", lang); } catch(e) {}
+}
+try {
+  const saved = localStorage.getItem("preferredLangSalah");
+  if (saved === "ar") setLang("ar");
+} catch(e) {}
+
+/* ============================================================
+   AZURE NEURAL TTS ENGINE
+   ============================================================ */
+let currentAudioEl = null;
+let currentCard = null;
+
+async function playSalah(btn) {
+  const card = btn.closest(".step, .prayer");
+  if (!card) return;
+  const text = card.getAttribute("data-tts") || "";
+  if (!text) return;
+
+  stopAllAudio();
+
+  const originalHTML = btn.innerHTML;
+
+  btn.disabled = true;
+  btn.innerHTML = `<span class="audio-loading"></span><span class="btn-label"><span class="en-only">Loading…</span><span class="ar-only">جارٍ التحميل…</span></span>`;
+  card.classList.add("playing");
+  currentCard = card;
+
+  // Fallback if Azure key not configured
+  if (!AZURE_TTS_CONFIG.subscriptionKey || AZURE_TTS_CONFIG.subscriptionKey === "YOUR_AZURE_KEY_HERE") {
+    btn.innerHTML = `<span class="playing-wave"><span></span><span></span><span></span><span></span></span><span class="btn-label"><span class="en-only">Playing…</span><span class="ar-only">يُشغَّل…</span></span>`;
+    speakFallback(text, () => {
+      btn.innerHTML = originalHTML;
+      btn.disabled = false;
+      card.classList.remove("playing");
+      currentCard = null;
+    });
+    return;
+  }
+
+  try {
+    const endpoint = `https://${AZURE_TTS_CONFIG.region}.tts.speech.microsoft.com/cognitiveservices/v1`;
+
+    const ssml = `
+      <speak version='1.0' xml:lang='ar-SA'>
+        <voice name='${AZURE_TTS_CONFIG.voice}'>
+          <prosody rate='-15%' pitch='0%'>
+            ${text}
+          </prosody>
+        </voice>
+      </speak>
+    `;
+
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Ocp-Apim-Subscription-Key": AZURE_TTS_CONFIG.subscriptionKey,
+        "Content-Type": "application/ssml+xml",
+        "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+        "User-Agent": "SarahAhmedSalahLesson"
+      },
+      body: ssml
+    });
+
+    if (!response.ok) throw new Error(`Azure TTS error: ${response.status}`);
+
+    const audioBlob = await response.blob();
+    const audioUrl = URL.createObjectURL(audioBlob);
+    const audio = new Audio(audioUrl);
+    currentAudioEl = audio;
+
+    btn.innerHTML = `<span class="playing-wave"><span></span><span></span><span></span><span></span></span><span class="btn-label"><span class="en-only">Playing…</span><span class="ar-only">يُشغَّل…</span></span>`;
+
+    audio.onended = () => {
+      URL.revokeObjectURL(audioUrl);
+      btn.innerHTML = originalHTML;
+      btn.disabled = false;
+      card.classList.remove("playing");
+      currentAudioEl = null;
+      currentCard = null;
+    };
+
+    audio.onerror = () => {
+      URL.revokeObjectURL(audioUrl);
+      btn.innerHTML = originalHTML;
+      btn.disabled = false;
+      card.classList.remove("playing");
+      currentAudioEl = null;
+      currentCard = null;
+    };
+
+    await audio.play();
+
+  } catch (error) {
+    console.error("Azure TTS failed:", error);
+    btn.innerHTML = `<span class="playing-wave"><span></span><span></span><span></span><span></span></span><span class="btn-label"><span class="en-only">Playing…</span><span class="ar-only">يُشغَّل…</span></span>`;
+    speakFallback(text, () => {
+      btn.innerHTML = originalHTML;
+      btn.disabled = false;
+      card.classList.remove("playing");
+      currentCard = null;
+    });
+  }
+}
+
+function stopAllAudio() {
+  if (currentAudioEl) {
+    try { currentAudioEl.pause(); } catch(e) {}
+    currentAudioEl = null;
+  }
+  if ("speechSynthesis" in window) {
+    speechSynthesis.cancel();
+  }
+  if (currentCard) {
+    currentCard.classList.remove("playing");
+    currentCard = null;
+  }
+  document.querySelectorAll(".step .audio-btn, .prayer .audio-btn").forEach(b => {
+    if (b.disabled) {
+      b.disabled = false;
+      b.innerHTML = `
+        <svg class="speaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
+          <path d="M16 9a5 5 0 0 1 0 6"/>
+          <path d="M19.364 18.364a9 9 0 0 0 0-12.728"/>
+        </svg>
+        <span class="btn-label">
+          <span class="en-only">Listen</span>
+          <span class="ar-only">اسْتَمِعْ</span>
+        </span>`;
+    }
+  });
+}
+
+/* ============================================================
+   BROWSER TTS FALLBACK
+   ============================================================ */
+function speakFallback(text, onDone) {
+  if (!("speechSynthesis" in window)) {
+    if (onDone) onDone();
+    return;
+  }
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "ar-SA";
+  u.rate = 0.85;
+  u.pitch = 1.0;
+  const voices = speechSynthesis.getVoices();
+  const arabicVoice = voices.find(v => v.lang.startsWith("ar"));
+  if (arabicVoice) u.voice = arabicVoice;
+  u.onend = () => { if (onDone) onDone(); };
+  u.onerror = () => { if (onDone) onDone(); };
+  speechSynthesis.speak(u);
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

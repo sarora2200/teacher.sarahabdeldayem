@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Duas | الأدعية اليومية | Learning with Sarah</title>
+<link rel="icon" type="image/png" href="../../images/quran.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #fdf8f0;
+    --warm-white: #fffaf3;
+    --sage: #8ba888;
+    --sage-dark: #5c7a58;
+    --gold: #d4a24c;
+    --gold-dark: #a87d2c;
+    --text: #2d2416;
+    --text-soft: #5c5040;
+    --border: #e8dcc8;
+    --shadow: 0 4px 24px rgba(90, 70, 40, 0.08);
+    --shadow-lg: 0 12px 40px rgba(90, 70, 40, 0.12);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Nunito Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+  .ar { font-family: 'Amiri', serif; direction: rtl; unicode-bidi: embed; }
+  html[lang="ar"] body { font-family: 'Amiri', serif; }
+  html[lang="ar"] .en-only { display: none !important; }
+  html[lang="en"] .ar-only { display: none !important; }
+
+  .lang-toggle-wrap { position: fixed; top: 18px; right: 18px; z-index: 100; }
+  .lang-toggle {
+    display: flex; background: var(--warm-white); border: 1px solid var(--border);
+    border-radius: 50px; padding: 4px; box-shadow: var(--shadow);
+  }
+  .lang-toggle button {
+    border: none; background: transparent; color: var(--text-soft);
+    font-family: 'Nunito Sans', sans-serif; font-weight: 700; font-size: 0.85rem;
+    padding: 8px 16px; border-radius: 50px; cursor: pointer; transition: all 0.3s;
+  }
+  .lang-toggle button.active {
+    background: linear-gradient(135deg, var(--sage), var(--sage-dark));
+    color: #fff; box-shadow: 0 4px 12px rgba(139, 168, 136, 0.4);
+  }
+
+  .container { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(180deg, var(--warm-white) 0%, var(--cream) 100%);
+    padding: 100px 0 50px; text-align: center; position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: "🤲"; position: absolute; top: 40px; left: 30px;
+    font-size: 7rem; opacity: 0.12; line-height: 1;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--sage), var(--sage-dark));
+    color: #fff; font-weight: 700; font-size: 0.78rem; letter-spacing: 1.5px;
+    padding: 8px 20px; border-radius: 50px; margin-bottom: 20px;
+    box-shadow: 0 6px 20px rgba(139, 168, 136, 0.4);
+  }
+  .hero h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; margin-bottom: 16px; }
+  .hero h1 em {
+    font-family: 'Amiri', serif; font-style: normal;
+    color: var(--sage-dark); display: block; font-size: 1.4em; margin-top: 6px;
+  }
+  .hero p { color: var(--text-soft); font-size: 1.1rem; max-width: 620px; margin: 0 auto 30px; }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-weight: 700; padding: 14px 28px; border-radius: 50px;
+    text-decoration: none; cursor: pointer; border: none; transition: all 0.3s;
+    font-family: 'Nunito Sans', sans-serif;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--sage), var(--sage-dark));
+    color: #fff; box-shadow: 0 8px 24px rgba(139, 168, 136, 0.4);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(139, 168, 136, 0.5); }
+  .btn-quiet {
+    background: transparent; color: var(--text); border: 2px solid var(--border);
+  }
+  .btn-quiet:hover { border-color: var(--sage); color: var(--sage-dark); }
+
+  section { padding: 50px 0; }
+  .section-heading { margin-bottom: 32px; text-align: center; }
+  .eyebrow {
+    display: inline-block; font-size: 0.75rem; font-weight: 800;
+    letter-spacing: 2px; color: var(--sage-dark); text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .section-heading h2 { font-size: clamp(1.5rem, 3.5vw, 2rem); font-weight: 800; margin-bottom: 10px; }
+  .section-heading p { color: var(--text-soft); max-width: 620px; margin: 0 auto; }
+
+  /* DUA CARDS */
+  .duas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+  }
+  .dua-card {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 28px;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .dua-card::before {
+    content: "";
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, var(--sage), var(--sage-dark));
+  }
+  .dua-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--sage);
+  }
+  .dua-card.playing {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(212, 162, 76, 0.2), var(--shadow-lg);
+  }
+  .dua-card .header {
+    display: flex; align-items: center; gap: 12px;
+  }
+  .dua-card .header .icon {
+    width: 52px; height: 52px;
+    background: linear-gradient(135deg, var(--sage), var(--sage-dark));
+    border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem;
+    box-shadow: 0 6px 16px rgba(139, 168, 136, 0.35);
+    flex-shrink: 0;
+  }
+  .dua-card .header h3 {
+    font-size: 1.15rem; font-weight: 800; margin: 0;
+    line-height: 1.3;
+  }
+  .dua-card .header h3 small {
+    display: block; font-size: 0.72rem; font-weight: 800;
+    letter-spacing: 1.5px; color: var(--sage-dark); text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+  .dua-card .arabic-dua {
+    font-family: 'Amiri', serif; direction: rtl;
+    font-size: 1.45rem; font-weight: 700;
+    color: var(--sage-dark);
+    background: rgba(139, 168, 136, 0.1);
+    padding: 16px 20px;
+    border-radius: 16px;
+    line-height: 1.8;
+    text-align: right;
+  }
+  .dua-card .transliteration {
+    font-style: italic; font-size: 0.92rem;
+    color: var(--text-soft);
+    padding-inline-start: 12px;
+    border-inline-start: 3px solid var(--sage);
+  }
+  .dua-card .meaning {
+    font-size: 0.95rem; color: var(--text-soft);
+  }
+  .dua-card .meaning strong {
+    display: block; font-size: 0.72rem; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--sage-dark); margin-bottom: 4px;
+  }
+
+  /* ============ AUDIO BUTTON ============ */
+  .audio-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    align-self: flex-start;
+    background: linear-gradient(135deg, var(--sage), var(--sage-dark));
+    color: #fff;
+    border: none;
+    font-family: 'Nunito Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.92rem;
+    padding: 10px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 6px 16px rgba(139, 168, 136, 0.35);
+    margin-top: 4px;
+  }
+
+  .audio-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(139, 168, 136, 0.5);
+  }
+
+  .audio-btn:active {
+    transform: scale(0.97);
+  }
+
+  .audio-btn:disabled {
+    opacity: 0.7;
+    cursor: wait;
+  }
+
+  .audio-btn .speaker {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  /* Loading spinner inside the button */
+  .audio-loading {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    flex-shrink: 0;
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* Sound wave animation (while playing) */
+  .playing-wave {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    height: 14px;
+  }
+  .playing-wave span {
+    display: inline-block;
+    width: 3px;
+    background: #fff;
+    border-radius: 2px;
+    animation: wave 0.9s ease-in-out infinite;
+  }
+  .playing-wave span:nth-child(1) { height: 6px; animation-delay: 0s; }
+  .playing-wave span:nth-child(2) { height: 12px; animation-delay: 0.15s; }
+  .playing-wave span:nth-child(3) { height: 8px; animation-delay: 0.3s; }
+  .playing-wave span:nth-child(4) { height: 14px; animation-delay: 0.45s; }
+  @keyframes wave {
+    0%, 100% { transform: scaleY(0.5); }
+    50% { transform: scaleY(1.2); }
+  }
+
+  /* HADITH */
+  .hadith {
+    background: linear-gradient(135deg, rgba(139, 168, 136, 0.15), rgba(212, 162, 76, 0.1));
+    border: 2px dashed var(--sage);
+    border-radius: 24px;
+    padding: 32px;
+    text-align: center;
+    margin: 32px 0;
+  }
+  .hadith p.arabic {
+    font-family: 'Amiri', serif; font-size: 1.5rem;
+    color: var(--text); margin-bottom: 12px; line-height: 1.6;
+  }
+  .hadith p.translation {
+    color: var(--text-soft); font-style: italic;
+    max-width: 600px; margin: 0 auto;
+  }
+  .hadith .source {
+    display: block; margin-top: 12px; font-size: 0.85rem;
+    font-weight: 700; color: var(--sage-dark); letter-spacing: 1px;
+  }
+
+  /* CTA */
+  .cta {
+    background: linear-gradient(135deg, var(--sage), var(--sage-dark));
+    color: #fff; border-radius: 28px; padding: 50px 36px; text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .cta::before {
+    content: "✧"; position: absolute; bottom: -40px; left: -20px;
+    font-size: 12rem; opacity: 0.1; line-height: 1;
+  }
+  .cta h2 { font-size: clamp(1.4rem, 3vw, 1.9rem); margin-bottom: 10px; }
+  .cta p { opacity: 0.9; max-width: 500px; margin: 0 auto 22px; }
+  .cta .btn-primary { background: #fff; color: var(--sage-dark); }
+
+  footer {
+    text-align: center; padding: 40px 24px; color: var(--text-soft);
+    font-size: 0.9rem; border-top: 1px solid var(--border); margin-top: 40px;
+  }
+  footer strong { color: var(--gold-dark); }
+
+  @media (max-width: 640px) {
+    .hero { padding: 80px 0 30px; }
+    .hero::before { font-size: 5rem; }
+    .lang-toggle-wrap { top: 12px; right: 12px; }
+    .dua-card .arabic-dua { font-size: 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="lang-toggle-wrap">
+  <div class="lang-toggle">
+    <button id="btnEn" class="active" onclick="setLang('en')">🇬🇧 English</button>
+    <button id="btnAr" onclick="setLang('ar')">🇪🇬 العربية</button>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <span class="hero-badge">
+      <span class="en-only">LESSON 01 · ISLAMIC STUDIES</span>
+      <span class="ar-only">الدَّرْسُ الأَوَّل · الدِّرَاسَات الإِسْلَامِيَّة</span>
+    </span>
+    <h1>
+      <span class="en-only">Daily <em>Duas</em></span>
+      <span class="ar-only">الأَدْعِيَةُ <em>اليَوْمِيَّة</em></span>
+    </h1>
+    <p>
+      <span class="en-only">Beautiful duas for every moment of our day — listen, repeat, and memorise them with clear Arabic audio.</span>
+      <span class="ar-only">أدعية جميلة لكل لحظة في يومنا — استمع، وكرِّر، واحفظها بصوت عربي واضح.</span>
+    </p>
+    <div style="margin-top: 24px;">
+      <a class="btn btn-quiet" href="../Islamic-studies/islamic-lessons.html">
+        <span class="en-only">← Back to Islamic Studies</span>
+        <span class="ar-only">← العودة للدراسات الإسلامية</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- DUAS -->
+<section>
+  <div class="container">
+    <div class="section-heading">
+      <span class="eyebrow">
+        <span class="en-only">DUAS FOR EVERY DAY</span>
+        <span class="ar-only">أَدْعِيَةٌ لِكُلِّ يَوْم</span>
+      </span>
+      <h2>
+        <span class="en-only">When we talk to Allah</span>
+        <span class="ar-only">عِنْدَمَا نُكَلِّمُ اللَّه</span>
+      </h2>
+      <p>
+        <span class="en-only">Press the 🔊 button on each card to listen to the correct pronunciation.</span>
+        <span class="ar-only">اضغط على زر 🔊 في كل بطاقة للاستماع إلى النطق الصحيح.</span>
+      </p>
+    </div>
+
+    <div class="duas-grid">
+
+      <!-- Dua 1: Morning -->
+      <div class="dua-card" data-tts="الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُور">
+        <div class="header">
+          <div class="icon">🌅</div>
+          <h3>
+            <small>
+              <span class="en-only">MORNING DUA</span>
+              <span class="ar-only">دُعَاءُ الصَّبَاح</span>
+            </small>
+            <span class="en-only">Waking Up</span>
+            <span class="ar-only">عِنْدَ الِاسْتِيقَاظ</span>
+          </h3>
+        </div>
+        <div class="arabic-dua">الحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُور</div>
+        <div class="transliteration">Alhamdulillahil-ladhi ahyana ba'da ma amatana wa ilayhin-nushur</div>
+        <div class="meaning">
+          <strong>
+            <span class="en-only">Meaning</span>
+            <span class="ar-only">المَعْنَى</span>
+          </strong>
+          <span class="en-only">Praise be to Allah who gave us life after death, and to Him is the return.</span>
+          <span class="ar-only">الحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُور.</span>
+        </div>
+        <button class="audio-btn" onclick="playDua(this)">
+          <svg class="speaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
+            <path d="M16 9a5 5 0 0 1 0 6"/>
+            <path d="M19.364 18.364a9 9 0 0 0 0-12.728"/>
+          </svg>
+          <span class="btn-label">
+            <span class="en-only">Listen</span>
+            <span class="ar-only">اسْتَمِعْ</span>
+          </span>
+        </button>
+      </div>
+
+      <!-- Dua 2: Before Eating -->
+      <div class="dua-card" data-tts="بِسْمِ اللَّه">
+        <div class="header">
+          <div class="icon">🍽️</div>
+          <h3>
+            <small>
+              <span class="en-only">BEFORE EATING</span>
+              <span class="ar-only">قَبْلَ الطَّعَام</span>
+            </small>
+            <span class="en-only">Saying Bismillah</span>
+            <span class="ar-only">البَسْمَلَة</span>
+          </h3>
+        </div>
+        <div class="arabic-dua">بِسْمِ اللَّه</div>
+        <div class="transliteration">Bismillah</div>
+        <div class="meaning">
+          <strong>
+            <span class="en-only">Meaning</span>
+            <span class="ar-only">المَعْنَى</span>
+          </strong>
+          <span class="en-only">In the name of Allah.</span>
+          <span class="ar-only">بِاسْمِ اللَّه.</span>
+        </div>
+        <button class="audio-btn" onclick="playDua(this)">
+          <svg class="speaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
+            <path d="M16 9a5 5 0 0 1 0 6"/>
+            <path d="M19.364 18.364a9 9 0 0 0 0-12.728"/>
+          </svg>
+          <span class="btn-label">
+            <span class="en-only">Listen</span>
+            <span class="ar-only">اسْتَمِعْ</span>
+          </span>
+        </button>
+      </div>
+
+      <!-- Dua 3: After Eating -->
+      <div class="dua-card" data-tts="الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنَا وَسَقَانَا وَجَعَلَنَا مُسْلِمِين">
+        <div class="header">
+          <div class="icon">🤲</div>
+          <h3>
+            <small>
+              <span class="en-only">AFTER EATING</span>
+              <span class="ar-only">بَعْدَ الطَّعَام</span>
+            </small>
+            <span class="en-only">Thanking Allah</span>
+            <span class="ar-only">شُكْرُ اللَّه</span>
+          </h3>
+        </div>
+        <div class="arabic-dua">الحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنَا وَسَقَانَا وَجَعَلَنَا مُسْلِمِين</div>
+        <div class="transliteration">Alhamdulillahil-ladhi at'amana wa saqana wa ja'alana muslimin</div>
+        <div class="meaning">
+          <strong>
+            <span class="en-only">Meaning</span>
+            <span class="ar-only">المَعْنَى</span>
+          </strong>
+          <span class="en-only">Praise be to Allah who fed us, gave us drink, and made us Muslims.</span>
+          <span class="ar-only">الحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنَا وَسَقَانَا وَجَعَلَنَا مُسْلِمِين.</span>
+        </div>
+        <button class="audio-btn" onclick="playDua(this)">
+          <svg class="speaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
+            <path d="M16 9a5 5 0 0 1 0 6"/>
+            <path d="M19.364 18.364a9 9 0 0 0 0-12.728"/>
+          </svg>
+          <span class="btn-label">
+            <span class="en-only">Listen</span>
+            <span class="ar-only">اسْتَمِعْ</span>
+          </span>
+        </button>
+      </div>
+
+      <!-- Dua 4: Before Sleeping -->
+      <div class="dua-card" data-tts="بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا">
+        <div class="header">
+          <div class="icon">🌙</div>
+          <h3>
+            <small>
+              <span class="en-only">BEFORE SLEEPING</span>
+              <span class="ar-only">قَبْلَ النَّوْم</span>
+            </small>
+            <span class="en-only">Sleeping Dua</span>
+            <span class="ar-only">دُعَاءُ النَّوْم</span>
+          </h3>
+        </div>
+        <div class="arabic-dua">بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا</div>
+        <div class="transliteration">Bismika Allahumma amutu wa ahya</div>
+        <div class="meaning">
+          <strong>
+            <span class="en-only">Meaning</span>
+            <span class="ar-only">المَعْنَى</span>
+          </strong>
+          <span class="en-only">In Your name, O Allah, I die and I live.</span>
+          <span class="ar-only">بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا.</span>
+        </div>
+        <button class="audio-btn" onclick="playDua(this)">
+          <svg class="speaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
+            <path d="M16 9a5 5 0 0 1 0 6"/>
+            <path d="M19.364 18.364a9 9 0 0 0 0-12.728"/>
+          </svg>
+          <span class="btn-label">
+            <span class="en-only">Listen</span>
+            <span class="ar-only">اسْتَمِعْ</span>
+          </span>
+        </button>
+      </div>
+
+      <!-- Dua 5: Leaving the House -->
+      <div class="dua-card" data-tts="بِسْمِ اللَّهِ، تَوَكَّلْتُ عَلَى اللَّهِ، وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّه">
+        <div class="header">
+          <div class="icon">🚪</div>
+          <h3>
+            <small>
+              <span class="en-only">LEAVING THE HOUSE</span>
+              <span class="ar-only">عِنْدَ الخُرُوج</span>
+            </small>
+            <span class="en-only">Seeking Protection</span>
+            <span class="ar-only">طَلَبُ الحِمَايَة</span>
+          </h3>
+        </div>
+        <div class="arabic-dua">بِسْمِ اللَّهِ، تَوَكَّلْتُ عَلَى اللَّهِ، وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّه</div>
+        <div class="transliteration">Bismillah, tawakkaltu 'ala Allah, wa la hawla wa la quwwata illa billah</div>
+        <div class="meaning">
+          <strong>
+            <span class="en-only">Meaning</span>
+            <span class="ar-only">المَعْنَى</span>
+          </strong>
+          <span class="en-only">In the name of Allah, I place my trust in Allah. There is no power nor strength except with Allah.</span>
+          <span class="ar-only">بِسْمِ اللَّهِ، تَوَكَّلْتُ عَلَى اللَّه، وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّه.</span>
+        </div>
+        <button class="audio-btn" onclick="playDua(this)">
+          <svg class="speaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
+            <path d="M16 9a5 5 0 0 1 0 6"/>
+            <path d="M19.364 18.364a9 9 0 0 0 0-12.728"/>
+          </svg>
+          <span class="btn-label">
+            <span class="en-only">Listen</span>
+            <span class="ar-only">اسْتَمِعْ</span>
+          </span>
+        </button>
+      </div>
+
+      <!-- Dua 6: Travelling -->
+      <div class="dua-card" data-tts="سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِين">
+        <div class="header">
+          <div class="icon">✈️</div>
+          <h3>
+            <small>
+              <span class="en-only">WHEN TRAVELLING</span>
+              <span class="ar-only">عِنْدَ السَّفَر</span>
+            </small>
+            <span class="en-only">Travel Dua</span>
+            <span class="ar-only">دُعَاءُ السَّفَر</span>
+          </h3>
+        </div>
+        <div class="arabic-dua">سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِين</div>
+        <div class="transliteration">Subhanal-ladhi sakhkhara lana hadha wa ma kunna lahu muqrinin</div>
+        <div class="meaning">
+          <strong>
+            <span class="en-only">Meaning</span>
+            <span class="ar-only">المَعْنَى</span>
+          </strong>
+          <span class="en-only">Glory to Him who has subjected this to us, and we could never have it by our own effort.</span>
+          <span class="ar-only">سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِين.</span>
+        </div>
+        <button class="audio-btn" onclick="playDua(this)">
+          <svg class="speaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
+            <path d="M16 9a5 5 0 0 1 0 6"/>
+            <path d="M19.364 18.364a9 9 0 0 0 0-12.728"/>
+          </svg>
+          <span class="btn-label">
+            <span class="en-only">Listen</span>
+            <span class="ar-only">اسْتَمِعْ</span>
+          </span>
+        </button>
+      </div>
+
+      <!-- Dua 7: Entering the Bathroom -->
+      <div class="dua-card" data-tts="اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الخُبْثِ وَالخَبَائِث">
+        <div class="header">
+          <div class="icon">🚿</div>
+          <h3>
+            <small>
+              <span class="en-only">ENTERING BATHROOM</span>
+              <span class="ar-only">دُخُولُ الخَلَاء</span>
+            </small>
+            <span class="en-only">Bathroom Dua</span>
+            <span class="ar-only">دُعَاءُ الخَلَاء</span>
+          </h3>
+        </div>
+        <div class="arabic-dua">اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الخُبْثِ وَالخَبَائِث</div>
+        <div class="transliteration">Allahumma inni a'udhu bika minal-khubthi wal-khaba'ith</div>
+        <div class="meaning">
+          <strong>
+            <span class="en-only">Meaning</span>
+            <span class="ar-only">المَعْنَى</span>
+          </strong>
+          <span class="en-only">O Allah, I seek refuge in You from all impurity and impure beings.</span>
+          <span class="ar-only">اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الخُبْثِ وَالخَبَائِث.</span>
+        </div>
+        <button class="audio-btn" onclick="playDua(this)">
+          <svg class="speaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
+            <path d="M16 9a5 5 0 0 1 0 6"/>
+            <path d="M19.364 18.364a9 9 0 0 0 0-12.728"/>
+          </svg>
+          <span class="btn-label">
+            <span class="en-only">Listen</span>
+            <span class="ar-only">اسْتَمِعْ</span>
+          </span>
+        </button>
+      </div>
+
+      <!-- Dua 8: For Parents -->
+      <div class="dua-card" data-tts="رَبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا">
+        <div class="header">
+          <div class="icon">👨‍👩‍👧</div>
+          <h3>
+            <small>
+              <span class="en-only">FOR PARENTS</span>
+              <span class="ar-only">لِلْوَالِدَيْن</span>
+            </small>
+            <span class="en-only">Dua for Parents</span>
+            <span class="ar-only">الدُّعَاءُ لِلْوَالِدَيْن</span>
+          </h3>
+        </div>
+        <div class="arabic-dua">رَبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا</div>
+        <div class="transliteration">Rabbir-hamhuma kama rabbayani saghira</div>
+        <div class="meaning">
+          <strong>
+            <span class="en-only">Meaning</span>
+            <span class="ar-only">المَعْنَى</span>
+          </strong>
+          <span class="en-only">My Lord, have mercy on them both as they raised me when I was small.</span>
+          <span class="ar-only">رَبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا.</span>
+        </div>
+        <button class="audio-btn" onclick="playDua(this)">
+          <svg class="speaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
+            <path d="M16 9a5 5 0 0 1 0 6"/>
+            <path d="M19.364 18.364a9 9 0 0 0 0-12.728"/>
+          </svg>
+          <span class="btn-label">
+            <span class="en-only">Listen</span>
+            <span class="ar-only">اسْتَمِعْ</span>
+          </span>
+        </button>
+      </div>
+
+      <!-- Dua 9: Seeking Knowledge -->
+      <div class="dua-card" data-tts="رَبِّ زِدْنِي عِلْمًا">
+        <div class="header">
+          <div class="icon">📚</div>
+          <h3>
+            <small>
+              <span class="en-only">BEFORE STUDYING</span>
+              <span class="ar-only">قَبْلَ الدَّرْس</span>
+            </small>
+            <span class="en-only">Knowledge Dua</span>
+            <span class="ar-only">دُعَاءُ العِلْم</span>
+          </h3>
+        </div>
+        <div class="arabic-dua">رَبِّ زِدْنِي عِلْمًا</div>
+        <div class="transliteration">Rabbi zidni 'ilma</div>
+        <div class="meaning">
+          <strong>
+            <span class="en-only">Meaning</span>
+            <span class="ar-only">المَعْنَى</span>
+          </strong>
+          <span class="en-only">My Lord, increase me in knowledge.</span>
+          <span class="ar-only">رَبِّ زِدْنِي عِلْمًا.</span>
+        </div>
+        <button class="audio-btn" onclick="playDua(this)">
+          <svg class="speaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
+            <path d="M16 9a5 5 0 0 1 0 6"/>
+            <path d="M19.364 18.364a9 9 0 0 0 0-12.728"/>
+          </svg>
+          <span class="btn-label">
+            <span class="en-only">Listen</span>
+            <span class="ar-only">اسْتَمِعْ</span>
+          </span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- HADITH -->
+<section style="background: var(--warm-white);">
+  <div class="container">
+    <div class="section-heading">
+      <span class="eyebrow">
+        <span class="en-only">A BEAUTIFUL HADITH</span>
+        <span class="ar-only">حَدِيثٌ جَمِيل</span>
+      </span>
+      <h2>
+        <span class="en-only">About the power of dua</span>
+        <span class="ar-only">عَنْ قُوَّةِ الدُّعَاء</span>
+      </h2>
+    </div>
+
+    <div class="hadith">
+      <p class="arabic">الدُّعَاءُ مُخُّ العِبَادَة</p>
+      <p class="translation">
+        <span class="en-only">"Dua is the essence of worship."</span>
+        <span class="ar-only">«الدُّعَاءُ مُخُّ العِبَادَة».</span>
+      </p>
+      <span class="source">— Prophet Muhammad ﷺ</span>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section>
+  <div class="container">
+    <div class="cta">
+      <h2>
+        <span class="en-only">Learn these duas one at a time</span>
+        <span class="ar-only">تَعَلَّمْ هَذِهِ الأَدْعِيَةَ وَاحِدَةً وَاحِدَة</span>
+      </h2>
+      <p>
+        <span class="en-only">Book a lesson with Teacher Sarah to memorise and understand each dua beautifully.</span>
+        <span class="ar-only">احجز درسًا مع المعلمة سارة لحفظ وفهم كل دُعَاءٍ بشكل جميل.</span>
+      </p>
+      <a class="btn btn-primary" href="https://wa.link/6372rm" target="_blank" rel="noopener">
+        <span class="en-only">Ask about lessons ↗</span>
+        <span class="ar-only">اسْتَفْسِرْ عَنِ الدُّرُوس ↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© <span id="year"></span> — <span class="en-only">Learning with Sarah</span><span class="ar-only">سارة للتعلّم</span></p>
+</footer>
+
+<!-- Azure TTS config (same as other lessons) -->
+<script src="../../config.js"></script>
+
+<script>
+/* ============================================================
+   AZURE NEURAL TTS CONFIGURATION
+   ============================================================
+   The real key is loaded from ../../config.js.
+   If missing, we fall back to the browser's Arabic voice.
+   ============================================================ */
+const AZURE_TTS_CONFIG = window.AZURE_TTS_CONFIG || {
+  subscriptionKey: "",
+  region: "",
+  voice: "ar-SA-HamedNeural"
+};
+
+/* ============================================================
+   LANGUAGE TOGGLE
+   ============================================================ */
+let currentLang = "en";
+function setLang(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+  document.getElementById("btnEn").classList.toggle("active", lang === "en");
+  document.getElementById("btnAr").classList.toggle("active", lang === "ar");
+  try { localStorage.setItem("preferredLangDuas", lang); } catch(e) {}
+}
+try {
+  const saved = localStorage.getItem("preferredLangDuas");
+  if (saved === "ar") setLang("ar");
+} catch(e) {}
+
+/* ============================================================
+   AZURE NEURAL TTS ENGINE
+   ============================================================ */
+let currentAudioEl = null;
+let currentCard = null;
+
+async function playDua(btn) {
+  const card = btn.closest(".dua-card");
+  const text = card.getAttribute("data-tts") || "";
+  if (!text) return;
+
+  // Stop any currently playing audio first
+  stopAllAudio();
+
+  const originalHTML = btn.innerHTML;
+  const labelSpan = btn.querySelector(".btn-label");
+
+  // Show loading state
+  btn.disabled = true;
+  btn.innerHTML = `<span class="audio-loading"></span><span class="btn-label"><span class="en-only">Loading…</span><span class="ar-only">جارٍ التحميل…</span></span>`;
+  card.classList.add("playing");
+  currentCard = card;
+
+  // If Azure key is not configured → fallback to browser TTS
+  if (!AZURE_TTS_CONFIG.subscriptionKey || AZURE_TTS_CONFIG.subscriptionKey === "YOUR_AZURE_KEY_HERE") {
+    speakFallback(text, () => {
+      btn.innerHTML = originalHTML;
+      btn.disabled = false;
+      card.classList.remove("playing");
+      currentCard = null;
+    });
+    // Update button to "playing" state immediately for browser TTS
+    btn.innerHTML = `<span class="playing-wave"><span></span><span></span><span></span><span></span></span><span class="btn-label"><span class="en-only">Playing…</span><span class="ar-only">يُشغَّل…</span></span>`;
+    return;
+  }
+
+  try {
+    const endpoint = `https://${AZURE_TTS_CONFIG.region}.tts.speech.microsoft.com/cognitiveservices/v1`;
+
+    // Wrap the Arabic dua in SSML with slightly slower rate for teaching
+    const ssml = `
+      <speak version='1.0' xml:lang='ar-SA'>
+        <voice name='${AZURE_TTS_CONFIG.voice}'>
+          <prosody rate='-15%' pitch='0%'>
+            ${text}
+          </prosody>
+        </voice>
+      </speak>
+    `;
+
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Ocp-Apim-Subscription-Key": AZURE_TTS_CONFIG.subscriptionKey,
+        "Content-Type": "application/ssml+xml",
+        "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+        "User-Agent": "SarahAhmedDailyDuasLesson"
+      },
+      body: ssml
+    });
+
+    if (!response.ok) throw new Error(`Azure TTS error: ${response.status}`);
+
+    const audioBlob = await response.blob();
+    const audioUrl = URL.createObjectURL(audioBlob);
+    const audio = new Audio(audioUrl);
+    currentAudioEl = audio;
+
+    // Show playing animation
+    btn.innerHTML = `<span class="playing-wave"><span></span><span></span><span></span><span></span></span><span class="btn-label"><span class="en-only">Playing…</span><span class="ar-only">يُشغَّل…</span></span>`;
+
+    audio.onended = () => {
+      URL.revokeObjectURL(audioUrl);
+      btn.innerHTML = originalHTML;
+      btn.disabled = false;
+      card.classList.remove("playing");
+      currentAudioEl = null;
+      currentCard = null;
+    };
+
+    audio.onerror = () => {
+      URL.revokeObjectURL(audioUrl);
+      btn.innerHTML = originalHTML;
+      btn.disabled = false;
+      card.classList.remove("playing");
+      currentAudioEl = null;
+      currentCard = null;
+    };
+
+    await audio.play();
+
+  } catch (error) {
+    console.error("Azure TTS failed:", error);
+    // Fallback to browser TTS
+    btn.innerHTML = `<span class="playing-wave"><span></span><span></span><span></span><span></span></span><span class="btn-label"><span class="en-only">Playing…</span><span class="ar-only">يُشغَّل…</span></span>`;
+    speakFallback(text, () => {
+      btn.innerHTML = originalHTML;
+      btn.disabled = false;
+      card.classList.remove("playing");
+      currentCard = null;
+    });
+  }
+}
+
+/* Stop any playing audio when a new one is clicked */
+function stopAllAudio() {
+  if (currentAudioEl) {
+    try { currentAudioEl.pause(); } catch(e) {}
+    currentAudioEl = null;
+  }
+  if ("speechSynthesis" in window) {
+    speechSynthesis.cancel();
+  }
+  if (currentCard) {
+    currentCard.classList.remove("playing");
+    currentCard = null;
+  }
+  // Reset all buttons to their default state
+  document.querySelectorAll(".dua-card .audio-btn").forEach(b => {
+    if (b.disabled) {
+      b.disabled = false;
+      b.innerHTML = `
+        <svg class="speaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
+          <path d="M16 9a5 5 0 0 1 0 6"/>
+          <path d="M19.364 18.364a9 9 0 0 0 0-12.728"/>
+        </svg>
+        <span class="btn-label">
+          <span class="en-only">Listen</span>
+          <span class="ar-only">اسْتَمِعْ</span>
+        </span>`;
+    }
+  });
+}
+
+/* ============================================================
+   BROWSER TTS FALLBACK
+   ============================================================ */
+function speakFallback(text, onDone) {
+  if (!("speechSynthesis" in window)) {
+    if (onDone) onDone();
+    return;
+  }
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "ar-SA";
+  u.rate = 0.85;
+  u.pitch = 1.0;
+  const voices = speechSynthesis.getVoices();
+  const arabicVoice = voices.find(v => v.lang.startsWith("ar"));
+  if (arabicVoice) u.voice = arabicVoice;
+  u.onend = () => { if (onDone) onDone(); };
+  u.onerror = () => { if (onDone) onDone(); };
+  speechSynthesis.speak(u);
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>

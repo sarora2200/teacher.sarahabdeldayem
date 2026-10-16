@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Islamic Manners | الآداب الإسلامية | Learning with Sarah</title>
+<link rel="icon" type="image/png" href="../../images/quran.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #fdf8f0;
+    --warm-white: #fffaf3;
+    --sage: #8ba888;
+    --sage-dark: #5c7a58;
+    --gold: #d4a24c;
+    --gold-dark: #a87d2c;
+    --peach: #e8b48c;
+    --peach-dark: #c8845a;
+    --text: #2d2416;
+    --text-soft: #5c5040;
+    --border: #e8dcc8;
+    --shadow: 0 4px 24px rgba(90, 70, 40, 0.08);
+    --shadow-lg: 0 12px 40px rgba(90, 70, 40, 0.12);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Nunito Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+  .ar { font-family: 'Amiri', serif; direction: rtl; unicode-bidi: embed; }
+  html[lang="ar"] body { font-family: 'Amiri', serif; }
+  html[lang="ar"] .en-only { display: none !important; }
+  html[lang="en"] .ar-only { display: none !important; }
+
+  .lang-toggle-wrap { position: fixed; top: 18px; right: 18px; z-index: 100; }
+  .lang-toggle {
+    display: flex; background: var(--warm-white); border: 1px solid var(--border);
+    border-radius: 50px; padding: 4px; box-shadow: var(--shadow);
+  }
+  .lang-toggle button {
+    border: none; background: transparent; color: var(--text-soft);
+    font-family: 'Nunito Sans', sans-serif; font-weight: 700; font-size: 0.85rem;
+    padding: 8px 16px; border-radius: 50px; cursor: pointer; transition: all 0.3s;
+  }
+  .lang-toggle button.active {
+    background: linear-gradient(135deg, var(--peach), var(--peach-dark));
+    color: #fff; box-shadow: 0 4px 12px rgba(232, 180, 140, 0.5);
+  }
+
+  .container { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
+
+  .hero {
+    background: linear-gradient(180deg, var(--warm-white) 0%, var(--cream) 100%);
+    padding: 100px 0 50px; text-align: center; position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: "☾"; position: absolute; top: 40px; right: 30px;
+    font-family: 'Amiri', serif; font-size: 7rem;
+    color: var(--peach); opacity: 0.15; line-height: 1;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--peach), var(--peach-dark));
+    color: #fff; font-weight: 700; font-size: 0.78rem; letter-spacing: 1.5px;
+    padding: 8px 20px; border-radius: 50px; margin-bottom: 20px;
+    box-shadow: 0 6px 20px rgba(232, 180, 140, 0.5);
+  }
+  .hero h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; margin-bottom: 16px; }
+  .hero h1 em {
+    font-family: 'Amiri', serif; font-style: normal;
+    color: var(--peach-dark); display: block; font-size: 1.4em; margin-top: 6px;
+  }
+  .hero p { color: var(--text-soft); font-size: 1.1rem; max-width: 620px; margin: 0 auto 30px; }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-weight: 700; padding: 14px 28px; border-radius: 50px;
+    text-decoration: none; cursor: pointer; border: none; transition: all 0.3s;
+    font-family: 'Nunito Sans', sans-serif;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--peach), var(--peach-dark));
+    color: #fff; box-shadow: 0 8px 24px rgba(232, 180, 140, 0.5);
+  }
+  .btn-primary:hover { transform: translateY(-2px); }
+  .btn-quiet {
+    background: transparent; color: var(--text); border: 2px solid var(--border);
+  }
+  .btn-quiet:hover { border-color: var(--peach); color: var(--peach-dark); }
+
+  section { padding: 50px 0; }
+  .section-heading { margin-bottom: 32px; text-align: center; }
+  .eyebrow {
+    display: inline-block; font-size: 0.75rem; font-weight: 800;
+    letter-spacing: 2px; color: var(--peach-dark); text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .section-heading h2 { font-size: clamp(1.5rem, 3.5vw, 2rem); font-weight: 800; margin-bottom: 10px; }
+  .section-heading p { color: var(--text-soft); max-width: 620px; margin: 0 auto; }
+
+  /* MANNERS GRID */
+  .manners-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .manner-card {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 26px;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .manner-card::before {
+    content: "";
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--peach), var(--peach-dark));
+  }
+  .manner-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--peach);
+  }
+  .manner-card.playing {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(212, 162, 76, 0.2), var(--shadow-lg);
+  }
+  .manner-card .emoji {
+    font-size: 2.4rem; display: block; margin-bottom: 12px;
+  }
+  .manner-card h3 {
+    font-size: 1.15rem; font-weight: 800; margin-bottom: 8px;
+  }
+  .manner-card h3 .ar-name {
+    font-family: 'Amiri', serif; color: var(--peach-dark); font-size: 1.3em;
+    display: block; margin-top: 2px; font-weight: 700;
+  }
+  .manner-card p { color: var(--text-soft); font-size: 0.95rem; flex-grow: 1; }
+
+  /* ============ AUDIO BUTTON ============ */
+  .audio-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    align-self: flex-start;
+    background: linear-gradient(135deg, var(--peach), var(--peach-dark));
+    color: #fff;
+    border: none;
+    font-family: 'Nunito Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.92rem;
+    padding: 10px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 6px 16px rgba(232, 180, 140, 0.45);
+    margin-top: 16px;
+  }
+
+  .audio-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(232, 180, 140, 0.6);
+  }
+
+  .audio-btn:active {
+    transform: scale(0.97);
+  }
+
+  .audio-btn:disabled {
+    opacity: 0.7;
+    cursor: wait;
+  }
+
+  .audio-btn .speaker {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  .audio-loading {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    flex-shrink: 0;
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .playing-wave {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    height: 14px;
+  }
+  .playing-wave span {
+    display: inline-block;
+    width: 3px;
+    background: #fff;
+    border-radius: 2px;
+    animation: wave 0.9s ease-in-out infinite;
+  }
+  .playing-wave span:nth-child(1) { height: 6px; animation-delay: 0s; }
+  .playing-wave span:nth-child(2) { height: 12px; animation-delay: 0.15s; }
+  .playing-wave span:nth-child(3) { height: 8px; animation-delay: 0.3s; }
+  .playing-wave span:nth-child(4) { height: 14px; animation-delay: 0.45s; }
+  @keyframes wave {
+    0%, 100% { transform: scaleY(0.5); }
+    50% { transform: scaleY(1.2); }
+  }
+
+  /* HADITH QUOTE */
+  .hadith {
+    background: linear-gradient(135deg, rgba(232, 180, 140, 0.15), rgba(212, 162, 76, 0.1));
+    border: 2px dashed var(--peach);
+    border-radius: 24px;
+    padding: 32px;
+    text-align: center;
+    margin: 32px 0;
+  }
+  .hadith p.arabic {
+    font-family: 'Amiri', serif; font-size: 1.6rem;
+    color: var(--text); margin-bottom: 12px; line-height: 1.6;
+  }
+  .hadith p.translation {
+    color: var(--text-soft); font-style: italic; max-width: 600px; margin: 0 auto;
+  }
+  .hadith .source {
+    display: block; margin-top: 12px; font-size: 0.85rem;
+    font-weight: 700; color: var(--peach-dark); letter-spacing: 1px;
+  }
+
+  /* CTA */
+  .cta {
+    background: linear-gradient(135deg, var(--peach), var(--peach-dark));
+    color: #fff; border-radius: 28px; padding: 50px 36px; text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .cta::before {
+    content: "✧"; position: absolute; bottom: -40px; left: -20px;
+    font-size: 12rem; opacity: 0.1; line-height: 1;
+  }
+  .cta h2 { font-size: clamp(1.4rem, 3vw, 1.9rem); margin-bottom: 10px; }
+  .cta p { opacity: 0.9; max-width: 500px; margin: 0 auto 22px; }
+  .cta .btn-primary { background: #fff; color: var(--peach-dark); }
+
+  footer {
+    text-align: center; padding: 40px 24px; color: var(--text-soft);
+    font-size: 0.9rem; border-top: 1px solid var(--border); margin-top: 40px;
+  }
+  footer strong { color: var(--gold-dark); }
+
+  @media (max-width: 640px) {
+    .hero { padding: 80px 0 30px; }
+    .hero::before { font-size: 5rem; }
+    .lang-toggle-wrap { top: 12px; right: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="lang-toggle-wrap">
+  <div class="lang-toggle">
+    <button id="btnEn" class="active" onclick="setLang('en')">🇬🇧 English</button>
+    <button id="btnAr" onclick="setLang('ar')">🇪🇬 العربية</button>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="container">
+    <span class="hero-badge">
+      <span class="en-only">LESSON 03 · ISLAMIC STUDIES</span>
+      <span class="ar-only">الدَّرْسُ الثَّالِث · الدِّرَاسَات الإِسْلَامِيَّة</span>
+    </span>
+    <h1>
+      <span class="en-only">Beautiful <em>Manners</em></span>
+      <span class="ar-only">الآدَابُ <em>الجَمِيلَة</em></span>
+    </h1>
+    <p>
+      <span class="en-only">Kindness, honesty, respect for parents, and good manners — taught through the everyday examples of our beloved Prophet Muhammad ﷺ.</span>
+      <span class="ar-only">اللطف والصدق وبر الوالدين والأخلاق الحسنة — من خلال الأمثلة اليومية من سيرة نبينا محمد ﷺ.</span>
+    </p>
+    <div style="margin-top: 24px;">
+      <a class="btn btn-quiet" href="../Islamic-studies/islamic-lessons.html">
+        <span class="en-only">← Back to Islamic Studies</span>
+        <span class="ar-only">← العودة للدراسات الإسلامية</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- MANNERS GRID -->
+<section>
+  <div class="container">
+    <div class="section-heading">
+      <span class="eyebrow">
+        <span class="en-only">EVERYDAY MANNERS</span>
+        <span class="ar-only">الآدَابُ اليَوْمِيَّة</span>
+      </span>
+      <h2>
+        <span class="en-only">How we behave beautifully</span>
+        <span class="ar-only">كَيْفَ نَتَخَلَّقُ بِالأَخْلَاقِ الحَسَنَة</span>
+      </h2>
+      <p>
+        <span class="en-only">Press the 🔊 button to hear the Arabic name of each manner.</span>
+        <span class="ar-only">اضغط على زر 🔊 لسماع الاسم العربي لكل أدب.</span>
+      </p>
+    </div>
+
+    <div class="manners-grid">
+
+      <!-- Manner 1: Bismillah -->
+      <div class="manner-card" data-tts="الْبَسْمَلََةَ">
+        <span class="emoji">🤲</span>
+        <h3>
+          <span class="en-only">Saying Bismillah</span>
+          <span class="ar-name">البَسْمَلَهْ</span>
+        </h3>
+        <p>
+          <span class="en-only">Before eating, drinking, or starting anything good, we say "Bismillah" — in the name of Allah.</span>
+          <span class="ar-only">قبل الطعام والشراب وبداية أي عمل صالح، نقول «بسم الله».</span>
+        </p>
+        <button class="audio-btn" onclick="playManner(this)">
+          <svg class="speaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
+            <path d="M16 9a5 5 0 0 1 0 6"/>
+            <path d="M19.364 18.364a9 9 0 0 0 0-12.728"/>
+          </svg>
+          <span class="btn-label">
+            <span class="en-only">Listen</span>
+            <span class="ar-only">اسْتَمِعْ</span>
+          </span>
+        </button>
+      </div>
+
+      <!-- Manner 2: Salam -->
+      <div class="manner-card" data-tts="السَّلَامُ عَلَيْكُم">
+        <span class="emoji">👋</span>
+        <h3>
+          <span class="en-only">Greeting with Salam</span>
+          <span class="ar-name">السَّلَام عَلَيْكُم</span>
+        </h3>
+        <p>
+          <span class="en-only">When we meet someone, we say "As-salamu alaykum" — peace be upon you.</span>
+          <span class="ar-only">عِنْدَ لِقَاءِ أَحَدٍ نَقُول: «السَّلَامُ عَلَيْكُم».</span>
+        </p>
+        <button class="audio-btn" onclick="playManner(this)">
+          <svg class="speaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
+            <path d="M16 9a5 5 0 0 1 0 6"/>
+            <path d="M19.364 18.364a9 9 0 0 0 0-12.728"/>
+          </svg>
+          <span class="btn-label">
+            <span class="en-only">Listen</span>
+            <span class="ar-only">اسْتَمِعْ</span>
+          </span>
+        </button>
+      </div>
+
+      <!-- Manner 3: Respecting Parents -->
+      <div class="manner-card" data-tts="بِرُّ الْوَالِدَيْن">
+        <span class="emoji">👨‍👩‍👧</span>
+        <h3>
+          <span class="en-only">Respecting Parents</span>
+          <span class="ar-name">بِرُّ الوَالِدَيْن</span>
+        </h3>
+        <p>
+          <span class="en-only">We speak gently, help them, and never raise our voice — this is one of the greatest deeds.</span>
+          <span class="ar-only">نَتَحَدَّثُ بِلُطْفٍ وَنُسَاعِدُهُمَا وَلَا نَرْفَعُ صَوْتَنَا — وَهَذَا مِنْ أَعْظَمِ الأَعْمَال.</span>
+        </p>
+        <button class="audio-btn" onclick="playManner(this)">
+          <svg class="speaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
+            <path d="M16 9a5 5 0 0 1 0 6"/>
+            <path d="M19.364 18.364a9 9 0 0 0 0-12.728"/>
+          </svg>
+          <span class="btn-label">
+            <span class="en-only">Listen</span>
+            <span class="ar-only">اسْتَمِعْ</span>
+          </span>
+        </button>
+      </div>
+
+      <!-- Manner 4: Honesty -->
+      <div class="manner-card" data-tts="الصِّدْق">
+        <span class="emoji">🤝</span>
+        <h3>
+          <span class="en-only">Honesty</span>
+          <span class="ar-name">الصِّدْق</span>
+        </h3>
+        <p>
+          <span class="en-only">We always tell the truth, even when it's hard — honesty leads to goodness.</span>
+          <span class="ar-only">نَقُولُ الصِّدْقَ دَائِمًا حَتَّى لَوْ كَانَ صَعْبًا — فَالصِّدْقُ يَهْدِي إِلَى البِرّ.</span>
+        </p>
+        <button class="audio-btn" onclick="playManner(this)">
+          <svg class="speaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
+            <path d="M16 9a5 5 0 0 1 0 6"/>
+            <path d="M19.364 18.364a9 9 0 0 0 0-12.728"/>
+          </svg>
+          <span class="btn-label">
+            <span class="en-only">Listen</span>
+            <span class="ar-only">اسْتَمِعْ</span>
+          </span>
+        </button>
+      </div>
+
+      <!-- Manner 5: Kindness -->
+      <div class="manner-card" data-tts="َالرَّحْمَة">
+        <span class="emoji">🕊️</span>
+        <h3>
+          <span class="en-only">Kindness to All</span>
+          <span class="ar-name">الرَّحْمَة</span>
+        </h3>
+        <p>
+          <span class="en-only">We are gentle with people, animals, and the earth — Allah loves those who show mercy.</span>
+          <span class="ar-only">نَرْحَمُ النَّاسَ وَالحَيَوَانَاتِ وَالأَرْض — وَاللَّهُ يُحِبُّ الرَّاحِمِين.</span>
+        </p>
+        <button class="audio-btn" onclick="playManner(this)">
+          <svg class="speaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
+            <path d="M16 9a5 5 0 0 1 0 6"/>
+            <path d="M19.364 18.364a9 9 0 0 0 0-12.728"/>
+          </svg>
+          <span class="btn-label">
+            <span class="en-only">Listen</span>
+            <span class="ar-only">اسْتَمِعْ</span>
+          </span>
+        </button>
+      </div>
+
+      <!-- Manner 6: Eating with Right Hand -->
+      <div class="manner-card" data-tts="الْأَكْلُ بِالْيَمِين">
+        <span class="emoji">🍽️</span>
+        <h3>
+          <span class="en-only">Eating with Right Hand</span>
+          <span class="ar-name">الأَكْلُ بِاليَمِين</span>
+        </h3>
+        <p>
+          <span class="en-only">We eat with our right hand, sitting down, and say "Alhamdulillah" when we finish.</span>
+          <span class="ar-only">نَأْكُلُ بِيَمِينِنَا جَالِسِين، وَنَقُولُ «الحَمْدُ لِلَّه» عِنْدَ الانتهاء.</span>
+        </p>
+        <button class="audio-btn" onclick="playManner(this)">
+          <svg class="speaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
+            <path d="M16 9a5 5 0 0 1 0 6"/>
+            <path d="M19.364 18.364a9 9 0 0 0 0-12.728"/>
+          </svg>
+          <span class="btn-label">
+            <span class="en-only">Listen</span>
+            <span class="ar-only">اسْتَمِعْ</span>
+          </span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- HADITH -->
+<section style="background: var(--warm-white);">
+  <div class="container">
+    <div class="section-heading">
+      <span class="eyebrow">
+        <span class="en-only">A BEAUTIFUL HADITH</span>
+        <span class="ar-only">حَدِيثٌ جَمِيل</span>
+      </span>
+      <h2>
+        <span class="en-only">The Prophet's teachings on manners</span>
+        <span class="ar-only">تَعَالِيمُ النَّبِيِّ ﷺ فِي الأَخْلَاق</span>
+      </h2>
+    </div>
+
+    <div class="hadith" data-tts="إِنَّمَا بُعِثْتُ لِأُتَمِّمَ مَكَارِمَ الْأَخْلَاق">
+      <p class="arabic">إِنَّمَا بُعِثْتُ لِأُتَمِّمَ مَكَارِمَ الأَخْلَاق</p>
+      <p class="translation">
+        <span class="en-only">"I was only sent to perfect good character."</span>
+        <span class="ar-only">«إِنَّمَا بُعِثْتُ لِأُتَمِّمَ مَكَارِمَ الأَخْلَاق».</span>
+      </p>
+      <span class="source">— Prophet Muhammad ﷺ</span>
+      <div style="margin-top: 20px;">
+        <button class="audio-btn" onclick="playManner(this)" style="align-self: center;">
+          <svg class="speaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
+            <path d="M16 9a5 5 0 0 1 0 6"/>
+            <path d="M19.364 18.364a9 9 0 0 0 0-12.728"/>
+          </svg>
+          <span class="btn-label">
+            <span class="en-only">Listen to Hadith</span>
+            <span class="ar-only">اسْتَمِعْ لِلْحَدِيث</span>
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="cta">
+      <h2>
+        <span class="en-only">Grow in beautiful character</span>
+        <span class="ar-only">انْمُ فِي الأَخْلَاقِ الجَمِيلَة</span>
+      </h2>
+      <p>
+        <span class="en-only">Book a lesson with Teacher Sarah to explore these manners in depth.</span>
+        <span class="ar-only">احجز درسًا مع المعلمة سارة لاستكشاف هذه الآداب بعمق.</span>
+      </p>
+      <a class="btn btn-primary" href="https://wa.link/6372rm" target="_blank" rel="noopener">
+        <span class="en-only">Ask about lessons ↗</span>
+        <span class="ar-only">اسْتَفْسِرْ عَنِ الدُّرُوس ↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© <span id="year"></span> — <span class="en-only">Learning with Sarah</span><span class="ar-only">سارة للتعلّم</span></p>
+</footer>
+
+<!-- Azure TTS config -->
+<script src="../../config.js"></script>
+
+<script>
+/* ============================================================
+   AZURE NEURAL TTS CONFIGURATION
+   ============================================================ */
+const AZURE_TTS_CONFIG = window.AZURE_TTS_CONFIG || {
+  subscriptionKey: "",
+  region: "",
+  voice: "ar-SA-HamedNeural"
+};
+
+/* ============================================================
+   LANGUAGE TOGGLE
+   ============================================================ */
+let currentLang = "en";
+function setLang(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+  document.getElementById("btnEn").classList.toggle("active", lang === "en");
+  document.getElementById("btnAr").classList.toggle("active", lang === "ar");
+  try { localStorage.setItem("preferredLangManners", lang); } catch(e) {}
+}
+try {
+  const saved = localStorage.getItem("preferredLangManners");
+  if (saved === "ar") setLang("ar");
+} catch(e) {}
+
+/* ============================================================
+   AZURE NEURAL TTS ENGINE
+   ============================================================ */
+let currentAudioEl = null;
+let currentCard = null;
+
+async function playManner(btn) {
+  const card = btn.closest(".manner-card, .hadith");
+  const text = card.getAttribute("data-tts") || "";
+  if (!text) return;
+
+  stopAllAudio();
+
+  const originalHTML = btn.innerHTML;
+
+  btn.disabled = true;
+  btn.innerHTML = `<span class="audio-loading"></span><span class="btn-label"><span class="en-only">Loading…</span><span class="ar-only">جارٍ التحميل…</span></span>`;
+  card.classList.add("playing");
+  currentCard = card;
+
+  // Fallback if Azure key not configured
+  if (!AZURE_TTS_CONFIG.subscriptionKey || AZURE_TTS_CONFIG.subscriptionKey === "YOUR_AZURE_KEY_HERE") {
+    btn.innerHTML = `<span class="playing-wave"><span></span><span></span><span></span><span></span></span><span class="btn-label"><span class="en-only">Playing…</span><span class="ar-only">يُشغَّل…</span></span>`;
+    speakFallback(text, () => {
+      btn.innerHTML = originalHTML;
+      btn.disabled = false;
+      card.classList.remove("playing");
+      currentCard = null;
+    });
+    return;
+  }
+
+  try {
+    const endpoint = `https://${AZURE_TTS_CONFIG.region}.tts.speech.microsoft.com/cognitiveservices/v1`;
+
+    const ssml = `
+      <speak version='1.0' xml:lang='ar-SA'>
+        <voice name='${AZURE_TTS_CONFIG.voice}'>
+          <prosody rate='-15%' pitch='0%'>
+            ${text}
+          </prosody>
+        </voice>
+      </speak>
+    `;
+
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Ocp-Apim-Subscription-Key": AZURE_TTS_CONFIG.subscriptionKey,
+        "Content-Type": "application/ssml+xml",
+        "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+        "User-Agent": "SarahAhmedMannersLesson"
+      },
+      body: ssml
+    });
+
+    if (!response.ok) throw new Error(`Azure TTS error: ${response.status}`);
+
+    const audioBlob = await response.blob();
+    const audioUrl = URL.createObjectURL(audioBlob);
+    const audio = new Audio(audioUrl);
+    currentAudioEl = audio;
+
+    btn.innerHTML = `<span class="playing-wave"><span></span><span></span><span></span><span></span></span><span class="btn-label"><span class="en-only">Playing…</span><span class="ar-only">يُشغَّل…</span></span>`;
+
+    audio.onended = () => {
+      URL.revokeObjectURL(audioUrl);
+      btn.innerHTML = originalHTML;
+      btn.disabled = false;
+      card.classList.remove("playing");
+      currentAudioEl = null;
+      currentCard = null;
+    };
+
+    audio.onerror = () => {
+      URL.revokeObjectURL(audioUrl);
+      btn.innerHTML = originalHTML;
+      btn.disabled = false;
+      card.classList.remove("playing");
+      currentAudioEl = null;
+      currentCard = null;
+    };
+
+    await audio.play();
+
+  } catch (error) {
+    console.error("Azure TTS failed:", error);
+    btn.innerHTML = `<span class="playing-wave"><span></span><span></span><span></span><span></span></span><span class="btn-label"><span class="en-only">Playing…</span><span class="ar-only">يُشغَّل…</span></span>`;
+    speakFallback(text, () => {
+      btn.innerHTML = originalHTML;
+      btn.disabled = false;
+      card.classList.remove("playing");
+      currentCard = null;
+    });
+  }
+}
+
+function stopAllAudio() {
+  if (currentAudioEl) {
+    try { currentAudioEl.pause(); } catch(e) {}
+    currentAudioEl = null;
+  }
+  if ("speechSynthesis" in window) {
+    speechSynthesis.cancel();
+  }
+  if (currentCard) {
+    currentCard.classList.remove("playing");
+    currentCard = null;
+  }
+  document.querySelectorAll(".manner-card .audio-btn, .hadith .audio-btn").forEach(b => {
+    if (b.disabled) {
+      b.disabled = false;
+      b.innerHTML = `
+        <svg class="speaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
+          <path d="M16 9a5 5 0 0 1 0 6"/>
+          <path d="M19.364 18.364a9 9 0 0 0 0-12.728"/>
+        </svg>
+        <span class="btn-label">
+          <span class="en-only">Listen</span>
+          <span class="ar-only">اسْتَمِعْ</span>
+        </span>`;
+    }
+  });
+}
+
+/* ============================================================
+   BROWSER TTS FALLBACK
+   ============================================================ */
+function speakFallback(text, onDone) {
+  if (!("speechSynthesis" in window)) {
+    if (onDone) onDone();
+    return;
+  }
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "ar-SA";
+  u.rate = 0.85;
+  u.pitch = 1.0;
+  const voices = speechSynthesis.getVoices();
+  const arabicVoice = voices.find(v => v.lang.startsWith("ar"));
+  if (arabicVoice) u.voice = arabicVoice;
+  u.onend = () => { if (onDone) onDone(); };
+  u.onerror = () => { if (onDone) onDone(); };
+  speechSynthesis.speak(u);
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

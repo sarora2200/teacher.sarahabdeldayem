@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stories of the Prophets | قصص الأنبياء | Learning with Sarah</title>
+<link rel="icon" type="image/png" href="../../images/quran.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #fdf8f0;
+    --warm-white: #fffaf3;
+    --sage: #8ba888;
+    --sage-dark: #5c7a58;
+    --gold: #d4a24c;
+    --gold-dark: #a87d2c;
+    --text: #2d2416;
+    --text-soft: #5c5040;
+    --border: #e8dcc8;
+    --shadow: 0 4px 24px rgba(90, 70, 40, 0.08);
+    --shadow-lg: 0 12px 40px rgba(90, 70, 40, 0.12);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Nunito Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+  .ar { font-family: 'Amiri', serif; direction: rtl; unicode-bidi: embed; }
+  html[lang="ar"] body { font-family: 'Amiri', serif; }
+  html[lang="ar"] .en-only { display: none !important; }
+  html[lang="en"] .ar-only { display: none !important; }
+
+  .lang-toggle-wrap { position: fixed; top: 18px; right: 18px; z-index: 100; }
+  .lang-toggle {
+    display: flex; background: var(--warm-white); border: 1px solid var(--border);
+    border-radius: 50px; padding: 4px; box-shadow: var(--shadow);
+  }
+  .lang-toggle button {
+    border: none; background: transparent; color: var(--text-soft);
+    font-family: 'Nunito Sans', sans-serif; font-weight: 700; font-size: 0.85rem;
+    padding: 8px 16px; border-radius: 50px; cursor: pointer; transition: all 0.3s;
+  }
+  .lang-toggle button.active {
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: #fff; box-shadow: 0 4px 12px rgba(212, 162, 76, 0.35);
+  }
+
+  .container { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
+
+  .hero {
+    background: linear-gradient(180deg, var(--warm-white) 0%, var(--cream) 100%);
+    padding: 100px 0 50px; text-align: center; position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: "📖"; position: absolute; top: 40px; left: 30px;
+    font-size: 7rem; opacity: 0.12; line-height: 1;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: #fff; font-weight: 700; font-size: 0.78rem; letter-spacing: 1.5px;
+    padding: 8px 20px; border-radius: 50px; margin-bottom: 20px;
+    box-shadow: 0 6px 20px rgba(212, 162, 76, 0.4);
+  }
+  .hero h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; margin-bottom: 16px; }
+  .hero h1 em {
+    font-family: 'Amiri', serif; font-style: normal;
+    color: var(--gold-dark); display: block; font-size: 1.4em; margin-top: 6px;
+  }
+  .hero p { color: var(--text-soft); font-size: 1.1rem; max-width: 620px; margin: 0 auto 30px; }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-weight: 700; padding: 14px 28px; border-radius: 50px;
+    text-decoration: none; cursor: pointer; border: none; transition: all 0.3s;
+    font-family: 'Nunito Sans', sans-serif;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: #fff; box-shadow: 0 8px 24px rgba(212, 162, 76, 0.35);
+  }
+  .btn-primary:hover { transform: translateY(-2px); }
+  .btn-quiet {
+    background: transparent; color: var(--text); border: 2px solid var(--border);
+  }
+  .btn-quiet:hover { border-color: var(--gold); color: var(--gold-dark); }
+
+  section { padding: 50px 0; }
+  .section-heading { margin-bottom: 32px; text-align: center; }
+  .eyebrow {
+    display: inline-block; font-size: 0.75rem; font-weight: 800;
+    letter-spacing: 2px; color: var(--gold-dark); text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .section-heading h2 { font-size: clamp(1.5rem, 3.5vw, 2rem); font-weight: 800; margin-bottom: 10px; }
+  .section-heading p { color: var(--text-soft); max-width: 620px; margin: 0 auto; }
+
+  /* PROPHET CARDS */
+  .prophet-card {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 28px;
+    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 24px;
+    align-items: flex-start;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .prophet-card::before {
+    content: "";
+    position: absolute; top: 0; left: 0; bottom: 0;
+    width: 5px;
+    background: linear-gradient(180deg, var(--gold), var(--gold-dark));
+  }
+  .prophet-card:hover {
+    box-shadow: var(--shadow-lg);
+    border-color: var(--gold);
+    transform: translateX(4px);
+  }
+  .prophet-card.playing {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(212, 162, 76, 0.2), var(--shadow-lg);
+  }
+  .prophet-card .portrait {
+    width: 100px; height: 100px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    border-radius: 20px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.8rem; color: #fff;
+    box-shadow: 0 8px 20px rgba(212, 162, 76, 0.35);
+  }
+  .prophet-card .content h3 {
+    font-size: 1.3rem; font-weight: 800; margin-bottom: 6px;
+  }
+  .prophet-card .content h3 .ar-name {
+    font-family: 'Amiri', serif; color: var(--gold-dark);
+    font-size: 1.2em; font-weight: 700; margin-inline-start: 8px;
+  }
+  .prophet-card .content .tag {
+    display: inline-block;
+    font-size: 0.72rem; font-weight: 800; letter-spacing: 1px;
+    color: var(--gold-dark);
+    background: rgba(212, 162, 76, 0.15);
+    padding: 4px 12px; border-radius: 50px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+  .prophet-card .content p {
+    color: var(--text-soft); font-size: 0.98rem; margin-bottom: 12px;
+  }
+  .prophet-card .content .lesson {
+    font-size: 0.92rem;
+    background: rgba(139, 168, 136, 0.12);
+    border-inline-start: 3px solid var(--sage);
+    padding: 10px 14px;
+    border-radius: 8px;
+    color: var(--sage-dark);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .prophet-card .content .lesson strong {
+    display: block; font-size: 0.78rem; letter-spacing: 1px;
+    text-transform: uppercase; margin-bottom: 4px; color: var(--sage-dark);
+  }
+
+  /* ============ AUDIO BUTTON ============ */
+  .audio-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    align-self: flex-start;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: #fff;
+    border: none;
+    font-family: 'Nunito Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.92rem;
+    padding: 10px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 6px 16px rgba(212, 162, 76, 0.4);
+    margin-top: 4px;
+  }
+
+  .audio-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(212, 162, 76, 0.55);
+  }
+
+  .audio-btn:active { transform: scale(0.97); }
+  .audio-btn:disabled { opacity: 0.7; cursor: wait; }
+
+  .audio-btn .speaker {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  .audio-loading {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    flex-shrink: 0;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .playing-wave {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    height: 14px;
+  }
+  .playing-wave span {
+    display: inline-block;
+    width: 3px;
+    background: #fff;
+    border-radius: 2px;
+    animation: wave 0.9s ease-in-out infinite;
+  }
+  .playing-wave span:nth-child(1) { height: 6px; animation-delay: 0s; }
+  .playing-wave span:nth-child(2) { height: 12px; animation-delay: 0.15s; }
+  .playing-wave span:nth-child(3) { height: 8px; animation-delay: 0.3s; }
+  .playing-wave span:nth-child(4) { height: 14px; animation-delay: 0.45s; }
+  @keyframes wave {
+    0%, 100% { transform: scaleY(0.5); }
+    50% { transform: scaleY(1.2); }
+  }
+
+  /* CTA */
+  .cta {
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: #fff; border-radius: 28px; padding: 50px 36px; text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .cta::before {
+    content: "✧"; position: absolute; top: -30px; right: -20px;
+    font-size: 12rem; opacity: 0.1; line-height: 1;
+  }
+  .cta h2 { font-size: clamp(1.4rem, 3vw, 1.9rem); margin-bottom: 10px; }
+  .cta p { opacity: 0.9; max-width: 500px; margin: 0 auto 22px; }
+  .cta .btn-primary { background: #fff; color: var(--gold-dark); }
+
+  footer {
+    text-align: center; padding: 40px 24px; color: var(--text-soft);
+    font-size: 0.9rem; border-top: 1px solid var(--border); margin-top: 40px;
+  }
+  footer strong { color: var(--gold-dark); }
+
+  @media (max-width: 640px) {
+    .hero { padding: 80px 0 30px; }
+    .hero::before { font-size: 5rem; }
+    .prophet-card {
+      grid-template-columns: 1fr; text-align: center;
+    }
+    .prophet-card .portrait { margin: 0 auto; }
+    .lang-toggle-wrap { top: 12px; right: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="lang-toggle-wrap">
+  <div class="lang-toggle">
+    <button id="btnEn" class="active" onclick="setLang('en')">🇬🇧 English</button>
+    <button id="btnAr" onclick="setLang('ar')">🇪🇬 العربية</button>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="container">
+    <span class="hero-badge">
+      <span class="en-only">LESSON 02 · ISLAMIC STUDIES</span>
+      <span class="ar-only">الدَّرْسُ الثَّانِي · الدِّرَاسَات الإِسْلَامِيَّة</span>
+    </span>
+    <h1>
+      <span class="en-only">Stories of the <em>Prophets</em></span>
+      <span class="ar-only">قِصَصُ <em>الأَنْبِيَاء</em></span>
+    </h1>
+    <p>
+      <span class="en-only">Timeless stories of patience, faith, and trust in Allah — retold for young hearts. Listen to each Prophet's name in beautiful Arabic.</span>
+      <span class="ar-only">قصص خالدة عن الصبر والإيمان والتوكل على الله — تُروى للقلوب الصغيرة. استمع لاسم كل نبيٍّ بصوت عربي جميل.</span>
+    </p>
+    <div style="margin-top: 24px;">
+      <a class="btn btn-quiet" href="../Islamic-studies/islamic-lessons.html">
+        <span class="en-only">← Back to Islamic Studies</span>
+        <span class="ar-only">← العودة للدراسات الإسلامية</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- PROPHETS -->
+<section>
+  <div class="container">
+    <div class="section-heading">
+      <span class="eyebrow">
+        <span class="en-only">STORIES OF FAITH</span>
+        <span class="ar-only">قِصَصُ الإِيمَان</span>
+      </span>
+      <h2>
+        <span class="en-only">Meet the Prophets of Allah</span>
+        <span class="ar-only">تعرَّفْ عَلَى أَنْبِيَاءِ اللَّه</span>
+      </h2>
+      <p>
+        <span class="en-only">Press the 🔊 button on each card to hear the Prophet's name in correct Arabic.</span>
+        <span class="ar-only">اضغط على زر 🔊 في كل بطاقة لسماع اسم النبي بالنطق العربي الصحيح.</span>
+      </p>
+    </div>
+
+    <!-- Prophet Adam -->
+    <div class="prophet-card" data-tts="آدَمُ عَلَيْهِ السَّلَام">
+      <div class="portrait">🌍</div>
+      <div class="content">
+        <span class="tag">
+          <span class="en-only">The First Man</span>
+          <span class="ar-only">أَوَّلُ إِنْسَان</span>
+        </span>
+        <h3>
+          <span class="en-only">Prophet Adam</span>
+          <span class="ar-name">آدَم عَلَيْهِ السَّلَام</span>
+        </h3>
+        <p>
+          <span class="en-only">Allah created Adam as the first human being and taught him the names of all things. Adam lived in Paradise with Hawwa (Eve), but after a mistake, they were sent to earth — and Allah forgave them.</span>
+          <span class="ar-only">خَلَقَ اللَّهُ آدَمَ أَوَّلَ إِنْسَانٍ وَعَلَّمَهُ الأَسْمَاءَ كُلَّهَا. عَاشَ آدَمُ فِي الجَنَّةِ مَعَ حَوَّاء، وَبَعْدَ خَطِيئَةٍ أُهْبِطَا إِلَى الأَرْض — وَقَدْ تَابَ اللَّهُ عَلَيْهِمَا.</span>
+        </p>
+        <div class="lesson">
+          <strong>
+            <span class="en-only">Lesson</span>
+            <span class="ar-only">الدَّرْس</span>
+          </strong>
+          <span class="en-only">Allah is the Most Forgiving — we can always return to Him.</span>
+          <span class="ar-only">اللَّهُ غَفُورٌ رَحِيم — يُمْكِنُنَا دَائِمًا أَنْ نَعُودَ إِلَيْه.</span>
+        </div>
+        <button class="audio-btn" onclick="playProphet(this)">
+          <svg class="speaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
+            <path d="M16 9a5 5 0 0 1 0 6"/>
+            <path d="M19.364 18.364a9 9 0 0 0 0-12.728"/>
+          </svg>
+          <span class="btn-label">
+            <span class="en-only">Listen</span>
+            <span class="ar-only">اسْتَمِعْ</span>
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Prophet Nuh -->
+    <div class="prophet-card" data-tts="نُوحٌ عَلَيْهِ السَّلَام">
+      <div class="portrait">🚢</div>
+      <div class="content">
+        <span class="tag">
+          <span class="en-only">The Ark</span>
+          <span class="ar-only">صَاحِبُ السَّفِينَة</span>
+        </span>
+        <h3>
+          <span class="en-only">Prophet Nuh</span>
+          <span class="ar-name">نُوح عَلَيْهِ السَّلَام</span>
+        </h3>
+        <p>
+          <span class="en-only">Nuh called his people to worship Allah for 950 years, but only a few believed. Allah commanded him to build a great ark, and the believers were saved from the flood.</span>
+          <span class="ar-only">دَعَا نُوحٌ قَوْمَهُ إِلَى عِبَادَةِ اللَّهِ ٩٥٠ عَامًا، فَآمَنَ قَلِيلٌ مِنْهُم. أَمَرَهُ اللَّهُ بِبِنَاءِ سَفِينَةٍ عَظِيمَة، فَنَجَا المُؤْمِنُونَ مِنَ الطُّوفَان.</span>
+        </p>
+        <div class="lesson">
+          <strong>
+            <span class="en-only">Lesson</span>
+            <span class="ar-only">الدَّرْس</span>
+          </strong>
+          <span class="en-only">Patience in calling to Allah — never give up on goodness.</span>
+          <span class="ar-only">الصَّبْرُ فِي الدَّعْوَة إِلَى اللَّه — لَا تَتَخَلَّ عَنِ الخَيْرِ أَبَدًا.</span>
+        </div>
+        <button class="audio-btn" onclick="playProphet(this)">
+          <svg class="speaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
+            <path d="M16 9a5 5 0 0 1 0 6"/>
+            <path d="M19.364 18.364a9 9 0 0 0 0-12.728"/>
+          </svg>
+          <span class="btn-label">
+            <span class="en-only">Listen</span>
+            <span class="ar-only">اسْتَمِعْ</span>
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Prophet Ibrahim -->
+    <div class="prophet-card" data-tts="إِبْرَاهِيمُ عَلَيْهِ السَّلَام">
+      <div class="portrait">🕋</div>
+      <div class="content">
+        <span class="tag">
+          <span class="en-only">Friend of Allah</span>
+          <span class="ar-only">خَلِيلُ اللَّه</span>
+        </span>
+        <h3>
+          <span class="en-only">Prophet Ibrahim</span>
+          <span class="ar-name">إِبْرَاهِيم عَلَيْهِ السَّلَام</span>
+        </h3>
+        <p>
+          <span class="en-only">Ibrahim taught his people that only Allah deserves worship — he broke the idols and stood firm even when thrown into fire. Allah made the fire cool and safe for him, and later he built the Kaaba with his son Isma'il.</span>
+          <span class="ar-only">عَلَّمَ إِبْرَاهِيمُ قَوْمَهُ أَنَّ اللَّهَ وَحْدَهُ يَسْتَحِقُّ العِبَادَة — كَسَرَ الأَصْنَامَ وَثَبَتَ حَتَّى حِينَ أُلْقِيَ فِي النَّار. جَعَلَ اللَّهُ النَّارَ بَرْدًا وَسَلَامًا عَلَيْه، وَبَنَى الكَعْبَةَ مَعَ ابْنِهِ إِسْمَاعِيل.</span>
+        </p>
+        <div class="lesson">
+          <strong>
+            <span class="en-only">Lesson</span>
+            <span class="ar-only">الدَّرْس</span>
+          </strong>
+          <span class="en-only">Stand firmly for truth — Allah protects those who trust Him.</span>
+          <span class="ar-only">اثْبُتْ عَلَى الحَقّ — اللَّهُ يَحْمِي مَنْ يَتَوَكَّلُ عَلَيْه.</span>
+        </div>
+        <button class="audio-btn" onclick="playProphet(this)">
+          <svg class="speaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
+            <path d="M16 9a5 5 0 0 1 0 6"/>
+            <path d="M19.364 18.364a9 9 0 0 0 0-12.728"/>
+          </svg>
+          <span class="btn-label">
+            <span class="en-only">Listen</span>
+            <span class="ar-only">اسْتَمِعْ</span>
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Prophet Musa -->
+    <div class="prophet-card" data-tts="مُوسَى عَلَيْهِ السَّلَام">
+      <div class="portrait">🌊</div>
+      <div class="content">
+        <span class="tag">
+          <span class="en-only">The Sea Splits</span>
+          <span class="ar-only">كَلِيمُ اللَّه</span>
+        </span>
+        <h3>
+          <span class="en-only">Prophet Musa</span>
+          <span class="ar-name">مُوسَى عَلَيْهِ السَّلَام</span>
+        </h3>
+        <p>
+          <span class="en-only">Musa was sent to Pharaoh to free the Children of Israel. When Pharaoh chased them, Allah split the sea to save Musa and his people — and drowned Pharaoh's army.</span>
+          <span class="ar-only">أُرْسِلَ مُوسَى إِلَى فِرْعَوْنَ لِيُحَرِّرَ بَنِي إِسْرَائِيل. عِنْدَمَا لَاحَقَهُمْ فِرْعَوْن، شَقَّ اللَّهُ البَحْرَ لِنَجَاةِ مُوسَى وَقَوْمِه — وَأَغْرَقَ جُنُودَ فِرْعَوْن.</span>
+        </p>
+        <div class="lesson">
+          <strong>
+            <span class="en-only">Lesson</span>
+            <span class="ar-only">الدَّرْس</span>
+          </strong>
+          <span class="en-only">Allah's help comes when we need it most.</span>
+          <span class="ar-only">نَصْرُ اللَّهِ يَأْتِي عِنْدَمَا نَكُونُ فِي أَشَدِّ الحَاجَةِ إِلَيْه.</span>
+        </div>
+        <button class="audio-btn" onclick="playProphet(this)">
+          <svg class="speaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
+            <path d="M16 9a5 5 0 0 1 0 6"/>
+            <path d="M19.364 18.364a9 9 0 0 0 0-12.728"/>
+          </svg>
+          <span class="btn-label">
+            <span class="en-only">Listen</span>
+            <span class="ar-only">اسْتَمِعْ</span>
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Prophet Isa -->
+    <div class="prophet-card" data-tts="عِيسَى عَلَيْهِ السَّلَام">
+      <div class="portrait">🕊️</div>
+      <div class="content">
+        <span class="tag">
+          <span class="en-only">Born by Miracle</span>
+          <span class="ar-only">وُلِدَ بِمُعْجِزَة</span>
+        </span>
+        <h3>
+          <span class="en-only">Prophet Isa</span>
+          <span class="ar-name">عِيسَى عَلَيْهِ السَّلَام</span>
+        </h3>
+        <p>
+          <span class="en-only">Isa was born miraculously to Maryam (Mary) without a father. He spoke as a baby and performed many miracles by Allah's permission — healing the sick and giving life to the dead.</span>
+          <span class="ar-only">وُلِدَ عِيسَى بِمُعْجِزَةٍ مِنْ مَرْيَمَ بِدُونِ أَب. تَكَلَّمَ فِي المَهْدِ وَأَجْرَى مُعْجِزَاتٍ بِإِذْنِ اللَّه — شِفَاءُ المَرْضَى وَإِحْيَاءُ المَوْتَى.</span>
+        </p>
+        <div class="lesson">
+          <strong>
+            <span class="en-only">Lesson</span>
+            <span class="ar-only">الدَّرْس</span>
+          </strong>
+          <span class="en-only">Allah's power has no limits.</span>
+          <span class="ar-only">قُدْرَةُ اللَّهِ لَا حُدُودَ لَهَا.</span>
+        </div>
+        <button class="audio-btn" onclick="playProphet(this)">
+          <svg class="speaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
+            <path d="M16 9a5 5 0 0 1 0 6"/>
+            <path d="M19.364 18.364a9 9 0 0 0 0-12.728"/>
+          </svg>
+          <span class="btn-label">
+            <span class="en-only">Listen</span>
+            <span class="ar-only">اسْتَمِعْ</span>
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Prophet Muhammad -->
+    <div class="prophet-card" data-tts="مُحَمَّدٌ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّم">
+      <div class="portrait">🌟</div>
+      <div class="content">
+        <span class="tag">
+          <span class="en-only">The Final Prophet</span>
+          <span class="ar-only">خَاتَمُ الأَنْبِيَاء</span>
+        </span>
+        <h3>
+          <span class="en-only">Prophet Muhammad</span>
+          <span class="ar-name">مُحَمَّد ﷺ</span>
+        </h3>
+        <p>
+          <span class="en-only">Muhammad ﷺ is the last Prophet sent to all of humanity. He was known as "Al-Amin" (the trustworthy) even before Prophethood. He taught kindness, honesty, and worship of the One Allah.</span>
+          <span class="ar-only">مُحَمَّدٌ ﷺ آخِرُ الأَنْبِيَاءِ أُرْسِلَ لِلنَّاسِ أَجْمَعِين. عُرِفَ بِـ«الأَمِين» قَبْلَ النُّبُوَّة. عَلَّمَ اللُّطْفَ وَالصِّدْقَ وَعِبَادَةَ اللَّهِ وَحْدَه.</span>
+        </p>
+        <div class="lesson">
+          <strong>
+            <span class="en-only">Lesson</span>
+            <span class="ar-only">الدَّرْس</span>
+          </strong>
+          <span class="en-only">Follow his beautiful example in everything.</span>
+          <span class="ar-only">اتَّبِعْ قُدْوَتَهُ الجَمِيلَةَ فِي كُلِّ شَيْء.</span>
+        </div>
+        <button class="audio-btn" onclick="playProphet(this)">
+          <svg class="speaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
+            <path d="M16 9a5 5 0 0 1 0 6"/>
+            <path d="M19.364 18.364a9 9 0 0 0 0-12.728"/>
+          </svg>
+          <span class="btn-label">
+            <span class="en-only">Listen</span>
+            <span class="ar-only">اسْتَمِعْ</span>
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="cta">
+      <h2>
+        <span class="en-only">Learn their stories together</span>
+        <span class="ar-only">تَعَلَّمْ قِصَصَهُم مَعًا</span>
+      </h2>
+      <p>
+        <span class="en-only">Book a lesson with Teacher Sarah for guided story sessions with reflection questions.</span>
+        <span class="ar-only">احجز درسًا مع المعلمة سارة لجلسات قصص موجَّهة مع أسئلة تأملية.</span>
+      </p>
+      <a class="btn btn-primary" href="https://wa.link/6372rm" target="_blank" rel="noopener">
+        <span class="en-only">Ask about lessons ↗</span>
+        <span class="ar-only">اسْتَفْسِرْ عَنِ الدُّرُوس ↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© <span id="year"></span> — <span class="en-only">Learning with Sarah</span><span class="ar-only">سارة للتعلّم</span></p>
+</footer>
+
+<!-- Azure TTS config -->
+<script src="../../config.js"></script>
+
+<script>
+/* ============================================================
+   AZURE NEURAL TTS CONFIGURATION
+   ============================================================ */
+const AZURE_TTS_CONFIG = window.AZURE_TTS_CONFIG || {
+  subscriptionKey: "",
+  region: "",
+  voice: "ar-SA-HamedNeural"
+};
+
+/* ============================================================
+   LANGUAGE TOGGLE
+   ============================================================ */
+let currentLang = "en";
+function setLang(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+  document.getElementById("btnEn").classList.toggle("active", lang === "en");
+  document.getElementById("btnAr").classList.toggle("active", lang === "ar");
+  try { localStorage.setItem("preferredLangProphets", lang); } catch(e) {}
+}
+try {
+  const saved = localStorage.getItem("preferredLangProphets");
+  if (saved === "ar") setLang("ar");
+} catch(e) {}
+
+/* ============================================================
+   AZURE NEURAL TTS ENGINE
+   ============================================================ */
+let currentAudioEl = null;
+let currentCard = null;
+
+async function playProphet(btn) {
+  const card = btn.closest(".prophet-card");
+  const text = card.getAttribute("data-tts") || "";
+  if (!text) return;
+
+  stopAllAudio();
+
+  const originalHTML = btn.innerHTML;
+
+  btn.disabled = true;
+  btn.innerHTML = `<span class="audio-loading"></span><span class="btn-label"><span class="en-only">Loading…</span><span class="ar-only">جارٍ التحميل…</span></span>`;
+  card.classList.add("playing");
+  currentCard = card;
+
+  // Fallback if Azure key not configured
+  if (!AZURE_TTS_CONFIG.subscriptionKey || AZURE_TTS_CONFIG.subscriptionKey === "YOUR_AZURE_KEY_HERE") {
+    btn.innerHTML = `<span class="playing-wave"><span></span><span></span><span></span><span></span></span><span class="btn-label"><span class="en-only">Playing…</span><span class="ar-only">يُشغَّل…</span></span>`;
+    speakFallback(text, () => {
+      btn.innerHTML = originalHTML;
+      btn.disabled = false;
+      card.classList.remove("playing");
+      currentCard = null;
+    });
+    return;
+  }
+
+  try {
+    const endpoint = `https://${AZURE_TTS_CONFIG.region}.tts.speech.microsoft.com/cognitiveservices/v1`;
+
+    const ssml = `
+      <speak version='1.0' xml:lang='ar-SA'>
+        <voice name='${AZURE_TTS_CONFIG.voice}'>
+          <prosody rate='-15%' pitch='0%'>
+            ${text}
+          </prosody>
+        </voice>
+      </speak>
+    `;
+
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Ocp-Apim-Subscription-Key": AZURE_TTS_CONFIG.subscriptionKey,
+        "Content-Type": "application/ssml+xml",
+        "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+        "User-Agent": "SarahAhmedProphetsLesson"
+      },
+      body: ssml
+    });
+
+    if (!response.ok) throw new Error(`Azure TTS error: ${response.status}`);
+
+    const audioBlob = await response.blob();
+    const audioUrl = URL.createObjectURL(audioBlob);
+    const audio = new Audio(audioUrl);
+    currentAudioEl = audio;
+
+    btn.innerHTML = `<span class="playing-wave"><span></span><span></span><span></span><span></span></span><span class="btn-label"><span class="en-only">Playing…</span><span class="ar-only">يُشغَّل…</span></span>`;
+
+    audio.onended = () => {
+      URL.revokeObjectURL(audioUrl);
+      btn.innerHTML = originalHTML;
+      btn.disabled = false;
+      card.classList.remove("playing");
+      currentAudioEl = null;
+      currentCard = null;
+    };
+
+    audio.onerror = () => {
+      URL.revokeObjectURL(audioUrl);
+      btn.innerHTML = originalHTML;
+      btn.disabled = false;
+      card.classList.remove("playing");
+      currentAudioEl = null;
+      currentCard = null;
+    };
+
+    await audio.play();
+
+  } catch (error) {
+    console.error("Azure TTS failed:", error);
+    btn.innerHTML = `<span class="playing-wave"><span></span><span></span><span></span><span></span></span><span class="btn-label"><span class="en-only">Playing…</span><span class="ar-only">يُشغَّل…</span></span>`;
+    speakFallback(text, () => {
+      btn.innerHTML = originalHTML;
+      btn.disabled = false;
+      card.classList.remove("playing");
+      currentCard = null;
+    });
+  }
+}
+
+function stopAllAudio() {
+  if (currentAudioEl) {
+    try { currentAudioEl.pause(); } catch(e) {}
+    currentAudioEl = null;
+  }
+  if ("speechSynthesis" in window) {
+    speechSynthesis.cancel();
+  }
+  if (currentCard) {
+    currentCard.classList.remove("playing");
+    currentCard = null;
+  }
+  document.querySelectorAll(".prophet-card .audio-btn").forEach(b => {
+    if (b.disabled) {
+      b.disabled = false;
+      b.innerHTML = `
+        <svg class="speaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
+          <path d="M16 9a5 5 0 0 1 0 6"/>
+          <path d="M19.364 18.364a9 9 0 0 0 0-12.728"/>
+        </svg>
+        <span class="btn-label">
+          <span class="en-only">Listen</span>
+          <span class="ar-only">اسْتَمِعْ</span>
+        </span>`;
+    }
+  });
+}
+
+/* ============================================================
+   BROWSER TTS FALLBACK
+   ============================================================ */
+function speakFallback(text, onDone) {
+  if (!("speechSynthesis" in window)) {
+    if (onDone) onDone();
+    return;
+  }
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "ar-SA";
+  u.rate = 0.85;
+  u.pitch = 1.0;
+  const voices = speechSynthesis.getVoices();
+  const arabicVoice = voices.find(v => v.lang.startsWith("ar"));
+  if (arabicVoice) u.voice = arabicVoice;
+  u.onend = () => { if (onDone) onDone(); };
+  u.onerror = () => { if (onDone) onDone(); };
+  speechSynthesis.speak(u);
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
