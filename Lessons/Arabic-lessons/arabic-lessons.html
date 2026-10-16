@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>دروس العربية | Arabic Lessons</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  body {
+    font-family: 'Tajawal', sans-serif;
+    background: radial-gradient(circle at 20% 10%, #1a3355 0%, #0a1628 55%, #050b14 100%);
+    color: #eaf2ff;
+    min-height: 100vh;
+    margin: 0;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  h1 {
+    font-size: clamp(1.8rem, 5vw, 2.6rem);
+    background: linear-gradient(135deg, #fff, #f5c542);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 10px;
+  }
+  p.sub { color: #b8cce6; margin-bottom: 40px; }
+  .lessons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    max-width: 800px;
+    width: 100%;
+  }
+  .lesson-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(245,197,66,0.3);
+    border-radius: 24px;
+    padding: 30px 20px;
+    text-decoration: none;
+    color: #fff;
+    transition: all 0.3s;
+    display: block;
+  }
+  .lesson-card:hover {
+    transform: translateY(-6px);
+    border-color: #f5c542;
+    box-shadow: 0 12px 30px rgba(245,197,66,0.3);
+  }
+  .lesson-card .icon { font-size: 3rem; display: block; margin-bottom: 10px; }
+  .lesson-card .title { font-size: 1.4rem; font-weight: 700; margin-bottom: 6px; }
+  .lesson-card .desc { font-size: 0.95rem; color: #b8cce6; }
+  .back { margin-top: 40px; color: #7a92b0; text-decoration: none; }
+  .back:hover { color: #f5c542; }
+</style>
+</head>
+<body>
+  <h1>دروس اللغة العربية</h1>
+  <p class="sub">اختر درسًا للبدء — Choose a lesson to begin</p>
+
+  <div class="lessons">
+    <a class="lesson-card" href="lam-qamariyah.html">
+      <span class="icon">🌙</span>
+      <div class="title">اللام القمرية</div>
+      <div class="desc">The Moon Lam — interactive lesson</div>
+    </a>
+
+    <a class="lesson-card" href="shadah.html">
+      <span class="icon">ّ</span>
+      <div class="title">الشَّدَّة</div>
+      <div class="desc">The Shaddah — interactive lesson</div>
+    </a>
+  </div>
+
+  <a class="back" href="../../index.html">← العودة للرئيسية · Back to home</a>
+</body>
+</html>
