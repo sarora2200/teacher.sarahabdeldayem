@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlRoot">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مغامرات اللام القمرية | The Adventure of the Moon Lam</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Poppins:wght@400;500;700;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  /* ============ RESET & BASE ============ */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg-dark: #0a1628;
+    --bg-mid: #142a45;
+    --gold: #f5c542;
+    --gold-soft: #ffe08a;
+    --teal: #2dd4bf;
+    --text: #eaf2ff;
+    --card-bg: rgba(255, 255, 255, 0.07);
+    --card-border: rgba(245, 197, 66, 0.25);
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  }
+
+  body {
+    background: radial-gradient(circle at 20% 10%, #1a3355 0%, var(--bg-dark) 55%, #050b14 100%);
+    color: var(--text);
+    line-height: 1.9;
+    min-height: 100vh;
+    overflow-x: hidden;
+    transition: font-family 0.3s;
+  }
+
+  html[lang="ar"] body { font-family: 'Tajawal', sans-serif; }
+  html[lang="en"] body { font-family: 'Poppins', sans-serif; }
+
+  .ar {
+    font-family: 'Amiri', serif;
+    direction: rtl;
+    unicode-bidi: embed;
+  }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+
+  /* ============ LANGUAGE TOGGLE ============ */
+  .lang-toggle-wrap {
+    position: fixed;
+    top: 18px;
+    z-index: 999;
+    transition: all 0.3s;
+  }
+
+  html[lang="ar"] .lang-toggle-wrap { left: 18px; }
+  html[lang="en"] .lang-toggle-wrap { right: 18px; }
+
+  .lang-toggle {
+    display: flex;
+    background: rgba(10, 22, 40, 0.85);
+    border: 1px solid var(--card-border);
+    border-radius: 50px;
+    padding: 5px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  }
+
+  .lang-toggle button {
+    border: none;
+    background: transparent;
+    color: #b8cce6;
+    font-family: 'Tajawal', 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 8px 18px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .lang-toggle button.active {
+    background: linear-gradient(135deg, var(--gold), #d4a017);
+    color: #1a1200;
+    box-shadow: 0 4px 12px rgba(245, 197, 66, 0.4);
+  }
+
+  .lang-toggle button:hover:not(.active) { color: #fff; }
+
+  /* ============ HEADER ============ */
+  header { text-align: center; padding: 70px 20px 20px; position: relative; }
+
+  .brand-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--gold), #d4a017);
+    color: #1a1200;
+    font-weight: 700;
+    padding: 8px 22px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    margin-bottom: 18px;
+    box-shadow: 0 4px 15px rgba(245, 197, 66, 0.4);
+    letter-spacing: 0.5px;
+  }
+
+  header h1 {
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    font-weight: 900;
+    background: linear-gradient(135deg, #fff, var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 10px;
+  }
+
+  header p.subtitle {
+    font-size: 1.1rem;
+    color: #b8cce6;
+    max-width: 620px;
+    margin: 0 auto;
+  }
+
+  .teacher-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 18px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    padding: 8px 18px;
+    border-radius: 50px;
+    font-size: 0.95rem;
+  }
+
+  .teacher-tag .dot {
+    width: 10px; height: 10px;
+    background: var(--teal);
+    border-radius: 50%;
+    animation: pulse 1.8s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+  }
+
+  /* ============ MASCOT ============ */
+  .mascot {
+    font-size: 5rem;
+    text-align: center;
+    margin: 10px 0 0;
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+
+  /* ============ SECTIONS ============ */
+  section { margin: 50px 0; }
+
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: var(--gold-soft);
+  }
+
+  .section-title::before {
+    content: "";
+    width: 6px; height: 32px;
+    background: linear-gradient(var(--gold), var(--teal));
+    border-radius: 3px;
+  }
+
+  /* ============ RULE CARD ============ */
+  .rule-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 24px;
+    padding: 30px;
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .rule-card::before {
+    content: "🌙";
+    position: absolute;
+    top: -20px;
+    font-size: 8rem;
+    opacity: 0.05;
+  }
+
+  html[lang="ar"] .rule-card::before { left: -20px; }
+  html[lang="en"] .rule-card::before { right: -20px; }
+
+  .rule-quote {
+    font-size: 1.15rem;
+    line-height: 2;
+    color: #fff;
+    margin-bottom: 20px;
+  }
+
+  html[lang="ar"] .rule-quote { border-right: 4px solid var(--gold); padding-right: 20px; }
+  html[lang="en"] .rule-quote { border-left: 4px solid var(--gold); padding-left: 20px; }
+
+  .rule-quote .ar-word {
+    font-family: 'Amiri', serif;
+    font-size: 1.4rem;
+    color: var(--gold-soft);
+  }
+
+  .rule-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+  }
+
+  .feature {
+    background: rgba(45, 212, 191, 0.08);
+    border: 1px solid rgba(45, 212, 191, 0.25);
+    border-radius: 16px;
+    padding: 16px;
+    text-align: center;
+    font-size: 1rem;
+  }
+
+  .feature .icon { font-size: 1.8rem; display: block; margin-bottom: 6px; }
+
+  /* ============ MNEMONIC ============ */
+  .mnemonic {
+    background: linear-gradient(135deg, rgba(245, 197, 66, 0.15), rgba(45, 212, 191, 0.1));
+    border: 2px dashed var(--gold);
+    border-radius: 20px;
+    padding: 26px;
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .mnemonic h3 { color: var(--gold); font-size: 1.1rem; margin-bottom: 12px; }
+
+  .mnemonic .phrase {
+    font-family: 'Amiri', serif;
+    direction: rtl;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 2px;
+    text-shadow: 0 0 20px rgba(245, 197, 66, 0.5);
+    margin: 10px 0;
+  }
+
+  .mnemonic .translit {
+    font-style: italic;
+    color: #cfe0f5;
+    font-size: 1rem;
+  }
+
+  /* ============ LETTER CARDS ============ */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 16px;
+  }
+
+  .letter-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 18px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    user-select: none;
+  }
+
+  .letter-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--gold);
+    box-shadow: 0 12px 28px rgba(245, 197, 66, 0.25);
+    background: rgba(245, 197, 66, 0.08);
+  }
+
+  .letter-card.visited {
+    border-color: var(--teal);
+    background: rgba(45, 212, 191, 0.1);
+  }
+
+  .letter-card .letter {
+    font-family: 'Amiri', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--gold-soft);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .letter-card .word {
+    font-family: 'Amiri', serif;
+    direction: rtl;
+    font-size: 1.15rem;
+    color: #fff;
+    margin-bottom: 2px;
+  }
+
+  .letter-card .translit {
+    font-size: 0.85rem;
+    color: #9fb8d6;
+    font-style: italic;
+    margin-bottom: 6px;
+  }
+
+  .letter-card .emoji { font-size: 1.6rem; }
+
+  /* ============ PROGRESS ============ */
+  .progress-wrap {
+    margin-top: 24px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 16px 20px;
+  }
+
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+  }
+
+  .progress-bar-track {
+    background: rgba(255, 255, 255, 0.1);
+    height: 12px;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--teal), var(--gold));
+    border-radius: 6px;
+    transition: width 0.5s ease;
+  }
+
+  /* ============ AUDIO PLAYER ============ */
+  .audio-player {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 22px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: var(--shadow);
+  }
+
+  .audio-player .word-display {
+    font-family: 'Amiri', serif;
+    direction: rtl;
+    font-size: 3.5rem;
+    color: var(--gold);
+    margin-bottom: 6px;
+    text-shadow: 0 0 25px rgba(245, 197, 66, 0.4);
+  }
+
+  .audio-player .word-translit {
+    font-size: 1.15rem;
+    color: #b8cce6;
+    margin-bottom: 4px;
+    font-style: italic;
+  }
+
+  .audio-player .word-meaning {
+    font-size: 1.05rem;
+    color: #8fa6c4;
+    margin-bottom: 22px;
+  }
+
+  .play-btn {
+    background: linear-gradient(135deg, var(--gold), #d4a017);
+    color: #1a1200;
+    border: none;
+    font-family: inherit;
+    font-size: 1.05rem;
+    font-weight: 700;
+    padding: 14px 40px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 6px 20px rgba(245, 197, 66, 0.35);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .play-btn:hover { transform: scale(1.05); box-shadow: 0 8px 28px rgba(245, 197, 66, 0.55); }
+  .play-btn:active { transform: scale(0.98); }
+  .play-btn:disabled { opacity: 0.7; cursor: wait; }
+
+  /* ============ AUDIO LOADING SPINNER ============ */
+  .audio-loading {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(26, 18, 0, 0.3);
+    border-top-color: #1a1200;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* ============ GAME / QUIZ ============ */
+  .game-box, .quiz-box {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 22px;
+    padding: 30px;
+    box-shadow: var(--shadow);
+  }
+
+  .game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 22px;
+    font-size: 0.95rem;
+  }
+
+  .score-badge {
+    background: rgba(245, 197, 66, 0.15);
+    border: 1px solid var(--gold);
+    padding: 6px 16px;
+    border-radius: 50px;
+    font-weight: 700;
+    color: var(--gold);
+  }
+
+  .game-question {
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 24px;
+    color: #fff;
+  }
+
+  .game-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 14px;
+  }
+
+  .option-btn {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--card-border);
+    color: #fff;
+    font-family: 'Amiri', 'Poppins', 'Tajawal', serif;
+    font-size: 1.3rem;
+    padding: 22px;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+
+  .option-btn:hover:not(:disabled) {
+    background: rgba(245, 197, 66, 0.12);
+    border-color: var(--gold);
+  }
+
+  .option-btn.correct {
+    background: rgba(45, 212, 191, 0.25);
+    border-color: var(--teal);
+    animation: pop 0.4s;
+  }
+
+  .option-btn.wrong {
+    background: rgba(239, 68, 68, 0.25);
+    border-color: #ef4444;
+    animation: shake 0.4s;
+  }
+
+  @keyframes pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-8px); }
+    75% { transform: translateX(8px); }
+  }
+
+  .game-feedback {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 1.05rem;
+    min-height: 30px;
+    font-weight: 700;
+  }
+
+  .quiz-progress {
+    background: rgba(255,255,255,0.08);
+    border-radius: 8px;
+    height: 8px;
+    margin-bottom: 22px;
+    overflow: hidden;
+  }
+
+  .quiz-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--teal), var(--gold));
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+
+  /* ============ CERTIFICATE ============ */
+  .certificate {
+    background: linear-gradient(135deg, #fffaf0, #fff3d6);
+    color: #1a1200;
+    border: 8px double var(--gold);
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    display: none;
+    box-shadow: var(--shadow);
+    margin-top: 30px;
+  }
+
+  .certificate.show { display: block; animation: fadeUp 0.8s ease; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .certificate h2 { font-size: 2rem; color: #8a6d00; margin-bottom: 10px; }
+
+  .certificate .cert-name {
+    font-family: 'Amiri', serif;
+    font-size: 2.4rem;
+    color: #1a1200;
+    border-bottom: 3px dotted #c9a227;
+    display: inline-block;
+    padding: 0 30px 6px;
+    margin: 20px 0;
+  }
+
+  .certificate .cert-teacher { margin-top: 22px; font-size: 1.1rem; color: #5a4a00; }
+  .certificate .cert-seal { font-size: 3rem; margin: 10px 0; }
+
+  /* ============ BUTTONS ============ */
+  .btn-primary {
+    background: linear-gradient(135deg, var(--teal), #0e9488);
+    color: #032a26;
+    border: none;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 14px 40px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 6px 20px rgba(45, 212, 191, 0.3);
+  }
+
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(45, 212, 191, 0.5); }
+
+  .btn-center { text-align: center; margin: 30px 0; }
+
+  /* ============ FOOTER ============ */
+  footer {
+    text-align: center;
+    padding: 40px 20px;
+    color: #7a92b0;
+    font-size: 0.9rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    margin-top: 60px;
+  }
+
+  footer strong { color: var(--gold-soft); }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 600px) {
+    .rule-quote { font-size: 1rem; }
+    .mnemonic .phrase { font-size: 1.3rem; }
+    .audio-player .word-display { font-size: 2.5rem; }
+    .cards-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+    .option-btn { font-size: 1.05rem; padding: 16px; }
+    .lang-toggle-wrap { top: 12px; }
+    html[lang="ar"] .lang-toggle-wrap { left: 12px; }
+    html[lang="en"] .lang-toggle-wrap { right: 12px; }
+    header { padding-top: 90px; }
+  }
+
+  /* ============ LANGUAGE VISIBILITY ============ */
+  html[lang="ar"] .en-only { display: none !important; }
+  html[lang="en"] .ar-only { display: none !important; }
+</style>
+</head>
+<body>
+
+<!-- ============ LANGUAGE TOGGLE ============ -->
+<div class="lang-toggle-wrap">
+  <div class="lang-toggle">
+    <button id="btnAr" class="active" onclick="setLang('ar')">🇪🇬 العربية</button>
+    <button id="btnEn" onclick="setLang('en')">🇬🇧 English</button>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ============ HEADER ============ -->
+  <header>
+    <div class="brand-badge">
+      <span class="ar-only">⭐ موقع تعليمي موثّق ومعتمد</span>
+      <span class="en-only">⭐ Verified & Certified Learning Platform</span>
+    </div>
+
+    <h1>
+      <span class="ar-only">مغامرات اللام القمرية</span>
+      <span class="en-only">The Adventure of the Moon Lam</span>
+    </h1>
+
+    <p class="subtitle">
+      <span class="ar-only">
+        تعلّم نطق وكتابة «الـ» القمرية بطريقة ممتعة ومبسطة
+        مع الشرح الصوتي والألعاب التعليمية.
+      </span>
+      <span class="en-only">
+        Learn to pronounce and write the "Moon Lam" (اللام القمرية)
+        in a fun and simple way with clear audio and interactive games.
+      </span>
+    </p>
+
+    <div class="teacher-tag">
+      <span class="dot"></span>
+      <span class="ar-only">إعداد وتوثيق: المعلمة سارة أحمد 👩‍🏫</span>
+      <span class="en-only">Prepared & Verified by: Teacher Sarah Ahmed 👩‍🏫</span>
+    </div>
+  </header>
+
+  <div class="mascot">🐧</div>
+
+  <!-- ============ STEP 1: RULE ============ -->
+  <section id="rule">
+    <h2 class="section-title">
+      <span class="ar-only">الخطوة الأولى: فهم القاعدة الذهبية</span>
+      <span class="en-only">Step 1: Understanding the Golden Rule</span>
+    </h2>
+
+    <div class="rule-card">
+      <p class="rule-quote">
+        <span class="ar-only">
+          «اللَّامُ الْقَمَرِيَّةُ هِيَ لَامٌ نَكْتُبُهَا وَنَنْطِقُهَا عِنْدَمَا تَأْتِي فِي بِدَايَةِ الْكَلِمَاتِ، مِثْلُ:
+          <span class="ar-word">الْقَمَرُ</span>،
+          <span class="ar-word">الْكِتَابُ</span>،
+          <span class="ar-word">الْبَيْتُ</span>».
+        </span>
+        <span class="en-only">
+          "The <strong>Moon Lam</strong> is a Lam that we <strong>write AND pronounce</strong> when it appears at the beginning of words — such as
+          <span class="ar-word">الْقَمَرُ</span> (the moon),
+          <span class="ar-word">الْكِتَابُ</span> (the book), and
+          <span class="ar-word">الْبَيْتُ</span> (the house)."
+        </span>
+      </p>
+
+      <div class="rule-features">
+        <div class="feature">
+          <span class="icon">✍️</span>
+          <span class="ar-only">تُكْتَبُ بِالْقَلَمِ</span>
+          <span class="en-only">WRITTEN with the pen</span>
+        </div>
+        <div class="feature">
+          <span class="icon">🗣️</span>
+          <span class="ar-only">تُنْطَقُ بِاللِّسَانِ</span>
+          <span class="en-only">PRONOUNCED with the tongue</span>
+        </div>
+        <div class="feature">
+          <span class="icon">⚪</span>
+          <span class="ar-only">تَحْمِلُ السُّكُونَ دَائِمًا</span>
+          <span class="en-only">Always carries a Sukoon ( ْ )</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mnemonic -->
+    <div class="mnemonic">
+      <h3>
+        <span class="ar-only">🔑 سرّ الحفظ الذكي: جملة الحروف القمرية</span>
+        <span class="en-only">🔑 Smart Memory Trick: The 14 Moon Letters Phrase</span>
+      </h3>
+      <p class="phrase">« ابْغِ حَجَّكَ وَخَفْ عَقِيمَهُ »</p>
+      <p class="translit">"Ibghī ḥajjaka wa khaf ʿaqīmahu"</p>
+      <p style="margin-top:14px; color:#cfe0f5; font-size:0.95rem;">
+        <span class="ar-only">
+          تجمع كل الحروف القمرية الـ ١٤:
+          <br><strong>ا، ب، غ، ح، ج، ك، و، خ، ف، ع، ق، ي، م، هـ</strong>
+        </span>
+        <span class="en-only">
+          This phrase gathers all 14 Moon Letters:
+          <br><strong>ا، ب، غ، ح، ج، ك، و، خ، ف، ع، ق، ي، م، هـ</strong>
+        </span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ STEP 2: LETTER CARDS ============ -->
+  <section id="letters">
+    <h2 class="section-title">
+      <span class="ar-only">بطاقات الحروف القمرية 🔤</span>
+      <span class="en-only">Moon Letter Cards 🔤</span>
+    </h2>
+    <p style="margin-bottom:18px; color:#b8cce6;">
+      <span class="ar-only">اضغط على كل بطاقة لتستمع لاسم الحرف ونطقه الصحيح.</span>
+      <span class="en-only">Click on each card to hear the letter name and its correct pronunciation.</span>
+    </p>
+
+    <div class="cards-grid" id="cardsGrid"></div>
+
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <span>
+          <span class="ar-only">تقدّمك في استكشاف الحروف</span>
+          <span class="en-only">Your progress exploring the letters</span>
+        </span>
+        <span><span id="visitedCount">0</span> / 14</span>
+      </div>
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill" id="cardsProgress"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STEP 3: AUDIO PRACTICE ============ -->
+  <section id="practice">
+    <h2 class="section-title">
+      <span class="ar-only">مختبر النطق العربي 🎧</span>
+      <span class="en-only">Arabic Pronunciation Lab 🎧</span>
+    </h2>
+
+    <div class="audio-player">
+      <div class="word-display" id="audioWord">الْـقَمَرُ</div>
+      <div class="word-translit" id="audioTranslit">Al-Qamar</div>
+      <div class="word-meaning" id="audioMeaning">
+        <span class="ar-only">القمر المنير</span>
+        <span class="en-only">The Moon — shining bright</span>
+      </div>
+      <button class="play-btn" id="listenBtn" onclick="playCurrentAudio()">
+        <span class="ar-only">🔊 استمع للنطق</span>
+        <span class="en-only">🔊 Listen to Pronunciation</span>
+      </button>
+      <p style="margin-top:16px; color:#8fa6c4; font-size:0.9rem;">
+        <span class="ar-only">النطق مدعوم بمحرك Azure العصبي للنطق العربي الفصيح.</span>
+        <span class="en-only">Pronunciation powered by Azure Neural TTS for accurate Arabic.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ STEP 4: GAME ============ -->
+  <section id="game">
+    <h2 class="section-title">
+      <span class="ar-only">مدينة ألعاب اللام القمرية 🎮</span>
+      <span class="en-only">Moon Lam Games Arcade 🎮</span>
+    </h2>
+
+    <div class="game-box">
+      <div class="game-header">
+        <span>
+          <span class="ar-only">السؤال <span id="gameQNumAr">1</span> من 5</span>
+          <span class="en-only">Question <span id="gameQNum">1</span> of 5</span>
+        </span>
+        <span class="score-badge">
+          <span class="ar-only">نقاطك: <span id="gameScoreAr">0</span> ⭐</span>
+          <span class="en-only">Score: <span id="gameScore">0</span> ⭐</span>
+        </span>
+      </div>
+
+      <div class="game-question" id="gameQuestion">...</div>
+      <div class="game-options" id="gameOptions"></div>
+      <div class="game-feedback" id="gameFeedback"></div>
+
+      <div class="btn-center" id="gameNextWrap" style="display:none;">
+        <button class="btn-primary" onclick="nextGameQuestion()">
+          <span class="ar-only">السؤال التالي ➡️</span>
+          <span class="en-only">Next Question ➡️</span>
+        </button>
+      </div>
+
+      <div class="btn-center" id="gameRestartWrap" style="display:none;">
+        <button class="btn-primary" onclick="restartGame()">
+          <span class="ar-only">🔄 العب مرة أخرى</span>
+          <span class="en-only">🔄 Play Again</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STEP 5: FINAL QUIZ ============ -->
+  <section id="quiz">
+    <h2 class="section-title">
+      <span class="ar-only">تحدّي بطل اللام القمرية 🏅</span>
+      <span class="en-only">Moon Lam Champion Challenge 🏅</span>
+    </h2>
+
+    <div class="quiz-box" id="quizBox">
+      <div class="quiz-progress">
+        <div class="quiz-progress-fill" id="quizProgress"></div>
+      </div>
+
+      <div class="game-header">
+        <span>
+          <span class="ar-only">السؤال <span id="quizQNumAr">1</span> من 10</span>
+          <span class="en-only">Question <span id="quizQNum">1</span> of 10</span>
+        </span>
+        <span class="score-badge">
+          <span class="ar-only">الإجابات الصحيحة: <span id="quizScoreAr">0</span></span>
+          <span class="en-only">Correct: <span id="quizScore">0</span></span>
+        </span>
+      </div>
+
+      <div class="game-question" id="quizQuestion">...</div>
+      <div class="game-options" id="quizOptions"></div>
+      <div class="game-feedback" id="quizFeedback"></div>
+
+      <div class="btn-center" id="quizNextWrap" style="display:none;">
+        <button class="btn-primary" onclick="nextQuizQuestion()">
+          <span class="ar-only">التالي ➡️</span>
+          <span class="en-only">Next ➡️</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Certificate -->
+    <div class="certificate" id="certificate">
+      <div class="cert-seal">🏅</div>
+      <h2>
+        <span class="ar-only">شهادة إتقان</span>
+        <span class="en-only">Certificate of Mastery</span>
+      </h2>
+      <p style="font-size:1.05rem;">
+        <span class="ar-only">تشهد المعلمة</span>
+        <span class="en-only">This is to certify that</span>
+      </p>
+      <div class="cert-name" id="certStudentName">—</div>
+      <p style="font-size:1.05rem;">
+        <span class="ar-only">
+          قد أتقن قاعدة <strong>اللام القمرية</strong> بنجاح،
+          وأظهر تفوقًا في النطق والتمييز بين الحروف.
+        </span>
+        <span class="en-only">
+          has successfully mastered the <strong>Moon Lam</strong> rule,
+          demonstrating excellence in pronunciation and letter recognition.
+        </span>
+      </p>
+      <div class="cert-teacher">
+        <span class="ar-only">🌟 مبارك يا بطل! 🌟</span>
+        <span class="en-only">🌟 Congratulations, Champion! 🌟</span>
+        <br>
+        <span style="font-size:0.95rem; color:#7a6a2a;">
+          <span class="ar-only">
+            المعلمة: <strong>سارة أحمد</strong> · التاريخ: <span id="certDateAr"></span>
+          </span>
+          <span class="en-only">
+            Teacher: <strong>Sarah Ahmed</strong> · Date: <span id="certDate"></span>
+          </span>
+        </span>
+      </div>
+    </div>
+
+    <div class="btn-center" id="certBtnWrap" style="display:none;">
+      <button class="btn-primary" onclick="downloadCertificate()">
+        <span class="ar-only">📥 تحميل الشهادة</span>
+        <span class="en-only">📥 Download Certificate</span>
+      </button>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <p>
+    © <span id="year"></span> —
+    <span class="ar-only">موقع تعليمي من إعداد <strong>المعلمة سارة أحمد</strong></span>
+    <span class="en-only">Educational website by <strong>Teacher Sarah Ahmed</strong></span>
+  </p>
+  <p style="margin-top:6px;">Quran • Tajweed • Arabic Language</p>
+</footer>
+
+<script src="config.js"></script>
+
+<script>
+/* ============================================================
+   AZURE NEURAL TTS CONFIGURATION
+   ============================================================
+   To get your free Azure key:
+   1. Go to https://azure.microsoft.com/free/
+   2. Create a free account
+   3. Azure Portal → Create Resource → "Speech Services"
+   4. Choose region "Saudi Arabia" or "West Europe"
+   5. Copy Key 1 and Region
+   6. Paste them below.
+   
+   Free tier: 0.5 million characters/month — plenty for lessons.
+   ============================================================ */
+/* ============================================================
+   AZURE NEURAL TTS CONFIGURATION
+   ============================================================
+   The real key is stored in "config.js" (never committed to git).
+   If config.js is missing, TTS falls back to browser voice.
+   ============================================================ */
+const AZURE_TTS_CONFIG = window.AZURE_TTS_CONFIG || {
+  subscriptionKey: "",
+  region: "",
+  voice: "ar-SA-HamedNeural"
+};
+
+/* ============================================================
+   LANGUAGE TOGGLE
+   ============================================================ */
+let currentLang = "ar";
+
+function setLang(lang) {
+  currentLang = lang;
+  const html = document.getElementById("htmlRoot");
+  html.lang = lang;
+  html.dir = lang === "ar" ? "rtl" : "ltr";
+
+  document.getElementById("btnAr").classList.toggle("active", lang === "ar");
+  document.getElementById("btnEn").classList.toggle("active", lang === "en");
+
+  renderGameQuestion();
+  renderQuizQuestion();
+  updateAudioDisplayForLang();
+  updateCertDateForLang();
+
+  try { localStorage.setItem("preferredLang", lang); } catch (e) {}
+}
+
+try {
+  const saved = localStorage.getItem("preferredLang");
+  if (saved === "en") setLang("en");
+} catch (e) {}
+
+/* ============================================================
+   LETTER CARDS DATA — with ttsText (full Tashkeel for accuracy)
+   ============================================================ */
+const letters = [
+  { letter: "ق", word: "الْقَمَرُ",    ttsText: "الْقَمَرُ",    translit: "Al-Qamar",    emoji: "🌕", en: "The Moon",       ar: "القمر المنير" },
+  { letter: "ب", word: "الْبَيْتُ",    ttsText: "الْبَيْتُ",    translit: "Al-Bayt",     emoji: "🏠", en: "The House",      ar: "البيت الدافئ" },
+  { letter: "ك", word: "الْكِتَابُ",   ttsText: "الْكِتَابُ",   translit: "Al-Kitab",    emoji: "📖", en: "The Book",       ar: "الكتاب المفيد" },
+  { letter: "ب", word: "الْبَابُ",     ttsText: "الْبَابُ",     translit: "Al-Bab",      emoji: "🚪", en: "The Door",       ar: "الباب الخشبي" },
+  { letter: "ف", word: "الْفِيلُ",     ttsText: "الْفِيلُ",     translit: "Al-Feel",     emoji: "🐘", en: "The Elephant",   ar: "الفيل الكبير" },
+  { letter: "و", word: "الْوَرْدَةُ",  ttsText: "الْوَرْدَةُ",  translit: "Al-Warda",    emoji: "🌹", en: "The Rose",       ar: "الوردة الجميلة" },
+  { letter: "م", word: "الْمَدْرَسَةُ", ttsText: "الْمَدْرَسَةُ", translit: "Al-Madrasa", emoji: "🏫", en: "The School",     ar: "المدرسة الرائعة" },
+  { letter: "هـ", word: "الْهِلَالُ",  ttsText: "الْهِلَالُ",  translit: "Al-Hilal",    emoji: "🌙", en: "The Crescent",   ar: "الهلال الفضي" },
+  { letter: "خ", word: "الْخِيَارُ",   ttsText: "الْخِيَارُ",   translit: "Al-Khiyar",   emoji: "🥒", en: "The Cucumber",   ar: "الخيار المقرمش" },
+  { letter: "ج", word: "الْجَزَرُ",    ttsText: "الْجَزَرُ",    translit: "Al-Jazar",    emoji: "🥕", en: "The Carrot",     ar: "الجزر المقوي" },
+  { letter: "ح", word: "الْحَقِيبَةُ", ttsText: "الْحَقِيبَةُ", translit: "Al-Haqiba",   emoji: "🎒", en: "The Backpack",   ar: "الحقيبة المدرسية" },
+  { letter: "ع", word: "الْعُصْفُورُ", ttsText: "الْعُصْفُورُ", translit: "Al-Usfur",    emoji: "🐦", en: "The Bird",       ar: "العصفور المغرد" },
+  { letter: "غ", word: "الْغَيْمُ",    ttsText: "الْغَيْمُ",    translit: "Al-Ghaym",    emoji: "☁️", en: "The Clouds",     ar: "الغيم الممطر" },
+  { letter: "ا", word: "الْأَسَدُ",    ttsText: "الْأَسَدُ",    translit: "Al-Asad",     emoji: "🦁", en: "The Lion",       ar: "الأسد الشجاع" }
+];
+
+const cardsGrid = document.getElementById("cardsGrid");
+const visitedSet = new Set();
+
+function renderCards() {
+  cardsGrid.innerHTML = "";
+  letters.forEach((item, i) => {
+    const card = document.createElement("div");
+    card.className = "letter-card" + (visitedSet.has(i) ? " visited" : "");
+    card.innerHTML = `
+      <span class="letter">${item.letter}</span>
+      <div class="word">${item.word}</div>
+      <div class="translit">${item.translit}</div>
+      <div class="emoji">${item.emoji}</div>
+    `;
+    card.addEventListener("click", () => {
+      if (!visitedSet.has(i)) {
+        visitedSet.add(i);
+        card.classList.add("visited");
+        updateCardsProgress();
+      }
+      document.getElementById("audioWord").textContent = item.word;
+      document.getElementById("audioTranslit").textContent = item.translit;
+      setAudioMeaning(item);
+      speakWithAzure(item.ttsText);
+    });
+    cardsGrid.appendChild(card);
+  });
+  updateCardsProgress();
+}
+
+function setAudioMeaning(item) {
+  document.getElementById("audioMeaning").innerHTML =
+    currentLang === "ar" ? item.ar : item.en;
+}
+
+function updateAudioDisplayForLang() {
+  const wordEl = document.getElementById("audioWord").textContent;
+  const found = letters.find(l => l.word === wordEl);
+  if (found) setAudioMeaning(found);
+}
+
+function updateCardsProgress() {
+  const count = visitedSet.size;
+  document.getElementById("visitedCount").textContent = count;
+  document.getElementById("cardsProgress").style.width =
+    ((count / letters.length) * 100) + "%";
+}
+
+renderCards();
+
+/* ============================================================
+   AZURE NEURAL TTS ENGINE
+   ============================================================ */
+let currentTtsText = "الْقَمَرُ";
+
+async function speakWithAzure(text) {
+  currentTtsText = text;
+  const btn = document.getElementById("listenBtn");
+  const originalHTML = btn ? btn.innerHTML : "";
+
+  if (btn) {
+    btn.innerHTML = `<span class="audio-loading"></span>`;
+    btn.disabled = true;
+  }
+
+  // If Azure key is not configured, use browser fallback immediately
+  if (!AZURE_TTS_CONFIG.subscriptionKey || AZURE_TTS_CONFIG.subscriptionKey === "YOUR_AZURE_KEY_HERE") {
+    speakFallback(text);
+    if (btn) { btn.innerHTML = originalHTML; btn.disabled = false; }
+    return;
+  }
+
+  try {
+    const endpoint = `https://${AZURE_TTS_CONFIG.region}.tts.speech.microsoft.com/cognitiveservices/v1`;
+
+    // Wrap the Arabic word in SSML with slightly slower rate for teaching
+    const ssml = `
+      <speak version='1.0' xml:lang='ar-SA'>
+        <voice name='${AZURE_TTS_CONFIG.voice}'>
+          <prosody rate='-10%' pitch='0%'>
+            ${text}
+          </prosody>
+        </voice>
+      </speak>
+    `;
+
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Ocp-Apim-Subscription-Key": AZURE_TTS_CONFIG.subscriptionKey,
+        "Content-Type": "application/ssml+xml",
+        "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+        "User-Agent": "SarahAhmedMoonLamLesson"
+      },
+      body: ssml
+    });
+
+    if (!response.ok) {
+      throw new Error(`Azure TTS error: ${response.status}`);
+    }
+
+    const audioBlob = await response.blob();
+    const audioUrl = URL.createObjectURL(audioBlob);
+    const audio = new Audio(audioUrl);
+
+    audio.onended = () => URL.revokeObjectURL(audioUrl);
+    await audio.play();
+
+  } catch (error) {
+    console.error("Azure TTS failed:", error);
+    speakFallback(text);
+  } finally {
+    if (btn) {
+      btn.innerHTML = originalHTML;
+      btn.disabled = false;
+    }
+  }
+}
+
+function playCurrentAudio() {
+  speakWithAzure(currentTtsText);
+}
+
+/* ============================================================
+   BROWSER TTS FALLBACK (uses Arabic text, not transliteration)
+   ============================================================ */
+function speakFallback(text) {
+  if ("speechSynthesis" in window) {
+    speechSynthesis.cancel(); // stop any previous speech
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "ar-SA";
+    u.rate = 0.85;
+    u.pitch = 1.0;
+
+    const voices = speechSynthesis.getVoices();
+    const arabicVoice = voices.find(v => v.lang.startsWith("ar"));
+    if (arabicVoice) u.voice = arabicVoice;
+
+    speechSynthesis.speak(u);
+  }
+}
+
+/* ============================================================
+   MINI-GAME DATA (bilingual)
+   ============================================================ */
+const gameQuestions = {
+  ar: [
+    { q: "أي كلمة فيها لام قمرية تُكتب وتُنطق؟", options: ["الشَّمْس", "الْقَمَر", "النَّجْم", "الطَّائِر"], correct: 1 },
+    { q: "ما الحرف القمري في كلمة «الْكِتَابُ»؟", options: ["ك", "ت", "ا", "ب"], correct: 0 },
+    { q: "الحروف القمرية عددها:", options: ["10", "12", "14", "16"], correct: 2 },
+    { q: "أي كلمة ليست فيها لام قمرية؟", options: ["الْبَيْتُ", "الْقَمَرُ", "الشَّمْسُ", "الْكِتَابُ"], correct: 2 },
+    { q: "كيف تُنطق اللام القمرية؟", options: ["مُدغَمة", "ساكنة واضحة", "مُخفاة", "مُشدَّدة"], correct: 1 }
+  ],
+  en: [
+    { q: "Which word contains a Moon Lam that is both written and pronounced?", options: ["Ash-Shams", "Al-Qamar", "An-Najm", "At-Ta'ir"], correct: 1 },
+    { q: "What is the Moon Letter in «الْكِتَابُ» (Al-Kitab)?", options: ["Kaf (ك)", "Ta (ت)", "Alif (ا)", "Ba (ب)"], correct: 0 },
+    { q: "How many Moon Letters are there?", options: ["10", "12", "14", "16"], correct: 2 },
+    { q: "Which word does NOT contain a Moon Lam?", options: ["Al-Bayt (الْبَيْتُ)", "Al-Qamar (الْقَمَرُ)", "Ash-Shams (الشَّمْسُ)", "Al-Kitab (الْكِتَابُ)"], correct: 2 },
+    { q: "How is the Moon Lam pronounced?", options: ["Merged (Idgham)", "Clear with Sukoon", "Hidden", "Doubled (Shaddah)"], correct: 1 }
+  ]
+};
+
+let gameIndex = 0, gameScore = 0, gameLocked = false;
+
+function renderGameQuestion() {
+  gameLocked = false;
+  const list = gameQuestions[currentLang];
+  const q = list[gameIndex];
+
+  document.getElementById("gameQNumAr").textContent = gameIndex + 1;
+  document.getElementById("gameQNum").textContent = gameIndex + 1;
+  document.getElementById("gameQuestion").textContent = q.q;
+  document.getElementById("gameFeedback").textContent = "";
+  document.getElementById("gameNextWrap").style.display = "none";
+  document.getElementById("gameRestartWrap").style.display = "none";
+
+  const optWrap = document.getElementById("gameOptions");
+  optWrap.innerHTML = "";
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement("button");
+    btn.className = "option-btn";
+    btn.textContent = opt;
+    btn.onclick = () => checkGameAnswer(i, btn);
+    optWrap.appendChild(btn);
+  });
+}
+
+function checkGameAnswer(i, btn) {
+  if (gameLocked) return;
+  gameLocked = true;
+  const q = gameQuestions[currentLang][gameIndex];
+  const buttons = document.querySelectorAll("#gameOptions .option-btn");
+  const feedback = document.getElementById("gameFeedback");
+
+  if (i === q.correct) {
+    btn.classList.add("correct");
+    gameScore++;
+    document.getElementById("gameScoreAr").textContent = gameScore;
+    document.getElementById("gameScore").textContent = gameScore;
+    feedback.style.color = "#2dd4bf";
+    feedback.textContent = currentLang === "ar" ? "أحسنت! ⭐ إجابة صحيحة" : "Excellent! ⭐ Correct answer";
+  } else {
+    btn.classList.add("wrong");
+    buttons[q.correct].classList.add("correct");
+    feedback.style.color = "#ef4444";
+    feedback.textContent = currentLang === "ar"
+      ? "حاول مرة أخرى 💪 الإجابة الصحيحة مظللة"
+      : "Try again 💪 The correct answer is highlighted";
+  }
+
+  buttons.forEach(b => (b.disabled = true));
+
+  if (gameIndex < gameQuestions[currentLang].length - 1) {
+    document.getElementById("gameNextWrap").style.display = "block";
+  } else {
+    document.getElementById("gameRestartWrap").style.display = "block";
+    feedback.textContent += currentLang === "ar"
+      ? ` — نتيجتك النهائية: ${gameScore}/5`
+      : ` — Final score: ${gameScore}/5`;
+  }
+}
+
+function nextGameQuestion() { gameIndex++; renderGameQuestion(); }
+function restartGame() {
+  gameIndex = 0; gameScore = 0;
+  document.getElementById("gameScoreAr").textContent = "0";
+  document.getElementById("gameScore").textContent = "0";
+  renderGameQuestion();
+}
+
+/* ============================================================
+   FINAL QUIZ (bilingual)
+   ============================================================ */
+const quizQuestions = {
+  ar: [
+    { q: "اللام القمرية تُنطق دائمًا:", options: ["ساكنة", "مشددة", "مدغمة", "محذوفة"], correct: 0 },
+    { q: "أي حرف من الحروف القمرية؟", options: ["س", "ش", "ق", "ص"], correct: 2 },
+    { q: "في كلمة «الْبَيْتُ» اللام القمرية:", options: ["تُكتب وتُنطق", "تُكتب ولا تُنطق", "لا تُكتب", "تُنطق فقط"], correct: 0 },
+    { q: "عدد الحروف القمرية:", options: ["12", "13", "14", "15"], correct: 2 },
+    { q: "الجملة الجامعة للحروف القمرية:", options: ["ابغ حجك وخف عقيمه", "قطب جد", "صليت ربي", "نعم"], correct: 0 },
+    { q: "أي كلمة فيها لام قمرية؟", options: ["الشَّمْس", "الْقَمَر", "الطَّيْر", "النَّهْر"], correct: 1 },
+    { q: "حرف (م) في «الْمَدْرَسَةُ»:", options: ["شمسي", "قمري", "لا شيء", "مدغم"], correct: 1 },
+    { q: "علامة اللام القمرية:", options: ["الشدّة", "السكون", "التنوين", "المدّ"], correct: 1 },
+    { q: "أي كلمة تبدأ بلام قمرية؟", options: ["الرَّحْمَن", "الْحَمْد", "الدَّرْس", "الصَّبْر"], correct: 1 },
+    { q: "حرف (هـ) في «الْهِلَالُ»:", options: ["شمسي", "قمري", "ساكن", "لا شيء"], correct: 1 }
+  ],
+  en: [
+    { q: "The Moon Lam is always pronounced:", options: ["With Sukoon", "With Shaddah", "Merged", "Silent"], correct: 0 },
+    { q: "Which of these is a Moon Letter?", options: ["Seen (س)", "Sheen (ش)", "Qaf (ق)", "Sad (ص)"], correct: 2 },
+    { q: "In «الْبَيْتُ» (Al-Bayt), the Moon Lam is:", options: ["Written & pronounced", "Written but silent", "Not written", "Only pronounced"], correct: 0 },
+    { q: "The number of Moon Letters is:", options: ["12", "13", "14", "15"], correct: 2 },
+    { q: "The mnemonic phrase for the Moon Letters is:", options: ["Ibghī ḥajjaka wa khaf ʿaqīmahu", "Qutb jad", "Ṣallaytu rabbī", "Naʿam"], correct: 0 },
+    { q: "Which word contains a Moon Lam?", options: ["Ash-Shams (الشَّمْس)", "Al-Qamar (الْقَمَر)", "At-Tayr (الطَّيْر)", "An-Nahr (النَّهْر)"], correct: 1 },
+    { q: "The letter (م) in «الْمَدْرَسَةُ» is:", options: ["Sun Letter", "Moon Letter", "Neither", "Merged"], correct: 1 },
+    { q: "The mark on the Moon Lam is:", options: ["Shaddah", "Sukoon", "Tanween", "Madd"], correct: 1 },
+    { q: "Which word starts with a Moon Lam?", options: ["Ar-Rahman (الرَّحْمَن)", "Al-Hamd (الْحَمْد)", "Ad-Dars (الدَّرْس)", "As-Sabr (الصَّبْر)"], correct: 1 },
+    { q: "The letter (هـ) in «الْهِلَالُ» is:", options: ["Sun Letter", "Moon Letter", "Silent", "Neither"], correct: 1 }
+  ]
+};
+
+let quizIndex = 0, quizScore = 0, quizLocked = false;
+
+function renderQuizQuestion() {
+  quizLocked = false;
+  const list = quizQuestions[currentLang];
+  const q = list[quizIndex];
+
+  document.getElementById("quizQNumAr").textContent = quizIndex + 1;
+  document.getElementById("quizQNum").textContent = quizIndex + 1;
+  document.getElementById("quizQuestion").textContent = q.q;
+  document.getElementById("quizFeedback").textContent = "";
+  document.getElementById("quizNextWrap").style.display = "none";
+  document.getElementById("quizProgress").style.width =
+    ((quizIndex / list.length) * 100) + "%";
+
+  const optWrap = document.getElementById("quizOptions");
+  optWrap.innerHTML = "";
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement("button");
+    btn.className = "option-btn";
+    btn.textContent = opt;
+    btn.onclick = () => checkQuizAnswer(i, btn);
+    optWrap.appendChild(btn);
+  });
+}
+
+function checkQuizAnswer(i, btn) {
+  if (quizLocked) return;
+  quizLocked = true;
+  const q = quizQuestions[currentLang][quizIndex];
+  const buttons = document.querySelectorAll("#quizOptions .option-btn");
+  const feedback = document.getElementById("quizFeedback");
+
+  if (i === q.correct) {
+    btn.classList.add("correct");
+    quizScore++;
+    document.getElementById("quizScoreAr").textContent = quizScore;
+    document.getElementById("quizScore").textContent = quizScore;
+    feedback.style.color = "#2dd4bf";
+    feedback.textContent = currentLang === "ar" ? "ممتاز! ⭐" : "Great! ⭐";
+  } else {
+    btn.classList.add("wrong");
+    buttons[q.correct].classList.add("correct");
+    feedback.style.color = "#ef4444";
+    feedback.textContent = currentLang === "ar"
+      ? "راجع الإجابة الصحيحة ✅"
+      : "Review the correct answer ✅";
+  }
+
+  buttons.forEach(b => (b.disabled = true));
+
+  if (quizIndex < quizQuestions[currentLang].length - 1) {
+    document.getElementById("quizNextWrap").style.display = "block";
+  } else {
+    finishQuiz();
+  }
+}
+
+function nextQuizQuestion() { quizIndex++; renderQuizQuestion(); }
+
+function finishQuiz() {
+  document.getElementById("quizProgress").style.width = "100%";
+  const passed = quizScore >= 7;
+
+  if (passed) {
+    document.getElementById("certStudentName").textContent =
+      currentLang === "ar" ? "الطالب المتميّز" : "Outstanding Student";
+    updateCertDateForLang();
+    document.getElementById("certificate").classList.add("show");
+    document.getElementById("certBtnWrap").style.display = "block";
+  } else {
+    document.getElementById("quizFeedback").innerHTML = currentLang === "ar"
+      ? `نتيجتك: ${quizScore}/10 — تحتاج ٧ على الأقل.<br>حاول مرة أخرى! 💪`
+      : `Your score: ${quizScore}/10 — You need at least 7.<br>Try again! 💪`;
+    setTimeout(() => {
+      quizIndex = 0; quizScore = 0;
+      document.getElementById("quizScoreAr").textContent = "0";
+      document.getElementById("quizScore").textContent = "0";
+      renderQuizQuestion();
+    }, 3000);
+  }
+}
+
+function updateCertDateForLang() {
+  const d = new Date();
+  document.getElementById("certDate").textContent = d.toLocaleDateString("en-GB");
+  document.getElementById("certDateAr").textContent = d.toLocaleDateString("ar-EG");
+}
+
+/* ============================================================
+   CERTIFICATE DOWNLOAD
+   ============================================================ */
+function downloadCertificate() {
+  const script = document.createElement("script");
+  script.src = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
+  script.onload = () => {
+    const cert = document.getElementById("certificate");
+    html2canvas(cert, { scale: 2, backgroundColor: "#fffaf0" }).then(canvas => {
+      const link = document.createElement("a");
+      const fileName = currentLang === "ar"
+        ? "شهادة-اللام-القمرية.png"
+        : "Moon-Lam-Certificate.png";
+      link.download = fileName;
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    });
+  };
+  document.body.appendChild(script);
+}
+
+/* ============================================================
+   INITIAL RENDER
+   ============================================================ */
+renderGameQuestion();
+renderQuizQuestion();
+updateCertDateForLang();
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
