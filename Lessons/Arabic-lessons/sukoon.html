@@ -481,11 +481,51 @@
 <script>
 /* ============================================================
    AZURE NEURAL TTS CONFIGURATION
+   ============================================================
+   The real key is stored in ../../config.js (never committed).
+   If config.js is missing or the key is empty, the code falls
+   back to the browser's built-in Arabic voice.
+   
+   Voice: same as the Shaddah lesson — ar-SA-HamedNeural (male)
    ============================================================ */
 const AZURE_TTS_CONFIG = window.AZURE_TTS_CONFIG || {
   subscriptionKey: "",
   region: "",
-  voice: "ar-SA-HamedNeural"
+  voice: "ar-SA-HamedNeural"     // ← SAME VOICE AS SHADDAH
+};
+
+/* ============================================================
+   IPA PHONEME OVERRIDES
+   ============================================================
+   These override the TTS pronunciation for tricky Sukoon words.
+   Without these, Azure adds an extra vowel at the end
+   (خَلْقْ → "khalqa" instead of "khalq").
+   
+   Phoneme key:
+     x   = خ (voiceless velar fricative)
+     q   = ق (uvular stop — deeper than "k")
+     ħ   = ح (pharyngeal fricative — breathy "h")
+     ʕ   = ع (pharyngeal voiced)
+     ʔ   = ء (glottal stop)
+     ʃ   = ش (sh)
+     j   = ي (y)
+     ː   = lengthened vowel
+   ============================================================ */
+const PHONEME_OVERRIDES = {
+  "مَنْ":     "man",
+  "قُلْ":     "qul",
+  "كِتَابْ":  "kitaːb",
+  "أَحْمَدْ": "ʔaħmad",
+  "عَلَمْ":   "ʕalam",
+  "شَمْسْ":   "ʃams",
+  "حَقْ":     "ħaqq",
+  "قَلْبْ":   "qalb",
+  "بَيْتْ":   "bajt",
+  "كَيْفْ":   "kajf",
+  "خَلْقْ":   "xalq",
+  "حُزْنْ":   "ħuzn",
+  "أَكْلْ":   "ʔakl",
+  "لَحْمْ":   "laħm"
 };
 
 /* ============================================================
@@ -613,6 +653,9 @@ function updateCardsProgress() {
 
 /* ============================================================
    AZURE NEURAL TTS ENGINE
+   ============================================================
+   Uses the same voice, rate, and SSML as the Shaddah lesson.
+   Only difference: phoneme overrides fix Sukoon words.
    ============================================================ */
 let currentTtsText = "مَنْ";
 
@@ -624,6 +667,7 @@ async function speakWithAzure(text) {
   btn.innerHTML = `<span class="audio-loading"></span>`;
   btn.disabled = true;
 
+  // If Azure key is missing, use browser fallback
   if (!AZURE_TTS_CONFIG.subscriptionKey || AZURE_TTS_CONFIG.subscriptionKey === "YOUR_AZURE_KEY_HERE") {
     speakFallback(text);
     btn.innerHTML = originalHTML;
@@ -634,11 +678,18 @@ async function speakWithAzure(text) {
   try {
     const endpoint = `https://${AZURE_TTS_CONFIG.region}.tts.speech.microsoft.com/cognitiveservices/v1`;
 
+    // Use IPA phoneme override if we have one for this word
+    const ipa = PHONEME_OVERRIDES[text];
+    const inner = ipa
+      ? `<phoneme alphabet="ipa" ph="${ipa}">${text}</phoneme>`
+      : text;
+
+    // Same SSML as Shaddah lesson (simple, fast, male voice)
     const ssml = `
       <speak version='1.0' xml:lang='ar-SA'>
         <voice name='${AZURE_TTS_CONFIG.voice}'>
           <prosody rate='-10%' pitch='0%'>
-            ${text}
+            ${inner}
           </prosody>
         </voice>
       </speak>
@@ -675,18 +726,27 @@ async function speakWithAzure(text) {
 
 function playCurrentAudio() { speakWithAzure(currentTtsText); }
 
+/* ============================================================
+   BROWSER TTS FALLBACK (better voice selection + slower rate)
+   ============================================================ */
 function speakFallback(text) {
-  if ("speechSynthesis" in window) {
-    speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = "ar-SA";
-    u.rate = 0.85;
-    u.pitch = 1.0;
-    const voices = speechSynthesis.getVoices();
-    const arabicVoice = voices.find(v => v.lang.startsWith("ar"));
-    if (arabicVoice) u.voice = arabicVoice;
-    speechSynthesis.speak(u);
-  }
+  if (!("speechSynthesis" in window)) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "ar-SA";
+  u.rate = 0.7;
+  u.pitch = 1.0;
+  u.volume = 1.0;
+
+  // Prefer a Saudi voice, then Egyptian, then any Arabic
+  const voices = speechSynthesis.getVoices();
+  const arabicVoice =
+    voices.find(v => v.lang === "ar-SA") ||
+    voices.find(v => v.lang.startsWith("ar-EG")) ||
+    voices.find(v => v.lang.startsWith("ar"));
+  if (arabicVoice) u.voice = arabicVoice;
+
+  speechSynthesis.speak(u);
 }
 
 if ("speechSynthesis" in window) {

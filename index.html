@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="htmlRoot">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="A friendly learning hub for Quran, Tajweed, Arabic, and Islamic Studies.">
   <title>Learning with Sarah | Quran, Arabic & Islamic Studies | سارة للتعلّم</title>
-  <!-- Website tab icon (favicon) -->
   <link rel="icon" type="image/png" href="images/quran.png">
   <link rel="apple-touch-icon" href="images/quran.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,299 +17,622 @@
 </head>
 
 <body>
-  <div class="topbar">A little learning every day makes a big difference ✨</div>
+  <!-- ============ TOP BAR ============ -->
+  <div class="topbar">
+    <span class="en-only">A little learning every day makes a big difference ✨</span>
+    <span class="ar-only">التَّعَلُّمُ قَلِيلًا كُلَّ يَوْمٍ يُحْدِثُ فَرْقًا كَبِيرًا ✨</span>
+  </div>
+
+  <!-- ============ HEADER ============ -->
   <header class="site-header">
     <a class="brand" href="#home" aria-label="Learning with Sarah home">
       <span class="brand-mark">ن</span>
-      <span><strong>Learning with Sarah</strong><small>Quran • Arabic • Islamic Studies</small></span>
+      <span>
+        <strong>
+          <span class="en-only">Learning with Sarah</span>
+          <span class="ar-only">التَّعَلُّمُ مَعَ سَارَة</span>
+        </strong>
+        <small>
+          <span class="en-only">Quran • Arabic • Islamic Studies</span>
+          <span class="ar-only">القرآن • العربية • الدراسات الإسلامية</span>
+        </small>
+      </span>
     </a>
-    <div class="header-actions"><button class="language-toggle" id="languageToggle" type="button"
-        aria-label="Switch website language">العربية</button><button class="menu-toggle" id="menuToggle"
-        aria-label="Open navigation" aria-expanded="false">☰</button></div>
+    <div class="header-actions">
+      <button class="language-toggle" id="languageToggle" type="button" aria-label="Switch website language">
+        <span class="en-only">العربية</span>
+        <span class="ar-only">English</span>
+      </button>
+      <button class="menu-toggle" id="menuToggle" aria-label="Open navigation" aria-expanded="false">☰</button>
+    </div>
     <nav id="mainNav">
-      <a href="#subjects" data-en="Subjects" data-ar="المواد">Subjects</a>
-      <a href="#videos" data-en="Video library" data-ar="مكتبة الفيديو">Video library</a>
-      <a href="#resources" data-en="Resources" data-ar="المصادر التعليمية">Resources</a>
-      <a href="#games" data-en="Learning games" data-ar="ألعاب تعليمية">Learning games</a>
-      <a href="#homework" data-en="Homework" data-ar="الواجبات">Homework</a>
-      <a href="#booking" data-en="Book a lesson" data-ar="احجز درسًا">Book a lesson</a>
+      <a href="#subjects"><span class="en-only">Subjects</span><span class="ar-only">المواد</span></a>
+      <a href="#videos"><span class="en-only">Video library</span><span class="ar-only">مكتبة الفيديو</span></a>
+      <a href="#resources"><span class="en-only">Resources</span><span class="ar-only">المصادر التعليمية</span></a>
+      <a href="#games"><span class="en-only">Learning games</span><span class="ar-only">ألعاب تعليمية</span></a>
+      <a href="#homework"><span class="en-only">Homework</span><span class="ar-only">الواجبات</span></a>
+      <a href="#booking"><span class="en-only">Book a lesson</span><span class="ar-only">احجز درسًا</span></a>
     </nav>
   </header>
 
   <main>
+    <!-- ============ HERO ============ -->
     <section class="hero" id="home">
       <div class="hero-copy">
-        <span class="eyebrow">WELCOME TO OUR LEARNING SPACE</span>
-        <h1 data-en="Learn with purpose.<br><em>Grow with knowledge.</em>"
-          data-ar="تعلّم بهدف.<br><em>وانمُ بالمعرفة.</em>">Learn with purpose.<br><em>Grow with knowledge.</em></h1>
-        <p data-en="A warm, welcoming place to learn Quran and Tajweed, develop Arabic skills, and explore the beauty of Islamic values—one step at a time."
-          data-ar="مساحة تعليمية ودودة لتعلّم القرآن والتجويد، وتنمية مهارات اللغة العربية، واكتشاف القيم الإسلامية الجميلة خطوةً بخطوة."
-          dir="auto">A warm, welcoming place to learn Quran and Tajweed, develop Arabic skills, and explore the beauty
-          of Islamic values—one step at a time.</p>
+        <span class="eyebrow">
+          <span class="en-only">WELCOME TO OUR LEARNING SPACE</span>
+          <span class="ar-only">أَهْلًا بِكَ فِي مَسَاحَةِ التَّعَلُّم</span>
+        </span>
+        <h1>
+          <span class="en-only">Learn with purpose.<br><em>Grow with knowledge.</em></span>
+          <span class="ar-only">تعلّم بهدف.<br><em>وانمُ بالمعرفة.</em></span>
+        </h1>
+        <p>
+          <span class="en-only">A warm, welcoming place to learn Quran and Tajweed, develop Arabic skills, and explore the beauty of Islamic values—one step at a time.</span>
+          <span class="ar-only">مساحة تعليمية ودودة لتعلّم القرآن والتجويد، وتنمية مهارات اللغة العربية، واكتشاف القيم الإسلامية الجميلة خطوةً بخطوة.</span>
+        </p>
         <div class="hero-actions">
-          <a class="button button-primary" href="#subjects" data-en="Explore learning <span>→</span>"
-            data-ar="ابدأ التعلّم <span>←</span>">Explore learning <span>→</span></a>
-          <a class="button button-quiet" href="#resources" data-en="Browse resources" data-ar="تصفّح المصادر">Browse
-            resources</a>
+          <a class="button button-primary" href="#subjects">
+            <span class="en-only">Explore learning →</span>
+            <span class="ar-only">ابدأ التعلّم ←</span>
+          </a>
+          <a class="button button-quiet" href="#resources">
+            <span class="en-only">Browse resources</span>
+            <span class="ar-only">تصفّح المصادر</span>
+          </a>
         </div>
-        <div class="hero-note"><span class="note-icon">✦</span> For curious learners, beginners, and families</div>
+        <div class="hero-note">
+          <span class="note-icon">✦</span>
+          <span class="en-only">For curious learners, beginners, and families</span>
+          <span class="ar-only">للمتعلّمين المبتدئين والعائلات</span>
+        </div>
       </div>
       <div class="hero-art teacher-portrait-wrap">
         <div class="portrait-frame">
-          <img class="teacher-portrait" src="images/teacher-sarah.png"
-            alt="Teacher of Quran, Arabic and Islamic Studies wearing a mustard-yellow hijab in a welcoming learning space">
-          <div class="portrait-caption"><span class="portrait-caption-mark">✦</span><span><strong>Your learning journey
-                starts here</strong><small>Quran • Arabic • Islamic Studies</small></span></div>
+          <img class="teacher-portrait" src="images/teacher-sarah.png" alt="Teacher of Quran, Arabic and Islamic Studies">
+          <div class="portrait-caption">
+            <span class="portrait-caption-mark">✦</span>
+            <span>
+              <strong>
+                <span class="en-only">Your learning journey starts here</span>
+                <span class="ar-only">رحلتك التعليمية تبدأ من هنا</span>
+              </strong>
+              <small>
+                <span class="en-only">Quran • Arabic • Islamic Studies</span>
+                <span class="ar-only">القرآن • العربية • الدراسات الإسلامية</span>
+              </small>
+            </span>
+          </div>
         </div>
-        <span class="portrait-decoration portrait-decoration-one">✧</span><span
-          class="portrait-decoration portrait-decoration-two">✦</span>
+        <span class="portrait-decoration portrait-decoration-one">✧</span>
+        <span class="portrait-decoration portrait-decoration-two">✦</span>
       </div>
     </section>
 
-
+    <!-- ============ ABOUT ============ -->
     <section class="section teacher-profile-section" id="about">
       <div class="teacher-profile-card">
         <div class="teacher-profile-content">
-          <span class="eyebrow">MEET YOUR TEACHER</span>
-          <h2>Learn with Sarah</h2>
+          <span class="eyebrow">
+            <span class="en-only">MEET YOUR TEACHER</span>
+            <span class="ar-only">تعرَّفْ عَلَى مُعَلِّمَتِك</span>
+          </span>
+          <h2>
+            <span class="en-only">Learn with Sarah</span>
+            <span class="ar-only">تعلَّمْ مَعَ سَارَة</span>
+          </h2>
           <p>
-            I'm a dedicated Quran and Arabic teacher passionate about helping
-            students learn Quran recitation, understand Tajweed rules, and
-            develop their Arabic skills in a friendly and supportive environment.
+            <span class="en-only">I'm a dedicated Quran and Arabic teacher passionate about helping students learn Quran recitation, understand Tajweed rules, and develop their Arabic skills in a friendly and supportive environment.</span>
+            <span class="ar-only">أنا مُعَلِّمَة قرآن وعربية مُتَفَانِيَة، أُحِبُّ مُسَاعَدَة الطُّلَّابِ عَلَى تَعَلُّمِ تِلَاوَةِ الْقُرْآن، وَفَهْمِ أَحْكَامِ التَّجْوِيد، وَتَطْوِيرِ مَهَارَاتِهِمُ الْعَرَبِيَّةِ فِي بِيئَةٍ وَدُودَةٍ وَدَاعِمَة.</span>
           </p>
           <p>
-            Explore my CV to learn more about my teaching skills, qualifications,
-            and educational background.
+            <span class="en-only">Explore my CV to learn more about my teaching skills, qualifications, and educational background.</span>
+            <span class="ar-only">اطَّلِعْ عَلَى سِيرَتِي الذَّاتِيَّة لِمَعْرِفَةِ مَهَارَاتِي التَّعْلِيمِيَّة وَمُؤَهِّلَاتِي وَخَلْفِيَّتِي التَّعْلِيمِيَّة.</span>
           </p>
-
           <div class="teacher-profile-actions">
             <a class="button button-primary" href="Teacher_sarah.pdf" target="_blank" rel="noopener">
-              View My CV ↗
+              <span class="en-only">View My CV ↗</span>
+              <span class="ar-only">اطَّلِعْ عَلَى سِيرَتِي ↗</span>
             </a>
           </div>
         </div>
       </div>
     </section>
 
+    <!-- ============ SUBJECTS ============ -->
     <section class="section subjects-section" id="subjects">
       <div class="section-heading">
-        <span class="eyebrow">YOUR LEARNING JOURNEY</span>
-        <h2 data-en="What would you like to learn?" data-ar="ماذا تودّ أن تتعلّم؟">What would you like to learn?</h2>
-        <p>Choose a learning path and explore lessons and practice activities.</p>
+        <span class="eyebrow">
+          <span class="en-only">YOUR LEARNING JOURNEY</span>
+          <span class="ar-only">رِحْلَتُكَ التَّعْلِيمِيَّة</span>
+        </span>
+        <h2>
+          <span class="en-only">What would you like to learn?</span>
+          <span class="ar-only">ماذا تودّ أن تتعلّم؟</span>
+        </h2>
+        <p>
+          <span class="en-only">Choose a learning path and explore lessons and practice activities.</span>
+          <span class="ar-only">اختر مسارًا تعليميًّا واستكشف الدروس والأنشطة التطبيقية.</span>
+        </p>
       </div>
       <div class="card-grid three">
         <article class="subject-card sage-card">
-          <div class="card-icon">۞</div><span class="card-kicker">PATH 01</span>
-          <h3>Quran & Tajweed</h3>
-          <p>Practice Arabic letters, vowel marks, recitation, and the essential rules of Tajweed.</p>
-          <a href="#videos">Explore lessons <span>↗</span></a>
+          <div class="card-icon">۞</div>
+          <span class="card-kicker">
+            <span class="en-only">PATH 01</span>
+            <span class="ar-only">المسار الأول</span>
+          </span>
+          <h3>
+            <span class="en-only">Quran &amp; Tajweed</span>
+            <span class="ar-only">القرآن والتجويد</span>
+          </h3>
+          <p>
+            <span class="en-only">Practice Arabic letters, vowel marks, recitation, and the essential rules of Tajweed.</span>
+            <span class="ar-only">تدريب على الحروف العربية والحركات والتلاوة وأحكام التجويد الأساسية.</span>
+          </p>
+          <a href="#videos">
+            <span class="en-only">Explore lessons ↗</span>
+            <span class="ar-only">استكشف الدروس ↗</span>
+          </a>
         </article>
         <article class="subject-card peach-card">
-          <div class="card-icon">أ ب ت</div><span class="card-kicker">PATH 02</span>
-          <h3>Arabic Language</h3>
-          <p>Build confidence in reading, writing, pronunciation, vocabulary, and everyday phrases.</p>
-          <a href="Lessons/Arabic-lessons/arabic-lessons.html">Explore resources <span>↗</span></a>
+          <div class="card-icon">أ ب ت</div>
+          <span class="card-kicker">
+            <span class="en-only">PATH 02</span>
+            <span class="ar-only">المسار الثاني</span>
+          </span>
+          <h3>
+            <span class="en-only">Arabic Language</span>
+            <span class="ar-only">اللغة العربية</span>
+          </h3>
+          <p>
+            <span class="en-only">Build confidence in reading, writing, pronunciation, vocabulary, and everyday phrases.</span>
+            <span class="ar-only">بناء الثقة في القراءة والكتابة والنطق والمفردات والعبارات اليومية.</span>
+          </p>
+          <a href="Lessons/Arabic-lessons/arabic-lessons.html">
+            <span class="en-only">Explore resources ↗</span>
+            <span class="ar-only">استكشف المصادر ↗</span>
+          </a>
         </article>
         <article class="subject-card lilac-card">
-          <div class="card-icon">☾</div><span class="card-kicker">PATH 03</span>
-          <h3>Islamic Studies</h3>
-          <p>Learn about duas, Prophets’ stories, Islamic manners, Salah, and everyday practices.</p>
-          <a href="./Lessons/Islamic-studies/islamic-lessons.html">Start exploring <span>↗</span></a>
+          <div class="card-icon">☾</div>
+          <span class="card-kicker">
+            <span class="en-only">PATH 03</span>
+            <span class="ar-only">المسار الثالث</span>
+          </span>
+          <h3>
+            <span class="en-only">Islamic Studies</span>
+            <span class="ar-only">الدراسات الإسلامية</span>
+          </h3>
+          <p>
+            <span class="en-only">Learn about duas, Prophets' stories, Islamic manners, Salah, and everyday practices.</span>
+            <span class="ar-only">تعلَّم الأدعية وقصص الأنبياء والآداب الإسلامية والصلاة والممارسات اليومية.</span>
+          </p>
+          <a href="Lessons/Islamic-studies/islamic-lessons.html">
+            <span class="en-only">Start exploring ↗</span>
+            <span class="ar-only">ابدأ الاستكشاف ↗</span>
+          </a>
         </article>
       </div>
     </section>
 
+    <!-- ============ VIDEOS ============ -->
     <section class="section video-section" id="videos">
       <div class="section-heading split-heading">
-        <div><span class="eyebrow">WATCH & LEARN</span>
-          <h2 data-en="Video learning library" data-ar="مكتبة الفيديو التعليمية">Video learning library</h2>
-          <p>Keep your favourite lessons together in one place.</p>
+        <div>
+          <span class="eyebrow">
+            <span class="en-only">WATCH &amp; LEARN</span>
+            <span class="ar-only">شَاهِدْ وَتَعَلَّمْ</span>
+          </span>
+          <h2>
+            <span class="en-only">Video learning library</span>
+            <span class="ar-only">مكتبة الفيديو التعليمية</span>
+          </h2>
+          <p>
+            <span class="en-only">Keep your favourite lessons together in one place.</span>
+            <span class="ar-only">احفظ دروسك المفضلة في مكان واحد.</span>
+          </p>
         </div>
-        <a class="text-link" href="https://www.youtube.com/" target="_blank" rel="noopener">Visit YouTube ↗</a>
+        <a class="text-link" href="https://www.youtube.com/" target="_blank" rel="noopener">
+          <span class="en-only">Visit YouTube ↗</span>
+          <span class="ar-only">زيارة يوتيوب ↗</span>
+        </a>
       </div>
       <div class="card-grid three">
         <article class="resource-card">
-          <div class="video-placeholder green"><span class="play">▶</span><span>QURAN & TAJWEED</span></div>
-          <div class="resource-content"><span class="tag">Quran</span>
-            <h3>Introduction to Tajweed</h3>
-            <p>Add a short description of your lesson here.</p><a href="https://www.youtube.com/" target="_blank"
-              rel="noopener">Watch lesson ↗</a>
+          <div class="video-placeholder green"><span class="play">▶</span><span>QURAN &amp; TAJWEED</span></div>
+          <div class="resource-content">
+            <span class="tag">
+              <span class="en-only">Quran</span>
+              <span class="ar-only">قرآن</span>
+            </span>
+            <h3>
+              <span class="en-only">Introduction to Tajweed</span>
+              <span class="ar-only">مقدمة في التجويد</span>
+            </h3>
+            <p>
+              <span class="en-only">Add a short description of your lesson here.</span>
+              <span class="ar-only">أضف وصفًا موجزًا لدرسك هنا.</span>
+            </p>
+            <a href="https://www.youtube.com/" target="_blank" rel="noopener">
+              <span class="en-only">Watch lesson ↗</span>
+              <span class="ar-only">شاهد الدرس ↗</span>
+            </a>
           </div>
         </article>
         <article class="resource-card">
           <div class="video-placeholder gold"><span class="play">▶</span><span>ARABIC BASICS</span></div>
-          <div class="resource-content"><span class="tag">Arabic</span>
-            <h3>Arabic letters and sounds</h3>
-            <p>Help learners practise letter names and pronunciation.</p><a href="https://www.youtube.com/"
-              target="_blank" rel="noopener">Watch lesson ↗</a>
+          <div class="resource-content">
+            <span class="tag">
+              <span class="en-only">Arabic</span>
+              <span class="ar-only">عربية</span>
+            </span>
+            <h3>
+              <span class="en-only">Arabic letters and sounds</span>
+              <span class="ar-only">الحروف والأصوات العربية</span>
+            </h3>
+            <p>
+              <span class="en-only">Help learners practise letter names and pronunciation.</span>
+              <span class="ar-only">مساعدة المتعلمين على ممارسة أسماء الحروف ونطقها.</span>
+            </p>
+            <a href="https://www.youtube.com/" target="_blank" rel="noopener">
+              <span class="en-only">Watch lesson ↗</span>
+              <span class="ar-only">شاهد الدرس ↗</span>
+            </a>
           </div>
         </article>
         <article class="resource-card">
           <div class="video-placeholder rose"><span class="play">▶</span><span>ISLAMIC STUDIES</span></div>
-          <div class="resource-content"><span class="tag">Islamic Studies</span>
-            <h3>Learning a daily dua</h3>
-            <p>Use this space for a video about a dua or Islamic value.</p><a href="https://www.youtube.com/"
-              target="_blank" rel="noopener">Watch lesson ↗</a>
+          <div class="resource-content">
+            <span class="tag">
+              <span class="en-only">Islamic Studies</span>
+              <span class="ar-only">دراسات إسلامية</span>
+            </span>
+            <h3>
+              <span class="en-only">Learning a daily dua</span>
+              <span class="ar-only">تعلُّم دعاء يومي</span>
+            </h3>
+            <p>
+              <span class="en-only">Use this space for a video about a dua or Islamic value.</span>
+              <span class="ar-only">استخدم هذه المساحة لفيديو عن دعاء أو قيمة إسلامية.</span>
+            </p>
+            <a href="https://www.youtube.com/" target="_blank" rel="noopener">
+              <span class="en-only">Watch lesson ↗</span>
+              <span class="ar-only">شاهد الدرس ↗</span>
+            </a>
           </div>
         </article>
       </div>
-      <p class="edit-hint">Teacher tip: replace each YouTube link with the URL of your own video. You can also embed
-        videos on this page.</p>
-    </section>
-
-    <section class="section resources-section" id="resources">
-      <div class="section-heading">
-        <span class="eyebrow">A LITTLE EXTRA PRACTICE</span>
-        <h2 data-en="Books, worksheets & useful links" data-ar="كتب وأوراق عمل وروابط مفيدة">
-          Books, worksheets & useful links
-        </h2>
-        <p>Helpful materials for learning beyond the lesson.</p>
-      </div>
-
-      <div class="resource-list">
-        <!-- Resource 1 -->
-        <a class="resource-row" href="القاعدة النورانية.pdf" target="_blank" rel="noopener">
-          <span class="resource-symbol">▤</span>
-          <span class="resource-text">
-            <strong>Arabic letter practice sheets</strong>
-            <small>Printable writing and recognition activities</small>
-          </span>
-          <span class="resource-type">PDF</span>
-          <span class="arrow">↗</span>
-        </a>
-
-        <!-- Resource 2 -->
-        <a class="resource-row" href="نور البيان 2019.pdf" target="_blank" rel="noopener">
-          <span class="resource-symbol">۞</span>
-          <span class="resource-text">
-            <strong>Tajweed rules reference</strong>
-            <small>A quick revision guide for students</small>
-          </span>
-          <span class="resource-type">PDF</span>
-          <span class="arrow">↗</span>
-        </a>
-
-        <!-- Resource 3 -->
-        <a class="resource-row" href="ادعية.pdf" target="_blank" rel="noopener">
-          <span class="resource-symbol">☾</span>
-          <span class="resource-text">
-            <strong>Daily duas and Islamic manners</strong>
-            <small>A family-friendly revision resource</small>
-          </span>
-          <span class="resource-type">PDF</span>
-          <span class="arrow">↗</span>
-        </a>
-      </div>
-
       <p class="edit-hint">
-        All PDFs are available to view or download.
+        <span class="en-only">Teacher tip: replace each YouTube link with the URL of your own video. You can also embed videos on this page.</span>
+        <span class="ar-only">نصيحة للمعلمة: استبدلي كل رابط يوتيوب برابط فيديوك الخاص. يمكنك أيضًا تضمين الفيديوهات في هذه الصفحة.</span>
       </p>
     </section>
 
+    <!-- ============ RESOURCES ============ -->
+    <section class="section resources-section" id="resources">
+      <div class="section-heading">
+        <span class="eyebrow">
+          <span class="en-only">A LITTLE EXTRA PRACTICE</span>
+          <span class="ar-only">قَلِيلٌ مِنَ التَّدْرِيبِ الإِضَافِيّ</span>
+        </span>
+        <h2>
+          <span class="en-only">Books, worksheets &amp; useful links</span>
+          <span class="ar-only">كتب وأوراق عمل وروابط مفيدة</span>
+        </h2>
+        <p>
+          <span class="en-only">Helpful materials for learning beyond the lesson.</span>
+          <span class="ar-only">مواد مفيدة للتعلّم بعد الدرس.</span>
+        </p>
+      </div>
+
+      <div class="resource-list">
+        <a class="resource-row" href="القاعدة النورانية.pdf" target="_blank" rel="noopener">
+          <span class="resource-symbol">▤</span>
+          <span class="resource-text">
+            <strong>
+              <span class="en-only">Arabic letter practice sheets</span>
+              <span class="ar-only">أوراق تدريب الحروف العربية</span>
+            </strong>
+            <small>
+              <span class="en-only">Printable writing and recognition activities</span>
+              <span class="ar-only">أنشطة طباعة وتعرُّف على الحروف</span>
+            </small>
+          </span>
+          <span class="resource-type">PDF</span>
+          <span class="arrow">↗</span>
+        </a>
+
+        <a class="resource-row" href="نور البيان 2019.pdf" target="_blank" rel="noopener">
+          <span class="resource-symbol">۞</span>
+          <span class="resource-text">
+            <strong>
+              <span class="en-only">Tajweed rules reference</span>
+              <span class="ar-only">مرجع أحكام التجويد</span>
+            </strong>
+            <small>
+              <span class="en-only">A quick revision guide for students</span>
+              <span class="ar-only">دليل مراجعة سريع للطلاب</span>
+            </small>
+          </span>
+          <span class="resource-type">PDF</span>
+          <span class="arrow">↗</span>
+        </a>
+
+        <a class="resource-row" href="ادعية.pdf" target="_blank" rel="noopener">
+          <span class="resource-symbol">☾</span>
+          <span class="resource-text">
+            <strong>
+              <span class="en-only">Daily duas and Islamic manners</span>
+              <span class="ar-only">الأدعية اليومية والآداب الإسلامية</span>
+            </strong>
+            <small>
+              <span class="en-only">A family-friendly revision resource</span>
+              <span class="ar-only">مصدر مراجعة مناسب للعائلات</span>
+            </small>
+          </span>
+          <span class="resource-type">PDF</span>
+          <span class="arrow">↗</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ============ GAMES ============ -->
     <section class="section games-section" id="games">
-      <div class="section-heading"><span class="eyebrow">LEARN BY PLAYING</span>
-        <h2 data-en="Try a quick learning game" data-ar="جرّب لعبة تعليمية سريعة">Try a quick learning game</h2>
-        <p>Small activities make revision more engaging.</p>
+      <div class="section-heading">
+        <span class="eyebrow">
+          <span class="en-only">LEARN BY PLAYING</span>
+          <span class="ar-only">تَعَلَّمْ بِاللَّعِب</span>
+        </span>
+        <h2>
+          <span class="en-only">Try a quick learning game</span>
+          <span class="ar-only">جرّب لعبة تعليمية سريعة</span>
+        </h2>
+        <p>
+          <span class="en-only">Small activities make revision more engaging.</span>
+          <span class="ar-only">الأنشطة الصغيرة تجعل المراجعة أكثر تشويقًا.</span>
+        </p>
       </div>
       <div class="game-panel">
-        <div class="game-copy"><span class="game-label">ARABIC LETTER CHALLENGE</span>
-          <h3>Which letter is this?</h3>
-          <p>Choose the correct name for the Arabic letter shown.</p>
+        <div class="game-copy">
+          <span class="game-label">ARABIC LETTER CHALLENGE</span>
+          <h3>
+            <span class="en-only">Which letter is this?</span>
+            <span class="ar-only">ما هذا الحرف؟</span>
+          </h3>
+          <p>
+            <span class="en-only">Choose the correct name for the Arabic letter shown.</span>
+            <span class="ar-only">اختر الاسم الصحيح للحرف العربي المعروض.</span>
+          </p>
           <div class="letter-display" id="letterDisplay" lang="ar" dir="rtl">ب</div>
-          <div class="game-options" id="gameOptions"><button class="option-button"
-              data-answer="Alif">Alif</button><button class="option-button" data-answer="Baa">Baa</button><button
-              class="option-button" data-answer="Taa">Taa</button></div>
-          <p class="game-feedback" id="gameFeedback" aria-live="polite">Choose an answer to begin.</p><button
-            class="button button-primary" id="nextQuestion">Next question →</button>
+          <div class="game-options" id="gameOptions">
+            <button class="option-button" data-answer="Alif">Alif</button>
+            <button class="option-button" data-answer="Baa">Baa</button>
+            <button class="option-button" data-answer="Taa">Taa</button>
+          </div>
+          <p class="game-feedback" id="gameFeedback" aria-live="polite">
+            <span class="en-only">Choose an answer to begin.</span>
+            <span class="ar-only">اختر إجابة للبدء.</span>
+          </p>
+          <button class="button button-primary" id="nextQuestion">
+            <span class="en-only">Next question →</span>
+            <span class="ar-only">السؤال التالي ←</span>
+          </button>
         </div>
         <div class="game-side">
           <div class="game-side-icon">أ ب ت</div>
-          <h4>Practice a little every day</h4>
-          <p>Try to identify the letter, say its sound aloud, and think of a word that begins with it.</p>
-          <div class="mini-stats"><span><strong id="score">0</strong><small>Correct answers</small></span><span><strong
-                id="round">1</strong><small>Question</small></span></div>
+          <h4>
+            <span class="en-only">Practice a little every day</span>
+            <span class="ar-only">تدرَّبْ قليلًا كل يوم</span>
+          </h4>
+          <p>
+            <span class="en-only">Try to identify the letter, say its sound aloud, and think of a word that begins with it.</span>
+            <span class="ar-only">حاول التعرف على الحرف، وانطق صوته بصوت عالٍ، وفكِّر في كلمة تبدأ به.</span>
+          </p>
+          <div class="mini-stats">
+            <span><strong id="score">0</strong><small><span class="en-only">Correct answers</span><span class="ar-only">إجابات صحيحة</span></small></span>
+            <span><strong id="round">1</strong><small><span class="en-only">Question</span><span class="ar-only">سؤال</span></small></span>
+          </div>
         </div>
       </div>
     </section>
 
-
+    <!-- ============ AUDIO ============ -->
     <section class="section audio-section" id="audio">
-      <div class="section-heading"><span class="eyebrow">LISTEN & REPEAT · استمع وكرّر</span>
-        <h2>Audio practice | التدريب بالاستماع</h2>
-        <p>Listen to sample Arabic words and repeat them aloud. Browser voice availability depends on your device.</p>
+      <div class="section-heading">
+        <span class="eyebrow">
+          <span class="en-only">LISTEN &amp; REPEAT</span>
+          <span class="ar-only">اسْتَمِعْ وَكَرِّرْ</span>
+        </span>
+        <h2>
+          <span class="en-only">Audio practice</span>
+          <span class="ar-only">التدريب بالاستماع</span>
+        </h2>
+        <p>
+          <span class="en-only">Listen to sample Arabic words and repeat them aloud. Browser voice availability depends on your device.</span>
+          <span class="ar-only">استمع إلى كلمات عربية نموذجية وكرِّرها بصوت عالٍ. توفر صوت المتصفح يعتمد على جهازك.</span>
+        </p>
       </div>
       <div class="audio-grid">
-        <!-- article class="audio-card"><span class="audio-arabic" lang="ar" dir="rtl">بِسْمِ اللَّهِ</span><strong>بِسْمِ اللَّهِ</strong><small>In the name of Allah</small><button class="audio-play" data-speak="بسم الله" type="button">▶ Play audio · تشغيل</button></article-->
-        <article class="audio-card"><span class="audio-arabic" lang="ar" dir="rtl">السَّلَامُ
-            عَلَيْكُمْ</span><strong>السَّلَامُ عَلَيْكُمْ</strong><small>Peace be upon you</small><button
-            class="audio-play" data-speak="السلام عليكم" type="button">▶ Play audio · تشغيل</button></article>
-        <article class="audio-card"><span class="audio-arabic" lang="ar"
-            dir="rtl">شُكْرًا</span><strong>شُكْرًا</strong><small>Thank you</small><button class="audio-play"
-            data-speak="شكرا" type="button">▶ Play audio · تشغيل</button></article>
+        <article class="audio-card">
+          <span class="audio-arabic" lang="ar" dir="rtl">السَّلَامُ عَلَيْكُمْ</span>
+          <strong>السَّلَامُ عَلَيْكُمْ</strong>
+          <small>
+            <span class="en-only">Peace be upon you</span>
+            <span class="ar-only">السَّلَامُ عَلَيْكُمْ</span>
+          </small>
+          <button class="audio-play" data-speak="السلام عليكم" type="button">
+            <span class="en-only">▶ Play audio</span>
+            <span class="ar-only">▶ تشغيل الصوت</span>
+          </button>
+        </article>
+        <article class="audio-card">
+          <span class="audio-arabic" lang="ar" dir="rtl">الْحَمْدُ لِلَّهِ</span>
+          <strong>الْحَمْدُ لِلَّهِ</strong>
+          <small>
+            <span class="en-only">Thanks God</span>
+            <span class="ar-only">الْحَمْدُ لِلَّهِ</span>
+          </small>
+          <button class="audio-play" data-speak="الحمد لله" type="button">
+            <span class="en-only">▶ Play audio</span>
+            <span class="ar-only">▶ تشغيل الصوت</span>
+          </button>
+        </article>
+        <article class="audio-card">
+          <span class="audio-arabic" lang="ar" dir="rtl">شُكْرًا</span>
+          <strong>شُكْرًا</strong>
+          <small>
+            <span class="en-only">Thank you</span>
+            <span class="ar-only">شُكْرًا</span>
+          </small>
+          <button class="audio-play" data-speak="شكرا" type="button">
+            <span class="en-only">▶ Play audio</span>
+            <span class="ar-only">▶ تشغيل الصوت</span>
+          </button>
+        </article>
       </div>
-      <p class="edit-hint">For Quran recitation and precise Tajweed, use verified recitation recordings from a qualified
-        teacher rather than relying on text-to-speech.</p>
     </section>
 
+    <!-- ============ BOOKING ============ -->
     <section class="section booking-section" id="booking">
       <div class="booking-card">
-        <div><span class="eyebrow">LEARN TOGETHER · لنتعلّم معًا</span>
-          <h2>Ready to start learning?</h2>
-          <p>Interested in Quran, Tajweed, Arabic, or Islamic Studies lessons? Send a message to ask about availability
-            and learning goals.</p>
-          <p class="booking-ar" lang="ar" dir="rtl">هل ترغب في بدء رحلتك التعليمية؟ أرسل رسالة للاستفسار عن المواعيد
-            والأهداف التعليمية.</p>
+        <div>
+          <span class="eyebrow">
+            <span class="en-only">LEARN TOGETHER</span>
+            <span class="ar-only">لِنَتَعَلَّمْ مَعًا</span>
+          </span>
+          <h2>
+            <span class="en-only">Ready to start learning?</span>
+            <span class="ar-only">هل أنت مستعد للبدء؟</span>
+          </h2>
+          <p>
+            <span class="en-only">Interested in Quran, Tajweed, Arabic, or Islamic Studies lessons? Send a message to ask about availability and learning goals.</span>
+            <span class="ar-only">مهتم بدروس القرآن أو التجويد أو العربية أو الدراسات الإسلامية؟ أرسل رسالة للاستفسار عن المواعيد والأهداف التعليمية.</span>
+          </p>
         </div>
-        <a class="button button-primary" href="https://wa.link/6372rm">Ask about lessons ↗</a>
+        <a class="button button-primary" href="https://wa.link/6372rm">
+          <span class="en-only">Ask about lessons ↗</span>
+          <span class="ar-only">استفسر عن الدروس ↗</span>
+        </a>
       </div>
-      <p class="edit-hint">Before publishing, replace YOUR-EMAIL@example.com with your teaching email or replace this
-        button with your lesson-booking profile link.</p>
     </section>
 
+    <!-- ============ HOMEWORK ============ -->
     <section class="section homework-section" id="homework">
-      <div class="section-heading"><span class="eyebrow">YOUR WEEKLY CHECKLIST</span>
-        <h2 data-en="Homework & revision" data-ar="الواجبات والمراجعة">Homework & revision</h2>
-        <p>Use this sample checklist to organise the week’s practice.</p>
+      <div class="section-heading">
+        <span class="eyebrow">
+          <span class="en-only">YOUR WEEKLY CHECKLIST</span>
+          <span class="ar-only">قَائِمَةُ التَّحَقُّقِ الأُسْبُوعِيَّة</span>
+        </span>
+        <h2>
+          <span class="en-only">Homework &amp; revision</span>
+          <span class="ar-only">الواجبات والمراجعة</span>
+        </h2>
+        <p>
+          <span class="en-only">Use this sample checklist to organise the week's practice.</span>
+          <span class="ar-only">استخدم قائمة التحقق هذه لتنظيم تدريبات الأسبوع.</span>
+        </p>
       </div>
       <div class="homework-panel">
         <div class="homework-top">
           <div>
-            <h3>This week’s learning goals</h3>
-            <p>Tick each task when you finish it. Your checklist is saved on this device.</p>
-          </div><span class="week-badge">WEEKLY PLAN</span>
+            <h3>
+              <span class="en-only">This week's learning goals</span>
+              <span class="ar-only">أهداف التعلّم لهذا الأسبوع</span>
+            </h3>
+            <p>
+              <span class="en-only">Tick each task when you finish it. Your checklist is saved on this device.</span>
+              <span class="ar-only">ضع علامة صح عند إنهاء كل مهمة. تُحفظ قائمتك على هذا الجهاز.</span>
+            </p>
+          </div>
+          <span class="week-badge">
+            <span class="en-only">WEEKLY PLAN</span>
+            <span class="ar-only">خطة أسبوعية</span>
+          </span>
         </div>
         <div class="progress-track">
           <div class="progress-fill" id="progressFill"></div>
         </div>
-        <p class="progress-label" id="progressLabel">0 of 4 tasks completed</p>
+        <p class="progress-label" id="progressLabel">
+          <span class="en-only">0 of 4 tasks completed</span>
+          <span class="ar-only">0 من 4 مهام مكتملة</span>
+        </p>
         <div class="task-list" id="taskList">
-          <label class="task"><input type="checkbox"><span><strong>Quran</strong><small>Revise the assigned verses for
-                10 minutes.</small></span></label>
-          <label class="task"><input type="checkbox"><span><strong>Tajweed</strong><small>Review one rule and find two
-                examples.</small></span></label>
-          <label class="task"><input type="checkbox"><span><strong>Arabic</strong><small>Practise reading the letters or
-                words from class.</small></span></label>
-          <label class="task"><input type="checkbox"><span><strong>Islamic Studies</strong><small>Revise this week’s dua
-                or lesson.</small></span></label>
+          <label class="task">
+            <input type="checkbox">
+            <span>
+              <strong><span class="en-only">Quran</span><span class="ar-only">القرآن</span></strong>
+              <small><span class="en-only">Revise the assigned verses for 10 minutes.</span><span class="ar-only">راجع الآيات المحددة لمدة 10 دقائق.</span></small>
+            </span>
+          </label>
+          <label class="task">
+            <input type="checkbox">
+            <span>
+              <strong><span class="en-only">Tajweed</span><span class="ar-only">التجويد</span></strong>
+              <small><span class="en-only">Review one rule and find two examples.</span><span class="ar-only">راجع قاعدة واحدة وابحث عن مثالين.</span></small>
+            </span>
+          </label>
+          <label class="task">
+            <input type="checkbox">
+            <span>
+              <strong><span class="en-only">Arabic</span><span class="ar-only">العربية</span></strong>
+              <small><span class="en-only">Practise reading the letters or words from class.</span><span class="ar-only">تدرَّبْ على قراءة الحروف أو الكلمات من الدرس.</span></small>
+            </span>
+          </label>
+          <label class="task">
+            <input type="checkbox">
+            <span>
+              <strong><span class="en-only">Islamic Studies</span><span class="ar-only">الدراسات الإسلامية</span></strong>
+              <small><span class="en-only">Revise this week's dua or lesson.</span><span class="ar-only">راجع دعاء أو درس هذا الأسبوع.</span></small>
+            </span>
+          </label>
         </div>
-        <button class="reset-button" id="resetTasks">Reset checklist</button>
+        <button class="reset-button" id="resetTasks">
+          <span class="en-only">Reset checklist</span>
+          <span class="ar-only">إعادة ضبط القائمة</span>
+        </button>
       </div>
-      <p class="privacy-note">Note: this demo saves checklist progress only in the same browser on the same device. It
-        does not send results to the teacher.</p>
     </section>
 
+    <!-- ============ CLOSING CTA ============ -->
     <section class="closing-cta">
-      <div class="cta-star">✧</div><span class="eyebrow">KEEP GOING, ONE STEP AT A TIME</span>
-      <h2>Every new thing you learn is a step forward.</h2>
-      <p>May your learning journey be full of benefit, confidence, and barakah.</p><a class="button button-light"
-        href="#home">Back to the top ↑</a>
+      <div class="cta-star">✧</div>
+      <span class="eyebrow">
+        <span class="en-only">KEEP GOING, ONE STEP AT A TIME</span>
+        <span class="ar-only">اسْتَمِرَّ، خُطْوَةً بِخُطْوَة</span>
+      </span>
+      <h2>
+        <span class="en-only">Every new thing you learn is a step forward.</span>
+        <span class="ar-only">كل شيء جديد تتعلمه هو خطوة إلى الأمام.</span>
+      </h2>
+      <p>
+        <span class="en-only">May your learning journey be full of benefit, confidence, and barakah.</span>
+        <span class="ar-only">نسأل الله أن تكون رحلتك التعليمية مليئة بالنفع والثقة والبركة.</span>
+      </p>
+      <a class="button button-light" href="#home">
+        <span class="en-only">Back to the top ↑</span>
+        <span class="ar-only">العودة إلى الأعلى ↑</span>
+      </a>
     </section>
   </main>
 
-  <footer class="site-footer"><a class="footer-brand" href="#home">Learning with Sarah · سارة للتعلّم</a>
-    <p>Quran • Arabic • Islamic Studies | القرآن • العربية • الدراسات الإسلامية</p>
-    <p class="copyright">© <span id="year"></span> Learning with Sarah. Made for learning with care.</p>
+  <!-- ============ FOOTER ============ -->
+  <footer class="site-footer">
+    <a class="footer-brand" href="#home">
+      <span class="en-only">Learning with Sarah · سارة للتعلّم</span>
+      <span class="ar-only">سارة للتعلّم · Learning with Sarah</span>
+    </a>
+    <p>
+      <span class="en-only">Quran • Arabic • Islamic Studies</span>
+      <span class="ar-only">القرآن • العربية • الدراسات الإسلامية</span>
+    </p>
+    <p class="copyright">
+      © <span id="year"></span>
+      <span class="en-only">Learning with Sarah. Made for learning with care.</span>
+      <span class="ar-only">سارة للتعلّم. صُنع بعناية للتعلّم.</span>
+    </p>
   </footer>
+
   <script src="script.js"></script>
 </body>
 

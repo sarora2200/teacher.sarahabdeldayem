@@ -146,3 +146,28 @@ html[lang="ar"] .closing-cta, html[lang="ar"] .site-footer { direction: rtl; }
 html[lang="ar"] .portrait-caption { direction: rtl; }
 @media (max-width: 850px) { .teacher-portrait-wrap { min-height: 0; padding: 10px 20px 35px; }.portrait-frame { width: min(100%, 430px); } }
 @media (max-width: 560px) { .teacher-portrait-wrap { padding: 5px 14px 30px; }.portrait-caption { left: 18px; right: 18px; bottom: 19px; padding: 10px; }.portrait-caption strong { font-size: .82rem; }.portrait-caption small { font-size: .61rem; } }
+/* ============ LANGUAGE VISIBILITY ============ */
+html[lang="en"] .ar-only { display: none !important; }
+html[lang="ar"] .en-only { display: none !important; }
+
+/* Arabic font when in Arabic mode */
+html[lang="ar"] body {
+  font-family: 'Amiri', 'Nunito Sans', sans-serif;
+}
+
+/* RTL adjustments */
+html[lang="ar"] .hero h1,
+html[lang="ar"] .section-heading h2,
+html[lang="ar"] .hero-copy p {
+  text-align: right;
+}
+
+html[lang="ar"] .site-header {
+  direction: rtl;
+}
+
+/* Keep decorative icons in the right place in both directions */
+html[lang="ar"] .hero-actions,
+html[lang="ar"] .header-actions {
+  direction: rtl;
+}
