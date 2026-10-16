@@ -91,3 +91,37 @@ document.getElementById("resetTasks").addEventListener("click", () => {
   updateProgress();
 });
 updateProgress();
+
+
+// Simple English / Arabic interface toggle. Add data-en and data-ar attributes
+// to any further text you want translated as you expand the website.
+const languageToggle = document.getElementById("languageToggle");
+let currentLanguage = "en";
+languageToggle.addEventListener("click", () => {
+  currentLanguage = currentLanguage === "en" ? "ar" : "en";
+  document.documentElement.lang = currentLanguage;
+  document.documentElement.dir = currentLanguage === "ar" ? "rtl" : "ltr";
+  document.querySelectorAll("[data-en][data-ar]").forEach(element => {
+    element.innerHTML = element.dataset[currentLanguage];
+  });
+  languageToggle.textContent = currentLanguage === "en" ? "العربية" : "English";
+  languageToggle.setAttribute("aria-label", currentLanguage === "en" ? "Switch website language to Arabic" : "Switch website language to English");
+});
+
+// Browser-based audio samples for short Arabic phrases (not Quran recitation).
+document.querySelectorAll(".audio-play").forEach(button => {
+  button.addEventListener("click", () => {
+    if (!("speechSynthesis" in window)) {
+      alert("Audio playback is not supported by this browser. Please try another browser or use recorded audio.");
+      return;
+    }
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(button.dataset.speak);
+    utterance.lang = "ar";
+    utterance.rate = 0.78;
+    const voices = window.speechSynthesis.getVoices();
+    const arabicVoice = voices.find(voice => voice.lang.toLowerCase().startsWith("ar"));
+    if (arabicVoice) utterance.voice = arabicVoice;
+    window.speechSynthesis.speak(utterance);
+  });
+});

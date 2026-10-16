@@ -95,3 +95,54 @@ h1 em { color: var(--sage); font-weight: 400; }
   .section { padding: 60px 20px; }.split-heading { display: block; }.split-heading .text-link { display: inline-block; margin-top: 14px; }.resource-row { gap: 11px; }.resource-type { display: none; }.resource-text strong { font-size: .82rem; }.resource-text small { font-size: .7rem; }
   .game-copy { padding: 25px 20px; }.game-options { gap: 6px; }.option-button { font-size: .75rem; }.homework-panel { padding: 20px 16px; }.homework-top { display: block; }.week-badge { display: inline-block; margin-bottom: 12px; }.closing-cta { padding: 60px 22px; }
 }
+
+
+/* Bilingual header and language mode */
+.header-actions { display: flex; align-items: center; gap: 9px; }
+.language-toggle { border: 1px solid #d9ded4; color: var(--sage-dark); background: #fffdf8; border-radius: 6px; padding: 8px 11px; cursor: pointer; font-weight: 800; font-size: .78rem; }
+html[lang="ar"] body { font-family: var(--sans); }
+html[lang="ar"] .site-header, html[lang="ar"] nav { direction: rtl; }
+html[lang="ar"] .hero-copy, html[lang="ar"] .section-heading, html[lang="ar"] .subject-card, html[lang="ar"] .resource-content, html[lang="ar"] .game-copy, html[lang="ar"] .homework-panel { text-align: right; }
+html[lang="ar"] .hero-actions, html[lang="ar"] .hero-note { direction: rtl; }
+html[lang="ar"] .split-heading { direction: rtl; }
+html[lang="ar"] .resource-row { direction: rtl; }
+html[lang="ar"] .homework-top { direction: rtl; }
+html[lang="ar"] .progress-label { text-align: left; }
+html[lang="ar"] .task { direction: rtl; }
+html[lang="ar"] .closing-cta, html[lang="ar"] .site-footer { direction: rtl; }
+.audio-section { background: #fffdf8; }
+.audio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; max-width: 1000px; margin: auto; }
+.audio-card { border: 1px solid var(--line); background: #fff; border-radius: 10px; padding: 24px 18px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.audio-arabic { font: 700 2rem "Amiri", serif; color: var(--sage-dark); padding: 12px 0; }
+.audio-card strong { font: 700 1.05rem "Amiri", serif; }
+.audio-card small { color: var(--muted); font-size: .78rem; }
+.audio-play { margin-top: 8px; border: 1px solid #dce4d9; border-radius: 6px; padding: 9px 12px; color: var(--sage-dark); background: #f5f7f1; font-weight: 800; font-size: .76rem; cursor: pointer; }
+.audio-play:hover { background: #e9f0e5; }
+.booking-section { padding-top: 25px; }
+.booking-card { display: flex; align-items: center; justify-content: space-between; gap: 28px; background: #edf2e9; border: 1px solid #e0e8dc; border-radius: 12px; padding: 34px; }
+.booking-card > div { max-width: 650px; }
+.booking-card h2 { font: 400 clamp(1.8rem, 3vw, 2.5rem)/1.2 var(--serif); margin: 10px 0; }
+.booking-card p { color: var(--muted); font-size: .88rem; margin-bottom: 7px; }
+.booking-ar { font: 1.05rem/1.9 "Amiri", serif; color: var(--sage-dark) !important; }
+@media (max-width: 850px) {
+  .header-actions { margin-left: auto; }
+  .audio-grid { grid-template-columns: 1fr; }
+  .booking-card { align-items: flex-start; flex-direction: column; padding: 26px; }
+  html[lang="ar"] .header-actions { margin-left: 0; margin-right: auto; }
+}
+
+/* Professional teacher portrait in the homepage hero */
+.teacher-portrait-wrap { min-height: 430px; padding: 12px 22px 28px; }
+.portrait-frame { position: relative; width: min(100%, 470px); padding: 10px; background: #fffdf8; border: 1px solid #e4dfce; border-radius: 190px 190px 16px 16px; box-shadow: 18px 18px 0 #e8e3d4, 0 18px 45px rgba(38,55,47,.10); }
+.teacher-portrait { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 38%; border-radius: 180px 180px 9px 9px; }
+.portrait-caption { position: absolute; left: 28px; right: 28px; bottom: 25px; display: flex; align-items: center; gap: 12px; padding: 13px 15px; background: rgba(255,253,248,.96); border: 1px solid rgba(228,223,206,.95); border-radius: 9px; box-shadow: 0 8px 24px rgba(38,55,47,.10); }
+.portrait-caption-mark { display: grid; place-items: center; flex: 0 0 38px; width: 38px; height: 38px; border-radius: 50%; background: #edf2e9; color: var(--gold); font-size: 1.2rem; }
+.portrait-caption strong, .portrait-caption small { display: block; line-height: 1.4; }
+.portrait-caption strong { font: 700 .91rem var(--serif); color: var(--ink); }
+.portrait-caption small { margin-top: 4px; color: var(--muted); font-size: .66rem; }
+.portrait-decoration { position: absolute; z-index: 2; color: var(--gold); text-shadow: 0 2px 8px rgba(196,154,74,.15); }
+.portrait-decoration-one { top: 28px; right: 3%; font-size: 2.4rem; }
+.portrait-decoration-two { bottom: 37px; left: 2%; font-size: 1.9rem; }
+html[lang="ar"] .portrait-caption { direction: rtl; }
+@media (max-width: 850px) { .teacher-portrait-wrap { min-height: 0; padding: 10px 20px 35px; }.portrait-frame { width: min(100%, 430px); } }
+@media (max-width: 560px) { .teacher-portrait-wrap { padding: 5px 14px 30px; }.portrait-caption { left: 18px; right: 18px; bottom: 19px; padding: 10px; }.portrait-caption strong { font-size: .82rem; }.portrait-caption small { font-size: .61rem; } }
