@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" id="htmlRoot">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arabic Lessons | دروس العربية | Learning with Sarah</title>
+<link rel="icon" type="image/png" href="../../images/quran.png">
+<link rel="apple-touch-icon" href="images/quran.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Poppins:wght@400;500;700;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg-dark: #0a1628;
+    --gold: #f5c542;
+    --gold-dark: #d4a24c;
+    --teal: #2dd4bf;
+    --text: #eaf2ff;
+    --text-soft: #b8cce6;
+    --card-bg: rgba(255, 255, 255, 0.06);
+    --card-border: rgba(245, 197, 66, 0.25);
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html[lang="ar"] body { font-family: 'Tajawal', sans-serif; }
+  html[lang="en"] body { font-family: 'Poppins', sans-serif; }
+
+  .font-ar { font-family: 'Amiri', serif; }
+
+  body {
+    background: radial-gradient(circle at 20% 10%, #1a3355 0%, var(--bg-dark) 55%, #050b14 100%);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  html[lang="ar"] .en-only { display: none !important; }
+  html[lang="en"] .ar-only { display: none !important; }
+
+  .container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ============ LANGUAGE TOGGLE ============ */
+  .lang-toggle-wrap {
+    position: fixed;
+    top: 18px;
+    z-index: 100;
+  }
+  html[lang="ar"] .lang-toggle-wrap { left: 18px; }
+  html[lang="en"] .lang-toggle-wrap { right: 18px; }
+
+  .lang-toggle {
+    display: flex;
+    background: rgba(10, 22, 40, 0.85);
+    border: 1px solid var(--card-border);
+    border-radius: 50px;
+    padding: 4px;
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow);
+  }
+  .lang-toggle button {
+    border: none;
+    background: transparent;
+    color: var(--text-soft);
+    font-family: 'Tajawal', 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 8px 16px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .lang-toggle button.active {
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: #1a1200;
+    box-shadow: 0 4px 12px rgba(245, 197, 66, 0.4);
+  }
+
+  /* ============ HEADER ============ */
+  header {
+    text-align: center;
+    padding: 100px 20px 50px;
+    position: relative;
+  }
+
+  .brand-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: #1a1200;
+    font-weight: 700;
+    padding: 8px 22px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(245, 197, 66, 0.4);
+    letter-spacing: 0.5px;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 900;
+    background: linear-gradient(135deg, #fff, var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+
+  .subtitle {
+    color: var(--text-soft);
+    font-size: 1.1rem;
+    max-width: 620px;
+    margin: 0 auto 32px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    padding: 12px 28px;
+    border-radius: 50px;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s;
+    font-family: inherit;
+    font-size: 0.95rem;
+  }
+
+  .btn-quiet {
+    background: transparent;
+    color: var(--text);
+    border: 2px solid var(--card-border);
+  }
+  .btn-quiet:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  /* ============ LESSONS GRID ============ */
+  .lessons-section {
+    padding: 20px 0 80px;
+  }
+
+  .section-heading {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .section-heading h2 {
+    font-size: clamp(1.5rem, 3.5vw, 2rem);
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+
+  .lessons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  .lesson-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 24px;
+    padding: 32px 26px;
+    text-decoration: none;
+    color: var(--text);
+    transition: all 0.35s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    backdrop-filter: blur(10px);
+  }
+
+  .lesson-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 5px;
+    background: var(--accent, var(--gold));
+    transition: height 0.3s;
+  }
+
+  .lesson-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    border-color: var(--accent, var(--gold));
+    background: rgba(255, 255, 255, 0.09);
+  }
+
+  .lesson-card:hover::before {
+    height: 6px;
+  }
+
+  .lesson-card .icon {
+    font-size: 3.2rem;
+    margin-bottom: 18px;
+    display: block;
+    line-height: 1;
+    font-family: 'Amiri', serif;
+    color: var(--accent, var(--gold));
+  }
+
+  .lesson-card .kicker {
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: var(--accent, var(--gold));
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    opacity: 0.85;
+  }
+
+  .lesson-card h3 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+
+  .lesson-card .ar-name {
+    display: block;
+    font-family: 'Amiri', serif;
+    font-size: 1.5rem;
+    color: var(--accent, var(--gold));
+    font-weight: 700;
+    margin-top: 2px;
+  }
+
+  .lesson-card p {
+    color: var(--text-soft);
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+    flex-grow: 1;
+  }
+
+  .lesson-card .meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--accent, var(--gold));
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .lesson-card .meta .arrow {
+    font-size: 1.2rem;
+    transition: transform 0.3s;
+  }
+
+  .lesson-card:hover .meta .arrow {
+    transform: translateX(6px);
+  }
+
+  html[lang="ar"] .lesson-card:hover .meta .arrow {
+    transform: translateX(-6px);
+  }
+
+  /* ============ ACCENT COLORS ============ */
+  .card-gold   { --accent: #f5c542; }
+  .card-sage   { --accent: #8ba888; }
+  .card-peach  { --accent: #e8b48c; }
+  .card-lilac  { --accent: #b8a5d1; }
+
+  /* ============ FOOTER ============ */
+  footer {
+    text-align: center;
+    padding: 40px 24px;
+    color: var(--text-soft);
+    font-size: 0.9rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  footer strong {
+    color: var(--gold);
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 640px) {
+    header { padding: 80px 16px 30px; }
+    .lang-toggle-wrap { top: 12px; }
+    html[lang="ar"] .lang-toggle-wrap { left: 12px; }
+    html[lang="en"] .lang-toggle-wrap { right: 12px; }
+    .lesson-card { padding: 26px 22px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ LANGUAGE TOGGLE ============ -->
+<div class="lang-toggle-wrap">
+  <div class="lang-toggle">
+    <button id="btnEn" class="active" onclick="setLang('en')">🇬🇧 English</button>
+    <button id="btnAr" onclick="setLang('ar')">🇪🇬 العربية</button>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ============ HEADER ============ -->
+  <header>
+    <div class="brand-badge">
+      <span class="en-only">⭐ Verified & Certified Learning Platform</span>
+      <span class="ar-only">⭐ موقع تعليمي موثّق ومعتمد</span>
+    </div>
+
+    <h1>
+      <span class="en-only">Master the <em style="font-family:'Amiri',serif;">Rules of Tajweed</em></span>
+      <span class="ar-only">أَتْقِنْ <em style="font-family:'Amiri',serif;">أَحْكَامَ التَّجْوِيد</em></span>
+    </h1>
+
+    <p class="subtitle">
+      <span class="en-only">Interactive Arabic lessons with audio, games, and certificates — perfect for young learners and beginners. Follow the Noor Al-Bayan method.</span>
+      <span class="ar-only">دروس تفاعلية في اللغة العربية مع الصوت والألعاب والشهادات — مثالية للمتعلمين الصغار والمبتدئين. وفق منهج القاعدة النورانية.</span>
+    </p>
+
+    <a class="btn btn-quiet" href="../../index.html">
+      <span class="en-only">← Back to home</span>
+      <span class="ar-only">العودة للرئيسية →</span>
+    </a>
+  </header>
+
+  <!-- ============ LESSONS ============ -->
+  <section class="lessons-section">
+    <div class="section-heading">
+      <span class="eyebrow">
+        <span class="en-only">CHOOSE YOUR LESSON · NOOR AL-BAYAN ORDER</span>
+        <span class="ar-only">اخْتَرْ دَرْسَك · تَرْتِيبُ القَاعِدَةِ النُّورَانِيَّة</span>
+      </span>
+      <h2>
+        <span class="en-only">Start learning Tajweed step by step</span>
+        <span class="ar-only">ابْدَأْ تَعَلُّمَ التَّجْوِيد خُطْوَةً بِخُطْوَة</span>
+      </h2>
+    </div>
+
+    <div class="lessons-grid">
+
+      <!-- FATHA (Lesson 01) -->
+      <a class="lesson-card card-sage" href="الفتحة-Fatha.html">
+        <span class="icon">َ</span>
+        <span class="kicker">
+          <span class="en-only">LESSON 01</span>
+          <span class="ar-only">الدَّرْسُ الأَوَّل</span>
+        </span>
+        <h3>
+          <span class="en-only">The Fatha</span>
+          <span class="ar-name">الفَتْحَة</span>
+        </h3>
+        <p>
+          <span class="en-only">Learn the short 'a' sound — the first of the three Arabic vowels.</span>
+          <span class="ar-only">تعلَّمْ صَوْتَ الأَلِفِ الْقَصِيرَة — أَوَّلُ الْحَرَكَاتِ الثَّلَاث.</span>
+        </p>
+        <span class="meta">
+          <span class="en-only">Start lesson</span>
+          <span class="ar-only">ابْدَأِ الدَّرْس</span>
+          <span class="arrow">→</span>
+        </span>
+      </a>
+
+      <!-- KASRA (Lesson 02) -->
+      <a class="lesson-card card-lilac" href="الكسرة-Kasra.html">
+        <span class="icon">ِ</span>
+        <span class="kicker">
+          <span class="en-only">LESSON 02</span>
+          <span class="ar-only">الدَّرْسُ الثَّانِي</span>
+        </span>
+        <h3>
+          <span class="en-only">The Kasra</span>
+          <span class="ar-name">الكَسْرَة</span>
+        </h3>
+        <p>
+          <span class="en-only">Learn the short 'i' sound — the second of the three Arabic vowels.</span>
+          <span class="ar-only">تعلَّمْ صَوْتَ الْيَاءِ الْقَصِيرَة — ثَانِي الْحَرَكَاتِ الثَّلَاث.</span>
+        </p>
+        <span class="meta">
+          <span class="en-only">Start lesson</span>
+          <span class="ar-only">ابْدَأِ الدَّرْس</span>
+          <span class="arrow">→</span>
+        </span>
+      </a>
+
+      <!-- DAMMA (Lesson 03) -->
+      <a class="lesson-card card-peach" href="الضمة-Damma.html">
+        <span class="icon">ُ</span>
+        <span class="kicker">
+          <span class="en-only">LESSON 03</span>
+          <span class="ar-only">الدَّرْسُ الثَّالِث</span>
+        </span>
+        <h3>
+          <span class="en-only">The Damma</span>
+          <span class="ar-name">الضَّمَّة</span>
+        </h3>
+        <p>
+          <span class="en-only">Learn the short 'u' sound — the third of the three Arabic vowels.</span>
+          <span class="ar-only">تعلَّمْ صَوْتَ الْوَاوِ الْقَصِيرَة — ثَالِثُ الْحَرَكَاتِ الثَّلَاث.</span>
+        </p>
+        <span class="meta">
+          <span class="en-only">Start lesson</span>
+          <span class="ar-only">ابْدَأِ الدَّرْس</span>
+          <span class="arrow">→</span>
+        </span>
+      </a>
+
+      <!-- ALIF MADD (Lesson 04) -->
+      <a class="lesson-card card-sage" href="ألف-المد-Alif-Madd.html">
+        <span class="icon">ا</span>
+        <span class="kicker">
+          <span class="en-only">LESSON 04</span>
+          <span class="ar-only">الدَّرْسُ الرَّابِع</span>
+        </span>
+        <h3>
+          <span class="en-only">Alif Madd</span>
+          <span class="ar-name">أَلِف المَدّ</span>
+        </h3>
+        <p>
+          <span class="en-only">Learn how to stretch the 'a' sound with the Alif Madd.</span>
+          <span class="ar-only">تعلَّمْ كَيْفِيَّةَ مَدِّ صَوْتِ الأَلِفِ مَعَ أَلِف المَدّ.</span>
+        </p>
+        <span class="meta">
+          <span class="en-only">Start lesson</span>
+          <span class="ar-only">ابْدَأِ الدَّرْس</span>
+          <span class="arrow">→</span>
+        </span>
+      </a>
+
+      <!-- WAW MADD (Lesson 05) -->
+      <a class="lesson-card card-peach" href="واو-المد-Waw-Madd.html">
+        <span class="icon">و</span>
+        <span class="kicker">
+          <span class="en-only">LESSON 05</span>
+          <span class="ar-only">الدَّرْسُ الخَامِس</span>
+        </span>
+        <h3>
+          <span class="en-only">Waw Madd</span>
+          <span class="ar-name">وَاو المَدّ</span>
+        </h3>
+        <p>
+          <span class="en-only">Learn how to stretch the 'u' sound with the Waw Madd.</span>
+          <span class="ar-only">تعلَّمْ كَيْفِيَّةَ مَدِّ صَوْتِ الْوَاوِ مَعَ وَاو المَدّ.</span>
+        </p>
+        <span class="meta">
+          <span class="en-only">Start lesson</span>
+          <span class="ar-only">ابْدَأِ الدَّرْس</span>
+          <span class="arrow">→</span>
+        </span>
+      </a>
+
+      <!-- YA MADD (Lesson 06) -->
+      <a class="lesson-card card-lilac" href="ياء-المد-Ya-Madd.html">
+        <span class="icon">ي</span>
+        <span class="kicker">
+          <span class="en-only">LESSON 06</span>
+          <span class="ar-only">الدَّرْسُ السَّادِس</span>
+        </span>
+        <h3>
+          <span class="en-only">Ya Madd</span>
+          <span class="ar-name">يَاء المَدّ</span>
+        </h3>
+        <p>
+          <span class="en-only">Learn how to stretch the 'i' sound with the Ya Madd.</span>
+          <span class="ar-only">تعلَّمْ كَيْفِيَّةَ مَدِّ صَوْتِ الْيَاءِ مَعَ يَاء المَدّ.</span>
+        </p>
+        <span class="meta">
+          <span class="en-only">Start lesson</span>
+          <span class="ar-only">ابْدَأِ الدَّرْس</span>
+          <span class="arrow">→</span>
+        </span>
+      </a>
+
+      <!-- SUKOON (Lesson 07) -->
+      <a class="lesson-card card-peach" href="sukoon.html">
+        <span class="icon">ْ</span>
+        <span class="kicker">
+          <span class="en-only">LESSON 07</span>
+          <span class="ar-only">الدَّرْسُ السَّابِع</span>
+        </span>
+        <h3>
+          <span class="en-only">The Sukoon</span>
+          <span class="ar-name">السُّكُون</span>
+        </h3>
+        <p>
+          <span class="en-only">Learn to stop cleanly on silent letters like مَنْ and قُلْ.</span>
+          <span class="ar-only">تعلَّمِ الوُقُوفَ بِوُضُوحٍ عَلَى الحُرُوفِ السَّاكِنَةِ مِثْلَ مَنْ وَقُلْ.</span>
+        </p>
+        <span class="meta">
+          <span class="en-only">Start lesson</span>
+          <span class="ar-only">ابْدَأِ الدَّرْس</span>
+          <span class="arrow">→</span>
+        </span>
+      </a>
+
+      <!-- SHADDAH (Lesson 08) -->
+      <a class="lesson-card card-sage" href="الشدة-Shadah.html">
+        <span class="icon">ّ</span>
+        <span class="kicker">
+          <span class="en-only">LESSON 08</span>
+          <span class="ar-only">الدَّرْسُ الثَّامِن</span>
+        </span>
+        <h3>
+          <span class="en-only">The Shaddah</span>
+          <span class="ar-name">الشَّدَّة</span>
+        </h3>
+        <p>
+          <span class="en-only">Learn how to pronounce doubled letters like مُحَمَّد and اللَّه.</span>
+          <span class="ar-only">تعلَّمْ كَيْفِيَّةَ نُطْقِ الحُرُوفِ المُشَدَّدَةِ مِثْلَ مُحَمَّد وَاللَّه.</span>
+        </p>
+        <span class="meta">
+          <span class="en-only">Start lesson</span>
+          <span class="ar-only">ابْدَأِ الدَّرْس</span>
+          <span class="arrow">→</span>
+        </span>
+      </a>
+
+      <!-- QALQALAH (Lesson 09) -->
+      <a class="lesson-card card-lilac" href="qalqalah.html">
+        <span class="icon">🔔</span>
+        <span class="kicker">
+          <span class="en-only">LESSON 09</span>
+          <span class="ar-only">الدَّرْسُ التَّاسِع</span>
+        </span>
+        <h3>
+          <span class="en-only">The Qalqalah</span>
+          <span class="ar-name">القَلْقَلَة</span>
+        </h3>
+        <p>
+          <span class="en-only">Master the bouncing sound of ق، ط، ب، ج، د when they are silent.</span>
+          <span class="ar-only">أَتْقِنْ صَوْتَ الِاهْتِزَازِ لِحُرُوفِ ق، ط، ب، ج، د عِنْدَ سُكُونِهَا.</span>
+        </p>
+        <span class="meta">
+          <span class="en-only">Start lesson</span>
+          <span class="ar-only">ابْدَأِ الدَّرْس</span>
+          <span class="arrow">→</span>
+        </span>
+      </a>
+
+      <!-- MOON LAM (Lesson 10) 
+      <a class="lesson-card card-gold" href="اللام-القمرية-Lam-Qamariyah.html">
+        <span class="icon">🌙</span>
+        <span class="kicker">
+          <span class="en-only">LESSON 10</span>
+          <span class="ar-only">الدَّرْسُ العَاشِر</span>
+        </span>
+        <h3>
+          <span class="en-only">The Moon Lam</span>
+          <span class="ar-name">اللَّامُ القَمَرِيَّة</span>
+        </h3>
+        <p>
+          <span class="en-only">Master the 14 Moon Letters and how to pronounce الـ clearly.</span>
+          <span class="ar-only">أَتْقِنِ الحُرُوفَ القَمَرِيَّةَ الأَرْبَعَةَ عَشَرَ وَنُطْقَ «الـ» بِوُضُوح.</span>
+        </p>
+        <span class="meta">
+          <span class="en-only">Start lesson</span>
+          <span class="ar-only">ابْدَأِ الدَّرْس</span>
+          <span class="arrow">→</span>
+        </span>
+      </a> -->
+
+      <!-- SUN LAM (Lesson 11) 
+      <a class="lesson-card card-gold" href="اللام-الشمسية-Lam-Shamsiyah.html">
+        <span class="icon">☀️</span>
+        <span class="kicker">
+          <span class="en-only">LESSON 11</span>
+          <span class="ar-only">الدَّرْسُ الحَادِي عَشَر</span>
+        </span>
+        <h3>
+          <span class="en-only">The Sun Lam</span>
+          <span class="ar-name">اللَّامُ الشَّمْسِيَّة</span>
+        </h3>
+        <p>
+          <span class="en-only">Learn why the Lam is silent in words like الشَّمْس and الدَّرْس.</span>
+          <span class="ar-only">تعلَّمْ لِمَاذَا لَا تُنْطَقُ اللَّامُ فِي كَلِمَاتٍ مِثْلَ الشَّمْس وَالدَّرْس.</span>
+        </p>
+        <span class="meta">
+          <span class="en-only">Start lesson</span>
+          <span class="ar-only">ابْدَأِ الدَّرْس</span>
+          <span class="arrow">→</span>
+        </span>
+      </a>  -->
+
+      <!-- REVISION: MOON + SUN LAM 
+      <a class="lesson-card card-gold" href="اللام-القمرية-والشمسية-Revision.html">
+        <span class="icon">🔁</span>
+        <span class="kicker">
+          <span class="en-only">REVISION</span>
+          <span class="ar-only">مُرَاجَعَة</span>
+        </span>
+        <h3>
+          <span class="en-only">Moon &amp; Sun Lam</span>
+          <span class="ar-name">القَمَرِيَّة وَالشَّمْسِيَّة</span>
+        </h3>
+        <p>
+          <span class="en-only">Compare both rules side-by-side, practice mixed words, and test yourself.</span>
+          <span class="ar-only">قَارِنْ بَيْنَ القَاعِدَتَيْنِ، تَدَرَّبْ عَلَى كَلِمَاتٍ مُخْتَلِطَة، وَاخْتَبِرْ نَفْسَك.</span>
+        </p>
+        <span class="meta">
+          <span class="en-only">Start revision</span>
+          <span class="ar-only">ابْدَأِ المُرَاجَعَة</span>
+          <span class="arrow">→</span>
+        </span>
+      </a> -->
+
+    </div>
+  </section>
+
+</div>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <p>© <span id="year"></span> — <span class="en-only">Learning with Sarah</span><span class="ar-only">سارة للتعلّم</span></p>
+  <p style="margin-top: 6px;">Quran • Arabic • Islamic Studies</p>
+</footer>
+
+<script>
+/* ============================================================
+   LANGUAGE TOGGLE
+   ============================================================ */
+let currentLang = "en";
+
+function setLang(lang) {
+  currentLang = lang;
+  const html = document.getElementById("htmlRoot");
+  html.lang = lang;
+  html.dir = lang === "ar" ? "rtl" : "ltr";
+
+  document.getElementById("btnEn").classList.toggle("active", lang === "en");
+  document.getElementById("btnAr").classList.toggle("active", lang === "ar");
+
+  try { localStorage.setItem("preferredLangArabicLanding", lang); } catch(e) {}
+}
+
+try {
+  const saved = localStorage.getItem("preferredLangArabicLanding");
+  if (saved === "ar") setLang("ar");
+} catch(e) {}
+
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>

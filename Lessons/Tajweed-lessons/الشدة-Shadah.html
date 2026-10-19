@@ -269,9 +269,23 @@
 
   <div class="video-embed-wrap">
     <div class="video-embed-frame">
+      <!-- Arabic Video (default) -->
       <iframe
+        id="video-ar"
+        class="ar-only"
         src="https://www.youtube.com/embed/AIGUZM65fiw"
         title="شرح الشَّدَّة"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen></iframe>
+
+      <!-- English Video -->
+      <iframe
+        id="video-en"
+        class="en-only"
+        src="https://www.youtube.com/embed/srT3owmJpzE"
+        title="Shaddah Explanation"
         frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         referrerpolicy="strict-origin-when-cross-origin"
@@ -302,7 +316,9 @@
         </li>
       </ul>
 
+      <!-- Dynamic link button -->
       <a class="button btn-primary video-link-btn"
+         id="videoLinkBtn"
          href="https://www.youtube.com/watch?v=AIGUZM65fiw"
          target="_blank" rel="noopener">
         <span class="ar-only">شاهد على يوتيوب ↗</span>
@@ -482,23 +498,6 @@
 <script>
 /* ============================================================
    AZURE NEURAL TTS CONFIGURATION
-   ============================================================
-   To get your free Azure API key:
-   1. Go to https://azure.microsoft.com/free/
-   2. Create a free account (no credit card required for free tier)
-   3. Go to Azure Portal → Create Resource → "Speech Services"
-   4. Choose region "Saudi Arabia" (closest to Arabic) or "West Europe"
-   5. Copy your "Key" and "Region"
-   6. Paste them below
-   
-   Free tier: 0.5 million characters/month for Neural voices.
-   For 14 words × ~20 chars × 1000 users = ~280K chars — well within the free tier.
-   ============================================================ */
-/* ============================================================
-   AZURE NEURAL TTS CONFIGURATION
-   ============================================================
-   The real key is stored in "config.js" (never committed to git).
-   If config.js is missing, TTS falls back to browser voice.
    ============================================================ */
 const AZURE_TTS_CONFIG = window.AZURE_TTS_CONFIG || {
   subscriptionKey: "",
@@ -524,6 +523,14 @@ function setLang(lang) {
   document.getElementById("btnEn").classList.toggle("text-amber-950", lang === "en");
   document.getElementById("btnEn").classList.toggle("text-slate-300", lang !== "en");
 
+  // Swap video & YouTube link
+  const videoLinkBtn = document.getElementById("videoLinkBtn");
+  if (lang === "en") {
+    videoLinkBtn.href = "https://www.youtube.com/watch?v=uGU8V_jS1aA"; // English video link
+  } else {
+    videoLinkBtn.href = "https://www.youtube.com/watch?v=AIGUZM65fiw"; // Arabic video link
+  }
+
   renderCards();
   renderGameQuestion();
   renderQuizQuestion();
@@ -534,7 +541,7 @@ function setLang(lang) {
 }
 
 /* ============================================================
-   LETTER DATA (with full Tashkeel for perfect TTS)
+   LETTER DATA
    ============================================================ */
 const letters = [
   { letter: "م", word: "مُحَمَّد",   ttsText: "مُحَمَّدٌ",   translit: "Muhammad",  emoji: "🕌", en: "The Prophet Muhammad", ar: "النَّبِيُّ مُحَمَّد ﷺ",     color: "amber"  },
@@ -633,19 +640,23 @@ function updateCardsProgress() {
    AZURE NEURAL TTS ENGINE
    ============================================================ */
 let currentTtsText = "مُحَمَّدٌ";
-let azureAudioContext = null;
 
 async function speakWithAzure(text) {
   currentTtsText = text;
   const btn = document.getElementById("listenBtn");
   const originalHTML = btn.innerHTML;
 
-  // Show loading state
   btn.innerHTML = `<span class="audio-loading"></span>`;
   btn.disabled = true;
 
+  if (!AZURE_TTS_CONFIG.subscriptionKey || AZURE_TTS_CONFIG.subscriptionKey === "YOUR_AZURE_KEY_HERE") {
+    speakFallback(text);
+    btn.innerHTML = originalHTML;
+    btn.disabled = false;
+    return;
+  }
+
   try {
-    // Azure TTS REST API call
     const endpoint = `https://${AZURE_TTS_CONFIG.region}.tts.speech.microsoft.com/cognitiveservices/v1`;
 
     const ssml = `
@@ -664,14 +675,12 @@ async function speakWithAzure(text) {
         "Ocp-Apim-Subscription-Key": AZURE_TTS_CONFIG.subscriptionKey,
         "Content-Type": "application/ssml+xml",
         "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
-        "User-Agent": "SarahAhmedQuranLesson"
+        "User-Agent": "SarahAhmedShaddahLesson"
       },
       body: ssml
     });
 
-    if (!response.ok) {
-      throw new Error(`Azure TTS error: ${response.status}`);
-    }
+    if (!response.ok) throw new Error(`Azure TTS error: ${response.status}`);
 
     const audioBlob = await response.blob();
     const audioUrl = URL.createObjectURL(audioBlob);
@@ -682,7 +691,6 @@ async function speakWithAzure(text) {
 
   } catch (error) {
     console.error("Azure TTS failed:", error);
-    // Fallback: Browser TTS with Arabic text (better than nothing)
     speakFallback(text);
   } finally {
     btn.innerHTML = originalHTML;
@@ -690,39 +698,28 @@ async function speakWithAzure(text) {
   }
 }
 
-function playCurrentAudio() {
-  speakWithAzure(currentTtsText);
-}
+function playCurrentAudio() { speakWithAzure(currentTtsText); }
 
-/* ============================================================
-   BROWSER TTS FALLBACK (only if Azure key is missing/invalid)
-   ============================================================ */
 function speakFallback(text) {
   if ("speechSynthesis" in window) {
-    // Cancel any ongoing speech
     speechSynthesis.cancel();
-
     const u = new SpeechSynthesisUtterance(text);
     u.lang = "ar-SA";
     u.rate = 0.85;
     u.pitch = 1.0;
-
-    // Try to find an Arabic voice
     const voices = speechSynthesis.getVoices();
     const arabicVoice = voices.find(v => v.lang.startsWith("ar"));
     if (arabicVoice) u.voice = arabicVoice;
-
     speechSynthesis.speak(u);
   }
 }
 
-// Preload voices for fallback
 if ("speechSynthesis" in window) {
   speechSynthesis.onvoiceschanged = () => {};
 }
 
 /* ============================================================
-   GAME & QUIZ DATA (same as before, abbreviated for space)
+   GAME DATA
    ============================================================ */
 const gameQuestions = {
   ar: [
@@ -741,6 +738,9 @@ const gameQuestions = {
   ]
 };
 
+/* ============================================================
+   QUIZ DATA
+   ============================================================ */
 const quizQuestions = {
   ar: [
     { q: "الشَّدَّةُ تَعْنِي:", options: ["حَرْفًا سَاكِنًا", "حَرْفَيْنِ فِي حَرْفٍ وَاحِد", "حَذْفَ الْحَرْف", "مَدًّا طَوِيلًا"], correct: 1 },
