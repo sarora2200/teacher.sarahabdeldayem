@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" id="htmlRoot">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Islamic Books Library | مكتبة الكتب الإسلامية | Learning with Sarah</title>
+<link rel="icon" type="image/png" href="../../../images/quran.png">
+<link rel="apple-touch-icon" href="../../../images/quran.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Poppins:wght@400;500;700;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg-dark: #0a1628;
+    --gold: #f5c542;
+    --gold-dark: #d4a24c;
+    --gold-soft: #ffe08a;
+    --teal: #2dd4bf;
+    --text: #eaf2ff;
+    --text-soft: #b8cce6;
+    --card-bg: rgba(255, 255, 255, 0.06);
+    --card-border: rgba(245, 197, 66, 0.25);
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    --nav-bg: rgba(10, 22, 40, 0.92);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html[lang="ar"] body { font-family: 'Tajawal', sans-serif; }
+  html[lang="en"] body { font-family: 'Poppins', sans-serif; }
+
+  .font-ar { font-family: 'Amiri', serif; }
+
+  body {
+    background: radial-gradient(circle at 20% 10%, #1a3355 0%, var(--bg-dark) 55%, #050b14 100%);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.7;
+    overflow-x: hidden;
+    padding-top: 70px;
+  }
+
+  html[lang="ar"] .en-only { display: none !important; }
+  html[lang="en"] .ar-only { display: none !important; }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ============ TOP TOOLBAR ============ */
+  .top-toolbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: var(--nav-bg);
+    border-bottom: 1px solid var(--card-border);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .toolbar-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .toolbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 900;
+    font-size: 1.1rem;
+    color: var(--gold);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .toolbar-brand .brand-mark {
+    width: 34px;
+    height: 34px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: #1a1200;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Amiri', serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+
+  .toolbar-nav {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+    justify-content: center;
+  }
+
+  .toolbar-nav a {
+    color: var(--text-soft);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.88rem;
+    padding: 8px 14px;
+    border-radius: 50px;
+    transition: all 0.25s;
+    white-space: nowrap;
+  }
+
+  .toolbar-nav a:hover {
+    background: rgba(245, 197, 66, 0.12);
+    color: var(--gold);
+  }
+
+  .lang-toggle {
+    display: flex;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--card-border);
+    border-radius: 50px;
+    padding: 3px;
+    flex-shrink: 0;
+  }
+
+  .lang-toggle button {
+    border: none;
+    background: transparent;
+    color: var(--text-soft);
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 0.82rem;
+    padding: 6px 14px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+    white-space: nowrap;
+  }
+
+  .lang-toggle button.active {
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: #1a1200;
+    box-shadow: 0 3px 10px rgba(245, 197, 66, 0.4);
+  }
+
+  .mobile-menu-btn {
+    display: none;
+    background: transparent;
+    border: 1px solid var(--card-border);
+    color: var(--gold);
+    font-size: 1.3rem;
+    padding: 6px 12px;
+    border-radius: 12px;
+    cursor: pointer;
+  }
+
+  /* ============ HEADER ============ */
+  header {
+    text-align: center;
+    padding: 40px 20px 40px;
+    position: relative;
+  }
+
+  .brand-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: #1a1200;
+    font-weight: 700;
+    padding: 8px 22px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(245, 197, 66, 0.4);
+    letter-spacing: 0.5px;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 900;
+    background: linear-gradient(135deg, #fff, var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+
+  .subtitle {
+    color: var(--text-soft);
+    font-size: 1.1rem;
+    max-width: 680px;
+    margin: 0 auto 32px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    padding: 12px 28px;
+    border-radius: 50px;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s;
+    font-family: inherit;
+    font-size: 0.95rem;
+  }
+
+  .btn-quiet {
+    background: transparent;
+    color: var(--text);
+    border: 2px solid var(--card-border);
+  }
+
+  .btn-quiet:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  /* ============ SECTION STRUCTURE ============ */
+  .library-section {
+    padding: 20px 0 60px;
+  }
+
+  .category-title {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 40px 0 24px;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--gold-soft);
+  }
+
+  .category-title::before {
+    content: "";
+    width: 6px;
+    height: 28px;
+    background: linear-gradient(var(--gold), var(--teal));
+    border-radius: 3px;
+  }
+
+  .category-title .count {
+    font-size: 0.8rem;
+    background: rgba(245, 197, 66, 0.15);
+    color: var(--gold);
+    padding: 3px 12px;
+    border-radius: 50px;
+    font-weight: 700;
+    border: 1px solid rgba(245, 197, 66, 0.4);
+  }
+
+  /* ============ BOOKS GRID ============ */
+  .books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+
+  .book-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 24px 20px;
+    text-decoration: none;
+    color: var(--text);
+    transition: all 0.35s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    backdrop-filter: blur(10px);
+    text-align: center;
+  }
+
+  .book-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--accent, var(--gold));
+    transition: height 0.3s;
+  }
+
+  .book-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    border-color: var(--accent, var(--gold));
+    background: rgba(255, 255, 255, 0.09);
+  }
+
+  .book-card:hover::before {
+    height: 6px;
+  }
+
+  .book-card .part-number {
+    display: inline-block;
+    background: rgba(245, 197, 66, 0.15);
+    border: 1px solid var(--accent, var(--gold));
+    color: var(--accent, var(--gold));
+    font-weight: 800;
+    font-size: 0.7rem;
+    letter-spacing: 1.5px;
+    padding: 3px 12px;
+    border-radius: 50px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+
+  .book-card .icon {
+    font-size: 2.6rem;
+    margin-bottom: 10px;
+    display: block;
+    line-height: 1;
+    color: var(--accent, var(--gold));
+  }
+
+  .book-card h3 {
+    font-size: 1.05rem;
+    font-weight: 800;
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+
+  .book-card .ar-name {
+    display: block;
+    font-family: 'Amiri', serif;
+    font-size: 1.2rem;
+    color: var(--accent, var(--gold));
+    font-weight: 700;
+    margin-top: 2px;
+    margin-bottom: 10px;
+  }
+
+  .book-card p {
+    color: var(--text-soft);
+    font-size: 0.85rem;
+    margin-bottom: 14px;
+    flex-grow: 1;
+    line-height: 1.5;
+  }
+
+  .book-card .meta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--accent, var(--gold));
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .book-card .meta .arrow {
+    font-size: 1rem;
+    transition: transform 0.3s;
+  }
+
+  .book-card:hover .meta .arrow {
+    transform: translateX(6px);
+  }
+
+  html[lang="ar"] .book-card:hover .meta .arrow {
+    transform: translateX(-6px);
+  }
+
+  /* ============ ACCENT COLORS ============ */
+  .card-islamic-1 { --accent: #8ba888; }
+  .card-islamic-2 { --accent: #e8b48c; }
+  .card-islamic-3 { --accent: #b8a5d1; }
+
+  /* ============ COMING SOON ============ */
+  .coming-soon-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+  }
+
+  .coming-soon-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 2px dashed rgba(245, 197, 66, 0.2);
+    border-radius: 20px;
+    padding: 30px 18px;
+    text-align: center;
+    color: var(--text-soft);
+  }
+
+  .coming-soon-card .icon {
+    font-size: 2.4rem;
+    display: block;
+    margin-bottom: 10px;
+    opacity: 0.5;
+  }
+
+  .coming-soon-card h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .coming-soon-card p {
+    font-size: 0.8rem;
+    opacity: 0.7;
+  }
+
+  /* ============ INFO BOX ============ */
+  .info-box {
+    background: linear-gradient(135deg, rgba(245, 197, 66, 0.12), rgba(45, 212, 191, 0.08));
+    border: 2px dashed var(--gold);
+    border-radius: 20px;
+    padding: 26px;
+    margin-top: 40px;
+    text-align: center;
+  }
+
+  .info-box h3 {
+    color: var(--gold);
+    font-size: 1.15rem;
+    margin-bottom: 10px;
+  }
+
+  .info-box p {
+    color: var(--text-soft);
+    font-size: 0.95rem;
+    max-width: 620px;
+    margin: 0 auto;
+  }
+
+  /* ============ FOOTER ============ */
+  footer {
+    text-align: center;
+    padding: 40px 24px;
+    color: var(--text-soft);
+    font-size: 0.9rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  footer strong {
+    color: var(--gold);
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 850px) {
+    .toolbar-nav {
+      display: none;
+      position: absolute;
+      top: 70px;
+      left: 0;
+      right: 0;
+      background: var(--nav-bg);
+      flex-direction: column;
+      padding: 12px 24px;
+      border-bottom: 1px solid var(--card-border);
+      gap: 4px;
+      align-items: stretch;
+    }
+    .toolbar-nav.open { display: flex; }
+    .toolbar-nav a { padding: 12px 16px; text-align: center; }
+    .mobile-menu-btn { display: inline-block; }
+    .toolbar-brand .brand-text { display: none; }
+  }
+
+  @media (max-width: 640px) {
+    header { padding: 30px 16px 30px; }
+    .books-grid { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 14px; }
+    .coming-soon-grid { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 14px; }
+    .book-card { padding: 18px 14px; }
+    .book-card .icon { font-size: 2rem; }
+    .book-card h3 { font-size: 0.95rem; }
+    .book-card .ar-name { font-size: 1.05rem; }
+    .toolbar-inner { padding: 0 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ TOP TOOLBAR ============ -->
+<div class="top-toolbar">
+  <div class="toolbar-inner">
+
+    <a href="../../index.html" class="toolbar-brand">
+      <span class="brand-mark">ن</span>
+      <span class="brand-text">
+        <span class="en-only">Learning with Sarah</span>
+        <span class="ar-only">سارة للتعلّم</span>
+      </span>
+    </a>
+
+    <nav class="toolbar-nav" id="toolbarNav">
+      <a href="islamic-lessons.html">
+        <span class="en-only">Lessons</span>
+        <span class="ar-only">الدُّرُوس</span>
+      </a>
+      <a href="#books">
+        <span class="en-only">Islamic Books</span>
+        <span class="ar-only">الكتب الإسلامية</span>
+      </a>
+      <a href="../../index.html">
+        <span class="en-only">Home</span>
+        <span class="ar-only">الرئيسية</span>
+      </a>
+    </nav>
+
+    <div class="lang-toggle">
+      <button id="btnEn" class="active" onclick="setLang('en')">🇬🇧 EN</button>
+      <button id="btnAr" onclick="setLang('ar')">🇪🇬 ع</button>
+    </div>
+
+    <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
+
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ============ HEADER ============ -->
+  <header>
+    <div class="brand-badge">
+      <span class="en-only">⭐ Verified & Certified Islamic Library</span>
+      <span class="ar-only">⭐ مَكْتَبَةٌ إِسْلَامِيَّةٌ مُوثَّقَةٌ وَمُعْتَمَدَة</span>
+    </div>
+
+    <h1>
+      <span class="en-only">Islamic <em style="font-family:'Amiri',serif;">Books Library</em></span>
+      <span class="ar-only">مَكْتَبَةُ <em style="font-family:'Amiri',serif;">الكُتُبِ الإِسْلَامِيَّة</em></span>
+    </h1>
+
+    <p class="subtitle">
+      <span class="en-only">A trusted collection of Islamic books, duas, and resources to support your daily worship and learning.</span>
+      <span class="ar-only">مجموعة موثوقة من الكتب الإسلامية والأدعية والمصادر لدعم عبادتك وتعلمك اليومي.</span>
+    </p>
+
+    <a class="btn btn-quiet" href="islamic-lessons.html">
+      <span class="en-only">← Back to lessons</span>
+      <span class="ar-only">العودة للدروس →</span>
+    </a>
+  </header>
+
+  <!-- ============ LIBRARY ============ -->
+  <section class="library-section" id="books">
+
+    <!-- CATEGORY 1: DUAS & DAILY WORSHIP -->
+    <div class="category-title">
+      <span class="en-only">Duas & Daily Worship</span>
+      <span class="ar-only">الأَدْعِيَةُ وَالعِبَادَةُ اليَوْمِيَّة</span>
+      <span class="count">1</span>
+    </div>
+
+    <div class="books-grid">
+
+      <!-- DAILY DUAS -->
+      <a class="book-card card-islamic-1" href="ادعية.pdf" target="_blank" rel="noopener">
+        <span class="part-number">
+          <span class="en-only">DUAS</span>
+          <span class="ar-only">أَدْعِيَة</span>
+        </span>
+        <span class="icon">📿</span>
+        <h3>
+          <span class="en-only">Daily Duas</span>
+          <span class="ar-name">الأَدْعِيَةُ اليَوْمِيَّة</span>
+        </h3>
+        <p>
+          <span class="en-only">A family-friendly collection of daily duas for morning, evening, eating, sleeping, and more.</span>
+          <span class="ar-only">مجموعة مناسبة للعائلات من الأدعية اليومية للصباح والمساء والطعام والنوم وغيرها.</span>
+        </p>
+        <span class="meta">
+          <span class="en-only">Open PDF</span>
+          <span class="ar-only">افتح الملف</span>
+          <span class="arrow">→</span>
+        </span>
+      </a>
+
+    </div>
+
+    <!-- CATEGORY 2: COMING SOON -->
+    <div class="category-title">
+      <span class="en-only">Coming Soon</span>
+      <span class="ar-only">قَرِيبًا</span>
+    </div>
+
+    <div class="coming-soon-grid">
+      <div class="coming-soon-card">
+        <span class="icon">📖</span>
+        <h4>
+          <span class="en-only">Prophets' Stories</span>
+          <span class="ar-only">قصص الأنبياء</span>
+        </h4>
+        <p>
+          <span class="en-only">Coming soon</span>
+          <span class="ar-only">قريبًا</span>
+        </p>
+      </div>
+
+      <div class="coming-soon-card">
+        <span class="icon">🌙</span>
+        <h4>
+          <span class="en-only">Salah Guide</span>
+          <span class="ar-only">دليل الصلاة</span>
+        </h4>
+        <p>
+          <span class="en-only">Coming soon</span>
+          <span class="ar-only">قريبًا</span>
+        </p>
+      </div>
+
+      <div class="coming-soon-card">
+        <span class="icon">☪️</span>
+        <h4>
+          <span class="en-only">Islamic Manners</span>
+          <span class="ar-only">الآداب الإسلامية</span>
+        </h4>
+        <p>
+          <span class="en-only">Coming soon</span>
+          <span class="ar-only">قريبًا</span>
+        </p>
+      </div>
+
+      <div class="coming-soon-card">
+        <span class="icon">🕋</span>
+        <h4>
+          <span class="en-only">Pillars of Islam</span>
+          <span class="ar-only">أركان الإسلام</span>
+        </h4>
+        <p>
+          <span class="en-only">Coming soon</span>
+          <span class="ar-only">قريبًا</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- INFO BOX -->
+    <div class="info-box">
+      <h3>
+        <span class="en-only">📚 About Islamic Books</span>
+        <span class="ar-only">📚 عَنِ الكُتُبِ الإِسْلَامِيَّة</span>
+      </h3>
+      <p>
+        <span class="en-only">
+          These books teach the essential teachings of Islam — duas, Prophets' stories, manners, Salah,
+          and the pillars of the faith. Perfect for children, beginners, and new Muslims.
+        </span>
+        <span class="ar-only">
+          تُعلِّم هذه الكتب التعاليم الإسلامية الأساسية — الأدعية وقصص الأنبياء والآداب والصلاة
+          وأركان الإسلام. مثالية للأطفال والمبتدئين والمسلمين الجدد.
+        </span>
+      </p>
+    </div>
+
+  </section>
+
+</div>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <p>© <span id="year"></span> — <span class="en-only">Learning with Sarah</span><span class="ar-only">سارة للتعلّم</span></p>
+  <p style="margin-top: 6px;">Quran • Arabic • Islamic Studies</p>
+</footer>
+
+<script>
+/* ============================================================
+   LANGUAGE TOGGLE
+   ============================================================ */
+let currentLang = "en";
+
+function setLang(lang) {
+  currentLang = lang;
+  const html = document.getElementById("htmlRoot");
+  html.lang = lang;
+  html.dir = lang === "ar" ? "rtl" : "ltr";
+
+  document.getElementById("btnEn").classList.toggle("active", lang === "en");
+  document.getElementById("btnAr").classList.toggle("active", lang === "ar");
+
+  try { localStorage.setItem("preferredLangIslamicBooks", lang); } catch(e) {}
+}
+
+try {
+  const saved = localStorage.getItem("preferredLangIslamicBooks");
+  if (saved === "ar") setLang("ar");
+} catch(e) {}
+
+/* ============================================================
+   MOBILE MENU TOGGLE
+   ============================================================ */
+function toggleMenu() {
+  const nav = document.getElementById("toolbarNav");
+  nav.classList.toggle("open");
+}
+
+document.querySelectorAll(".toolbar-nav a").forEach(link => {
+  link.addEventListener("click", () => {
+    document.getElementById("toolbarNav").classList.remove("open");
+  });
+});
+
+/* ============================================================
+   FOOTER YEAR
+   ============================================================ */
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
