@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arabic Learning Mega Arcade 🎮</title>
+  <link rel="icon" type="image/png" href="images/quran.png">
+  <link rel="apple-touch-icon" href="images/quran.png">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Baloo+Bhaijaan+2:wght@600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-start: #ff9a9e;
+    --bg-end: #fecfef;
+    --panel-bg: rgba(255, 255, 255, 0.95);
+    --btn-main: #FF1493;
+    --btn-shadow: #C71585;
+    --btn-secondary: #00BFFF;
+    --btn-secondary-shadow: #008B8B;
+    --correct: #32CD32;
+    --wrong: #FF4500;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Fredoka One', cursive;
+    background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #333;
+    overflow-x: hidden;
+    user-select: none;
+  }
+
+  header {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  .logo { font-size: 32px; color: var(--btn-main); display: flex; align-items: center; gap: 10px; }
+  .nav-buttons { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+
+  .nav-btn {
+    font-family: 'Fredoka One', cursive;
+    font-size: 16px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 15px;
+    background: #f0f0f0;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 5px 0 #ccc;
+  }
+
+  .nav-btn:hover { background: #e0e0e0; transform: translateY(-2px); box-shadow: 0 7px 0 #ccc; }
+  .nav-btn.active { background: var(--btn-main); color: white; box-shadow: 0 5px 0 var(--btn-shadow); }
+
+  main { width: 100%; max-width: 900px; padding: 30px 20px; display: flex; flex-direction: column; align-items: center; flex: 1; }
+
+  .game-panel {
+    display: none;
+    width: 100%;
+    background: var(--panel-bg);
+    border-radius: 40px;
+    padding: 30px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15), inset 0 -10px 20px rgba(0,0,0,0.05);
+    text-align: center;
+    animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  .game-panel.active { display: block; }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+  .panel-title { font-size: 32px; color: var(--btn-main); margin-top: 0; margin-bottom: 15px; }
+
+  .score-board {
+    display: inline-block;
+    background: #FFF0F5;
+    padding: 8px 25px;
+    border-radius: 30px;
+    font-size: 22px;
+    color: #FF8C00;
+    border: 3px dashed #FF69B4;
+    margin-bottom: 20px;
+  }
+
+  .emoji-display { font-size: 100px; animation: pulse 2s infinite; margin: 10px 0; }
+  @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+  
+  .question-text { font-family: 'Baloo Bhaijaan 2', sans-serif; font-size: 26px; margin-bottom: 20px; }
+
+  .options-container { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+
+  .letter-btn {
+    font-family: 'Baloo Bhaijaan 2', sans-serif;
+    font-size: 50px;
+    font-weight: 800;
+    width: 100px;
+    height: 100px;
+    border-radius: 25px;
+    border: none;
+    background: #FFD700;
+    color: #4a2500;
+    cursor: pointer;
+    box-shadow: 0 10px 0 #ccac00, 0 10px 15px rgba(0,0,0,0.15);
+    transition: all 0.1s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .letter-btn:hover { background: #FFEA00; transform: translateY(-5px); box-shadow: 0 15px 0 #ccac00; }
+  .letter-btn:active { transform: translateY(8px); box-shadow: 0 2px 0 #ccac00; }
+
+  .correct { background: var(--correct) !important; color: white !important; box-shadow: 0 10px 0 #228B22 !important; }
+  .wrong { background: var(--wrong) !important; color: white !important; box-shadow: 0 10px 0 #B22222 !important; animation: shake 0.5s; }
+  @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
+
+  .memory-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; max-width: 400px; margin: 0 auto; }
+  .memory-card {
+    aspect-ratio: 1; background: var(--btn-secondary); border-radius: 15px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; font-size: 40px;
+    font-family: 'Baloo Bhaijaan 2', sans-serif; color: white; box-shadow: 0 6px 0 var(--btn-secondary-shadow);
+    transition: all 0.3s; transform-style: preserve-3d;
+  }
+  .memory-card.flipped { background: white; color: #333; transform: rotateY(180deg); box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+  .memory-card.matched { background: var(--correct); color: white; pointer-events: none; animation: pop 0.5s; }
+  @keyframes pop { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+
+  .color-box { width: 100px; height: 100px; border-radius: 20px; margin: 0 auto 20px auto; border: 4px solid #333; }
+
+  .action-btn {
+    font-family: 'Fredoka One', cursive; font-size: 24px; padding: 12px 35px;
+    border: none; border-radius: 20px; background: var(--btn-main); color: white; cursor: pointer;
+    box-shadow: 0 8px 0 var(--btn-shadow); transition: all 0.1s; margin-top: 20px;
+  }
+  .action-btn:active { transform: translateY(6px); box-shadow: 0 2px 0 var(--btn-shadow); }
+
+  .confetti { position: fixed; z-index: 150; animation: fall 2.5s linear forwards; }
+  @keyframes fall { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
+
+  /* Speed Game specific */
+  .speed-area { position: relative; width: 100%; height: 300px; background: #f0f0f0; border-radius: 20px; overflow: hidden; border: 4px solid #ddd;}
+  .floating-letter {
+    position: absolute; font-family: 'Baloo Bhaijaan 2'; font-size: 40px; font-weight: 800;
+    width: 70px; height: 70px; border-radius: 15px; border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 5px 0 rgba(0,0,0,0.2); background: #FFD700; color: #4a2500;
+    transition: transform 0.1s;
+  }
+  .floating-letter:active { transform: scale(0.9); }
+
+  /* Victory Screen */
+  .victory-screen {
+    background: linear-gradient(135deg, #FFD700, #FF8C00);
+    color: white; padding: 40px; border-radius: 30px; text-align: center;
+    animation: pop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  .victory-screen h2 { font-size: 50px; margin: 0 0 20px 0; text-shadow: 3px 3px 0 rgba(0,0,0,0.2); }
+
+  @media (max-width: 600px) {
+    .letter-btn { width: 70px; height: 70px; font-size: 35px; }
+    .emoji-display { font-size: 70px; }
+    .memory-grid { grid-template-columns: repeat(3, 1fr); }
+    .nav-btn { font-size: 14px; padding: 6px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">🦉 Arabic Learning</div>
+  <div class="nav-buttons">
+    <button class="nav-btn active" onclick="loadGame('g1', this)">1. Vocab</button>
+    <button class="nav-btn" onclick="loadGame('g2', this)">2. Memory</button>
+    <button class="nav-btn" onclick="loadGame('g3', this)">3. Vowels</button>
+    <button class="nav-btn" onclick="loadGame('g4', this)">4. Positions</button>
+    <button class="nav-btn" onclick="loadGame('g5', this)">5. Translate</button>
+    <button class="nav-btn" onclick="loadGame('g6', this)">6. Spelling</button>
+    <button class="nav-btn" onclick="loadGame('g7', this)">7. Colors</button>
+    <button class="nav-btn" onclick="loadGame('g8', this)">8. Odd One</button>
+    <button class="nav-btn" onclick="loadGame('g9', this)">9. Counting</button>
+    <button class="nav-btn" onclick="loadGame('g10', this)">10. Speed</button>
+  </div>
+</header>
+
+<main id="game-container"></main>
+
+<script>
+// ==========================================
+// --- GLOBAL ENGINE & AUDIO ---
+// ==========================================
+const AudioContext = window.AudioContext || window.webkitAudioContext;
+const audioCtx = new AudioContext();
+
+document.body.addEventListener('click', () => {
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+}, { once: true });
+
+function playSound(type) {
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+
+  if (type === 'correct') {
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+    osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1);
+    osc.frequency.setValueAtTime(783.99, audioCtx.currentTime + 0.2);
+    gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+    osc.start(); osc.stop(audioCtx.currentTime + 0.4);
+  } else if (type === 'wrong') {
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.3);
+    gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+    osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+  }
+}
+
+function showConfetti() {
+  const colors = ['#FF69B4', '#FFD700', '#32CD32', '#00BFFF', '#FF4500', '#9400D3'];
+  for (let i = 0; i < 40; i++) {
+    const c = document.createElement('div');
+    c.classList.add('confetti');
+    c.style.left = Math.random() * 100 + 'vw';
+    c.style.top = '-20px';
+    c.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    c.style.width = (Math.random() * 10 + 10) + 'px';
+    c.style.height = (Math.random() * 10 + 10) + 'px';
+    c.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+    c.style.animationDuration = (Math.random() * 1.5 + 1) + 's';
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 3000);
+  }
+}
+
+function shuffle(array) {
+  let currentIndex = array.length, randomIndex;
+  while (currentIndex !== 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+  }
+  return array;
+}
+
+const letterPool = ["أ", "ب", "ت", "ث", "ج", "ح", "خ", "د", "ذ", "ر", "ز", "س", "ش", "ص", "ض", "ط", "ظ", "ع", "غ", "ف", "ق", "ك", "ل", "م", "ن", "ه", "و", "ي"];
+
+// Helper for Victory Screen
+function showVictory(container, gameIdToRestart) {
+  showConfetti();
+  container.innerHTML = `
+    <div class="game-panel active">
+      <div class="victory-screen">
+        <h2>You Win! 🏆</h2>
+        <p style="font-size: 24px; margin-bottom: 30px;">Great job learning Arabic!</p>
+        <button class="action-btn" onclick="${gameIdToRestart}()" style="background: white; color: #FF8C00; box-shadow: 0 8px 0 #ccc;">Play Again 🔄</button>
+      </div>
+    </div>
+  `;
+}
+
+// ==========================================
+// --- 1. VOCABULARY MATCH ---
+// ==========================================
+const vocabData = [
+  { emoji: "🦁", english: "Lion (Asad)", correct: "أَسَد" },
+  { emoji: "🦆", english: "Duck (Batta)", correct: "بَطَّة" },
+  { emoji: "🍎", english: "Apple (Tuffaha)", correct: "تُفَّاحَة" },
+  { emoji: "🐍", english: "Snake (Thu'ban)", correct: "ثُعْبَان" },
+  { emoji: "🐫", english: "Camel (Jamal)", correct: "جَمَل" },
+  { emoji: "🐎", english: "Horse (Hisan)", correct: "حِصَان" },
+  { emoji: "🐑", english: "Sheep (Kharoof)", correct: "خَرُوف" },
+  { emoji: "🐻", english: "Bear (Dub)", correct: "دُبّ" }
+];
+
+let g1Pool = [], g1Score = 0;
+function startG1() {
+  g1Pool = shuffle([...vocabData]); // Shuffle the whole deck
+  g1Score = 0;
+  nextG1();
+}
+
+function nextG1() {
+  if (g1Pool.length === 0) {
+    showVictory(document.getElementById('game-container'), 'startG1');
+    return;
+  }
+  
+  const container = document.getElementById('game-container');
+  container.innerHTML = `
+    <div class="game-panel active" id="g1">
+      <h2 class="panel-title">Vocabulary Match</h2>
+      <div class="score-board">⭐ Score: <span id="g1-s">${g1Score}</span></div>
+      <div class="question-text">What is this in Arabic?</div>
+      <div class="emoji-display" id="g1-e">🦁</div>
+      <div class="options-container" id="g1-o"></div>
+      <button class="action-btn" id="g1-next" onclick="nextG1()" style="display:none; margin-top:30px;">Next ➡️</button>
+    </div>
+  `;
+  
+  // Pop the current item from the shuffled pool
+  const d = g1Pool.pop();
+  document.getElementById('g1-e').textContent = d.emoji;
+  
+  const opt = document.getElementById('g1-o');
+  let wrong1 = vocabData[Math.floor(Math.random() * vocabData.length)].correct;
+  while(wrong1 === d.correct) wrong1 = vocabData[Math.floor(Math.random() * vocabData.length)].correct;
+  
+  let options = shuffle([d.correct, wrong1, "كِتَاب", "قَلَم"]).slice(0, 3);
+  if(!options.includes(d.correct)) options[0] = d.correct; 
+  options = shuffle(options);
+
+  options.forEach(word => {
+    const btn = document.createElement('button');
+    btn.className = 'letter-btn'; btn.textContent = word;
+    btn.style.width = 'auto'; btn.style.padding = '10px 20px'; btn.style.fontSize = '30px';
+    btn.onclick = () => {
+      if (word === d.correct) {
+        btn.classList.add('correct'); playSound('correct'); showConfetti();
+        g1Score++; document.getElementById('g1-s').textContent = g1Score;
+        document.getElementById('g1-next').style.display = 'inline-block';
+        Array.from(opt.children).forEach(c => c.disabled = true);
+      } else {
+        btn.classList.add('wrong'); playSound('wrong');
+        setTimeout(() => btn.classList.remove('wrong'), 600);
+      }
+    };
+    opt.appendChild(btn);
+  });
+}
+
+// ==========================================
+// --- 2. MEMORY MATCH ---
+// ==========================================
+let g2Score = 0, g2Flipped = [], g2Lock = false;
+function startG2() {
+  g2Score = 0; g2Flipped = []; g2Lock = false;
+  const pairs = [
+    { l: "أ", e: "🦁" }, { l: "ب", e: "🦆" }, { l: "ت", e: "🍎" }, { l: "ث", e: "🐍" }
+  ];
+  let cards = [];
+  pairs.forEach(p => {
+    cards.push({ id: p.l, disp: p.l }); cards.push({ id: p.l, disp: p.e });
+  });
+  cards = shuffle(cards);
+  
+  const container = document.getElementById('game-container');
+  container.innerHTML = `
+    <div class="game-panel active" id="g2">
+      <h2 class="panel-title">Memory Match</h2>
+      <div class="score-board">🏆 Pairs: <span id="g2-s">0</span> / 4</div>
+      <div class="memory-grid" id="g2-grid"></div>
+    </div>
+  `;
+  const grid = document.getElementById('g2-grid');
+  cards.forEach(c => {
+    const card = document.createElement('div');
+    card.className = 'memory-card'; card.dataset.id = c.id; card.textContent = '?';
+    card.onclick = () => flipG2(card, c.disp);
+    grid.appendChild(card);
+  });
+}
+
+function flipG2(card, disp) {
+  if (g2Lock || card.classList.contains('flipped') || card.classList.contains('matched')) return;
+  card.classList.add('flipped'); card.textContent = disp;
+  g2Flipped.push({ card, id: card.dataset.id });
+  
+  if (g2Flipped.length === 2) {
+    g2Lock = true;
+    if (g2Flipped[0].id === g2Flipped[1].id) {
+      setTimeout(() => {
+        g2Flipped[0].card.classList.add('matched');
+        g2Flipped[1].card.classList.add('matched');
+        playSound('correct'); showConfetti();
+        g2Score++; document.getElementById('g2-s').textContent = g2Score;
+        g2Flipped = []; g2Lock = false;
+        if (g2Score === 4) setTimeout(() => showVictory(document.getElementById('game-container'), 'startG2'), 800);
+      }, 500);
+    } else {
+      setTimeout(() => {
+        g2Flipped[0].card.classList.remove('flipped'); g2Flipped[0].card.textContent = '?';
+        g2Flipped[1].card.classList.remove('flipped'); g2Flipped[1].card.textContent = '?';
+        playSound('wrong'); g2Flipped = []; g2Lock = false;
+      }, 1000);
+    }
+  }
+}
+
+// ==========================================
+// --- 3. SHORT VOWELS (HARAKAT) ---
+// ==========================================
+const harakatData = [
+  { letter: "ب", haraka: "فَتْحَة", symbol: "بَ", name: "Ba (Fatha)" },
+  { letter: "ب", haraka: "ضَمَّة", symbol: "بُ", name: "Bu (Damma)" },
+  { letter: "ب", haraka: "كَسْرَة", symbol: "بِ", name: "Bi (Kasra)" },
+  { letter: "ت", haraka: "فَتْحَة", symbol: "تَ", name: "Ta (Fatha)" },
+  { letter: "ت", haraka: "ضَمَّة", symbol: "تُ", name: "Tu (Damma)" },
+  { letter: "ت", haraka: "كَسْرَة", symbol: "تِ", name: "Ti (Kasra)" }
+];
+
+let g3Pool = [], g3Score = 0;
+function startG3() {
+  g3Pool = shuffle([...harakatData]);
+  g3Score = 0;
+  nextG3();
+}
+
+function nextG3() {
+  if (g3Pool.length === 0) {
+    showVictory(document.getElementById('game-container'), 'startG3');
+    return;
+  }
+  
+  const container = document.getElementById('game-container');
+  container.innerHTML = `
+    <div class="game-panel active" id="g3">
+      <h2 class="panel-title">Vowel Sounds</h2>
+      <div class="score-board">⭐ Score: <span id="g3-s">${g3Score}</span></div>
+      <div class="question-text">Which word matches this sound?</div>
+      <div class="emoji-display" id="g3-target" style="font-family:'Baloo Bhaijaan 2'; font-size:80px;">بَ</div>
+      <div class="options-container" id="g3-o"></div>
+      <button class="action-btn" id="g3-next" onclick="nextG3()" style="display:none; margin-top:30px;">Next ➡️</button>
+    </div>
+  `;
+  
+  const d = g3Pool.pop();
+  document.getElementById('g3-target').textContent = d.symbol;
+  
+  const opt = document.getElementById('g3-o');
+  let options = shuffle([d.name, "Ba (Fatha)", "Bu (Damma)", "Bi (Kasra)"]);
+  options = [d.name, "Ba (Fatha)", "Bu (Damma)", "Bi (Kasra)"].filter((v,i,a)=>a.indexOf(v)===i);
+  options = shuffle(options).slice(0, 3);
+  if(!options.includes(d.name)) options[0] = d.name;
+  options = shuffle(options);
+
+  options.forEach(name => {
+    const btn = document.createElement('button');
+    btn.className = 'letter-btn'; btn.textContent = name;
+    btn.style.width = 'auto'; btn.style.padding = '10px 20px'; btn.style.fontSize = '24px';
+    btn.onclick = () => {
+      if (name === d.name) {
+        btn.classList.add('correct'); playSound('correct'); showConfetti();
+        g3Score++; document.getElementById('g3-s').textContent = g3Score;
+        document.getElementById('g3-next').style.display = 'inline-block';
+        Array.from(opt.children).forEach(c => c.disabled = true);
+      } else {
+        btn.classList.add('wrong'); playSound('wrong');
+        setTimeout(() => btn.classList.remove('wrong'), 600);
+      }
+    };
+    opt.appendChild(btn);
+  });
+}
+
+// ==========================================
+// --- 4. LETTER POSITIONS ---
+// ==========================================
+const posData = [
+  { isolated: "ب", beginning: "بـ", middle: "ـبـ", end: "ـب" },
+  { isolated: "ت", beginning: "تـ", middle: "ـتـ", end: "ـت" },
+  { isolated: "ج", beginning: "جـ", middle: "ـجـ", end: "ـج" },
+  { isolated: "س", beginning: "سـ", middle: "ـسـ", end: "ـس" }
+];
+
+let g4Pool = [], g4Score = 0;
+function startG4() {
+  g4Pool = shuffle([...posData]);
+  g4Score = 0;
+  nextG4();
+}
+
+function nextG4() {
+  if (g4Pool.length === 0) {
+    showVictory(document.getElementById('game-container'), 'startG4');
+    return;
+  }
+  
+  const container = document.getElementById('game-container');
+  container.innerHTML = `
+    <div class="game-panel active" id="g4">
+      <h2 class="panel-title">Letter Positions</h2>
+      <div class="score-board">⭐ Score: <span id="g4-s">${g4Score}</span></div>
+      <div class="question-text">Find the form of the letter at the <strong>beginning</strong> of a word.</div>
+      <div class="emoji-display" id="g4-target" style="font-family:'Baloo Bhaijaan 2'; font-size:80px;">ب</div>
+      <div class="options-container" id="g4-grid"></div>
+      <button class="action-btn" id="g4-next" onclick="nextG4()" style="display:none; margin-top:30px;">Next ➡️</button>
+    </div>
+  `;
+  
+  const d = g4Pool.pop();
+  document.getElementById('g4-target').textContent = d.isolated;
+  
+  const opt = document.getElementById('g4-grid');
+  let options = shuffle([d.beginning, d.middle, d.end, "ـبـ"]).slice(0,3);
+  if(!options.includes(d.beginning)) options[0] = d.beginning;
+  options = shuffle(options);
+  
+  options.forEach(shape => {
+    const btn = document.createElement('button');
+    btn.className = 'letter-btn'; btn.textContent = shape;
+    btn.onclick = () => {
+      if (shape === d.beginning) {
+        btn.classList.add('correct'); playSound('correct'); showConfetti();
+        g4Score++; document.getElementById('g4-s').textContent = g4Score;
+        document.getElementById('g4-next').style.display = 'inline-block';
+        Array.from(opt.children).forEach(c => c.disabled = true);
+      } else {
+        btn.classList.add('wrong'); playSound('wrong');
+        setTimeout(() => btn.classList.remove('wrong'), 600);
+      }
+    };
+    opt.appendChild(btn);
+  });
+}
+
+// ==========================================
+// --- 5. TRANSLATE ---
+// ==========================================
+const wordsG5 = [
+  { en: "Book", ar: "كِتَاب" }, { en: "Pen", ar: "قَلَم" },
+  { en: "Sun", ar: "شَمْس" }, { en: "Moon", ar: "قَمَر" },
+  { en: "Water", ar: "مَاء" }, { en: "House", ar: "بَيْت" }
+];
+
+let g5Pool = [], g5Score = 0;
+function startG5() {
+  g5Pool = shuffle([...wordsG5]);
+  g5Score = 0;
+  nextG5();
+}
+
+function nextG5() {
+  if (g5Pool.length === 0) {
+    showVictory(document.getElementById('game-container'), 'startG5');
+    return;
+  }
+  
+  const container = document.getElementById('game-container');
+  container.innerHTML = `
+    <div class="game-panel active" id="g5">
+      <h2 class="panel-title">Translate</h2>
+      <div class="score-board">⭐ Score: <span id="g5-s">${g5Score}</span></div>
+      <div class="question-text">How do you say "<strong id="g5-word">Book</strong>" in Arabic?</div>
+      <div class="options-container" id="g5-o" style="margin-top:20px;"></div>
+      <button class="action-btn" id="g5-next" onclick="nextG5()" style="display:none; margin-top:30px;">Next ➡️</button>
+    </div>
+  `;
+  
+  const target = g5Pool.pop();
+  document.getElementById('g5-word').textContent = target.en;
+  
+  const opt = document.getElementById('g5-o');
+  let options = shuffle([target.ar, "كِتَاب", "قَلَم", "شَمْس", "قَمَر"]).slice(0, 3);
+  if(!options.includes(target.ar)) options[0] = target.ar;
+  options = shuffle(options);
+  
+  options.forEach(ar => {
+    const btn = document.createElement('button');
+    btn.className = 'letter-btn'; btn.textContent = ar;
+    btn.style.width = 'auto'; btn.style.padding = '10px 20px'; btn.style.fontSize = '30px';
+    btn.onclick = () => {
+      if (ar === target.ar) {
+        btn.classList.add('correct'); playSound('correct'); showConfetti();
+        g5Score++; document.getElementById('g5-s').textContent = g5Score;
+        document.getElementById('g5-next').style.display = 'inline-block';
+        Array.from(opt.children).forEach(c => c.disabled = true);
+      } else {
+        btn.classList.add('wrong'); playSound('wrong');
+        setTimeout(() => btn.classList.remove('wrong'), 600);
+      }
+    };
+    opt.appendChild(btn);
+  });
+}
+
+// ==========================================
+// --- 6. SPELLING (WORD BUILDER) ---
+// ==========================================
+const wordsG6 = [
+  { word: "بَاب", hint: "🚪" }, { word: "قَلَم", hint: "✏️" }, { word: "شَمْس", hint: "☀️" },
+  { word: "وَرْد", hint: "🌹" }, { word: "بَحْر", hint: "🌊" }, { word: "نَجْم", hint: "⭐" }
+];
+
+let g6Pool = [], g6Score = 0;
+function startG6() {
+  g6Pool = shuffle([...wordsG6]);
+  g6Score = 0;
+  nextG6();
+}
+
+function nextG6() {
+  if (g6Pool.length === 0) {
+    showVictory(document.getElementById('game-container'), 'startG6');
+    return;
+  }
+
+  const container = document.getElementById('game-container');
+  container.innerHTML = `
+    <div class="game-panel active" id="g6">
+      <h2 class="panel-title">Spelling</h2>
+      <div class="score-board">⭐ Score: <span id="g6-s">${g6Score}</span></div>
+      <div class="emoji-display" id="g6-hint">🚪</div>
+      <div class="question-text">Arrange the letters!</div>
+      <div id="g6-answer" style="font-size:50px; font-family:'Baloo Bhaijaan 2'; height:70px; border-bottom:3px dashed #ccc; margin-bottom:20px; color:#32CD32;"></div>
+      <div class="options-container" id="g6-o"></div>
+      <button class="action-btn" id="g6-next" onclick="nextG6()" style="display:none; margin-top:30px;">Next ➡️</button>
+    </div>
+  `;
+  
+  const data = g6Pool.pop();
+  document.getElementById('g6-hint').textContent = data.hint;
+  document.getElementById('g6-answer').textContent = '';
+  
+  const opt = document.getElementById('g6-o');
+  let currentWord = [];
+  
+  let cleanWord = data.word.replace(/[\u064B-\u0652]/g, '');
+  let chars = [...cleanWord];
+  
+  shuffle(chars).forEach(char => {
+    const btn = document.createElement('button');
+    btn.className = 'letter-btn'; btn.textContent = char;
+    btn.onclick = () => {
+      if (btn.disabled) return;
+      btn.disabled = true; btn.style.opacity = '0.3';
+      currentWord.push(char);
+      document.getElementById('g6-answer').textContent = currentWord.join('');
+      
+      if (currentWord.length === chars.length) {
+        if (currentWord.join('') === cleanWord) {
+          playSound('correct'); showConfetti();
+          document.getElementById('g6-answer').style.color = '#32CD32';
+          g6Score++; document.getElementById('g6-s').textContent = g6Score;
+          document.getElementById('g6-next').style.display = 'inline-block';
+        } else {
+          playSound('wrong');
+          document.getElementById('g6-answer').style.color = '#FF4500';
+          setTimeout(() => {
+            currentWord = [];
+            document.getElementById('g6-answer').textContent = '';
+            document.getElementById('g6-answer').style.color = '#32CD32';
+            Array.from(opt.children).forEach(c => { c.disabled = false; c.style.opacity = '1'; });
+          }, 1000);
+        }
+      }
+    };
+    opt.appendChild(btn);
+  });
+}
+
+// ==========================================
+// --- 7. COLOR MATCH ---
+// ==========================================
+const arabicColors = [
+  { en: "Red", ar: "أَحْمَر", css: "#FF4500" },
+  { en: "Blue", ar: "أَزْرَق", css: "#00BFFF" },
+  { en: "Green", ar: "أَخْضَر", css: "#32CD32" },
+  { en: "Yellow", ar: "أَصْفَر", css: "#FFD700" }
+];
+
+let g7Pool = [], g7Score = 0;
+function startG7() {
+  g7Pool = shuffle([...arabicColors]);
+  g7Score = 0;
+  nextG7();
+}
+
+function nextG7() {
+  if (g7Pool.length === 0) {
+    showVictory(document.getElementById('game-container'), 'startG7');
+    return;
+  }
+
+  const target = g7Pool.pop();
+  
+  const container = document.getElementById('game-container');
+  container.innerHTML = `
+    <div class="game-panel active" id="g7">
+      <h2 class="panel-title">Color Match</h2>
+      <div class="score-board">⭐ Score: <span id="g7-s">${g7Score}</span></div>
+      <div class="color-box" style="background:${target.css};"></div>
+      <div class="question-text">What is this color in Arabic?</div>
+      <div class="options-container" id="g7-o" style="flex-direction:column; align-items:center;"></div>
+      <button class="action-btn" id="g7-next" onclick="nextG7()" style="display:none; margin-top:20px;">Next ➡️</button>
+    </div>
+  `;
+  
+  const opt = document.getElementById('g7-o');
+  shuffle([...arabicColors]).forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'letter-btn'; btn.textContent = c.ar;
+    btn.style.width = '200px'; btn.style.height = '60px'; btn.style.fontSize = '30px';
+    btn.style.fontFamily = "'Baloo Bhaijaan 2'";
+    btn.onclick = () => {
+      if (c.ar === target.ar) {
+        btn.classList.add('correct'); playSound('correct'); showConfetti();
+        g7Score++; document.getElementById('g7-s').textContent = g7Score;
+        document.getElementById('g7-next').style.display = 'inline-block';
+        Array.from(opt.children).forEach(x => x.disabled = true);
+      } else {
+        btn.classList.add('wrong'); playSound('wrong');
+        setTimeout(() => btn.classList.remove('wrong'), 600);
+      }
+    };
+    opt.appendChild(btn);
+  });
+}
+
+// ==========================================
+// --- 8. ODD ONE OUT ---
+// ==========================================
+const oddPairs = [
+  { base: "ب", diff: "ت" }, { base: "ج", diff: "ح" }, { base: "د", diff: "ذ" },
+  { base: "ر", diff: "ز" }, { base: "س", diff: "ش" }, { base: "ص", diff: "ض" }
+];
+
+let g8Pool = [], g8Score = 0;
+function startG8() {
+  g8Pool = shuffle([...oddPairs]);
+  g8Score = 0;
+  nextG8();
+}
+
+function nextG8() {
+  if (g8Pool.length === 0) {
+    showVictory(document.getElementById('game-container'), 'startG8');
+    return;
+  }
+
+  const container = document.getElementById('game-container');
+  container.innerHTML = `
+    <div class="game-panel active" id="g8">
+      <h2 class="panel-title">Odd One Out</h2>
+      <div class="score-board">⭐ Score: <span id="g8-s">${g8Score}</span></div>
+      <div class="question-text">Which letter is different?</div>
+      <div class="options-container" id="g8-o" style="display:grid; grid-template-columns:repeat(3, 1fr); max-width:300px; margin:0 auto;"></div>
+      <button class="action-btn" id="g8-next" onclick="nextG8()" style="display:none; margin-top:30px;">Next ➡️</button>
+    </div>
+  `;
+  const pair = g8Pool.pop();
+  
+  const opt = document.getElementById('g8-o');
+  let items = shuffle([pair.base, pair.base, pair.base, pair.base, pair.diff]);
+  
+  items.forEach(l => {
+    const btn = document.createElement('button');
+    btn.className = 'letter-btn'; btn.textContent = l;
+    btn.onclick = () => {
+      if (l === pair.diff) {
+        btn.classList.add('correct'); playSound('correct'); showConfetti();
+        g8Score++; document.getElementById('g8-s').textContent = g8Score;
+        document.getElementById('g8-next').style.display = 'inline-block';
+        Array.from(opt.children).forEach(x => x.disabled = true);
+      } else {
+        btn.classList.add('wrong'); playSound('wrong');
+        setTimeout(() => btn.classList.remove('wrong'), 600);
+      }
+    };
+    opt.appendChild(btn);
+  });
+}
+
+// ==========================================
+// --- 9. COUNT THE LETTERS ---
+// ==========================================
+let g9Score = 0, g9Rounds = 0;
+function startG9() {
+  g9Score = 0; g9Rounds = 0;
+  nextG9();
+}
+
+function nextG9() {
+  if (g9Rounds >= 5) {
+    showVictory(document.getElementById('game-container'), 'startG9');
+    return;
+  }
+  g9Rounds++;
+
+  const container = document.getElementById('game-container');
+  container.innerHTML = `
+    <div class="game-panel active" id="g9">
+      <h2 class="panel-title">Count the Letters</h2>
+      <div class="score-board">⭐ Score: <span id="g9-s">${g9Score}</span> | Q: ${g9Rounds}/5</div>
+      <div class="question-text">How many times do you see <span id="g9-target" style="font-size:30px; color:#FF1493;"></span>?</div>
+      <div id="g9-grid" style="font-size:30px; font-family:'Baloo Bhaijaan 2'; letter-spacing:10px; line-height:1.5; margin:20px 0; color:#333;"></div>
+      <div class="options-container" id="g9-o"></div>
+      <button class="action-btn" id="g9-next" onclick="nextG9()" style="display:none; margin-top:20px;">Next ➡️</button>
+    </div>
+  `;
+  
+  const target = letterPool[Math.floor(Math.random() * letterPool.length)];
+  document.getElementById('g9-target').textContent = target;
+  
+  const count = Math.floor(Math.random() * 4) + 2; // 2 to 5
+  let arr = Array(count).fill(target);
+  
+  let poolCopy = shuffle([...letterPool]).filter(l => l !== target);
+  for(let i=0; i<8; i++) arr.push(poolCopy[i]);
+  arr = shuffle(arr);
+  
+  document.getElementById('g9-grid').textContent = arr.join(' ');
+  
+  const opt = document.getElementById('g9-o');
+  let options = shuffle([count, count+1, count-1]);
+  options.forEach(num => {
+    const btn = document.createElement('button');
+    btn.className = 'letter-btn'; btn.textContent = num;
+    btn.onclick = () => {
+      if (num === count) {
+        btn.classList.add('correct'); playSound('correct'); showConfetti();
+        g9Score++; document.getElementById('g9-s').textContent = g9Score;
+        document.getElementById('g9-next').style.display = 'inline-block';
+        Array.from(opt.children).forEach(x => x.disabled = true);
+      } else {
+        btn.classList.add('wrong'); playSound('wrong');
+        setTimeout(() => btn.classList.remove('wrong'), 600);
+      }
+    };
+    opt.appendChild(btn);
+  });
+}
+
+// ==========================================
+// --- 10. SPEED TAP ---
+// ==========================================
+let g10Timer, g10SpawnTimer, g10TimeLeft = 15, g10Score = 0;
+function startG10() {
+  clearInterval(g10Timer); clearInterval(g10SpawnTimer);
+  g10TimeLeft = 15; g10Score = 0;
+  
+  const container = document.getElementById('game-container');
+  container.innerHTML = `
+    <div class="game-panel active" id="g10">
+      <h2 class="panel-title">Speed Tap!</h2>
+      <div class="score-board">⏱️ Time: <span id="g10-time">15</span>s | ⭐ Score: <span id="g10-s">0</span></div>
+      <div class="question-text">Tap <span id="g10-target" style="font-size:35px; color:#FF1493;"></span> as it floats up!</div>
+      <div class="speed-area" id="g10-area"></div>
+      <button class="action-btn" id="g10-next" onclick="startG10()" style="display:none; margin-top:20px;">Play Again 🔄</button>
+    </div>
+  `;
+  
+  const target = letterPool[Math.floor(Math.random() * letterPool.length)];
+  let wrongLetter = letterPool[Math.floor(Math.random() * letterPool.length)];
+  while(target === wrongLetter) wrongLetter = letterPool[Math.floor(Math.random() * letterPool.length)];
+  
+  document.getElementById('g10-target').textContent = target;
+  const area = document.getElementById('g10-area');
+  
+  g10Timer = setInterval(() => {
+    g10TimeLeft--;
+    document.getElementById('g10-time').textContent = g10TimeLeft;
+    if (g10TimeLeft <= 0) {
+      clearInterval(g10Timer); clearInterval(g10SpawnTimer);
+      area.innerHTML = `<div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:30px; color:#32CD32; text-align:center;">Game Over! 🏆<br>Score: ${g10Score}</div>`;
+      document.getElementById('g10-next').style.display = 'inline-block';
+    }
+  }, 1000);
+
+  g10SpawnTimer = setInterval(() => {
+    if (g10TimeLeft <= 0) return;
+    
+    const btn = document.createElement('button');
+    const isTarget = Math.random() > 0.4;
+    btn.textContent = isTarget ? target : wrongLetter;
+    btn.className = 'floating-letter';
+    
+    btn.style.left = Math.random() * 80 + '%';
+    btn.style.bottom = '-70px';
+    
+    let currentBottom = -70;
+    const speed = Math.random() * 2 + 1.5;
+    const floatTimer = setInterval(() => {
+      currentBottom += speed;
+      btn.style.bottom = currentBottom + 'px';
+      
+      if (currentBottom > 300) {
+        clearInterval(floatTimer);
+        btn.remove();
+      }
+    }, 20);
+    
+    btn.onclick = () => {
+      clearInterval(floatTimer);
+      if (isTarget) {
+        playSound('correct'); 
+        showConfetti();
+        g10Score++; document.getElementById('g10-s').textContent = g10Score;
+        btn.style.background = '#32CD32';
+        setTimeout(() => btn.remove(), 100);
+      } else {
+        playSound('wrong'); 
+        btn.style.background = '#FF4500';
+        setTimeout(() => btn.remove(), 100);
+      }
+    };
+    
+    area.appendChild(btn);
+  }, 800);
+}
+
+// ==========================================
+// --- GAME ENGINE ROUTER ---
+// ==========================================
+function loadGame(gameId, btn) {
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  
+  clearInterval(g10Timer);
+  clearInterval(g10SpawnTimer);
+
+  if (gameId === 'g1') startG1();
+  if (gameId === 'g2') startG2();
+  if (gameId === 'g3') startG3();
+  if (gameId === 'g4') startG4();
+  if (gameId === 'g5') startG5();
+  if (gameId === 'g6') startG6();
+  if (gameId === 'g7') startG7();
+  if (gameId === 'g8') startG8();
+  if (gameId === 'g9') startG9();
+  if (gameId === 'g10') startG10();
+}
+
+window.onload = () => {
+  startG1();
+};
+</script>
+
+</body>
+</html>
