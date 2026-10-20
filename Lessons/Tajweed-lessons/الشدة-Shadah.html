@@ -4,9 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>مغامرات الشَّدَّة | The Adventure of Shaddah</title>
- <!-- Website tab icon (favicon) -->
-  <link rel="icon" type="image/png" href="../../images/quran.png">
-  <link rel="apple-touch-icon" href="images/quran.png">
+<link rel="icon" type="image/png" href="../../images/quran.png">
+<link rel="apple-touch-icon" href="images/quran.png">
 
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Poppins:wght@400;500;700;900&family=Amiri:wght@400;700&family=Baloo+Bhaijaan+2:wght@400;600;800&display=swap" rel="stylesheet">
@@ -20,6 +19,14 @@
     --gold: #f5c542;
     --gold-soft: #ffe08a;
     --teal: #2dd4bf;
+    /* Base font size for zooming */
+    --base-font-size: 16px;
+  }
+
+  /* Apply zoom scaling to the root HTML element */
+  html {
+    font-size: var(--base-font-size);
+    transition: font-size 0.2s ease-out;
   }
 
   html[lang="ar"] body { font-family: 'Tajawal', sans-serif; }
@@ -32,6 +39,9 @@
     background: radial-gradient(circle at 20% 10%, #1a3355 0%, var(--bg-dark) 55%, #050b14 100%);
     color: #eaf2ff;
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 6rem; /* Space for the floating zoom controls */
   }
 
   html[lang="ar"] .en-only { display: none !important; }
@@ -61,7 +71,6 @@
   }
   .pulse-dot { animation: pulseDot 1.8s infinite; }
 
-  /* Loading spinner for audio */
   .audio-loading {
     display: inline-block;
     width: 16px;
@@ -71,9 +80,7 @@
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
   }
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
+  @keyframes spin { to { transform: rotate(360deg); } }
 
   /* ============ BACK HOME BUTTON ============ */
   .back-home-btn {
@@ -92,7 +99,6 @@
     backdrop-filter: blur(6px);
     transition: all 0.25s ease;
   }
-
   .back-home-btn:hover {
     background: rgba(245, 197, 66, 0.15);
     border-color: rgba(245, 197, 66, 0.7);
@@ -100,23 +106,17 @@
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(245, 197, 66, 0.18);
   }
-
-  .back-home-btn:active {
-    transform: translateY(0) scale(0.97);
-  }
-
-  /* Arrow nudge on hover (RTL-aware) */
+  .back-home-btn:active { transform: translateY(0) scale(0.97); }
   html[lang="ar"] .back-home-btn:hover .ar-only { display: inline-block; transform: translateX(-4px); transition: transform 0.25s ease; }
   html[lang="en"] .back-home-btn:hover .en-only { display: inline-block; transform: translateX(4px); transition: transform 0.25s ease; }
 
-    /* ============ VIDEO SECTION ============ */
+  /* ============ VIDEO SECTION ============ */
   .video-embed-wrap {
     display: grid;
     grid-template-columns: 1.4fr 1fr;
     gap: 24px;
     align-items: stretch;
   }
-
   .video-embed-frame {
     position: relative;
     background: #000;
@@ -126,7 +126,6 @@
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
     aspect-ratio: 16 / 9;
   }
-
   .video-embed-frame iframe {
     position: absolute;
     inset: 0;
@@ -135,7 +134,6 @@
     border: 0;
     display: block;
   }
-
   .video-notes {
     background: rgba(255, 255, 255, 0.07);
     border: 1px solid rgba(245, 197, 66, 0.25);
@@ -147,51 +145,75 @@
     justify-content: space-between;
     gap: 16px;
   }
+  .video-notes h3 { color: var(--gold); font-size: 1.15rem; margin-bottom: 8px; }
+  .video-points { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+  .video-points li { position: relative; padding-inline-start: 26px; font-size: 0.98rem; color: #d6e3f5; line-height: 1.6; }
+  .video-points li::before { content: "✦"; position: absolute; inset-inline-start: 0; top: 0; color: var(--teal); font-size: 1rem; }
+  .video-link-btn { align-self: flex-start; display: inline-block; text-decoration: none; margin-top: 6px; }
 
-  .video-notes h3 {
-    color: var(--gold);
-    font-size: 1.15rem;
-    margin-bottom: 8px;
-  }
-
-  .video-points {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .video-points li {
-    position: relative;
-    padding-inline-start: 26px;
-    font-size: 0.98rem;
-    color: #d6e3f5;
-    line-height: 1.6;
-  }
-
-  .video-points li::before {
-    content: "✦";
-    position: absolute;
-    inset-inline-start: 0;
-    top: 0;
-    color: var(--teal);
-    font-size: 1rem;
-  }
-
-  .video-link-btn {
-    align-self: flex-start;
-    display: inline-block;
-    text-decoration: none;
-    margin-top: 6px;
-  }
-
-  /* Responsive: stack on mobile */
   @media (max-width: 800px) {
-    .video-embed-wrap {
-      grid-template-columns: 1fr;
-    }
+    .video-embed-wrap { grid-template-columns: 1fr; }
+  }
+
+  /* ============================================================
+     ZOOM CONTROLS STYLES
+     ============================================================ */
+  .zoom-controls {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(15, 30, 55, 0.95); /* Made slightly more opaque to avoid overlap confusion */
+    backdrop-filter: blur(12px);
+    border: 2px solid rgba(245, 197, 66, 0.6);
+    border-radius: 9999px;
+    padding: 8px 16px;
+    z-index: 100;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+    transition: all 0.3s ease;
+  }
+  .zoom-controls:hover {
+    border-color: #f5c542;
+    box-shadow: 0 8px 40px rgba(245, 197, 66, 0.4);
+  }
+  .zoom-controls button {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    background: rgba(255, 255, 255, 0.1);
+    color: #f5c542;
+    line-height: 1;
+  }
+  .zoom-controls button:hover {
+    background: rgba(245, 197, 66, 0.25);
+    transform: scale(1.12);
+  }
+  .zoom-controls button:active { transform: scale(0.94); }
+  .zoom-controls button:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
+  .zoom-controls .zoom-level {
+    color: #ffe08a;
+    font-weight: 700;
+    font-size: 15px;
+    min-width: 52px;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  @media (max-width: 640px) {
+    .zoom-controls { bottom: 16px; padding: 6px 12px; gap: 6px; }
+    .zoom-controls button { width: 38px; height: 38px; font-size: 20px; }
+    .zoom-controls .zoom-level { font-size: 13px; min-width: 44px; }
   }
 </style>
 </head>
@@ -205,7 +227,15 @@
   </div>
 </div>
 
-<div class="max-w-6xl mx-auto px-4 py-6">
+<!-- ============ ZOOM CONTROLS ============ -->
+<div class="zoom-controls" id="zoomControls" aria-label="Zoom controls">
+  <button id="zoomOutBtn" onclick="changeZoom(-10)" title="تصغير / Zoom out">−</button>
+  <span class="zoom-level" id="zoomLevel">100%</span>
+  <button id="zoomInBtn" onclick="changeZoom(10)" title="تكبير / Zoom in">+</button>
+  <button id="zoomResetBtn" onclick="resetZoom()" title="إعادة الضبط / Reset" style="font-size:18px;">⟲</button>
+</div>
+
+<div class="max-w-6xl mx-auto px-4 py-6 flex-grow w-full" id="mainContent">
 
   <!-- ============ HEADER ============ -->
   <header class="text-center pt-20 pb-6">
@@ -311,27 +341,8 @@
 
   <div class="video-embed-wrap">
     <div class="video-embed-frame">
-      <!-- Arabic Video (default) -->
-      <iframe
-        id="video-ar"
-        class="ar-only"
-        src="https://www.youtube.com/embed/AIGUZM65fiw"
-        title="شرح الشَّدَّة"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        referrerpolicy="strict-origin-when-cross-origin"
-        allowfullscreen></iframe>
-
-      <!-- English Video -->
-      <iframe
-        id="video-en"
-        class="en-only"
-        src="https://www.youtube.com/embed/srT3owmJpzE"
-        title="Shaddah Explanation"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        referrerpolicy="strict-origin-when-cross-origin"
-        allowfullscreen></iframe>
+      <iframe id="video-ar" class="ar-only" src="https://www.youtube.com/embed/AIGUZM65fiw" title="شرح الشَّدَّة" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      <iframe id="video-en" class="en-only" src="https://www.youtube.com/embed/srT3owmJpzE" title="Shaddah Explanation" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
     </div>
 
     <div class="video-notes">
@@ -357,19 +368,13 @@
           <span class="en-only">Examples: Muhammad, Allah, Rabbana, Ar-Rahman.</span>
         </li>
       </ul>
-
-      <!-- Dynamic link button -->
-      <a class="button btn-primary video-link-btn"
-         id="videoLinkBtn"
-         href="https://www.youtube.com/watch?v=AIGUZM65fiw"
-         target="_blank" rel="noopener">
+      <a class="button btn-primary video-link-btn" id="videoLinkBtn" href="https://www.youtube.com/watch?v=AIGUZM65fiw" target="_blank" rel="noopener">
         <span class="ar-only">شاهد على يوتيوب ↗</span>
         <span class="en-only">Watch on YouTube ↗</span>
       </a>
     </div>
   </div>
 </section>
-
 
   <!-- ============ STEP 2: LETTER CARDS ============ -->
   <section class="my-12">
@@ -530,7 +535,7 @@
 
 </div>
 
-<footer class="text-center py-10 text-slate-400 text-sm border-t border-white/5 mt-16">
+<footer class="text-center py-10 text-slate-400 text-sm border-t border-white/5 mt-auto relative z-10">
   <p>© <span id="year"></span> — <span class="ar-only">المعلمة <strong class="text-amber-300">سارة أحمد</strong></span><span class="en-only">Teacher <strong class="text-amber-300">Sarah Ahmed</strong></span></p>
   <p class="mt-2">Quran • Tajweed • Arabic Language</p>
 </footer>
@@ -538,6 +543,63 @@
 <script src="../../config.js"></script>
 
 <script>
+/* ============================================================
+   NEW ZOOM FEATURE LOGIC (Uses Root Font Size)
+   ============================================================ */
+let currentZoom = 100;
+const MIN_ZOOM = 50;
+const MAX_ZOOM = 200; // Can safely go up to 200% without breaking layout now
+const ZOOM_STEP = 10;
+const BASE_FONT_PX = 16;
+
+function applyZoom() {
+  // Instead of scaling, we change the root font size.
+  // Since Tailwind uses 'rem' units, the entire layout recalculates perfectly.
+  const newFontSize = (BASE_FONT_PX * (currentZoom / 100)) + "px";
+  document.documentElement.style.setProperty('--base-font-size', newFontSize);
+  
+  const levelEl = document.getElementById("zoomLevel");
+  if (levelEl) levelEl.textContent = currentZoom + "%";
+  
+  const outBtn = document.getElementById("zoomOutBtn");
+  const inBtn = document.getElementById("zoomInBtn");
+  if (outBtn) outBtn.disabled = currentZoom <= MIN_ZOOM;
+  if (inBtn) inBtn.disabled = currentZoom >= MAX_ZOOM;
+  
+  try { localStorage.setItem("shaddahZoomLevel", currentZoom); } catch (e) {}
+}
+
+function changeZoom(delta) {
+  currentZoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, currentZoom + delta));
+  applyZoom();
+}
+
+function resetZoom() {
+  currentZoom = 100;
+  applyZoom();
+}
+
+// Load saved zoom on startup
+try {
+  const savedZoom = localStorage.getItem("shaddahZoomLevel");
+  if (savedZoom) currentZoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, parseInt(savedZoom, 10) || 100));
+} catch (e) {}
+applyZoom();
+
+// Keyboard shortcuts for zoom (Ctrl + / Ctrl -)
+document.addEventListener("keydown", (e) => {
+  if ((e.ctrlKey || e.metaKey) && (e.key === "=" || e.key === "+")) {
+    e.preventDefault();
+    changeZoom(ZOOM_STEP);
+  } else if ((e.ctrlKey || e.metaKey) && e.key === "-") {
+    e.preventDefault();
+    changeZoom(-ZOOM_STEP);
+  } else if ((e.ctrlKey || e.metaKey) && e.key === "0") {
+    e.preventDefault();
+    resetZoom();
+  }
+});
+
 /* ============================================================
    AZURE NEURAL TTS CONFIGURATION
    ============================================================ */
@@ -565,12 +627,11 @@ function setLang(lang) {
   document.getElementById("btnEn").classList.toggle("text-amber-950", lang === "en");
   document.getElementById("btnEn").classList.toggle("text-slate-300", lang !== "en");
 
-  // Swap video & YouTube link
   const videoLinkBtn = document.getElementById("videoLinkBtn");
   if (lang === "en") {
-    videoLinkBtn.href = "https://www.youtube.com/watch?v=uGU8V_jS1aA"; // English video link
+    videoLinkBtn.href = "https://www.youtube.com/watch?v=uGU8V_jS1aA";
   } else {
-    videoLinkBtn.href = "https://www.youtube.com/watch?v=AIGUZM65fiw"; // Arabic video link
+    videoLinkBtn.href = "https://www.youtube.com/watch?v=AIGUZM65fiw";
   }
 
   renderCards();

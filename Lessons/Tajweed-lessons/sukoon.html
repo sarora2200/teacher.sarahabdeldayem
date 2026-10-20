@@ -19,6 +19,14 @@
     --gold: #f5c542;
     --gold-soft: #ffe08a;
     --teal: #2dd4bf;
+    /* Base font size for zooming */
+    --base-font-size: 16px;
+  }
+
+  /* Apply zoom scaling to the root HTML element */
+  html {
+    font-size: var(--base-font-size);
+    transition: font-size 0.2s ease-out;
   }
 
   html[lang="ar"] body { font-family: 'Tajawal', sans-serif; }
@@ -31,6 +39,9 @@
     background: radial-gradient(circle at 20% 10%, #1a3355 0%, var(--bg-dark) 55%, #050b14 100%);
     color: #eaf2ff;
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 6rem; /* Space for the floating zoom controls */
   }
 
   html[lang="ar"] .en-only { display: none !important; }
@@ -190,6 +201,79 @@
       grid-template-columns: 1fr;
     }
   }
+
+  /* ============================================================
+     ZOOM CONTROLS STYLES
+     ============================================================ */
+  .zoom-controls {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(15, 30, 55, 0.95);
+    backdrop-filter: blur(12px);
+    border: 2px solid rgba(245, 197, 66, 0.6);
+    border-radius: 9999px;
+    padding: 8px 16px;
+    z-index: 100;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+    transition: all 0.3s ease;
+  }
+
+  .zoom-controls:hover {
+    border-color: #f5c542;
+    box-shadow: 0 8px 40px rgba(245, 197, 66, 0.4);
+  }
+
+  .zoom-controls button {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    background: rgba(255, 255, 255, 0.1);
+    color: #f5c542;
+    line-height: 1;
+  }
+
+  .zoom-controls button:hover {
+    background: rgba(245, 197, 66, 0.25);
+    transform: scale(1.12);
+  }
+
+  .zoom-controls button:active {
+    transform: scale(0.94);
+  }
+
+  .zoom-controls button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .zoom-controls .zoom-level {
+    color: #ffe08a;
+    font-weight: 700;
+    font-size: 15px;
+    min-width: 52px;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  @media (max-width: 640px) {
+    .zoom-controls { bottom: 16px; padding: 6px 12px; gap: 6px; }
+    .zoom-controls button { width: 38px; height: 38px; font-size: 20px; }
+    .zoom-controls .zoom-level { font-size: 13px; min-width: 44px; }
+  }
 </style>
 </head>
 <body>
@@ -202,7 +286,15 @@
   </div>
 </div>
 
-<div class="max-w-6xl mx-auto px-4 py-6">
+<!-- ============ ZOOM CONTROLS ============ -->
+<div class="zoom-controls" id="zoomControls" aria-label="Zoom controls">
+  <button id="zoomOutBtn" onclick="changeZoom(-10)" title="تصغير / Zoom out">−</button>
+  <span class="zoom-level" id="zoomLevel">100%</span>
+  <button id="zoomInBtn" onclick="changeZoom(10)" title="تكبير / Zoom in">+</button>
+  <button id="zoomResetBtn" onclick="resetZoom()" title="إعادة الضبط / Reset" style="font-size:18px;">⟲</button>
+</div>
+
+<div class="max-w-6xl mx-auto px-4 py-6 flex-grow w-full" id="mainContent">
 
   <!-- ============ HEADER ============ -->
   <header class="text-center pt-20 pb-6">
@@ -528,7 +620,7 @@
 
 </div>
 
-<footer class="text-center py-10 text-slate-400 text-sm border-t border-white/5 mt-16">
+<footer class="text-center py-10 text-slate-400 text-sm border-t border-white/5 mt-auto relative z-10">
   <p>© <span id="year"></span> — <span class="ar-only">المعلمة <strong class="text-amber-300">سارة أحمد</strong></span><span class="en-only">Teacher <strong class="text-amber-300">Sarah Ahmed</strong></span></p>
   <p class="mt-2">Quran • Tajweed • Arabic Language</p>
 </footer>
@@ -536,6 +628,61 @@
 <script src="../../config.js"></script>
 
 <script>
+/* ============================================================
+   NEW ZOOM FEATURE LOGIC (Uses Root Font Size)
+   ============================================================ */
+let currentZoom = 100;
+const MIN_ZOOM = 50;
+const MAX_ZOOM = 200; 
+const ZOOM_STEP = 10;
+const BASE_FONT_PX = 16;
+
+function applyZoom() {
+  const newFontSize = (BASE_FONT_PX * (currentZoom / 100)) + "px";
+  document.documentElement.style.setProperty('--base-font-size', newFontSize);
+  
+  const levelEl = document.getElementById("zoomLevel");
+  if (levelEl) levelEl.textContent = currentZoom + "%";
+  
+  const outBtn = document.getElementById("zoomOutBtn");
+  const inBtn = document.getElementById("zoomInBtn");
+  if (outBtn) outBtn.disabled = currentZoom <= MIN_ZOOM;
+  if (inBtn) inBtn.disabled = currentZoom >= MAX_ZOOM;
+  
+  try { localStorage.setItem("sukoonZoomLevel", currentZoom); } catch (e) {}
+}
+
+function changeZoom(delta) {
+  currentZoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, currentZoom + delta));
+  applyZoom();
+}
+
+function resetZoom() {
+  currentZoom = 100;
+  applyZoom();
+}
+
+// Load saved zoom on startup
+try {
+  const savedZoom = localStorage.getItem("sukoonZoomLevel");
+  if (savedZoom) currentZoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, parseInt(savedZoom, 10) || 100));
+} catch (e) {}
+applyZoom();
+
+// Keyboard shortcuts for zoom (Ctrl + / Ctrl -)
+document.addEventListener("keydown", (e) => {
+  if ((e.ctrlKey || e.metaKey) && (e.key === "=" || e.key === "+")) {
+    e.preventDefault();
+    changeZoom(ZOOM_STEP);
+  } else if ((e.ctrlKey || e.metaKey) && e.key === "-") {
+    e.preventDefault();
+    changeZoom(-ZOOM_STEP);
+  } else if ((e.ctrlKey || e.metaKey) && e.key === "0") {
+    e.preventDefault();
+    resetZoom();
+  }
+});
+
 /* ============================================================
    AZURE NEURAL TTS CONFIGURATION
    ============================================================ */

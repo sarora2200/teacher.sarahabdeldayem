@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arabic Learning Arcade 🎮</title>
+  <link rel="icon" type="image/png" href="images/quran.png">
+  <link rel="apple-touch-icon" href="images/quran.png">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Baloo+Bhaijaan+2:wght@600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-start: #ff9a9e;
+    --bg-end: #fecfef;
+    --panel-bg: rgba(255, 255, 255, 0.95);
+    --btn-main: #FF1493;
+    --btn-shadow: #C71585;
+    --btn-secondary: #00BFFF;
+    --btn-secondary-shadow: #008B8B;
+    --correct: #32CD32;
+    --wrong: #FF4500;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Fredoka One', cursive;
+    background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #333;
+    overflow-x: hidden;
+    user-select: none;
+  }
+
+  header {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo { font-size: 32px; color: var(--btn-main); display: flex; align-items: center; gap: 10px; }
+  .nav-buttons { display: flex; gap: 15px; }
+
+  .nav-btn {
+    font-family: 'Fredoka One', cursive;
+    font-size: 20px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 15px;
+    background: #f0f0f0;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 5px 0 #ccc;
+  }
+
+  .nav-btn:hover { background: #e0e0e0; transform: translateY(-2px); box-shadow: 0 7px 0 #ccc; }
+  .nav-btn.active { background: var(--btn-main); color: white; box-shadow: 0 5px 0 var(--btn-shadow); }
+
+  main { width: 100%; max-width: 1000px; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; flex: 1; }
+
+  .game-panel {
+    display: none;
+    width: 100%;
+    background: var(--panel-bg);
+    border-radius: 40px;
+    padding: 40px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15), inset 0 -10px 20px rgba(0,0,0,0.05);
+    text-align: center;
+    animation: slideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  .game-panel.active { display: block; }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+  .panel-title { font-size: 40px; color: var(--btn-main); margin-top: 0; margin-bottom: 20px; }
+
+  .score-board {
+    display: inline-block;
+    background: #FFF0F5;
+    padding: 10px 30px;
+    border-radius: 30px;
+    font-size: 28px;
+    color: #FF8C00;
+    border: 3px dashed #FF69B4;
+    margin-bottom: 20px;
+  }
+
+  .progress-container { width: 80%; margin: 20px auto; height: 20px; background: #e0e0e0; border-radius: 20px; overflow: hidden; border: 3px solid #ddd; }
+  .progress-bar { height: 100%; background: linear-gradient(90deg, #FF69B4, #FF1493); width: 0%; transition: width 0.5s ease; }
+
+  .g1-emoji { font-size: 140px; animation: pulse 2s infinite; margin: 20px 0; }
+  @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+  .g1-question { font-family: 'Baloo Bhaijaan 2', sans-serif; font-size: 32px; margin-bottom: 30px; }
+
+  .options-container { display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; }
+
+  .letter-btn {
+    font-family: 'Baloo Bhaijaan 2', sans-serif;
+    font-size: 70px;
+    font-weight: 800;
+    width: 130px;
+    height: 130px;
+    border-radius: 30px;
+    border: none;
+    background: #FFD700;
+    color: #4a2500;
+    cursor: pointer;
+    box-shadow: 0 10px 0 #ccac00, 0 15px 20px rgba(0,0,0,0.15);
+    transition: all 0.1s;
+  }
+  .letter-btn:hover { background: #FFEA00; transform: translateY(-5px); box-shadow: 0 15px 0 #ccac00; }
+  .letter-btn:active { transform: translateY(8px); box-shadow: 0 2px 0 #ccac00; }
+
+  .correct { background: var(--correct) !important; color: white !important; box-shadow: 0 10px 0 #228B22 !important; }
+  .wrong { background: var(--wrong) !important; color: white !important; box-shadow: 0 10px 0 #B22222 !important; animation: shake 0.5s; }
+
+  @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
+
+  .memory-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; max-width: 500px; margin: 0 auto; }
+
+  .memory-card {
+    aspect-ratio: 1;
+    background: var(--btn-secondary);
+    border-radius: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px;
+    font-family: 'Baloo Bhaijaan 2', sans-serif;
+    color: white;
+    box-shadow: 0 8px 0 var(--btn-secondary-shadow);
+    transition: all 0.3s;
+    transform-style: preserve-3d;
+  }
+
+  .memory-card.flipped { background: white; color: #333; transform: rotateY(180deg); box-shadow: 0 0 10px rgba(0,0,0,0.1); font-size: 60px; }
+  .memory-card.matched { background: var(--correct); color: white; pointer-events: none; animation: pop 0.5s; }
+
+  @keyframes pop { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+
+  .action-btn {
+    font-family: 'Fredoka One', cursive;
+    font-size: 30px;
+    padding: 15px 40px;
+    border: none;
+    border-radius: 20px;
+    background: var(--btn-main);
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 8px 0 var(--btn-shadow);
+    transition: all 0.1s;
+    margin-top: 20px;
+  }
+  .action-btn:active { transform: translateY(6px); box-shadow: 0 2px 0 var(--btn-shadow); }
+
+  .feedback-icon {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    font-size: 200px;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    pointer-events: none;
+    z-index: 200;
+    text-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  }
+  .feedback-icon.show { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+
+  .confetti { position: fixed; z-index: 150; animation: fall 2.5s linear forwards; }
+  @keyframes fall { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
+
+  @media (max-width: 768px) {
+    header { flex-direction: column; gap: 15px; padding: 15px; }
+    .nav-buttons { width: 100%; justify-content: center; flex-wrap: wrap; }
+    .nav-btn { font-size: 16px; padding: 8px 15px; }
+    .g1-emoji { font-size: 100px; }
+    .letter-btn { width: 90px; height: 90px; font-size: 50px; }
+    .memory-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">🦉 Arabic Arcade</div>
+  <div class="nav-buttons">
+    <button class="nav-btn active" onclick="switchGame('game1', this)">📸 Picture Match</button>
+    <button class="nav-btn" onclick="switchGame('game3', this)">🃏 Memory Game</button>
+  </div>
+</header>
+
+<main>
+  <!-- GAME 1: PICTURE MATCH -->
+  <div id="game1" class="game-panel active">
+    <h2 class="panel-title">Picture Match</h2>
+    <div class="score-board">⭐ Score: <span id="g1-score">0</span></div>
+    <div class="g1-emoji" id="g1-emoji">🦁</div>
+    <div class="g1-question" id="g1-question">Which letter sounds like "Alif"?</div>
+    <div class="options-container" id="g1-options"></div>
+    <div class="progress-container"><div class="progress-bar" id="g1-progress"></div></div>
+    <button class="action-btn" id="g1-next" onclick="nextG1()" style="display: none;">Next ➡️</button>
+  </div>
+
+  <!-- GAME 3: MEMORY MATCH -->
+  <div id="game3" class="game-panel">
+    <h2 class="panel-title">Memory Match</h2>
+    <div class="score-board">🏆 Pairs Found: <span id="g3-score">0</span> / 4</div>
+    <p style="font-size: 24px; color: #666; margin-bottom: 30px;">Match the letter to its picture!</p>
+    <div class="memory-grid" id="g3-grid"></div>
+    <button class="action-btn" id="g3-restart" onclick="startG3()" style="display: none;">Play Again 🔄</button>
+  </div>
+</main>
+
+<div class="feedback-icon" id="feedback-icon">🌟</div>
+
+<script>
+// ==========================================
+// --- 1. RELIABLE AUDIO ENGINE ---
+// ==========================================
+let audioUnlocked = false;
+
+// Unlock audio on the very first click anywhere on the page
+document.body.addEventListener('click', () => {
+  if (!audioUnlocked) {
+    const silentAudio = new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA");
+    silentAudio.play().then(() => {
+      audioUnlocked = true;
+    }).catch(() => {});
+  }
+}, { once: true });
+
+function playArabicAudio(text) {
+  if (!text) return;
+  
+  // Encode the Arabic letter
+  const encodedText = encodeURIComponent(text);
+  const audioUrl = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=ar&q=${encodedText}`;
+  
+  const audio = new Audio(audioUrl);
+  // Play without showing any alerts if it fails
+  audio.play().catch(e => console.log("Audio blocked by browser until user interacts."));
+}
+
+// Game Sound Effects (Beeps and Boops)
+const AudioContext = window.AudioContext || window.webkitAudioContext;
+const audioCtx = new AudioContext();
+
+document.body.addEventListener('click', () => {
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+}, { once: true });
+
+function playSound(type) {
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+
+  if (type === 'correct') {
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+    osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1);
+    osc.frequency.setValueAtTime(783.99, audioCtx.currentTime + 0.2);
+    osc.frequency.setValueAtTime(1046.50, audioCtx.currentTime + 0.3);
+    gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+    osc.start(); osc.stop(audioCtx.currentTime + 0.5);
+  } else if (type === 'wrong') {
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.3);
+    gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+    osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+  } else if (type === 'click') {
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+    gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+    osc.start(); osc.stop(audioCtx.currentTime + 0.1);
+  }
+}
+
+// ==========================================
+// --- 2. UI HELPERS ---
+// ==========================================
+function showFeedbackIcon(icon) {
+  const el = document.getElementById('feedback-icon');
+  el.textContent = icon;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 1000);
+}
+
+function showConfetti() {
+  const colors = ['#FF69B4', '#FFD700', '#32CD32', '#00BFFF', '#FF4500', '#9400D3'];
+  for (let i = 0; i < 50; i++) {
+    const c = document.createElement('div');
+    c.classList.add('confetti');
+    c.style.left = Math.random() * 100 + 'vw';
+    c.style.top = '-20px';
+    c.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    c.style.width = (Math.random() * 15 + 10) + 'px';
+    c.style.height = (Math.random() * 15 + 10) + 'px';
+    c.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+    c.style.animationDuration = (Math.random() * 1.5 + 1.5) + 's';
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 3500);
+  }
+}
+
+// ==========================================
+// --- 3. NAVIGATION ---
+// ==========================================
+function switchGame(gameId, btnElement) {
+  playSound('click');
+  document.querySelectorAll('.game-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  
+  document.getElementById(gameId).classList.add('active');
+  btnElement.classList.add('active');
+
+  if (gameId === 'game1') startG1();
+  if (gameId === 'game3') startG3();
+}
+
+// ==========================================
+// --- 4. GAME 1: PICTURE MATCH (Randomized) ---
+// ==========================================
+const allLetters = [
+  { emoji: "🦁", english: "Alif (Asad)", letter: "أ", options: ["أ", "ب", "ت"] },
+  { emoji: "🦆", english: "Ba (Batta)", letter: "ب", options: ["ت", "ب", "أ"] },
+  { emoji: "🍎", english: "Ta (Tuffaha)", letter: "ت", options: ["ت", "ث", "ب"] },
+  { emoji: "🐍", english: "Tha (Thu'ban)", letter: "ث", options: ["ج", "ث", "ح"] },
+  { emoji: "🐫", english: "Jeem (Jamal)", letter: "ج", options: ["ج", "ح", "خ"] },
+  { emoji: "🐎", english: "Haa (Hisan)", letter: "ح", options: ["خ", "ح", "ج"] },
+  { emoji: "🐑", english: "Kha (Kharoof)", letter: "خ", options: ["خ", "د", "ذ"] },
+  { emoji: "🐻", english: "Dal (Dub)", letter: "د", options: ["د", "ذ", "ر"] }
+];
+
+let g1Questions = [];
+let g1Index = 0, g1Score = 0, g1CanClick = true;
+
+function startG1() { 
+  // Randomize the full set of questions
+  g1Questions = [...allLetters].sort(() => Math.random() - 0.5);
+  g1Index = 0; 
+  g1Score = 0; 
+  document.getElementById('g1-score').textContent = g1Score; 
+  loadG1(); 
+}
+
+function loadG1() {
+  g1CanClick = true;
+  document.getElementById('g1-next').style.display = 'none';
+  const data = g1Questions[g1Index];
+  
+  document.getElementById('g1-emoji').textContent = data.emoji;
+  document.getElementById('g1-question').textContent = `Which letter sounds like "${data.english}"?`;
+  
+  const optContainer = document.getElementById('g1-options');
+  optContainer.innerHTML = '';
+  
+  const shuffledOptions = [...data.options].sort(() => Math.random() - 0.5);
+  shuffledOptions.forEach(letter => {
+    const btn = document.createElement('button');
+    btn.className = 'letter-btn';
+    btn.textContent = letter;
+    btn.onclick = () => checkG1(letter, btn, data.letter);
+    optContainer.appendChild(btn);
+  });
+  document.getElementById('g1-progress').style.width = `${(g1Index / g1Questions.length) * 100}%`;
+}
+
+function checkG1(selected, btn, correct) {
+  if (!g1CanClick) return;
+  playArabicAudio(selected); 
+  
+  if (selected === correct) {
+    g1CanClick = false;
+    btn.classList.add('correct');
+    playSound('correct');
+    showFeedbackIcon('🌟');
+    showConfetti();
+    g1Score++;
+    document.getElementById('g1-score').textContent = g1Score;
+    setTimeout(() => document.getElementById('g1-next').style.display = 'inline-block', 1000);
+  } else {
+    btn.classList.add('wrong');
+    playSound('wrong');
+    showFeedbackIcon('❌');
+    setTimeout(() => btn.classList.remove('wrong'), 800);
+  }
+}
+
+function nextG1() {
+  g1Index++;
+  if (g1Index < g1Questions.length) loadG1();
+  else {
+    document.getElementById('g1-question').textContent = "Amazing! You finished! 🏆";
+    document.getElementById('g1-emoji').textContent = "🎉";
+    document.getElementById('g1-options').innerHTML = '';
+    document.getElementById('g1-next').style.display = 'none';
+    document.getElementById('g1-progress').style.width = '100%';
+    showConfetti();
+  }
+}
+
+// ==========================================
+// --- 5. GAME 3: MEMORY MATCH (Randomized) ---
+// ==========================================
+const allPairs = [
+  { letter: "أ", emoji: "🦁" },
+  { letter: "ب", emoji: "🦆" },
+  { letter: "ت", emoji: "🍎" },
+  { letter: "ث", emoji: "🐍" },
+  { letter: "ج", emoji: "🐫" },
+  { letter: "ح", emoji: "🐎" },
+  { letter: "خ", emoji: "🐑" },
+  { letter: "د", emoji: "🐻" }
+];
+
+let g3Cards = [], g3Flipped = [], g3Matched = 0, g3Lock = false;
+let currentG3Pairs = [];
+
+function startG3() {
+  // Pick 4 random pairs from the pool
+  currentG3Pairs = [...allPairs].sort(() => Math.random() - 0.5).slice(0, 4);
+  
+  g3Cards = [];
+  currentG3Pairs.forEach(pair => {
+    g3Cards.push({ type: 'letter', id: pair.letter, display: pair.letter });
+    g3Cards.push({ type: 'emoji', id: pair.letter, display: pair.emoji });
+  });
+  g3Cards.sort(() => Math.random() - 0.5);
+  
+  g3Flipped = [];
+  g3Matched = 0;
+  g3Lock = false;
+  document.getElementById('g3-score').textContent = "0";
+  document.getElementById('g3-restart').style.display = 'none';
+  
+  const grid = document.getElementById('g3-grid');
+  grid.innerHTML = '';
+  g3Cards.forEach((cardData) => {
+    const card = document.createElement('div');
+    card.className = 'memory-card';
+    card.dataset.id = cardData.id;
+    card.dataset.type = cardData.type;
+    card.dataset.display = cardData.display;
+    card.textContent = "?";
+    card.onclick = () => flipCard(card);
+    grid.appendChild(card);
+  });
+}
+
+function flipCard(card) {
+  if (g3Lock || card.classList.contains('flipped') || card.classList.contains('matched')) return;
+  playSound('click');
+  card.classList.add('flipped');
+  card.textContent = card.dataset.display;
+  
+  if (card.dataset.type === 'letter') {
+    playArabicAudio(card.dataset.display);
+  }
+  
+  g3Flipped.push(card);
+  if (g3Flipped.length === 2) checkMatch();
+}
+
+function checkMatch() {
+  g3Lock = true;
+  const [card1, card2] = g3Flipped;
+  
+  if (card1.dataset.id === card2.dataset.id && card1.dataset.type !== card2.dataset.type) {
+    setTimeout(() => {
+      card1.classList.add('matched');
+      card2.classList.add('matched');
+      playSound('correct');
+      showFeedbackIcon('🌟');
+      g3Matched++;
+      document.getElementById('g3-score').textContent = g3Matched;
+      g3Flipped = [];
+      g3Lock = false;
+      
+      if (g3Matched === currentG3Pairs.length) {
+        setTimeout(() => {
+          showConfetti();
+          showFeedbackIcon('🏆');
+          document.getElementById('g3-restart').style.display = 'inline-block';
+        }, 500);
+      }
+    }, 600);
+  } else {
+    setTimeout(() => {
+      card1.classList.remove('flipped');
+      card2.classList.remove('flipped');
+      card1.textContent = "?";
+      card2.textContent = "?";
+      playSound('wrong');
+      g3Flipped = [];
+      g3Lock = false;
+    }, 1200);
+  }
+}
+
+// Initialize
+window.onload = () => {
+  startG1();
+};
+</script>
+
+</body>
+</html>
