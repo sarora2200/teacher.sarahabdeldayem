@@ -14,6 +14,111 @@
     href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Nunito+Sans:wght@400;600;700;800&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  
+  <!-- Custom Styles for the New Arcade Gateway -->
+  <style>
+    /* ============ ARCADE GATEWAY SECTION ============ */
+    .arcade-gateway {
+      display: flex;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+
+    .arcade-card {
+      position: relative;
+      background: #fff;
+      border-radius: 20px;
+      padding: 3rem 2rem;
+      text-align: center;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      border: 2px solid transparent;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      overflow: hidden;
+    }
+
+    .arcade-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+    }
+
+    .arcade-card::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 60%);
+      opacity: 0.5;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .arcade-card.sage-card { border-color: #86a788; }
+
+    .arcade-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      position: relative;
+      z-index: 2;
+      animation: bounceEmoji 3s infinite ease-in-out;
+      display: inline-block;
+    }
+
+    @keyframes bounceEmoji {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .arcade-card h3 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #333;
+      position: relative;
+      z-index: 2;
+    }
+
+    .arcade-card p {
+      font-size: 1.1rem;
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .arcade-btn {
+      font-size: 1.2rem;
+      padding: 12px 30px;
+      position: relative;
+      z-index: 2;
+      background: linear-gradient(135deg, #86a788, #6c8c6e);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      box-shadow: 0 6px 15px rgba(134, 167, 136, 0.4);
+      transition: all 0.2s ease;
+      display: inline-block;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .arcade-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(134, 167, 136, 0.6);
+      color: white;
+    }
+
+    [lang="ar"] .arcade-btn {
+      background: linear-gradient(135deg, #a68ac2, #836ba0);
+      box-shadow: 0 6px 15px rgba(166, 138, 194, 0.4);
+    }
+    [lang="ar"] .arcade-btn:hover {
+      box-shadow: 0 8px 20px rgba(166, 138, 194, 0.6);
+    }
+  </style>
 </head>
 
 <body>
@@ -385,54 +490,30 @@
           <span class="ar-only">تَعَلَّمْ بِاللَّعِب</span>
         </span>
         <h2>
-          <span class="en-only">Try a quick learning game</span>
-          <span class="ar-only">جرّب لعبة تعليمية سريعة</span>
+          <span class="en-only">Arabic Learning Arcade</span>
+          <span class="ar-only">أركيد تعلّم العربية</span>
         </h2>
         <p>
-          <span class="en-only">Small activities make revision more engaging.</span>
-          <span class="ar-only">الأنشطة الصغيرة تجعل المراجعة أكثر تشويقًا.</span>
+          <span class="en-only">Jump into our interactive arcade filled with 10 different games to practice letters, words, and vocabulary!</span>
+          <span class="ar-only">انطلق إلى الأركيد التفاعلي المليء بعشر ألعاب مختلفة للتدرب على الحروف والكلمات والمفردات!</span>
         </p>
       </div>
-      <div class="game-panel">
-        <div class="game-copy">
-          <span class="game-label">ARABIC LETTER CHALLENGE</span>
+
+      <div class="arcade-gateway">
+        <div class="arcade-card sage-card">
+          <div class="arcade-icon">🎮</div>
           <h3>
-            <span class="en-only">Which letter is this?</span>
-            <span class="ar-only">ما هذا الحرف؟</span>
+            <span class="en-only">Mega Arcade</span>
+            <span class="ar-only">الأركيد الكبير</span>
           </h3>
           <p>
-            <span class="en-only">Choose the correct name for the Arabic letter shown.</span>
-            <span class="ar-only">اختر الاسم الصحيح للحرف العربي المعروض.</span>
+            <span class="en-only">10 exciting games: Vocab Match, Memory, Spelling, Speed Tap, and more! Perfect for testing your knowledge.</span>
+            <span class="ar-only">10 ألعاب ممتعة: مطابقة المفردات، الذاكرة، التهجئة، النقر السريع، والمزيد! مثالية لاختبار معلوماتك.</span>
           </p>
-          <div class="letter-display" id="letterDisplay" lang="ar" dir="rtl">ب</div>
-          <div class="game-options" id="gameOptions">
-            <button class="option-button" data-answer="Alif">Alif</button>
-            <button class="option-button" data-answer="Baa">Baa</button>
-            <button class="option-button" data-answer="Taa">Taa</button>
-          </div>
-          <p class="game-feedback" id="gameFeedback" aria-live="polite">
-            <span class="en-only">Choose an answer to begin.</span>
-            <span class="ar-only">اختر إجابة للبدء.</span>
-          </p>
-          <button class="button button-primary" id="nextQuestion">
-            <span class="en-only">Next question →</span>
-            <span class="ar-only">السؤال التالي ←</span>
-          </button>
-        </div>
-        <div class="game-side">
-          <div class="game-side-icon">أ ب ت</div>
-          <h4>
-            <span class="en-only">Practice a little every day</span>
-            <span class="ar-only">تدرَّبْ قليلًا كل يوم</span>
-          </h4>
-          <p>
-            <span class="en-only">Try to identify the letter, say its sound aloud, and think of a word that begins with it.</span>
-            <span class="ar-only">حاول التعرف على الحرف، وانطق صوته بصوت عالٍ، وفكِّر في كلمة تبدأ به.</span>
-          </p>
-          <div class="mini-stats">
-            <span><strong id="score">0</strong><small><span class="en-only">Correct answers</span><span class="ar-only">إجابات صحيحة</span></small></span>
-            <span><strong id="round">1</strong><small><span class="en-only">Question</span><span class="ar-only">سؤال</span></small></span>
-          </div>
+          <a href="games2.html" class="button button-primary arcade-btn">
+            <span class="en-only">Play Now 🚀</span>
+            <span class="ar-only">العب الآن 🚀</span>
+          </a>
         </div>
       </div>
     </section>
