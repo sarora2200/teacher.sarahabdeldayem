@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlRoot">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مراجعة الحركات والتنوين والشدة والسكون | Harakat, Tanween, Shaddah & Sukoon</title>
+<link rel="icon" type="image/png" href="../../images/quran.png">
+<link rel="apple-touch-icon" href="images/quran.png">
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Poppins:wght@400;500;700;900&family=Amiri:wght@400;700&family=Baloo+Bhaijaan+2:wght@400;600;800&display=swap" rel="stylesheet">
+
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+  :root {
+    --bg-dark: #0a1628;
+    --gold: #f5c542;
+    --gold-soft: #ffe08a;
+    --teal: #2dd4bf;
+    --base-font-size: 16px;
+  }
+
+  html {
+    font-size: var(--base-font-size);
+    transition: font-size 0.2s ease-out;
+  }
+
+  html[lang="ar"] body { font-family: 'Tajawal', sans-serif; }
+  html[lang="en"] body { font-family: 'Poppins', sans-serif; }
+
+  .font-kid { font-family: 'Baloo Bhaijaan 2', 'Tajawal', cursive; }
+  .font-ar  { font-family: 'Amiri', serif; }
+
+  body {
+    background: radial-gradient(circle at 20% 10%, #1a3355 0%, var(--bg-dark) 55%, #050b14 100%);
+    color: #eaf2ff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 6rem;
+  }
+
+  html[lang="ar"] .en-only { display: none !important; }
+  html[lang="en"] .ar-only { display: none !important; }
+
+  @keyframes pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.06); }
+    100% { transform: scale(1); }
+  }
+  .pop { animation: pop 0.4s ease; }
+
+  .progress-fill {
+    transition: width 0.5s ease;
+    background: linear-gradient(90deg, var(--teal), var(--gold));
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+  .float { animation: float 3s ease-in-out infinite; }
+
+  @keyframes pulseDot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+  }
+  .pulse-dot { animation: pulseDot 1.8s infinite; }
+
+  .audio-loading {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #f5c542;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .back-home-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 24px;
+    padding: 10px 22px;
+    border-radius: 9999px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #ffe08a;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(245, 197, 66, 0.35);
+    text-decoration: none;
+    backdrop-filter: blur(6px);
+    transition: all 0.25s ease;
+  }
+  .back-home-btn:hover {
+    background: rgba(245, 197, 66, 0.15);
+    border-color: rgba(245, 197, 66, 0.7);
+    color: #f5c542;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(245, 197, 66, 0.18);
+  }
+  .back-home-btn:active { transform: translateY(0) scale(0.97); }
+
+  .zoom-controls {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(15, 30, 55, 0.95);
+    backdrop-filter: blur(12px);
+    border: 2px solid rgba(245, 197, 66, 0.6);
+    border-radius: 9999px;
+    padding: 8px 16px;
+    z-index: 100;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+    transition: all 0.3s ease;
+  }
+  .zoom-controls:hover {
+    border-color: #f5c542;
+    box-shadow: 0 8px 40px rgba(245, 197, 66, 0.4);
+  }
+  .zoom-controls button {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    background: rgba(255, 255, 255, 0.1);
+    color: #f5c542;
+    line-height: 1;
+  }
+  .zoom-controls button:hover {
+    background: rgba(245, 197, 66, 0.25);
+    transform: scale(1.12);
+  }
+  .zoom-controls button:active { transform: scale(0.94); }
+  .zoom-controls button:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
+  .zoom-controls .zoom-level {
+    color: #ffe08a;
+    font-weight: 700;
+    font-size: 15px;
+    min-width: 52px;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  @media (max-width: 640px) {
+    .zoom-controls { bottom: 16px; padding: 6px 12px; gap: 6px; }
+    .zoom-controls button { width: 38px; height: 38px; font-size: 20px; }
+    .zoom-controls .zoom-level { font-size: 13px; min-width: 44px; }
+  }
+
+  .rule-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(245, 197, 66, 0.25);
+    border-radius: 24px;
+    padding: 28px;
+    backdrop-filter: blur(4px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  }
+
+  .audio-example {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+  }
+  .audio-example:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(245, 197, 66, 0.15);
+  }
+  .audio-example:active {
+    transform: scale(0.97);
+  }
+  .audio-example .play-icon {
+    opacity: 0.5;
+    transition: opacity 0.2s;
+  }
+  .audio-example:hover .play-icon {
+    opacity: 1;
+  }
+  .audio-example.playing {
+    border-color: #f5c542 !important;
+    box-shadow: 0 0 20px rgba(245, 197, 66, 0.4);
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ LANGUAGE TOGGLE ============ -->
+<div class="fixed top-4 left-4 rtl:left-4 ltr:right-4 z-50">
+  <div class="flex bg-slate-900/85 border border-amber-300/30 rounded-full p-1 backdrop-blur shadow-lg">
+    <button id="btnAr" onclick="setLang('ar')" class="px-4 py-2 rounded-full text-sm font-bold transition-all">🇪🇬 العربية</button>
+    <button id="btnEn" onclick="setLang('en')" class="px-4 py-2 rounded-full text-sm font-bold transition-all">🇬🇧 English</button>
+  </div>
+</div>
+
+<!-- ============ ZOOM CONTROLS ============ -->
+<div class="zoom-controls" id="zoomControls" aria-label="Zoom controls">
+  <button id="zoomOutBtn" onclick="changeZoom(-10)" title="تصغير / Zoom out">−</button>
+  <span class="zoom-level" id="zoomLevel">100%</span>
+  <button id="zoomInBtn" onclick="changeZoom(10)" title="تكبير / Zoom in">+</button>
+  <button id="zoomResetBtn" onclick="resetZoom()" title="إعادة الضبط / Reset" style="font-size:18px;">⟲</button>
+</div>
+
+<div class="max-w-6xl mx-auto px-4 py-6 flex-grow w-full" id="mainContent">
+
+  <!-- ============ HEADER ============ -->
+  <header class="text-center pt-20 pb-6">
+    <div class="inline-block bg-gradient-to-br from-amber-400 to-amber-600 text-amber-950 font-bold px-5 py-2 rounded-full text-sm mb-4 shadow-lg">
+      <span class="ar-only">⭐ مراجعة شاملة ومبسطة</span>
+      <span class="en-only">⭐ Complete & Simplified Revision</span>
+    </div>
+
+    <h1 class="text-4xl sm:text-5xl font-black bg-gradient-to-br from-white to-amber-300 bg-clip-text text-transparent mb-3 leading-tight">
+      <span class="ar-only">الحركات والتنوين والشدة والسكون</span>
+      <span class="en-only">Harakat, Tanween, Shaddah & Sukoon</span>
+    </h1>
+
+    <p class="text-slate-300 max-w-2xl mx-auto mb-4">
+      <span class="ar-only">مراجعة تفاعلية لأهم علامات الضبط في اللغة العربية والتجويد — اضغط على أي مثال لتسمع النطق.</span>
+      <span class="en-only">An interactive revision of the essential Arabic diacritics and Tajweed marks — click any example to hear it.</span>
+    </p>
+
+    <div class="mt-6">
+      <a href="../Tajweed-lessons/tajweed-lessons.html" class="back-home-btn">
+        <span class="en-only">← Back to home</span>
+        <span class="ar-only">العودة للرئيسية →</span>
+      </a>
+    </div>
+  </header>
+
+  <div class="text-center text-7xl my-4 float">📖</div>
+
+  <!-- ============ SECTION 1: HARAKAT ============ -->
+  <section class="my-12">
+    <h2 class="flex items-center gap-3 text-2xl font-bold text-amber-200 mb-6">
+      <span class="w-1.5 h-8 bg-gradient-to-b from-amber-400 to-teal-400 rounded"></span>
+      <span class="ar-only">١. الحركات — Harakat</span>
+      <span class="en-only">1. Harakat — Short Vowels</span>
+    </h2>
+
+    <div class="rule-card">
+      <p class="text-lg leading-loose text-white border-s-4 border-amber-400 ps-5 mb-6">
+        <span class="ar-only">
+          «الحركات هي علامات صغيرة توضع فوق الحرف أو تحته للدلالة على صوت علة قصير، وكل حركة تُنطق بمقدار <strong>حركة واحدة</strong>.»
+        </span>
+        <span class="en-only">
+          "Harakat are small marks placed above or below a letter to indicate a short vowel sound. Each harakah is pronounced for <strong>one count</strong>."
+        </span>
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="audio-example bg-teal-400/10 border border-teal-400/25 rounded-2xl p-5 text-center" onclick="playAudio('بَ', this)">
+          <div class="text-4xl mb-2 font-ar text-amber-200 flex items-center justify-center gap-2">
+            بَ
+            <span class="play-icon text-sm">🔊</span>
+          </div>
+          <div class="font-bold text-teal-300 text-lg">Fatḥah / فتحة</div>
+          <div class="text-slate-300 mt-1">ba (short "a") — حركة واحدة</div>
+        </div>
+        <div class="audio-example bg-teal-400/10 border border-teal-400/25 rounded-2xl p-5 text-center" onclick="playAudio('بِ', this)">
+          <div class="text-4xl mb-2 font-ar text-amber-200 flex items-center justify-center gap-2">
+            بِ
+            <span class="play-icon text-sm">🔊</span>
+          </div>
+          <div class="font-bold text-teal-300 text-lg">Kasrah / كسرة</div>
+          <div class="text-slate-300 mt-1">bi (short "i") — حركة واحدة</div>
+        </div>
+        <div class="audio-example bg-teal-400/10 border border-teal-400/25 rounded-2xl p-5 text-center" onclick="playAudio('بُ', this)">
+          <div class="text-4xl mb-2 font-ar text-amber-200 flex items-center justify-center gap-2">
+            بُ
+            <span class="play-icon text-sm">🔊</span>
+          </div>
+          <div class="font-bold text-teal-300 text-lg">Ḍammah / ضمة</div>
+          <div class="text-slate-300 mt-1">bu (short "u") — حركة واحدة</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-6 bg-gradient-to-br from-amber-400/15 to-teal-400/10 border-2 border-dashed border-amber-400 rounded-3xl p-6 text-center">
+      <h3 class="text-amber-300 font-bold text-lg mb-2">
+        <span class="ar-only">🔑 ملاحظة</span>
+        <span class="en-only">🔑 Key point</span>
+      </h3>
+      <p class="text-white text-lg">
+        <span class="ar-only">الحرف الذي عليه حركة يسمى <strong>متحركًا</strong>، ويُنطق بمقدار حركة واحدة.</span>
+        <span class="en-only">A letter with a harakah is called <strong>mutaharrik</strong> (vowelled), pronounced for <strong>one count</strong>.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 2: TANWEEN ============ -->
+  <section class="my-12">
+    <h2 class="flex items-center gap-3 text-2xl font-bold text-amber-200 mb-6">
+      <span class="w-1.5 h-8 bg-gradient-to-b from-amber-400 to-teal-400 rounded"></span>
+      <span class="ar-only">٢. التنوين — Tanween</span>
+      <span class="en-only">2. Tanween — Nunation</span>
+    </h2>
+
+    <div class="rule-card">
+      <p class="text-lg leading-loose text-white border-s-4 border-amber-400 ps-5 mb-6">
+        <span class="ar-only">
+          «التنوين هو نون ساكنة زائدة تلحق آخر الكلمة نطقًا لا كتابةً، ويُرمز له بحركة مكررة في آخر الكلمة.»
+        </span>
+        <span class="en-only">
+          "Tanween is a doubled harakah at the end of a word that produces an 'n' sound (nūn sākinah). It is written but the nūn is not."
+        </span>
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="audio-example bg-sky-400/10 border border-sky-400/25 rounded-2xl p-5 text-center" onclick="playAudio('بًا', this)">
+          <div class="text-4xl mb-2 font-ar text-amber-200 flex items-center justify-center gap-2">
+            بًا
+            <span class="play-icon text-sm">🔊</span>
+          </div>
+          <div class="font-bold text-sky-300 text-lg">Fatḥatān / فتحتان</div>
+          <div class="text-slate-300 mt-1">ban (‑an) — حركة + نون ساكنة</div>
+        </div>
+        <div class="audio-example bg-sky-400/10 border border-sky-400/25 rounded-2xl p-5 text-center" onclick="playAudio('بٍ', this)">
+          <div class="text-4xl mb-2 font-ar text-amber-200 flex items-center justify-center gap-2">
+            بٍ
+            <span class="play-icon text-sm">🔊</span>
+          </div>
+          <div class="font-bold text-sky-300 text-lg">Kasratān / كسرتان</div>
+          <div class="text-slate-300 mt-1">bin (‑in) — حركة + نون ساكنة</div>
+        </div>
+        <div class="audio-example bg-sky-400/10 border border-sky-400/25 rounded-2xl p-5 text-center" onclick="playAudio('بٌ', this)">
+          <div class="text-4xl mb-2 font-ar text-amber-200 flex items-center justify-center gap-2">
+            بٌ
+            <span class="play-icon text-sm">🔊</span>
+          </div>
+          <div class="font-bold text-sky-300 text-lg">Ḍammatān / ضمتان</div>
+          <div class="text-slate-300 mt-1">bun (‑un) — حركة + نون ساكنة</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-6 bg-gradient-to-br from-amber-400/15 to-teal-400/10 border-2 border-dashed border-amber-400 rounded-3xl p-6 text-center">
+      <h3 class="text-amber-300 font-bold text-lg mb-2">
+        <span class="ar-only">🔑 نقاط مهمة</span>
+        <span class="en-only">🔑 Key points</span>
+      </h3>
+      <p class="text-white text-lg">
+        <span class="ar-only">• التنوين يكون في <strong>آخر الكلمة</strong> فقط.<br>
+        • يُنطق نونًا ساكنة (نْ) في التلاوة.<br>
+        • الفتحتان تُكتبان على <strong>ألف</strong> (ـًا) إلا بعد ة أو ء أو قبل همزة وصل.</span>
+        <span class="en-only">• Tanween appears only at the <strong>end of words</strong>.<br>
+        • Pronounced as a <strong>nūn sākinah (نْ)</strong>.<br>
+        • Fatḥatān is written on an <strong>alif</strong> (ـًا) except after ة, ء, or before hamzat waṣl.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 3: SHADDAH ============ -->
+  <section class="my-12">
+    <h2 class="flex items-center gap-3 text-2xl font-bold text-amber-200 mb-6">
+      <span class="w-1.5 h-8 bg-gradient-to-b from-amber-400 to-teal-400 rounded"></span>
+      <span class="ar-only">٣. الشدة — Shaddah</span>
+      <span class="en-only">3. Shaddah — Doubling</span>
+    </h2>
+
+    <div class="rule-card">
+      <p class="text-lg leading-loose text-white border-s-4 border-amber-400 ps-5 mb-6">
+        <span class="ar-only">
+          «الشدة ( ّ ) علامة توضع فوق الحرف لتدل على أنه <strong>يُنطق مرتين</strong>: مرة ساكنة ومرة متحركة، ويُحفظ زمنه بمقدار <strong>حركتين</strong>.»
+        </span>
+        <span class="en-only">
+          "Shaddah ( ّ ) indicates the letter is <strong>doubled</strong> — one sākin + one mutaharrik. It is held for <strong>two counts</strong>."
+        </span>
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="audio-example bg-violet-400/10 border border-violet-400/25 rounded-2xl p-5 text-center" onclick="playAudio('بَّ', this)">
+          <div class="text-4xl mb-2 font-ar text-amber-200 flex items-center justify-center gap-2">
+            بَّ
+            <span class="play-icon text-sm">🔊</span>
+          </div>
+          <div class="font-bold text-violet-300 text-lg">Shaddah + Fatḥah</div>
+          <div class="text-slate-300 mt-1">bba — held for two counts</div>
+        </div>
+        <div class="audio-example bg-violet-400/10 border border-violet-400/25 rounded-2xl p-5 text-center" onclick="playAudio('بِّ', this)">
+          <div class="text-4xl mb-2 font-ar text-amber-200 flex items-center justify-center gap-2">
+            بِّ
+            <span class="play-icon text-sm">🔊</span>
+          </div>
+          <div class="font-bold text-violet-300 text-lg">Shaddah + Kasrah</div>
+          <div class="text-slate-300 mt-1">bbi — held for two counts</div>
+        </div>
+        <div class="audio-example bg-violet-400/10 border border-violet-400/25 rounded-2xl p-5 text-center" onclick="playAudio('بُّ', this)">
+          <div class="text-4xl mb-2 font-ar text-amber-200 flex items-center justify-center gap-2">
+            بُّ
+            <span class="play-icon text-sm">🔊</span>
+          </div>
+          <div class="font-bold text-violet-300 text-lg">Shaddah + Ḍammah</div>
+          <div class="text-slate-300 mt-1">bbu — held for two counts</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-6 bg-gradient-to-br from-amber-400/15 to-teal-400/10 border-2 border-dashed border-amber-400 rounded-3xl p-6 text-center">
+      <h3 class="text-amber-300 font-bold text-lg mb-2">
+        <span class="ar-only">🔑 سرّ الحفظ</span>
+        <span class="en-only">🔑 Memory Trick</span>
+      </h3>
+      <p class="font-ar text-3xl font-bold text-white tracking-wider drop-shadow-[0_0_20px_rgba(245,197,66,0.5)] cursor-pointer audio-example rounded-xl p-2 inline-block" onclick="playAudio('مُحَمَّد', this)">مُحَمَّد = مُحَمْ + مَد 🔊</p>
+      <p class="italic text-slate-300 mt-3">"Muhammad = Muham + mad"</p>
+      <p class="text-white text-lg mt-3">
+        <span class="ar-only">الشدة + سكون لا يجتمعان على حرف واحد.</span>
+        <span class="en-only">Shaddah + sukoon cannot occur on the same letter.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 4: SUKOON ============ -->
+  <section class="my-12">
+    <h2 class="flex items-center gap-3 text-2xl font-bold text-amber-200 mb-6">
+      <span class="w-1.5 h-8 bg-gradient-to-b from-amber-400 to-teal-400 rounded"></span>
+      <span class="ar-only">٤. السكون — Sukoon</span>
+      <span class="en-only">4. Sukoon — Quiescence</span>
+    </h2>
+
+    <div class="rule-card">
+      <p class="text-lg leading-loose text-white border-s-4 border-amber-400 ps-5 mb-6">
+        <span class="ar-only">
+          «السكون ( ْ ) دائرة صغيرة فوق الحرف تدل على <strong>عدم وجود حركة</strong> — أي أن الحرف ساكن يُنطق دون حركة وبمقدار <strong>حركة واحدة</strong>.»
+        </span>
+        <span class="en-only">
+          "Sukoon ( ْ ) is a small circle above a letter indicating <strong>no vowel</strong> — the letter is <strong>sākin</strong> (quiescent), pronounced without a vowel and for <strong>one count</strong>."
+        </span>
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="audio-example bg-emerald-400/10 border border-emerald-400/25 rounded-2xl p-5 text-center" onclick="playAudio('بْ', this)">
+          <div class="text-4xl mb-2 font-ar text-amber-200 flex items-center justify-center gap-2">
+            بْ
+            <span class="play-icon text-sm">🔊</span>
+          </div>
+          <div class="font-bold text-emerald-300 text-lg">Sukoon / سكون</div>
+          <div class="text-slate-300 mt-1">b (as in "ab") — one count, no vowel</div>
+        </div>
+        <div class="audio-example bg-emerald-400/10 border border-emerald-400/25 rounded-2xl p-5 text-center" onclick="playAudio('مِنْ', this)">
+          <div class="text-4xl mb-2 font-ar text-amber-200 flex items-center justify-center gap-2">
+            مِنْ
+            <span class="play-icon text-sm">🔊</span>
+          </div>
+          <div class="font-bold text-emerald-300 text-lg">Example / مثال</div>
+          <div class="text-slate-300 mt-1">min — sukoon on ن</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-6 bg-gradient-to-br from-amber-400/15 to-teal-400/10 border-2 border-dashed border-amber-400 rounded-3xl p-6 text-center">
+      <h3 class="text-amber-300 font-bold text-lg mb-2">
+        <span class="ar-only">🔑 السكون مقابل الشدة</span>
+        <span class="en-only">🔑 Sukoon vs. Shaddah</span>
+      </h3>
+      <p class="text-white text-lg">
+        <span class="ar-only">السكون = حرف واحد ساكن (حركة واحدة) | الشدة = حرفان: ساكن + متحرك (حركتان).</span>
+        <span class="en-only">Sukoon = one silent letter (one count) | Shaddah = two letters: silent + vowelled (two counts).</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ QUICK COMPARISON TABLE (NO AUDIO) ============ -->
+  <section class="my-12">
+    <h2 class="flex items-center gap-3 text-2xl font-bold text-amber-200 mb-6">
+      <span class="w-1.5 h-8 bg-gradient-to-b from-amber-400 to-teal-400 rounded"></span>
+      <span class="ar-only">📊 جدول مقارنة سريعة</span>
+      <span class="en-only">📊 Quick Comparison</span>
+    </h2>
+
+    <div class="rule-card p-0 overflow-hidden">
+      <table class="w-full text-white">
+        <thead class="bg-amber-400/15 text-amber-200">
+          <tr>
+            <th class="p-4 text-start font-bold">Mark / العلامة</th>
+            <th class="p-4 text-center font-bold">Symbol / الرمز</th>
+            <th class="p-4 text-start font-bold">Effect / الأثر</th>
+            <th class="p-4 text-center font-bold">Counts / المقدار</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-t border-white/10 hover:bg-white/5">
+            <td class="p-4">Fatḥah / فتحة</td>
+            <td class="p-4 text-center font-ar text-2xl text-amber-200">َ</td>
+            <td class="p-4">short "a"</td>
+            <td class="p-4 text-center">1</td>
+          </tr>
+          <tr class="border-t border-white/10 hover:bg-white/5">
+            <td class="p-4">Kasrah / كسرة</td>
+            <td class="p-4 text-center font-ar text-2xl text-amber-200">ِ</td>
+            <td class="p-4">short "i"</td>
+            <td class="p-4 text-center">1</td>
+          </tr>
+          <tr class="border-t border-white/10 hover:bg-white/5">
+            <td class="p-4">Ḍammah / ضمة</td>
+            <td class="p-4 text-center font-ar text-2xl text-amber-200">ُ</td>
+            <td class="p-4">short "u"</td>
+            <td class="p-4 text-center">1</td>
+          </tr>
+          <tr class="border-t border-white/10 hover:bg-white/5">
+            <td class="p-4">Tanween / تنوين</td>
+            <td class="p-4 text-center font-ar text-2xl text-amber-200">ً ٍ ٌ</td>
+            <td class="p-4">"-an, -in, -un"</td>
+            <td class="p-4 text-center">1 (+ nūn)</td>
+          </tr>
+          <tr class="border-t border-white/10 hover:bg-white/5">
+            <td class="p-4">Shaddah / شدة</td>
+            <td class="p-4 text-center font-ar text-2xl text-amber-200">ّ</td>
+            <td class="p-4">doubles the letter</td>
+            <td class="p-4 text-center">2</td>
+          </tr>
+          <tr class="border-t border-white/10 hover:bg-white/5">
+            <td class="p-4">Sukoon / سكون</td>
+            <td class="p-4 text-center font-ar text-2xl text-amber-200">ْ</td>
+            <td class="p-4">no vowel</td>
+            <td class="p-4 text-center">1</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ PRACTICE EXAMPLES ============ -->
+  <section class="my-12">
+    <h2 class="flex items-center gap-3 text-2xl font-bold text-amber-200 mb-6">
+      <span class="w-1.5 h-8 bg-gradient-to-b from-amber-400 to-teal-400 rounded"></span>
+      <span class="ar-only">✍️ أمثلة تدريبية</span>
+      <span class="en-only">✍️ Practice Examples</span>
+    </h2>
+
+    <p class="text-slate-300 mb-4">
+      <span class="ar-only">اضغط على أي مثال لتسمع النطق الصحيح — الكلمة تُنطق مرة واحدة مع إظهار الحركة الأخيرة بوضوح.</span>
+      <span class="en-only">Click any example — each word is said once, with the final harakah clearly articulated.</span>
+    </p>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <div class="audio-example bg-white/5 border border-amber-300/25 rounded-2xl p-5 text-center" onclick="playPractice('كَتَبَ', this)">
+        <div class="font-ar text-3xl text-amber-200 mb-2 flex items-center justify-center gap-2">
+          كَتَبَ
+          <span class="play-icon text-sm">🔊</span>
+        </div>
+        <div class="text-slate-300 italic">kataba — three fatḥahs</div>
+      </div>
+      <div class="audio-example bg-white/5 border border-amber-300/25 rounded-2xl p-5 text-center" onclick="playPractice('كِتَابٌ', this)">
+        <div class="font-ar text-3xl text-amber-200 mb-2 flex items-center justify-center gap-2">
+          كِتَابٌ
+          <span class="play-icon text-sm">🔊</span>
+        </div>
+        <div class="text-slate-300 italic">kitābun — ḍammatān at end</div>
+      </div>
+      <div class="audio-example bg-white/5 border border-amber-300/25 rounded-2xl p-5 text-center" onclick="playPractice('مُحَمَّدٌ', this)">
+        <div class="font-ar text-3xl text-amber-200 mb-2 flex items-center justify-center gap-2">
+          مُحَمَّدٌ
+          <span class="play-icon text-sm">🔊</span>
+        </div>
+        <div class="text-slate-300 italic">Muḥammadun — shaddah + ḍammatān</div>
+      </div>
+      <div class="audio-example bg-white/5 border border-amber-300/25 rounded-2xl p-5 text-center" onclick="playPractice('مِنْ', this)">
+        <div class="font-ar text-3xl text-amber-200 mb-2 flex items-center justify-center gap-2">
+          مِنْ          <span class="play-icon text-sm">🔊</span>
+        </div>
+        <div class="text-slate-300 italic">min — sukoon on ن</div>
+      </div>
+      <div class="audio-example bg-white/5 border border-amber-300/25 rounded-2xl p-5 text-center" onclick="playPractice('بَيْتٍ', this)">
+        <div class="font-ar text-3xl text-amber-200 mb-2 flex items-center justify-center gap-2">
+          بَيْتٍ
+          <span class="play-icon text-sm">🔊</span>
+        </div>
+        <div class="text-slate-300 italic">baytin — sukoon on ي + kasratān</div>
+      </div>
+      <div class="audio-example bg-white/5 border border-amber-300/25 rounded-2xl p-5 text-center" onclick="playPractice('اللَّهُ', this)">
+        <div class="font-ar text-3xl text-amber-200 mb-2 flex items-center justify-center gap-2">
+          اللَّهُ
+          <span class="play-icon text-sm">🔊</span>
+        </div>
+        <div class="text-slate-300 italic">Allāhu — shaddah on ل</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ COMMON MISTAKES ============ -->
+  <section class="my-12">
+    <h2 class="flex items-center gap-3 text-2xl font-bold text-amber-200 mb-6">
+      <span class="w-1.5 h-8 bg-gradient-to-b from-amber-400 to-teal-400 rounded"></span>
+      <span class="ar-only">⚠️ أخطاء شائعة يجب تجنبها</span>
+      <span class="en-only">⚠️ Common Mistakes to Avoid</span>
+    </h2>
+
+    <div class="space-y-3">
+      <div class="bg-red-400/10 border-s-4 border-red-400 rounded-2xl p-4 text-white">
+        <span class="ar-only">❌ نطق التنوين نونًا كاملة بحركة — التنوين <strong>نون ساكنة</strong>.</span>
+        <span class="en-only">❌ Pronouncing tanween as a full nūn with vowel — it is a <strong>sākin nūn</strong>.</span>
+      </div>
+      <div class="bg-red-400/10 border-s-4 border-red-400 rounded-2xl p-4 text-white">
+        <span class="ar-only">❌ حفظ الشدة حركة واحدة — يجب أن تُحفظ <strong>حركتين</strong>.</span>
+        <span class="en-only">❌ Holding shaddah for only one count — it must be <strong>two counts</strong>.</span>
+      </div>
+      <div class="bg-red-400/10 border-s-4 border-red-400 rounded-2xl p-4 text-white">
+        <span class="ar-only">❌ إضافة حركة إلى حرف ساكن.</span>
+        <span class="en-only">❌ Adding a vowel to a sākin letter.</span>
+      </div>
+      <div class="bg-red-400/10 border-s-4 border-red-400 rounded-2xl p-4 text-white">
+        <span class="ar-only">❌ كتابة الفتحتين على الحرف بدلًا من الألف في معظم الحالات.</span>
+        <span class="en-only">❌ Writing fatḥatān on the letter instead of the alif in most cases.</span>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer class="text-center py-10 text-slate-400 text-sm border-t border-white/5 mt-auto relative z-10">
+  <p>© <span id="year"></span> — <span class="ar-only">مراجعة التجويد</span><span class="en-only">Tajweed Revision</span></p>
+  <p class="mt-2">Quran • Tajweed • Arabic Language</p>
+</footer>
+
+<script src="../../config.js"></script>
+
+<script>
+/* ============================================================
+   ZOOM FEATURE
+   ============================================================ */
+let currentZoom = 100;
+const MIN_ZOOM = 50;
+const MAX_ZOOM = 200;
+const ZOOM_STEP = 10;
+const BASE_FONT_PX = 16;
+
+function applyZoom() {
+  const newFontSize = (BASE_FONT_PX * (currentZoom / 100)) + "px";
+  document.documentElement.style.setProperty('--base-font-size', newFontSize);
+  const levelEl = document.getElementById("zoomLevel");
+  if (levelEl) levelEl.textContent = currentZoom + "%";
+  const outBtn = document.getElementById("zoomOutBtn");
+  const inBtn = document.getElementById("zoomInBtn");
+  if (outBtn) outBtn.disabled = currentZoom <= MIN_ZOOM;
+  if (inBtn) inBtn.disabled = currentZoom >= MAX_ZOOM;
+  try { localStorage.setItem("revisionZoomLevel", currentZoom); } catch (e) {}
+}
+
+function changeZoom(delta) {
+  currentZoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, currentZoom + delta));
+  applyZoom();
+}
+
+function resetZoom() {
+  currentZoom = 100;
+  applyZoom();
+}
+
+try {
+  const savedZoom = localStorage.getItem("revisionZoomLevel");
+  if (savedZoom) currentZoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, parseInt(savedZoom, 10) || 100));
+} catch (e) {}
+applyZoom();
+
+document.addEventListener("keydown", (e) => {
+  if ((e.ctrlKey || e.metaKey) && (e.key === "=" || e.key === "+")) {
+    e.preventDefault();
+    changeZoom(ZOOM_STEP);
+  } else if ((e.ctrlKey || e.metaKey) && e.key === "-") {
+    e.preventDefault();
+    changeZoom(-ZOOM_STEP);
+  } else if ((e.ctrlKey || e.metaKey) && e.key === "0") {
+    e.preventDefault();
+    resetZoom();
+  }
+});
+
+/* ============================================================
+   AZURE NEURAL TTS CONFIGURATION
+   ============================================================ */
+const AZURE_TTS_CONFIG = window.AZURE_TTS_CONFIG || {
+  subscriptionKey: "",
+  region: "",
+  voice: "ar-SA-HamedNeural"
+};
+
+/* ============================================================
+   LANGUAGE TOGGLE
+   ============================================================ */
+let currentLang = "ar";
+
+function setLang(lang) {
+  currentLang = lang;
+  const html = document.getElementById("htmlRoot");
+  html.lang = lang;
+  html.dir = lang === "ar" ? "rtl" : "ltr";
+
+  document.getElementById("btnAr").classList.toggle("bg-amber-400", lang === "ar");
+  document.getElementById("btnAr").classList.toggle("text-amber-950", lang === "ar");
+  document.getElementById("btnAr").classList.toggle("text-slate-300", lang !== "ar");
+  document.getElementById("btnEn").classList.toggle("bg-amber-400", lang === "en");
+  document.getElementById("btnEn").classList.toggle("text-amber-950", lang === "en");
+  document.getElementById("btnEn").classList.toggle("text-slate-300", lang !== "en");
+
+  try { localStorage.setItem("preferredLangRevision", lang); } catch (e) {}
+}
+
+try {
+  const saved = localStorage.getItem("preferredLangRevision");
+  if (saved === "en") {
+    setLang("en");
+  } else {
+    setLang("ar");
+  }
+} catch (e) {
+  setLang("ar");
+}
+
+document.getElementById("year").textContent = new Date().getFullYear();
+
+/* ============================================================
+   AUDIO PLAYBACK — GENERAL (sections 1–4)
+   ============================================================ */
+let currentAudio = null;
+
+function escapeXml(s) {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;").replace(/'/g, "&apos;");
+}
+
+async function playAudio(text, element) {
+  if (element) {
+    document.querySelectorAll('.audio-example.playing').forEach(el => el.classList.remove('playing'));
+    element.classList.add('playing');
+  }
+
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio = null;
+  }
+  if (window.speechSynthesis) {
+    speechSynthesis.cancel();
+  }
+
+  const spoken = text + "\u200F";
+
+  if (AZURE_TTS_CONFIG.subscriptionKey && AZURE_TTS_CONFIG.subscriptionKey !== "YOUR_AZURE_KEY_HERE") {
+    try {
+      const endpoint = `https://${AZURE_TTS_CONFIG.region}.tts.speech.microsoft.com/cognitiveservices/v1`;
+      const ssml = `
+        <speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='ar-SA'>
+          <voice name='${AZURE_TTS_CONFIG.voice}'>
+            <prosody rate='-20%' pitch='0%'>
+              <break time='300ms'/>
+              ${escapeXml(spoken)}
+              <break time='500ms'/>
+            </prosody>
+          </voice>
+        </speak>
+      `;
+
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Ocp-Apim-Subscription-Key": AZURE_TTS_CONFIG.subscriptionKey,
+          "Content-Type": "application/ssml+xml",
+          "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+          "User-Agent": "TajweedRevisionPage"
+        },
+        body: ssml
+      });
+
+      if (!response.ok) throw new Error(`Azure TTS error: ${response.status}`);
+
+      const audioBlob = await response.blob();
+      const audioUrl = URL.createObjectURL(audioBlob);
+      currentAudio = new Audio(audioUrl);
+
+      currentAudio.onended = () => {
+        URL.revokeObjectURL(audioUrl);
+        if (element) element.classList.remove('playing');
+        currentAudio = null;
+      };
+      currentAudio.onerror = () => {
+        URL.revokeObjectURL(audioUrl);
+        if (element) element.classList.remove('playing');
+        currentAudio = null;
+        speakFallback(spoken, 0.8);
+      };
+
+      await currentAudio.play();
+      return;
+    } catch (error) {
+      console.warn("Azure TTS failed, using browser fallback:", error);
+      speakFallback(spoken, 0.8);
+    }
+  } else {
+    speakFallback(spoken, 0.8);
+  }
+
+  if (element) {
+    const checkEnd = setInterval(() => {
+      if (!speechSynthesis.speaking) {
+        element.classList.remove('playing');
+        clearInterval(checkEnd);
+      }
+    }, 200);
+    setTimeout(() => clearInterval(checkEnd), 8000);
+  }
+}
+
+/* ============================================================
+   PRACTICE — single clean utterance (no echo, no duplicate)
+   ------------------------------------------------------------
+   The final harakah is preserved by:
+   - Fully vowelled input (the caller passes 'كَتَبَ' etc.)
+   - Trailing RLM (\u200F) so the engine keeps the final mark
+   - Slightly slower rate (-15%) so the final vowel is voiced
+   - A long trailing <break> so the word is not clipped
+   - Egyptian voice (ar-EG-SalmaNeural) which articulates
+     word-final short vowels more clearly than ar-SA
+   ============================================================ */
+const PRACTICE_VOICE = "ar-EG-SalmaNeural";
+const PRACTICE_VOICE_FALLBACK = "ar-EG-ShakirNeural";
+
+async function playPractice(text, element) {
+  if (element) {
+    document.querySelectorAll('.audio-example.playing').forEach(el => el.classList.remove('playing'));
+    element.classList.add('playing');
+  }
+
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio = null;
+  }
+  if (window.speechSynthesis) {
+    speechSynthesis.cancel();
+  }
+
+  // Single clean string — word + RLM. No echo, no comma, no repeat.
+  const spoken = text + "\u200F";
+
+  if (AZURE_TTS_CONFIG.subscriptionKey && AZURE_TTS_CONFIG.subscriptionKey !== "YOUR_AZURE_KEY_HERE") {
+    const voicesToTry = [PRACTICE_VOICE, PRACTICE_VOICE_FALLBACK];
+    for (const voice of voicesToTry) {
+      try {
+        const endpoint = `https://${AZURE_TTS_CONFIG.region}.tts.speech.microsoft.com/cognitiveservices/v1`;
+        const ssml = `
+          <speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='ar-EG'>
+            <voice name='${voice}'>
+              <prosody rate='-15%' pitch='0%' volume='loud'>
+                <break time='300ms'/>
+                ${escapeXml(spoken)}
+                <break time='700ms'/>
+              </prosody>
+            </voice>
+          </speak>
+        `;
+
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: {
+            "Ocp-Apim-Subscription-Key": AZURE_TTS_CONFIG.subscriptionKey,
+            "Content-Type": "application/ssml+xml",
+            "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+            "User-Agent": "TajweedRevisionPracticePage"
+          },
+          body: ssml
+        });
+
+        if (!response.ok) throw new Error(`Azure TTS error (${voice}): ${response.status}`);
+
+        const audioBlob = await response.blob();
+        const audioUrl = URL.createObjectURL(audioBlob);
+        currentAudio = new Audio(audioUrl);
+
+        currentAudio.onended = () => {
+          URL.revokeObjectURL(audioUrl);
+          if (element) element.classList.remove('playing');
+          currentAudio = null;
+        };
+        currentAudio.onerror = () => {
+          URL.revokeObjectURL(audioUrl);
+          if (element) element.classList.remove('playing');
+          currentAudio = null;
+          speakPracticeFallback(spoken);
+        };
+
+        await currentAudio.play();
+        return;
+      } catch (err) {
+        console.warn(`Practice TTS voice ${voice} failed:`, err);
+      }
+    }
+    speakPracticeFallback(spoken);
+  } else {
+    speakPracticeFallback(spoken);
+  }
+
+  if (element) {
+    const checkEnd = setInterval(() => {
+      if (!speechSynthesis.speaking) {
+        element.classList.remove('playing');
+        clearInterval(checkEnd);
+      }
+    }, 200);
+    setTimeout(() => clearInterval(checkEnd), 10000);
+  }
+}
+
+/* Browser fallback for practice: one single utterance, slower rate. */
+function speakPracticeFallback(text) {
+  if (!("speechSynthesis" in window)) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "ar-EG";
+  u.rate = 0.7;
+  u.pitch = 1.0;
+  u.volume = 1.0;
+  const voices = speechSynthesis.getVoices();
+  const arabicVoice =
+    voices.find(v => v.lang === "ar-EG") ||
+    voices.find(v => v.lang.startsWith("ar"));
+  if (arabicVoice) u.voice = arabicVoice;
+  speechSynthesis.speak(u);
+}
+
+if ("speechSynthesis" in window) {
+  speechSynthesis.onvoiceschanged = () => {};
+}
+</script>
+
+</body>
+</html>

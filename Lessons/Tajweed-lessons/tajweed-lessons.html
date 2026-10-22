@@ -13,15 +13,18 @@
 
 <style>
   :root {
-    --bg-dark: #0a1628;
+    /* Flyer-inspired base palette */
+    --bg-light: #fdf2f8;
+    --bg-card: #ffffff;
+    --purple-dark: #4a1c6f;
+    --purple-mid: #7b3fa0;
+    --purple-light: #c084fc;
+    --pink-accent: #f472b6;
+    --pink-soft: #fce7f3;
+    --text-dark: #2d1b4e;
+    --text-muted: #6b5b7a;
     --gold: #f5c542;
-    --gold-dark: #d4a24c;
-    --teal: #2dd4bf;
-    --text: #eaf2ff;
-    --text-soft: #b8cce6;
-    --card-bg: rgba(255, 255, 255, 0.06);
-    --card-border: rgba(245, 197, 66, 0.25);
-    --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    --teal: #2dd4bf; 
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -32,8 +35,8 @@
   .font-ar { font-family: 'Amiri', serif; }
 
   body {
-    background: radial-gradient(circle at 20% 10%, #1a3355 0%, var(--bg-dark) 55%, #050b14 100%);
-    color: var(--text);
+    background: radial-gradient(circle at 10% 20%, #fdf2f8 0%, #fce7f3 40%, #f3e8ff 100%);
+    color: var(--text-dark);
     min-height: 100vh;
     line-height: 1.7;
     overflow-x: hidden;
@@ -59,17 +62,17 @@
 
   .lang-toggle {
     display: flex;
-    background: rgba(10, 22, 40, 0.85);
-    border: 1px solid var(--card-border);
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid var(--pink-accent);
     border-radius: 50px;
     padding: 4px;
     backdrop-filter: blur(10px);
-    box-shadow: var(--shadow);
+    box-shadow: 0 4px 15px rgba(244, 114, 182, 0.1);
   }
   .lang-toggle button {
     border: none;
     background: transparent;
-    color: var(--text-soft);
+    color: var(--text-muted);
     font-family: 'Tajawal', 'Poppins', sans-serif;
     font-weight: 700;
     font-size: 0.85rem;
@@ -79,9 +82,9 @@
     transition: all 0.3s;
   }
   .lang-toggle button.active {
-    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-    color: #1a1200;
-    box-shadow: 0 4px 12px rgba(245, 197, 66, 0.4);
+    background: linear-gradient(135deg, var(--pink-accent), var(--purple-mid));
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(244, 114, 182, 0.3);
   }
 
   /* ============ HEADER ============ */
@@ -93,21 +96,21 @@
 
   .brand-badge {
     display: inline-block;
-    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-    color: #1a1200;
+    background: linear-gradient(135deg, var(--pink-accent), var(--purple-mid));
+    color: #ffffff;
     font-weight: 700;
     padding: 8px 22px;
     border-radius: 50px;
     font-size: 0.9rem;
     margin-bottom: 20px;
-    box-shadow: 0 4px 15px rgba(245, 197, 66, 0.4);
+    box-shadow: 0 4px 15px rgba(244, 114, 182, 0.3);
     letter-spacing: 0.5px;
   }
 
   h1 {
     font-size: clamp(2rem, 5vw, 3rem);
     font-weight: 900;
-    background: linear-gradient(135deg, #fff, var(--gold));
+    background: linear-gradient(135deg, var(--purple-dark), var(--purple-mid));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -116,7 +119,7 @@
   }
 
   .subtitle {
-    color: var(--text-soft);
+    color: var(--text-muted);
     font-size: 1.1rem;
     max-width: 620px;
     margin: 0 auto 32px;
@@ -138,13 +141,15 @@
   }
 
   .btn-quiet {
-    background: transparent;
-    color: var(--text);
-    border: 2px solid var(--card-border);
+    background: #ffffff;
+    color: var(--purple-dark);
+    border: 2px solid var(--pink-accent);
   }
   .btn-quiet:hover {
-    border-color: var(--gold);
-    color: var(--gold);
+    border-color: var(--purple-mid);
+    color: var(--purple-dark);
+    background: var(--pink-soft);
+    transform: translateY(-2px);
   }
 
   /* ============ LESSONS GRID ============ */
@@ -162,7 +167,7 @@
     font-size: 0.75rem;
     font-weight: 800;
     letter-spacing: 2px;
-    color: var(--gold);
+    color: var(--purple-mid);
     text-transform: uppercase;
     margin-bottom: 12px;
   }
@@ -171,6 +176,7 @@
     font-size: clamp(1.5rem, 3.5vw, 2rem);
     font-weight: 800;
     margin-bottom: 10px;
+    color: var(--purple-dark);
   }
 
   .lessons-grid {
@@ -180,38 +186,57 @@
   }
 
   .lesson-card {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
+    background: var(--bg-card);
+    border: 2px solid var(--pink-soft);
     border-radius: 24px;
     padding: 32px 26px;
     text-decoration: none;
-    color: var(--text);
+    color: var(--text-dark);
     transition: all 0.35s ease;
     position: relative;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(123, 63, 160, 0.05);
   }
 
   .lesson-card::before {
     content: "";
     position: absolute;
     top: 0; left: 0; right: 0;
-    height: 5px;
-    background: var(--accent, var(--gold));
+    height: 7px;
+    background: var(--accent, var(--purple-mid));
     transition: height 0.3s;
+  }
+
+  .lesson-card::after {
+    content: "";
+    position: absolute;
+    bottom: -40px;
+    right: -40px;
+    width: 120px;
+    height: 120px;
+    background: var(--accent, var(--purple-mid));
+    opacity: 0.06;
+    border-radius: 50%;
+    transition: opacity 0.3s, transform 0.3s;
   }
 
   .lesson-card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-    border-color: var(--accent, var(--gold));
-    background: rgba(255, 255, 255, 0.09);
+    box-shadow: 0 20px 40px rgba(244, 114, 182, 0.25);
+    border-color: var(--accent, var(--purple-mid));
+    background: #ffffff;
   }
 
   .lesson-card:hover::before {
-    height: 6px;
+    height: 9px;
+  }
+
+  .lesson-card:hover::after {
+    opacity: 0.12;
+    transform: scale(1.4);
   }
 
   .lesson-card .icon {
@@ -220,17 +245,18 @@
     display: block;
     line-height: 1;
     font-family: 'Amiri', serif;
-    color: var(--accent, var(--gold));
+    color: var(--accent, var(--purple-mid));
+    text-shadow: 0 2px 10px rgba(0,0,0,0.1);
   }
 
   .lesson-card .kicker {
     font-size: 0.72rem;
     font-weight: 800;
     letter-spacing: 1.5px;
-    color: var(--accent, var(--gold));
+    color: var(--accent, var(--purple-mid));
     text-transform: uppercase;
     margin-bottom: 8px;
-    opacity: 0.85;
+    opacity: 1;
   }
 
   .lesson-card h3 {
@@ -238,22 +264,25 @@
     font-weight: 800;
     margin-bottom: 10px;
     line-height: 1.3;
+    color: var(--purple-dark);
   }
 
   .lesson-card .ar-name {
     display: block;
     font-family: 'Amiri', serif;
     font-size: 1.5rem;
-    color: var(--accent, var(--gold));
+    color: var(--accent, var(--purple-mid));
     font-weight: 700;
     margin-top: 2px;
   }
 
   .lesson-card p {
-    color: var(--text-soft);
+    color: var(--text-muted);
     font-size: 0.95rem;
     margin-bottom: 20px;
     flex-grow: 1;
+    position: relative;
+    z-index: 1;
   }
 
   .lesson-card .meta {
@@ -263,9 +292,11 @@
     gap: 8px;
     font-size: 0.88rem;
     font-weight: 700;
-    color: var(--accent, var(--gold));
+    color: var(--accent, var(--purple-mid));
     padding-top: 16px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid var(--pink-soft);
+    position: relative;
+    z-index: 1;
   }
 
   .lesson-card .meta .arrow {
@@ -281,23 +312,31 @@
     transform: translateX(-6px);
   }
 
-  /* ============ ACCENT COLORS ============ */
-  .card-gold   { --accent: #f5c542; }
-  .card-sage   { --accent: #8ba888; }
-  .card-peach  { --accent: #e8b48c; }
-  .card-lilac  { --accent: #b8a5d1; }
+  /* ============ VIBRANT ACCENT COLORS ============ */
+  .card-rose    { --accent: #e11d48; }
+  .card-violet  { --accent: #8b5cf6; }
+  .card-amber   { --accent: #d97706; }
+  .card-emerald { --accent: #059669; }
+  .card-fuchsia { --accent: #c026d3; }
+  .card-indigo  { --accent: #4f46e5; }
+  .card-orange  { --accent: #ea580c; }
+  .card-pink    { --accent: #db2777; }
+  .card-cyan    { --accent: #0891b2; }
+  .card-gold    { --accent: #ca8a04; }
+  .card-teal    { --accent: #0d9488; }
 
   /* ============ FOOTER ============ */
   footer {
     text-align: center;
     padding: 40px 24px;
-    color: var(--text-soft);
+    color: var(--text-muted);
     font-size: 0.9rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 1px solid var(--pink-soft);
+    background: rgba(255, 255, 255, 0.5);
   }
 
   footer strong {
-    color: var(--gold);
+    color: var(--purple-dark);
   }
 
   /* ============ RESPONSIVE ============ */
@@ -361,7 +400,7 @@
     <div class="lessons-grid">
 
       <!-- FATHA (Lesson 01) -->
-      <a class="lesson-card card-sage" href="الفتحة-Fatha.html">
+      <a class="lesson-card card-emerald" href="الفتحة-Fatha.html">
         <span class="icon">َ</span>
         <span class="kicker">
           <span class="en-only">LESSON 01</span>
@@ -383,7 +422,7 @@
       </a>
 
       <!-- KASRA (Lesson 02) -->
-      <a class="lesson-card card-lilac" href="الكسرة-Kasra.html">
+      <a class="lesson-card card-violet" href="الكسرة-Kasra.html">
         <span class="icon">ِ</span>
         <span class="kicker">
           <span class="en-only">LESSON 02</span>
@@ -405,7 +444,7 @@
       </a>
 
       <!-- DAMMA (Lesson 03) -->
-      <a class="lesson-card card-peach" href="الضمة-Damma.html">
+      <a class="lesson-card card-amber" href="الضمة-Damma.html">
         <span class="icon">ُ</span>
         <span class="kicker">
           <span class="en-only">LESSON 03</span>
@@ -426,12 +465,78 @@
         </span>
       </a>
 
-      <!-- ALIF MADD (Lesson 04) -->
-      <a class="lesson-card card-sage" href="ألف-المد-Alif-Madd.html">
-        <span class="icon">ا</span>
+      <!-- TANWEEN FATHA (Lesson 04) -->
+      <a class="lesson-card card-rose" href="tanween-fatha.html">
+        <span class="icon">ً</span>
         <span class="kicker">
           <span class="en-only">LESSON 04</span>
           <span class="ar-only">الدَّرْسُ الرَّابِع</span>
+        </span>
+        <h3>
+          <span class="en-only">Tanween Fatha</span>
+          <span class="ar-name">تَنْوِين الفَتْح</span>
+        </h3>
+        <p>
+          <span class="en-only">Learn the double 'a' sound at the end of words.</span>
+          <span class="ar-only">تعلَّمْ صَوْتَ التَّنْوِين بِالْفَتْح.</span>
+        </p>
+        <span class="meta">
+          <span class="en-only">Start lesson</span>
+          <span class="ar-only">ابْدَأِ الدَّرْس</span>
+          <span class="arrow">→</span>
+        </span>
+      </a>
+
+      <!-- TANWEEN KASRA (Lesson 05) -->
+      <a class="lesson-card card-indigo" href="tanween-Kasra.html">
+        <span class="icon">ٍ</span>
+        <span class="kicker">
+          <span class="en-only">LESSON 05</span>
+          <span class="ar-only">الدَّرْسُ الخَامِس</span>
+        </span>
+        <h3>
+          <span class="en-only">Tanween Kasra</span>
+          <span class="ar-name">تَنْوِين الكَسْر</span>
+        </h3>
+        <p>
+          <span class="en-only">Learn the double 'i' sound at the end of words.</span>
+          <span class="ar-only">تعلَّمْ صَوْتَ التَّنْوِين بِالْكَسْر.</span>
+        </p>
+        <span class="meta">
+          <span class="en-only">Start lesson</span>
+          <span class="ar-only">ابْدَأِ الدَّرْس</span>
+          <span class="arrow">→</span>
+        </span>
+      </a>
+
+      <!-- TANWEEN DAMMA (Lesson 06) -->
+      <a class="lesson-card card-orange" href="tanween-damma.html">
+        <span class="icon">ٌ</span>
+        <span class="kicker">
+          <span class="en-only">LESSON 06</span>
+          <span class="ar-only">الدَّرْسُ السَّادِس</span>
+        </span>
+        <h3>
+          <span class="en-only">Tanween Damma</span>
+          <span class="ar-name">تَنْوِين الضَّمّ</span>
+        </h3>
+        <p>
+          <span class="en-only">Learn the double 'u' sound at the end of words.</span>
+          <span class="ar-only">تعلَّمْ صَوْتَ التَّنْوِين بِالضَّمّ.</span>
+        </p>
+        <span class="meta">
+          <span class="en-only">Start lesson</span>
+          <span class="ar-only">ابْدَأِ الدَّرْس</span>
+          <span class="arrow">→</span>
+        </span>
+      </a>
+
+      <!-- ALIF MADD (Lesson 07) -->
+      <a class="lesson-card card-fuchsia" href="ألف-المد-Alif-Madd.html">
+        <span class="icon">ا</span>
+        <span class="kicker">
+          <span class="en-only">LESSON 07</span>
+          <span class="ar-only">الدَّرْسُ السَّابِع</span>
         </span>
         <h3>
           <span class="en-only">Alif Madd</span>
@@ -448,12 +553,12 @@
         </span>
       </a>
 
-      <!-- WAW MADD (Lesson 05) -->
-      <a class="lesson-card card-peach" href="واو-المد-Waw-Madd.html">
+      <!-- WAW MADD (Lesson 08) -->
+      <a class="lesson-card card-pink" href="واو-المد-Waw-Madd.html">
         <span class="icon">و</span>
         <span class="kicker">
-          <span class="en-only">LESSON 05</span>
-          <span class="ar-only">الدَّرْسُ الخَامِس</span>
+          <span class="en-only">LESSON 08</span>
+          <span class="ar-only">الدَّرْسُ الثَّامِن</span>
         </span>
         <h3>
           <span class="en-only">Waw Madd</span>
@@ -470,12 +575,12 @@
         </span>
       </a>
 
-      <!-- YA MADD (Lesson 06) -->
-      <a class="lesson-card card-lilac" href="ياء-المد-Ya-Madd.html">
+      <!-- YA MADD (Lesson 09) -->
+      <a class="lesson-card card-cyan" href="ياء-المد-Ya-Madd.html">
         <span class="icon">ي</span>
         <span class="kicker">
-          <span class="en-only">LESSON 06</span>
-          <span class="ar-only">الدَّرْسُ السَّادِس</span>
+          <span class="en-only">LESSON 09</span>
+          <span class="ar-only">الدَّرْسُ التَّاسِع</span>
         </span>
         <h3>
           <span class="en-only">Ya Madd</span>
@@ -492,12 +597,78 @@
         </span>
       </a>
 
-      <!-- SUKOON (Lesson 07) -->
-      <a class="lesson-card card-peach" href="sukoon.html">
+      <!-- LONG STANDING ALIF (Lesson 10) -->
+      <a class="lesson-card card-gold" href="long-standing-alif.html">
+        <span class="icon">آ</span>
+        <span class="kicker">
+          <span class="en-only">LESSON 10</span>
+          <span class="ar-only">الدَّرْسُ العَاشِر</span>
+        </span>
+        <h3>
+          <span class="en-only">Long-standing Alif</span>
+          <span class="ar-name">الأَلِف المَدِّيَّة الصَّغِيرَة</span>
+        </h3>
+        <p>
+          <span class="en-only">Learn about the natural elongation of the Alif.</span>
+          <span class="ar-only">تعلَّمْ عَنْ الأَلِفِ المَدِّيَّةِ الصَّغِيرَة.</span>
+        </p>
+        <span class="meta">
+          <span class="en-only">Start lesson</span>
+          <span class="ar-only">ابْدَأِ الدَّرْس</span>
+          <span class="arrow">→</span>
+        </span>
+      </a>
+
+      <!-- LONG STANDING WAW (Lesson 11) -->
+      <a class="lesson-card card-teal" href="long-standing-wow.html">
+        <span class="icon">و</span>
+        <span class="kicker">
+          <span class="en-only">LESSON 11</span>
+          <span class="ar-only">الدَّرْسُ الحَادِيَ عَشَر</span>
+        </span>
+        <h3>
+          <span class="en-only">Long-standing Waw</span>
+          <span class="ar-name">الوَاو المَدِّيَّة الصَّغِيرَة</span>
+        </h3>
+        <p>
+          <span class="en-only">Learn about the natural elongation of the Waw.</span>
+          <span class="ar-only">تعلَّمْ عَنْ الوَاوِ المَدِّيَّةِ الصَّغِيرَة.</span>
+        </p>
+        <span class="meta">
+          <span class="en-only">Start lesson</span>
+          <span class="ar-only">ابْدَأِ الدَّرْس</span>
+          <span class="arrow">→</span>
+        </span>
+      </a>
+
+      <!-- LONG STANDING YAA (Lesson 12) -->
+      <a class="lesson-card card-violet" href="long-standing-yaa.html">
+        <span class="icon">ي</span>
+        <span class="kicker">
+          <span class="en-only">LESSON 12</span>
+          <span class="ar-only">الدَّرْسُ الثَّانِيَ عَشَر</span>
+        </span>
+        <h3>
+          <span class="en-only">Long-standing Yaa</span>
+          <span class="ar-name">اليَاء المَدِّيَّة الصَّغِيرَة</span>
+        </h3>
+        <p>
+          <span class="en-only">Learn about the natural elongation of the Yaa.</span>
+          <span class="ar-only">تعلَّمْ عَنْ اليَاءِ المَدِّيَّةِ الصَّغِيرَة.</span>
+        </p>
+        <span class="meta">
+          <span class="en-only">Start lesson</span>
+          <span class="ar-only">ابْدَأِ الدَّرْس</span>
+          <span class="arrow">→</span>
+        </span>
+      </a>
+
+      <!-- SUKOON (Lesson 13) -->
+      <a class="lesson-card card-indigo" href="sukoon.html">
         <span class="icon">ْ</span>
         <span class="kicker">
-          <span class="en-only">LESSON 07</span>
-          <span class="ar-only">الدَّرْسُ السَّابِع</span>
+          <span class="en-only">LESSON 13</span>
+          <span class="ar-only">الدَّرْسُ الثَّالِثَ عَشَر</span>
         </span>
         <h3>
           <span class="en-only">The Sukoon</span>
@@ -514,12 +685,12 @@
         </span>
       </a>
 
-      <!-- SHADDAH (Lesson 08) -->
-      <a class="lesson-card card-sage" href="الشدة-Shadah.html">
+      <!-- SHADDAH (Lesson 14) -->
+      <a class="lesson-card card-rose" href="الشدة-Shadah.html">
         <span class="icon">ّ</span>
         <span class="kicker">
-          <span class="en-only">LESSON 08</span>
-          <span class="ar-only">الدَّرْسُ الثَّامِن</span>
+          <span class="en-only">LESSON 14</span>
+          <span class="ar-only">الدَّرْسُ الرَّابِعَ عَشَر</span>
         </span>
         <h3>
           <span class="en-only">The Shaddah</span>
@@ -536,12 +707,34 @@
         </span>
       </a>
 
-      <!-- QALQALAH (Lesson 09) -->
-      <a class="lesson-card card-lilac" href="qalqalah.html">
+      <!-- NOON SAKINAH & TANWEEN (Lesson 15) -->
+      <a class="lesson-card card-amber" href="Noon-Sakinah&Tanween.html">
+        <span class="icon">نْ</span>
+        <span class="kicker">
+          <span class="en-only">LESSON 15</span>
+          <span class="ar-only">الدَّرْسُ الخَامِسَ عَشَر</span>
+        </span>
+        <h3>
+          <span class="en-only">Noon Sakinah &amp; Tanween</span>
+          <span class="ar-name">النُّون السَّاكِنَة وَالتَّنْوِين</span>
+        </h3>
+        <p>
+          <span class="en-only">Learn the rules of Noon Sakinah and Tanween.</span>
+          <span class="ar-only">تعلَّمْ أَحْكَامَ النُّونِ السَّاكِنَةِ وَالتَّنْوِين.</span>
+        </p>
+        <span class="meta">
+          <span class="en-only">Start lesson</span>
+          <span class="ar-only">ابْدَأِ الدَّرْس</span>
+          <span class="arrow">→</span>
+        </span>
+      </a>
+
+      <!-- QALQALAH (Lesson 16) -->
+      <a class="lesson-card card-cyan" href="qalqalah.html">
         <span class="icon">🔔</span>
         <span class="kicker">
-          <span class="en-only">LESSON 09</span>
-          <span class="ar-only">الدَّرْسُ التَّاسِع</span>
+          <span class="en-only">LESSON 16</span>
+          <span class="ar-only">الدَّرْسُ السَّادِسَ عَشَر</span>
         </span>
         <h3>
           <span class="en-only">The Qalqalah</span>
@@ -558,71 +751,49 @@
         </span>
       </a>
 
-      <!-- MOON LAM (Lesson 10) 
-      <a class="lesson-card card-gold" href="اللام-القمرية-Lam-Qamariyah.html">
-        <span class="icon">🌙</span>
+      <!-- REVISION 1 -->
+      <a class="lesson-card card-gold" href="revision1.html">
+        <span class="icon">📖</span>
         <span class="kicker">
-          <span class="en-only">LESSON 10</span>
-          <span class="ar-only">الدَّرْسُ العَاشِر</span>
+          <span class="en-only">REVISION 01</span>
+          <span class="ar-only">مُرَاجَعَة ٠١</span>
         </span>
         <h3>
-          <span class="en-only">The Moon Lam</span>
-          <span class="ar-name">اللَّامُ القَمَرِيَّة</span>
+          <span class="en-only">Harakat, Tanween, Shaddah &amp; Sukoon</span>
+          <span class="ar-name">الحَرَكَات وَالتَّنْوِين وَالشَّدَّة وَالسُّكُون</span>
         </h3>
         <p>
-          <span class="en-only">Master the 14 Moon Letters and how to pronounce الـ clearly.</span>
-          <span class="ar-only">أَتْقِنِ الحُرُوفَ القَمَرِيَّةَ الأَرْبَعَةَ عَشَرَ وَنُطْقَ «الـ» بِوُضُوح.</span>
-        </p>
-        <span class="meta">
-          <span class="en-only">Start lesson</span>
-          <span class="ar-only">ابْدَأِ الدَّرْس</span>
-          <span class="arrow">→</span>
-        </span>
-      </a> -->
-
-      <!-- SUN LAM (Lesson 11) 
-      <a class="lesson-card card-gold" href="اللام-الشمسية-Lam-Shamsiyah.html">
-        <span class="icon">☀️</span>
-        <span class="kicker">
-          <span class="en-only">LESSON 11</span>
-          <span class="ar-only">الدَّرْسُ الحَادِي عَشَر</span>
-        </span>
-        <h3>
-          <span class="en-only">The Sun Lam</span>
-          <span class="ar-name">اللَّامُ الشَّمْسِيَّة</span>
-        </h3>
-        <p>
-          <span class="en-only">Learn why the Lam is silent in words like الشَّمْس and الدَّرْس.</span>
-          <span class="ar-only">تعلَّمْ لِمَاذَا لَا تُنْطَقُ اللَّامُ فِي كَلِمَاتٍ مِثْلَ الشَّمْس وَالدَّرْس.</span>
-        </p>
-        <span class="meta">
-          <span class="en-only">Start lesson</span>
-          <span class="ar-only">ابْدَأِ الدَّرْس</span>
-          <span class="arrow">→</span>
-        </span>
-      </a>  -->
-
-      <!-- REVISION: MOON + SUN LAM 
-      <a class="lesson-card card-gold" href="اللام-القمرية-والشمسية-Revision.html">
-        <span class="icon">🔁</span>
-        <span class="kicker">
-          <span class="en-only">REVISION</span>
-          <span class="ar-only">مُرَاجَعَة</span>
-        </span>
-        <h3>
-          <span class="en-only">Moon &amp; Sun Lam</span>
-          <span class="ar-name">القَمَرِيَّة وَالشَّمْسِيَّة</span>
-        </h3>
-        <p>
-          <span class="en-only">Compare both rules side-by-side, practice mixed words, and test yourself.</span>
-          <span class="ar-only">قَارِنْ بَيْنَ القَاعِدَتَيْنِ، تَدَرَّبْ عَلَى كَلِمَاتٍ مُخْتَلِطَة، وَاخْتَبِرْ نَفْسَك.</span>
+          <span class="en-only">A complete interactive revision of the four essential diacritics.</span>
+          <span class="ar-only">مُرَاجَعَة تَفَاعُلِيَّة شَامِلَة لِلْعَلَامَاتِ الأَرْبَع الأَسَاسِيَّة.</span>
         </p>
         <span class="meta">
           <span class="en-only">Start revision</span>
           <span class="ar-only">ابْدَأِ المُرَاجَعَة</span>
           <span class="arrow">→</span>
         </span>
-      </a> -->
+      </a>
+
+      <!-- QUIZ ON REVISION -->
+      <a class="lesson-card card-fuchsia" href="quiz-on-revision.html">
+        <span class="icon">📝</span>
+        <span class="kicker">
+          <span class="en-only">QUIZ</span>
+          <span class="ar-only">اخْتِبَار</span>
+        </span>
+        <h3>
+          <span class="en-only">Revision Quiz</span>
+          <span class="ar-name">اخْتِبَار المُرَاجَعَة</span>
+        </h3>
+        <p>
+          <span class="en-only">Test your knowledge on the revision material.</span>
+          <span class="ar-only">اخْتَبِرْ مَعْلُومَاتِكَ فِي مَادَّةِ المُرَاجَعَة.</span>
+        </p>
+        <span class="meta">
+          <span class="en-only">Start quiz</span>
+          <span class="ar-only">ابْدَأِ الِاخْتِبَار</span>
+          <span class="arrow">→</span>
+        </span>
+      </a>
 
     </div>
   </section>

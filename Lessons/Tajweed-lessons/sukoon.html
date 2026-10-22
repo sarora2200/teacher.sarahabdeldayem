@@ -15,9 +15,17 @@
 
 <style>
   :root {
-    --bg-dark: #0a1628;
+    /* New Palette based on the flyer */
+    --bg-light: #fdf2f8; /* Soft pink background */
+    --bg-card: #ffffff;
+    --purple-dark: #4a1c6f;
+    --purple-mid: #7b3fa0;
+    --purple-light: #c084fc;
+    --pink-accent: #f472b6;
+    --pink-soft: #fce7f3;
+    --text-dark: #2d1b4e;
+    --text-muted: #6b5b7a;
     --gold: #f5c542;
-    --gold-soft: #ffe08a;
     --teal: #2dd4bf;
     /* Base font size for zooming */
     --base-font-size: 16px;
@@ -36,14 +44,15 @@
   .font-ar  { font-family: 'Amiri', serif; }
 
   body {
-    background: radial-gradient(circle at 20% 10%, #1a3355 0%, var(--bg-dark) 55%, #050b14 100%);
-    color: #eaf2ff;
+    background: radial-gradient(circle at 10% 20%, #fdf2f8 0%, #fce7f3 40%, #f3e8ff 100%);
+    color: var(--text-dark);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     padding-bottom: 6rem; /* Space for the floating zoom controls */
   }
 
+  /* RTL/LTR display rules */
   html[lang="ar"] .en-only { display: none !important; }
   html[lang="en"] .ar-only { display: none !important; }
 
@@ -56,7 +65,7 @@
 
   .progress-fill {
     transition: width 0.5s ease;
-    background: linear-gradient(90deg, var(--teal), var(--gold));
+    background: linear-gradient(90deg, var(--pink-accent), var(--purple-mid));
   }
 
   @keyframes float {
@@ -76,7 +85,7 @@
     width: 16px;
     height: 16px;
     border: 2px solid rgba(255,255,255,0.3);
-    border-top-color: #f5c542;
+    border-top-color: var(--purple-dark);
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
   }
@@ -94,20 +103,20 @@
     border-radius: 9999px;
     font-size: 0.9rem;
     font-weight: 700;
-    color: #ffe08a;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(245, 197, 66, 0.35);
+    color: var(--purple-dark);
+    background: rgba(255, 255, 255, 0.8);
+    border: 2px solid var(--pink-accent);
     text-decoration: none;
     backdrop-filter: blur(6px);
     transition: all 0.25s ease;
   }
 
   .back-home-btn:hover {
-    background: rgba(245, 197, 66, 0.15);
-    border-color: rgba(245, 197, 66, 0.7);
-    color: #f5c542;
+    background: var(--pink-soft);
+    border-color: var(--purple-mid);
+    color: var(--purple-dark);
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(245, 197, 66, 0.18);
+    box-shadow: 0 8px 20px rgba(244, 114, 182, 0.2);
   }
 
   .back-home-btn:active {
@@ -129,10 +138,10 @@
   .video-embed-frame {
     position: relative;
     background: #000;
-    border: 1px solid rgba(245, 197, 66, 0.25);
+    border: 2px solid var(--purple-light);
     border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 10px 30px rgba(123, 63, 160, 0.15);
     aspect-ratio: 16 / 9;
   }
 
@@ -146,11 +155,11 @@
   }
 
   .video-notes {
-    background: rgba(255, 255, 255, 0.07);
-    border: 1px solid rgba(245, 197, 66, 0.25);
+    background: var(--bg-card);
+    border: 2px solid var(--pink-accent);
     border-radius: 20px;
     padding: 24px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 10px 30px rgba(244, 114, 182, 0.1);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -158,7 +167,7 @@
   }
 
   .video-notes h3 {
-    color: var(--gold);
+    color: var(--purple-dark);
     font-size: 1.15rem;
     margin-bottom: 8px;
   }
@@ -176,7 +185,7 @@
     position: relative;
     padding-inline-start: 26px;
     font-size: 0.98rem;
-    color: #d6e3f5;
+    color: var(--text-muted);
     line-height: 1.6;
   }
 
@@ -185,7 +194,7 @@
     position: absolute;
     inset-inline-start: 0;
     top: 0;
-    color: var(--teal);
+    color: var(--pink-accent);
     font-size: 1rem;
   }
 
@@ -194,6 +203,18 @@
     display: inline-block;
     text-decoration: none;
     margin-top: 6px;
+    background: linear-gradient(135deg, var(--pink-accent), var(--purple-mid));
+    color: #ffffff;
+    font-weight: 700;
+    padding: 10px 24px;
+    border-radius: 9999px;
+    box-shadow: 0 4px 15px rgba(244, 114, 182, 0.3);
+    transition: all 0.25s ease;
+  }
+
+  .video-link-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(244, 114, 182, 0.5);
   }
 
   @media (max-width: 800px) {
@@ -213,19 +234,19 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    background: rgba(15, 30, 55, 0.95);
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(12px);
-    border: 2px solid rgba(245, 197, 66, 0.6);
+    border: 2px solid var(--purple-light);
     border-radius: 9999px;
     padding: 8px 16px;
     z-index: 100;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 8px 30px rgba(123, 63, 160, 0.15);
     transition: all 0.3s ease;
   }
 
   .zoom-controls:hover {
-    border-color: #f5c542;
-    box-shadow: 0 8px 40px rgba(245, 197, 66, 0.4);
+    border-color: var(--pink-accent);
+    box-shadow: 0 8px 40px rgba(244, 114, 182, 0.2);
   }
 
   .zoom-controls button {
@@ -240,13 +261,14 @@
     align-items: center;
     justify-content: center;
     transition: all 0.2s ease;
-    background: rgba(255, 255, 255, 0.1);
-    color: #f5c542;
+    background: var(--pink-soft);
+    color: var(--purple-dark);
     line-height: 1;
   }
 
   .zoom-controls button:hover {
-    background: rgba(245, 197, 66, 0.25);
+    background: var(--pink-accent);
+    color: #ffffff;
     transform: scale(1.12);
   }
 
@@ -261,7 +283,7 @@
   }
 
   .zoom-controls .zoom-level {
-    color: #ffe08a;
+    color: var(--purple-dark);
     font-weight: 700;
     font-size: 15px;
     min-width: 52px;
@@ -274,6 +296,44 @@
     .zoom-controls button { width: 38px; height: 38px; font-size: 20px; }
     .zoom-controls .zoom-level { font-size: 13px; min-width: 44px; }
   }
+
+  /* ============ CUSTOM UTILITY OVERRIDES ============ */
+  .bg-white\/5 { background-color: var(--bg-card) !important; border-color: var(--pink-soft) !important; }
+  .bg-white\/10 { background-color: var(--pink-soft) !important; }
+  .bg-white\/80 { background-color: #ffffff !important; }
+  .border-amber-300\/25 { border-color: var(--pink-accent) !important; }
+  .border-amber-400 { border-color: var(--purple-mid) !important; }
+  .text-amber-200 { color: var(--purple-dark) !important; }
+  .text-amber-300 { color: var(--purple-mid) !important; }
+  .text-slate-300 { color: var(--text-muted) !important; }
+  .text-slate-400 { color: var(--text-muted) !important; }
+  .bg-slate-900\/85 { background-color: rgba(255, 255, 255, 0.95) !important; border-color: var(--pink-accent) !important; }
+  .text-amber-950 { color: var(--text-dark) !important; }
+  .bg-amber-400 { background-color: var(--purple-mid) !important; color: #fff !important; }
+  .bg-amber-400\/15 { background-color: var(--pink-soft) !important; }
+  .border-amber-400\/25 { border-color: var(--pink-accent) !important; }
+  .bg-teal-400\/10 { background-color: var(--pink-soft) !important; border-color: var(--pink-accent) !important; }
+  .border-teal-400\/25 { border-color: var(--pink-accent) !important; }
+  .text-teal-400 { color: var(--pink-accent) !important; }
+  .bg-teal-400\/25 { background-color: var(--pink-soft) !important; border-color: var(--purple-mid) !important; }
+  .border-teal-400 { border-color: var(--purple-mid) !important; }
+  .text-teal-950 { color: var(--text-dark) !important; }
+  .bg-teal-400 { background-color: var(--purple-mid) !important; }
+  .from-amber-400 { --tw-gradient-from: var(--purple-mid) !important; }
+  .to-amber-600 { --tw-gradient-to: var(--purple-dark) !important; }
+  .from-amber-50 { --tw-gradient-from: #ffffff !important; }
+  .to-amber-100 { --tw-gradient-to: #fdf2f8 !important; }
+  .border-amber-400 { border-color: var(--purple-mid) !important; }
+  .text-amber-700 { color: var(--purple-dark) !important; }
+  .border-amber-600 { border-color: var(--pink-accent) !important; }
+  .text-amber-800 { color: var(--purple-dark) !important; }
+  .from-teal-400 { --tw-gradient-from: var(--pink-accent) !important; }
+  .to-teal-600 { --tw-gradient-to: var(--purple-mid) !important; }
+  .border-teal-400 { border-color: var(--pink-accent) !important; }
+  .bg-teal-400\/25 { background-color: var(--pink-soft) !important; }
+  .text-red-400 { color: #ef4444 !important; }
+  .border-red-400 { border-color: #ef4444 !important; }
+  .bg-red-400\/25 { background-color: #fee2e2 !important; }
 </style>
 </head>
 <body>
@@ -298,23 +358,23 @@
 
   <!-- ============ HEADER ============ -->
   <header class="text-center pt-20 pb-6">
-    <div class="inline-block bg-gradient-to-br from-amber-400 to-amber-600 text-amber-950 font-bold px-5 py-2 rounded-full text-sm mb-4 shadow-lg">
+    <div class="inline-block bg-gradient-to-br from-amber-400 to-amber-600 text-amber-950 font-bold px-5 py-2 rounded-full text-sm mb-4 shadow-lg" style="background: linear-gradient(135deg, var(--pink-accent), var(--purple-mid)); color: #ffffff;">
       <span class="ar-only">⭐ موقع تعليمي موثّق ومعتمد</span>
       <span class="en-only">⭐ Verified & Certified Learning Platform</span>
     </div>
 
-    <h1 class="text-4xl sm:text-5xl font-black bg-gradient-to-br from-white to-amber-300 bg-clip-text text-transparent mb-3 leading-tight">
+    <h1 class="text-4xl sm:text-5xl font-black bg-gradient-to-br from-white to-amber-300 bg-clip-text text-transparent mb-3 leading-tight" style="background: linear-gradient(135deg, var(--purple-dark), var(--purple-mid)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
       <span class="ar-only">مغامرات السُّكُون</span>
       <span class="en-only">The Adventure of Sukoon</span>
     </h1>
 
-    <p class="text-slate-300 max-w-2xl mx-auto mb-4">
+    <p class="text-slate-300 max-w-2xl mx-auto mb-4" style="color: var(--text-muted);">
       <span class="ar-only">تعلّم معنى السُّكُون وكيفية نطق الحرف الساكن بطريقة ممتعة ومبسطة.</span>
       <span class="en-only">Learn the meaning of Sukoon (ْ) and how to pronounce a silent letter in a fun and simple way.</span>
     </p>
 
-    <div class="inline-flex items-center gap-2 bg-white/5 border border-amber-300/25 px-4 py-2 rounded-full text-sm">
-      <span class="w-2.5 h-2.5 bg-teal-400 rounded-full pulse-dot"></span>
+    <div class="inline-flex items-center gap-2 bg-white/5 border border-amber-300/25 px-4 py-2 rounded-full text-sm" style="background: #ffffff; border-color: var(--pink-accent);">
+      <span class="w-2.5 h-2.5 bg-teal-400 rounded-full pulse-dot" style="background-color: var(--pink-accent);"></span>
       <span class="ar-only">إعداد وتوثيق: المعلمة سارة أحمد 👩‍🏫</span>
       <span class="en-only">Prepared by: Teacher Sarah Ahmed 👩‍🏫</span>
     </div>
@@ -331,44 +391,44 @@
 
   <!-- ============ STEP 1: RULE ============ -->
   <section class="my-12">
-    <h2 class="flex items-center gap-3 text-2xl font-bold text-amber-200 mb-6">
-      <span class="w-1.5 h-8 bg-gradient-to-b from-amber-400 to-teal-400 rounded"></span>
+    <h2 class="flex items-center gap-3 text-2xl font-bold text-amber-200 mb-6" style="color: var(--purple-dark);">
+      <span class="w-1.5 h-8 bg-gradient-to-b from-amber-400 to-teal-400 rounded" style="background: linear-gradient(180deg, var(--pink-accent), var(--purple-mid));"></span>
       <span class="ar-only">الخطوة الأولى: فهم القاعدة الذهبية</span>
       <span class="en-only">Step 1: The Golden Rule</span>
     </h2>
 
-    <div class="relative overflow-hidden bg-white/5 border border-amber-300/25 rounded-3xl p-8 backdrop-blur shadow-xl">
-      <div class="absolute top-0 left-0 rtl:left-auto rtl:right-0 font-ar text-[12rem] text-amber-400 opacity-[0.07] leading-none select-none pointer-events-none">ْ</div>
+    <div class="relative overflow-hidden bg-white/5 border border-amber-300/25 rounded-3xl p-8 backdrop-blur shadow-xl" style="background: var(--bg-card); border-color: var(--pink-accent);">
+      <div class="absolute top-0 left-0 rtl:left-auto rtl:right-0 font-ar text-[12rem] text-amber-400 opacity-[0.07] leading-none select-none pointer-events-none" style="color: var(--purple-light); opacity: 0.15;">ْ</div>
 
-      <p class="text-lg leading-loose text-white border-s-4 border-amber-400 ps-5 mb-6 relative z-10">
+      <p class="text-lg leading-loose text-white border-s-4 border-amber-400 ps-5 mb-6 relative z-10" style="color: var(--text-dark); border-color: var(--pink-accent);">
         <span class="ar-only">
           «السُّكُونُ عَلَامَةٌ تُوضَعُ فَوْقَ الْحَرْفِ لِتَدُلَّ عَلَى أَنَّهُ لَا يُنْطَقُ بِحَرَكَة،
           بَلْ يَخْرُجُ صَوْتُهُ سَاكِنًا، مِثْلُ:
-          <span class="font-ar text-amber-200 text-xl">مَنْ</span>،
-          <span class="font-ar text-amber-200 text-xl">قُلْ</span>،
-          <span class="font-ar text-amber-200 text-xl">كِتَابْ</span>».
+          <span class="font-ar text-amber-200 text-xl" style="color: var(--purple-dark);">مَنْ</span>،
+          <span class="font-ar text-amber-200 text-xl" style="color: var(--purple-dark);">قُلْ</span>،
+          <span class="font-ar text-amber-200 text-xl" style="color: var(--purple-dark);">كِتَابْ</span>».
         </span>
         <span class="en-only">
           "The <strong>Sukoon</strong> is a mark placed above a letter to show it is
           <strong>pronounced without a vowel</strong> — its sound stops cleanly, like in
-          <span class="font-ar text-amber-200 text-xl">مَنْ</span> (man),
-          <span class="font-ar text-amber-200 text-xl">قُلْ</span> (qul), and
-          <span class="font-ar text-amber-200 text-xl">كِتَابْ</span> (kitab)."
+          <span class="font-ar text-amber-200 text-xl" style="color: var(--purple-dark);">مَنْ</span> (man),
+          <span class="font-ar text-amber-200 text-xl" style="color: var(--purple-dark);">قُلْ</span> (qul), and
+          <span class="font-ar text-amber-200 text-xl" style="color: var(--purple-dark);">كِتَابْ</span> (kitab)."
         </span>
       </p>
 
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 relative z-10">
-        <div class="bg-teal-400/10 border border-teal-400/25 rounded-2xl p-4 text-center">
+        <div class="bg-teal-400/10 border border-teal-400/25 rounded-2xl p-4 text-center" style="background: var(--pink-soft); border-color: var(--pink-accent);">
           <div class="text-3xl mb-1">✍️</div>
           <span class="ar-only">تُكْتَبُ فَوْقَ الْحَرْفِ</span>
           <span class="en-only">Written ABOVE the letter</span>
         </div>
-        <div class="bg-teal-400/10 border border-teal-400/25 rounded-2xl p-4 text-center">
+        <div class="bg-teal-400/10 border border-teal-400/25 rounded-2xl p-4 text-center" style="background: var(--pink-soft); border-color: var(--pink-accent);">
           <div class="text-3xl mb-1">🤫</div>
           <span class="ar-only">الْحَرْفُ يَخْرُجُ سَاكِنًا</span>
           <span class="en-only">Sound STOPS cleanly</span>
         </div>
-        <div class="bg-teal-400/10 border border-teal-400/25 rounded-2xl p-4 text-center">
+        <div class="bg-teal-400/10 border border-teal-400/25 rounded-2xl p-4 text-center" style="background: var(--pink-soft); border-color: var(--pink-accent);">
           <div class="text-3xl mb-1">⏹️</div>
           <span class="ar-only">بِلَا حَرَكَة (فَتْح/ضَمّ/كَسْر)</span>
           <span class="en-only">No short vowel follows</span>
@@ -377,24 +437,24 @@
     </div>
 
     <!-- Mnemonic -->
-    <div class="mt-6 bg-gradient-to-br from-amber-400/15 to-teal-400/10 border-2 border-dashed border-amber-400 rounded-3xl p-8 text-center">
-      <h3 class="text-amber-300 font-bold text-lg mb-3">
+    <div class="mt-6 bg-gradient-to-br from-amber-400/15 to-teal-400/10 border-2 border-dashed border-amber-400 rounded-3xl p-8 text-center" style="background: linear-gradient(135deg, var(--pink-soft), #fdf2f8); border-color: var(--purple-mid);">
+      <h3 class="text-amber-300 font-bold text-lg mb-3" style="color: var(--purple-dark);">
         <span class="ar-only">🔑 سرّ الحفظ: السُّكُون = دائرة صغيرة فوق الحرف</span>
         <span class="en-only">🔑 Memory Trick: Sukoon = small circle above the letter</span>
       </h3>
-      <p class="font-ar text-3xl font-bold text-white tracking-wider drop-shadow-[0_0_20px_rgba(245,197,66,0.5)]">مَنْ = مَ + نْ</p>
-      <p class="italic text-slate-300 mt-3">"Man = ma + n (sukoon)"</p>
+      <p class="font-ar text-3xl font-bold text-white tracking-wider drop-shadow-[0_0_20px_rgba(245,197,66,0.5)]" style="color: var(--purple-dark);">مَنْ = مَ + نْ</p>
+      <p class="italic text-slate-300 mt-3" style="color: var(--text-muted);">"Man = ma + n (sukoon)"</p>
     </div>
   </section>
 
   <!-- ============ VIDEO EXPLANATION ============ -->
   <section id="video">
-    <h2 class="flex items-center gap-3 text-2xl font-bold text-amber-200 mb-6">
-      <span class="w-1.5 h-8 bg-gradient-to-b from-amber-400 to-teal-400 rounded"></span>
+    <h2 class="flex items-center gap-3 text-2xl font-bold text-amber-200 mb-6" style="color: var(--purple-dark);">
+      <span class="w-1.5 h-8 bg-gradient-to-b from-amber-400 to-teal-400 rounded" style="background: linear-gradient(180deg, var(--pink-accent), var(--purple-mid));"></span>
       <span class="ar-only">شرح بالفيديو 🎬</span>
       <span class="en-only">Video Explanation 🎬</span>
     </h2>
-    <p class="text-slate-300 mb-6">
+    <p class="text-slate-300 mb-6" style="color: var(--text-muted);">
       <span class="ar-only">شاهد الشرح الكامل لقاعدة السُّكُون قبل البدء بالتطبيق.</span>
       <span class="en-only">Watch the complete explanation of the Sukoon rule before practising.</span>
     </p>
@@ -452,8 +512,7 @@
         <a class="button btn-primary video-link-btn"
            id="videoLinkBtn"
            href="https://www.youtube.com/watch?v=t1GJKei8msU"
-           target="_blank" rel="noopener"
-           class="bg-gradient-to-br from-teal-400 to-teal-600 text-teal-950 font-bold px-6 py-3 rounded-full shadow-lg hover:scale-105 transition-all inline-block">
+           target="_blank" rel="noopener">
           <span class="ar-only">شاهد على يوتيوب ↗</span>
           <span class="en-only">Watch on YouTube ↗</span>
         </a>
@@ -463,28 +522,28 @@
 
   <!-- ============ STEP 2: LETTER CARDS ============ -->
   <section class="my-12">
-    <h2 class="flex items-center gap-3 text-2xl font-bold text-amber-200 mb-6">
-      <span class="w-1.5 h-8 bg-gradient-to-b from-amber-400 to-teal-400 rounded"></span>
+    <h2 class="flex items-center gap-3 text-2xl font-bold text-amber-200 mb-6" style="color: var(--purple-dark);">
+      <span class="w-1.5 h-8 bg-gradient-to-b from-amber-400 to-teal-400 rounded" style="background: linear-gradient(180deg, var(--pink-accent), var(--purple-mid));"></span>
       <span class="ar-only">بطاقات الحروف السَّاكِنَة 🔤</span>
       <span class="en-only">Sukoon Letter Cards 🔤</span>
     </h2>
 
-    <p class="text-slate-300 mb-6">
+    <p class="text-slate-300 mb-6" style="color: var(--text-muted);">
       <span class="ar-only">اضغط على كل بطاقة لتستمع لنطق الحرف الساكن.</span>
       <span class="en-only">Click each card to hear the silent letter pronounced.</span>
     </p>
 
     <div id="cardsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4"></div>
 
-    <div class="mt-6 bg-white/5 border border-amber-300/25 rounded-2xl p-4">
-      <div class="flex justify-between text-sm mb-2">
+    <div class="mt-6 bg-white/5 border border-amber-300/25 rounded-2xl p-4" style="background: var(--bg-card); border-color: var(--pink-accent);">
+      <div class="flex justify-between text-sm mb-2" style="color: var(--text-dark);">
         <span>
           <span class="ar-only">تقدّمك</span>
           <span class="en-only">Your progress</span>
         </span>
         <span><span id="visitedCount">0</span> / 14</span>
       </div>
-      <div class="bg-white/10 h-3 rounded-full overflow-hidden">
+      <div class="bg-white/10 h-3 rounded-full overflow-hidden" style="background: var(--pink-soft);">
         <div id="cardsProgress" class="h-full rounded-full progress-fill" style="width:0%"></div>
       </div>
     </div>
@@ -492,21 +551,21 @@
 
   <!-- ============ STEP 3: AUDIO LAB ============ -->
   <section class="my-12">
-    <h2 class="flex items-center gap-3 text-2xl font-bold text-amber-200 mb-6">
-      <span class="w-1.5 h-8 bg-gradient-to-b from-amber-400 to-teal-400 rounded"></span>
+    <h2 class="flex items-center gap-3 text-2xl font-bold text-amber-200 mb-6" style="color: var(--purple-dark);">
+      <span class="w-1.5 h-8 bg-gradient-to-b from-amber-400 to-teal-400 rounded" style="background: linear-gradient(180deg, var(--pink-accent), var(--purple-mid));"></span>
       <span class="ar-only">مختبر النطق 🎧</span>
       <span class="en-only">Pronunciation Lab 🎧</span>
     </h2>
 
-    <div class="bg-white/5 border border-amber-300/25 rounded-3xl p-8 text-center shadow-xl">
-      <div id="audioWord" class="font-ar text-6xl text-amber-300 mb-2 drop-shadow-[0_0_25px_rgba(245,197,66,0.4)]">مَنْ</div>
-      <div id="audioTranslit" class="italic text-slate-300 mb-2">Man</div>
-      <div id="audioMeaning" class="text-slate-400 mb-6">
+    <div class="bg-white/5 border border-amber-300/25 rounded-3xl p-8 text-center shadow-xl" style="background: var(--bg-card); border-color: var(--pink-accent);">
+      <div id="audioWord" class="font-ar text-6xl text-amber-300 mb-2 drop-shadow-[0_0_25px_rgba(245,197,66,0.4)]" style="color: var(--purple-dark);">مَنْ</div>
+      <div id="audioTranslit" class="italic text-slate-300 mb-2" style="color: var(--text-muted);">Man</div>
+      <div id="audioMeaning" class="text-slate-400 mb-6" style="color: var(--text-muted);">
         <span class="ar-only">كَلِمَة «مَنْ» تَنْتَهِي بِحَرْفٍ سَاكِن</span>
         <span class="en-only">The word "Man" ends with a silent letter</span>
       </div>
 
-      <button onclick="playCurrentAudio()" id="listenBtn" class="bg-gradient-to-br from-amber-400 to-amber-600 text-amber-950 font-bold px-10 py-3 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all inline-flex items-center gap-2">
+      <button onclick="playCurrentAudio()" id="listenBtn" class="font-bold px-10 py-3 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all inline-flex items-center gap-2" style="background: linear-gradient(135deg, var(--pink-accent), var(--purple-mid)); color: #ffffff;">
         <span class="ar-only">🔊 استمع للنطق</span>
         <span class="en-only">🔊 Listen</span>
       </button>
@@ -515,37 +574,37 @@
 
   <!-- ============ STEP 4: GAME ============ -->
   <section class="my-12">
-    <h2 class="flex items-center gap-3 text-2xl font-bold text-amber-200 mb-6">
-      <span class="w-1.5 h-8 bg-gradient-to-b from-amber-400 to-teal-400 rounded"></span>
+    <h2 class="flex items-center gap-3 text-2xl font-bold text-amber-200 mb-6" style="color: var(--purple-dark);">
+      <span class="w-1.5 h-8 bg-gradient-to-b from-amber-400 to-teal-400 rounded" style="background: linear-gradient(180deg, var(--pink-accent), var(--purple-mid));"></span>
       <span class="ar-only">مدينة الألعاب 🎮</span>
       <span class="en-only">Games Arcade 🎮</span>
     </h2>
 
-    <div class="bg-white/5 border border-amber-300/25 rounded-3xl p-8 shadow-xl">
-      <div class="flex justify-between items-center flex-wrap gap-3 mb-6 text-sm">
+    <div class="bg-white/5 border border-amber-300/25 rounded-3xl p-8 shadow-xl" style="background: var(--bg-card); border-color: var(--pink-accent);">
+      <div class="flex justify-between items-center flex-wrap gap-3 mb-6 text-sm" style="color: var(--text-dark);">
         <span>
           <span class="ar-only">السؤال <span id="gameQNumAr">1</span> من 5</span>
           <span class="en-only">Question <span id="gameQNum">1</span> of 5</span>
         </span>
-        <span class="bg-amber-400/15 border border-amber-400 px-4 py-1.5 rounded-full font-bold text-amber-300">
+        <span class="px-4 py-1.5 rounded-full font-bold" style="background: var(--pink-soft); border: 1px solid var(--pink-accent); color: var(--purple-dark);">
           <span class="ar-only">نقاطك: <span id="gameScoreAr">0</span> ⭐</span>
           <span class="en-only">Score: <span id="gameScore">0</span> ⭐</span>
         </span>
       </div>
 
-      <div id="gameQuestion" class="text-center font-bold text-lg mb-6">...</div>
+      <div id="gameQuestion" class="text-center font-bold text-lg mb-6" style="color: var(--text-dark);">...</div>
       <div id="gameOptions" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
       <div id="gameFeedback" class="text-center mt-5 font-bold min-h-[1.5rem]"></div>
 
       <div class="text-center mt-8 hidden" id="gameNextWrap">
-        <button onclick="nextGameQuestion()" class="bg-gradient-to-br from-teal-400 to-teal-600 text-teal-950 font-bold px-8 py-3 rounded-full shadow-lg hover:scale-105 transition-all">
+        <button onclick="nextGameQuestion()" class="font-bold px-8 py-3 rounded-full shadow-lg hover:scale-105 transition-all" style="background: linear-gradient(135deg, var(--pink-accent), var(--purple-mid)); color: #ffffff;">
           <span class="ar-only">السؤال التالي ➡️</span>
           <span class="en-only">Next ➡️</span>
         </button>
       </div>
 
       <div class="text-center mt-8 hidden" id="gameRestartWrap">
-        <button onclick="restartGame()" class="bg-gradient-to-br from-teal-400 to-teal-600 text-teal-950 font-bold px-8 py-3 rounded-full shadow-lg hover:scale-105 transition-all">
+        <button onclick="restartGame()" class="font-bold px-8 py-3 rounded-full shadow-lg hover:scale-105 transition-all" style="background: linear-gradient(135deg, var(--pink-accent), var(--purple-mid)); color: #ffffff;">
           <span class="ar-only">🔄 العب مرة أخرى</span>
           <span class="en-only">🔄 Play Again</span>
         </button>
@@ -555,43 +614,43 @@
 
   <!-- ============ STEP 5: QUIZ ============ -->
   <section class="my-12">
-    <h2 class="flex items-center gap-3 text-2xl font-bold text-amber-200 mb-6">
-      <span class="w-1.5 h-8 bg-gradient-to-b from-amber-400 to-teal-400 rounded"></span>
+    <h2 class="flex items-center gap-3 text-2xl font-bold text-amber-200 mb-6" style="color: var(--purple-dark);">
+      <span class="w-1.5 h-8 bg-gradient-to-b from-amber-400 to-teal-400 rounded" style="background: linear-gradient(180deg, var(--pink-accent), var(--purple-mid));"></span>
       <span class="ar-only">تحدّي بطل السُّكُون 🏅</span>
       <span class="en-only">Sukoon Champion Challenge 🏅</span>
     </h2>
 
-    <div class="bg-white/5 border border-amber-300/25 rounded-3xl p-8 shadow-xl">
-      <div class="bg-white/10 h-2 rounded-full overflow-hidden mb-6">
+    <div class="bg-white/5 border border-amber-300/25 rounded-3xl p-8 shadow-xl" style="background: var(--bg-card); border-color: var(--pink-accent);">
+      <div class="bg-white/10 h-2 rounded-full overflow-hidden mb-6" style="background: var(--pink-soft);">
         <div id="quizProgress" class="h-full rounded-full progress-fill" style="width:0%"></div>
       </div>
 
-      <div class="flex justify-between items-center flex-wrap gap-3 mb-6 text-sm">
+      <div class="flex justify-between items-center flex-wrap gap-3 mb-6 text-sm" style="color: var(--text-dark);">
         <span>
           <span class="ar-only">السؤال <span id="quizQNumAr">1</span> من 10</span>
           <span class="en-only">Question <span id="quizQNum">1</span> of 10</span>
         </span>
-        <span class="bg-amber-400/15 border border-amber-400 px-4 py-1.5 rounded-full font-bold text-amber-300">
+        <span class="px-4 py-1.5 rounded-full font-bold" style="background: var(--pink-soft); border: 1px solid var(--pink-accent); color: var(--purple-dark);">
           <span class="ar-only">صحيح: <span id="quizScoreAr">0</span></span>
           <span class="en-only">Correct: <span id="quizScore">0</span></span>
         </span>
       </div>
 
-      <div id="quizQuestion" class="text-center font-bold text-lg mb-6">...</div>
+      <div id="quizQuestion" class="text-center font-bold text-lg mb-6" style="color: var(--text-dark);">...</div>
       <div id="quizOptions" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
       <div id="quizFeedback" class="text-center mt-5 font-bold min-h-[1.5rem]"></div>
 
       <div class="text-center mt-8 hidden" id="quizNextWrap">
-        <button onclick="nextQuizQuestion()" class="bg-gradient-to-br from-teal-400 to-teal-600 text-teal-950 font-bold px-8 py-3 rounded-full shadow-lg hover:scale-105 transition-all">
+        <button onclick="nextQuizQuestion()" class="font-bold px-8 py-3 rounded-full shadow-lg hover:scale-105 transition-all" style="background: linear-gradient(135deg, var(--pink-accent), var(--purple-mid)); color: #ffffff;">
           <span class="ar-only">التالي ➡️</span>
           <span class="en-only">Next ➡️</span>
         </button>
       </div>
     </div>
 
-    <div id="certificate" class="hidden mt-8 bg-gradient-to-br from-amber-50 to-amber-100 text-amber-950 border-8 border-double border-amber-400 rounded-3xl p-10 text-center shadow-2xl">
+    <div id="certificate" class="hidden mt-8 text-amber-950 rounded-3xl p-10 text-center shadow-2xl" style="background: linear-gradient(135deg, #ffffff, #fdf2f8); border: 8px double var(--pink-accent); color: var(--text-dark);">
       <div class="text-5xl mb-3">🏅</div>
-      <h2 class="text-3xl font-black text-amber-700 mb-4">
+      <h2 class="text-3xl font-black mb-4" style="color: var(--purple-dark);">
         <span class="ar-only">شهادة إتقان</span>
         <span class="en-only">Certificate of Mastery</span>
       </h2>
@@ -599,19 +658,19 @@
         <span class="ar-only">تشهد المعلمة</span>
         <span class="en-only">This certifies that</span>
       </p>
-      <div id="certStudentName" class="font-ar text-4xl my-5 border-b-2 border-dotted border-amber-600 inline-block px-8 pb-2">—</div>
+      <div id="certStudentName" class="font-ar text-4xl my-5 border-b-2 border-dotted inline-block px-8 pb-2" style="border-color: var(--purple-mid);">—</div>
       <p class="text-lg">
         <span class="ar-only">قد أتقن قاعدة <strong>السُّكُون</strong> بنجاح.</span>
         <span class="en-only">has successfully mastered the <strong>Sukoon</strong> rule.</span>
       </p>
-      <p class="mt-6 text-amber-800">
+      <p class="mt-6" style="color: var(--purple-mid);">
         <span class="ar-only">🌟 المعلمة: <strong>سارة أحمد</strong> · التاريخ: <span id="certDateAr"></span></span>
         <span class="en-only">🌟 Teacher: <strong>Sarah Ahmed</strong> · Date: <span id="certDate"></span></span>
       </p>
     </div>
 
     <div class="text-center mt-8 hidden" id="certBtnWrap">
-      <button onclick="downloadCertificate()" class="bg-gradient-to-br from-teal-400 to-teal-600 text-teal-950 font-bold px-8 py-3 rounded-full shadow-lg hover:scale-105 transition-all">
+      <button onclick="downloadCertificate()" class="font-bold px-8 py-3 rounded-full shadow-lg hover:scale-105 transition-all" style="background: linear-gradient(135deg, var(--pink-accent), var(--purple-mid)); color: #ffffff;">
         <span class="ar-only">📥 تحميل الشهادة</span>
         <span class="en-only">📥 Download Certificate</span>
       </button>
@@ -620,8 +679,8 @@
 
 </div>
 
-<footer class="text-center py-10 text-slate-400 text-sm border-t border-white/5 mt-auto relative z-10">
-  <p>© <span id="year"></span> — <span class="ar-only">المعلمة <strong class="text-amber-300">سارة أحمد</strong></span><span class="en-only">Teacher <strong class="text-amber-300">Sarah Ahmed</strong></span></p>
+<footer class="text-center py-10 text-sm border-t mt-auto relative z-10" style="color: var(--text-muted); border-color: var(--pink-soft);">
+  <p>© <span id="year"></span> — <span class="ar-only">المعلمة <strong style="color: var(--purple-dark);">سارة أحمد</strong></span><span class="en-only">Teacher <strong style="color: var(--purple-dark);">Sarah Ahmed</strong></span></p>
   <p class="mt-2">Quran • Tajweed • Arabic Language</p>
 </footer>
 
@@ -785,17 +844,20 @@ function renderCards() {
     const card = document.createElement("button");
     card.type = "button";
     card.className = `group relative p-3 sm:p-4 rounded-3xl border-2 transition-all transform hover:-translate-y-1 active:scale-95 text-center flex flex-col justify-between cursor-pointer ${c.bg} ${c.border} ${c.text} hover:shadow-md ${visitedSet.has(i) ? "ring-2 ring-teal-400" : ""}`;
+    card.style.borderColor = "var(--pink-accent)";
+    card.style.backgroundColor = "var(--bg-card)";
+    card.style.color = "var(--text-dark)";
     card.innerHTML = `
       <div class="my-1">
-        <span class="text-4xl sm:text-5xl font-black font-kid block group-hover:scale-110 transition-transform">${item.letter}</span>
-        <span class="text-xs font-bold text-slate-500 block mt-0.5">${item.translit}</span>
+        <span class="text-4xl sm:text-5xl font-black font-kid block group-hover:scale-110 transition-transform" style="color: var(--purple-dark);">${item.letter}</span>
+        <span class="text-xs font-bold block mt-0.5" style="color: var(--text-muted);">${item.translit}</span>
       </div>
-      <div class="mt-2 pt-2 border-t border-slate-200/60 flex flex-col items-center">
+      <div class="mt-2 pt-2 flex flex-col items-center" style="border-color: var(--pink-soft); border-top: 1px solid var(--pink-soft);">
         <span class="text-2xl mb-1">${item.emoji}</span>
-        <span class="text-sm sm:text-base font-bold text-slate-900 block font-kid">${item.word}</span>
+        <span class="text-sm sm:text-base font-bold block font-kid" style="color: var(--purple-dark);">${item.word}</span>
       </div>
       <div class="mt-2 flex items-center justify-center">
-        <span class="p-1 rounded-full bg-white/80 ${c.accent} text-[10px] font-bold flex items-center gap-1 shadow-sm ${c.hover} transition-colors">
+        <span class="p-1 rounded-full text-[10px] font-bold flex items-center gap-1 shadow-sm transition-colors" style="background: var(--pink-soft); color: var(--purple-dark);">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3">
             <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"></path>
             <path d="M16 9a5 5 0 0 1 0 6"></path>
@@ -810,6 +872,7 @@ function renderCards() {
       if (!visitedSet.has(i)) {
         visitedSet.add(i);
         card.classList.add("ring-2", "ring-teal-400");
+        card.style.boxShadow = "0 0 0 2px var(--purple-mid)";
         updateCardsProgress();
       }
       card.classList.add("pop");
@@ -1003,7 +1066,13 @@ function renderGameQuestion() {
   optWrap.innerHTML = "";
   q.options.forEach((opt, i) => {
     const btn = document.createElement("button");
-    btn.className = "bg-white/5 border border-amber-300/25 text-white text-xl p-5 rounded-2xl hover:bg-amber-400/10 hover:border-amber-400 transition-all font-ar";
+    btn.className = "text-xl p-5 rounded-2xl transition-all font-ar";
+    btn.style.background = "#ffffff";
+    btn.style.border = "2px solid var(--pink-soft)";
+    btn.style.color = "var(--text-dark)";
+    btn.style.fontFamily = "'Amiri', serif";
+    btn.onmouseover = () => { btn.style.background = "var(--pink-soft)"; btn.style.borderColor = "var(--pink-accent)"; };
+    btn.onmouseout = () => { if (!btn.disabled) { btn.style.background = "#ffffff"; btn.style.borderColor = "var(--pink-soft)"; } };
     btn.textContent = opt;
     btn.onclick = () => checkGameAnswer(i, btn);
     optWrap.appendChild(btn);
@@ -1018,20 +1087,24 @@ function checkGameAnswer(i, btn) {
   const feedback = document.getElementById("gameFeedback");
 
   if (i === q.correct) {
-    btn.classList.add("bg-teal-400/25", "border-teal-400", "pop");
+    btn.style.background = "var(--pink-soft)";
+    btn.style.borderColor = "var(--purple-mid)";
+    btn.classList.add("pop");
     gameScore++;
     document.getElementById("gameScoreAr").textContent = gameScore;
     document.getElementById("gameScore").textContent = gameScore;
-    feedback.style.color = "#2dd4bf";
+    feedback.style.color = "var(--pink-accent)";
     feedback.textContent = currentLang === "ar" ? "أحسنت! ⭐" : "Excellent! ⭐";
   } else {
-    btn.classList.add("bg-red-400/25", "border-red-400");
-    buttons[q.correct].classList.add("bg-teal-400/25", "border-teal-400");
+    btn.style.background = "#fee2e2";
+    btn.style.borderColor = "#ef4444";
+    buttons[q.correct].style.background = "var(--pink-soft)";
+    buttons[q.correct].style.borderColor = "var(--purple-mid)";
     feedback.style.color = "#ef4444";
     feedback.textContent = currentLang === "ar" ? "حاول مرة أخرى 💪" : "Try again 💪";
   }
 
-  buttons.forEach(b => (b.disabled = true));
+  buttons.forEach(b => { b.disabled = true; b.style.cursor = "default"; });
 
   if (gameIndex < gameQuestions[currentLang].length - 1) {
     document.getElementById("gameNextWrap").classList.remove("hidden");
@@ -1065,7 +1138,13 @@ function renderQuizQuestion() {
   optWrap.innerHTML = "";
   q.options.forEach((opt, i) => {
     const btn = document.createElement("button");
-    btn.className = "bg-white/5 border border-amber-300/25 text-white text-xl p-5 rounded-2xl hover:bg-amber-400/10 hover:border-amber-400 transition-all font-ar";
+    btn.className = "text-xl p-5 rounded-2xl transition-all font-ar";
+    btn.style.background = "#ffffff";
+    btn.style.border = "2px solid var(--pink-soft)";
+    btn.style.color = "var(--text-dark)";
+    btn.style.fontFamily = "'Amiri', serif";
+    btn.onmouseover = () => { btn.style.background = "var(--pink-soft)"; btn.style.borderColor = "var(--pink-accent)"; };
+    btn.onmouseout = () => { if (!btn.disabled) { btn.style.background = "#ffffff"; btn.style.borderColor = "var(--pink-soft)"; } };
     btn.textContent = opt;
     btn.onclick = () => checkQuizAnswer(i, btn);
     optWrap.appendChild(btn);
@@ -1080,20 +1159,24 @@ function checkQuizAnswer(i, btn) {
   const feedback = document.getElementById("quizFeedback");
 
   if (i === q.correct) {
-    btn.classList.add("bg-teal-400/25", "border-teal-400", "pop");
+    btn.style.background = "var(--pink-soft)";
+    btn.style.borderColor = "var(--purple-mid)";
+    btn.classList.add("pop");
     quizScore++;
     document.getElementById("quizScoreAr").textContent = quizScore;
     document.getElementById("quizScore").textContent = quizScore;
-    feedback.style.color = "#2dd4bf";
+    feedback.style.color = "var(--pink-accent)";
     feedback.textContent = currentLang === "ar" ? "ممتاز! ⭐" : "Great! ⭐";
   } else {
-    btn.classList.add("bg-red-400/25", "border-red-400");
-    buttons[q.correct].classList.add("bg-teal-400/25", "border-teal-400");
+    btn.style.background = "#fee2e2";
+    btn.style.borderColor = "#ef4444";
+    buttons[q.correct].style.background = "var(--pink-soft)";
+    buttons[q.correct].style.borderColor = "var(--purple-mid)";
     feedback.style.color = "#ef4444";
     feedback.textContent = currentLang === "ar" ? "راجع الإجابة ✅" : "Review ✅";
   }
 
-  buttons.forEach(b => (b.disabled = true));
+  buttons.forEach(b => { b.disabled = true; b.style.cursor = "default"; });
 
   if (quizIndex < quizQuestions[currentLang].length - 1) {
     document.getElementById("quizNextWrap").classList.remove("hidden");

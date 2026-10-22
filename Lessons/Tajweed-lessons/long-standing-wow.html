@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الواو الصغيرة | Small Waw</title>
+    <title>الواو المدية الصغيرة | Small Madd Waw</title>
     <link rel="icon" type="image/png" href="../../images/quran.png">
     <link rel="apple-touch-icon" href="images/quran.png">
 
@@ -59,17 +59,9 @@
         }
 
         @keyframes pop {
-            0% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.06);
-            }
-
-            100% {
-                transform: scale(1);
-            }
+            0% { transform: scale(1); }
+            50% { transform: scale(1.06); }
+            100% { transform: scale(1); }
         }
 
         .pop {
@@ -82,15 +74,8 @@
         }
 
         @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-12px);
-            }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
         }
 
         .float {
@@ -98,17 +83,8 @@
         }
 
         @keyframes pulseDot {
-
-            0%,
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-
-            50% {
-                opacity: 0.5;
-                transform: scale(1.3);
-            }
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.3); }
         }
 
         .pulse-dot {
@@ -126,9 +102,7 @@
         }
 
         @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
+            to { transform: rotate(360deg); }
         }
 
         /* ============ BACK HOME BUTTON ============ */
@@ -317,6 +291,29 @@
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             will-change: transform;
         }
+
+        /* Small Waw custom inline styling for the examples */
+        .small-waw-inline {
+            font-size: 0.75em;
+            vertical-align: baseline;
+            color: #dc2626;
+            font-weight: 700;
+            display: inline-block;
+            margin: 0 2px;
+            line-height: 1;
+            position: relative;
+            bottom: -1px;
+        }
+
+        /* Unified color for all example card fonts */
+        .example-card,
+        .example-card * {
+            color: #064e3b !important;
+        }
+
+        .example-card .small-waw-inline {
+            color: #dc2626 !important;
+        }
     </style>
 </head>
 
@@ -355,14 +352,14 @@
 
             <h1
                 class="text-4xl sm:text-5xl font-black bg-gradient-to-br from-white to-amber-300 bg-clip-text text-transparent mb-3 leading-tight">
-                <span class="ar-only">الوَاوُ الصَّغِيرَةُ</span>
-                <span class="en-only">Small Waw</span>
+                <span class="ar-only">الوَاوُ المَدِّيَّةُ الصَّغِيرَةُ</span>
+                <span class="en-only">Small Madd Waw</span>
             </h1>
 
             <p class="text-slate-300 max-w-2xl mx-auto mb-4">
-                <span class="ar-only">دليل مبسّط للواو الصغيرة في رسم المصحف: ما هي، ولماذا تُكتب، وكيف تُنطق (مدّ طبيعي
+                <span class="ar-only">دليل مبسّط للواو المدية الصغيرة في رسم المصحف: ما هي، ولماذا تُكتب، وكيف تُنطق (مدّ طبيعي
                     بمقدار حركتين) مع أمثلة صوتية.</span>
-                <span class="en-only">A simplified guide to the Small Waw in Quranic script: what it is, why it is
+                <span class="en-only">A simplified guide to the Small Madd Waw in Quranic script: what it is, why it is
                     written, and how it is pronounced (natural Madd of two counts) with audio examples.</span>
             </p>
 
@@ -387,8 +384,8 @@
         <section class="my-12">
             <h2 class="flex items-center gap-3 text-2xl font-bold text-amber-200 mb-6">
                 <span class="w-1.5 h-8 bg-gradient-to-b from-amber-400 to-teal-400 rounded"></span>
-                <span class="ar-only">الخطوة الأولى: ما هي الواو الصغيرة؟</span>
-                <span class="en-only">Step 1: What is the Small Waw?</span>
+                <span class="ar-only">الخطوة الأولى: ما هي الواو المدية الصغيرة؟</span>
+                <span class="en-only">Step 1: What is the Small Madd Waw?</span>
             </h2>
 
             <div
@@ -399,52 +396,65 @@
 
                 <p class="text-lg leading-loose text-white border-s-4 border-amber-400 ps-5 mb-6 relative z-10">
                     <span class="ar-only">
-                        <strong>الوَاوُ الصَّغِيرَةُ</strong> هي واوٌ صغيرةٌ تُرسم في <strong>رسم المصحف</strong>
-                        للدلالة على
-                        <strong>واوٍ محذوفةٍ في الرسم</strong> ولكنها <strong>منطوقة في التلاوة</strong>.
-                        وهي من علامات الضبط التي حُفظ بها الرسم العثماني، وتُكتب بحجم صغير غالبًا فوق الحرف أو بعده.
-                        وتُسمَّى أيضًا <strong>واو المد الصغيرة</strong> أو <strong>واو التصغير</strong>،
-                        وحكمها في التلاوة أنها <strong>مدّ طبيعي</strong> يُمدّ بمقدار <strong>حركتين</strong> .
+                        <strong>الوَاوُ المَدِّيَّةُ الصَّغِيرَةُ</strong> واوٌ صغيرةٌ تُرسم في المصحف للدلالة على
+                        <strong>واوٍ محذوفةٍ في الرسم، منطوقةٍ في التلاوة</strong>.
+                        وهي من علامات ضبط الرسم العثماني، وتُكتب صغيرةً فوق الحرف أو بعده.
+                        وتُسمَّى <strong>واو المد الصغيرة</strong>،
+                        وحكمها <strong>مدّ طبيعي بمقدار حركتين</strong>.
                     </span>
                     <span class="en-only">
-                        <strong>Small Waw</strong> is a small Waw symbol written in the <strong>Quranic script
-                            (Rasm)</strong> to indicate a
-                        <strong>Waw that is omitted in writing</strong> but <strong>pronounced in recitation</strong>.
-                        It is one of the diacritical marks that preserves the Uthmanic script, usually written small
-                        above or after the letter.
-                        It is also called <strong>Waw Madd Saghyra</strong> (Small Waw of Prolongation) or <strong>Waw
-                            of Diminution</strong>,
-                        and in recitation it functions as a <strong>natural Madd</strong> prolonged for <strong>two
-                            counts</strong> .
+                        <strong>The Small Madd Waw</strong> is a small Waw written in the Mushaf to indicate a
+                        <strong>Waw omitted in writing but pronounced in recitation</strong>.
+                        It is one of the Uthmanic script's diacritical marks, written small above or after the letter.
+                        It is called the <strong>Small Waw of Madd</strong>,
+                        and its rule is a <strong>natural Madd of two counts</strong>.
                     </span>
                 </p>
 
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 relative z-10">
                     <div class="bg-emerald-400/10 border border-emerald-400/25 rounded-2xl p-4 text-center">
                         <div class="text-3xl mb-1">✍️</div>
-                        <span class="font-bold block text-emerald-300">الرسم</span>
-                        <p class="text-sm mt-1 text-slate-300">واو صغيرة فوق/بعد الحرف</p>
+                        <span class="font-bold block text-emerald-300">
+                            <span class="ar-only">الرسم</span>
+                            <span class="en-only">Script</span>
+                        </span>
+                        <p class="text-sm mt-1 text-slate-300">
+                            <span class="ar-only">واو صغيرة فوق/بعد الحرف</span>
+                            <span class="en-only">Small Waw above/after the letter</span>
+                        </p>
                     </div>
                     <div class="bg-teal-400/10 border border-teal-400/25 rounded-2xl p-4 text-center">
                         <div class="text-3xl mb-1">🔊</div>
-                        <span class="font-bold block text-teal-300">النطق</span>
-                        <p class="text-sm mt-1 text-slate-300">تُنطق واوًا مدّية</p>
+                        <span class="font-bold block text-teal-300">
+                            <span class="ar-only">النطق</span>
+                            <span class="en-only">Pronunciation</span>
+                        </span>
+                        <p class="text-sm mt-1 text-slate-300">
+                            <span class="ar-only">تُنطق واوًا مدّية</span>
+                            <span class="en-only">Pronounced as a Madd Waw</span>
+                        </p>
                     </div>
                     <div class="bg-amber-400/10 border border-amber-400/25 rounded-2xl p-4 text-center">
                         <div class="text-3xl mb-1">📏</div>
-                        <span class="font-bold block text-amber-300">المقدار</span>
-                        <p class="text-sm mt-1 text-slate-300">حركتان (2 counts)</p>
+                        <span class="font-bold block text-amber-300">
+                            <span class="ar-only">المقدار</span>
+                            <span class="en-only">Length</span>
+                        </span>
+                        <p class="text-sm mt-1 text-slate-300">
+                            <span class="ar-only">حركتان</span>
+                            <span class="en-only">Two counts</span>
+                        </p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- ============ SECTION 2: WHY IT EXISTS ============ -->
+        <!-- ============ SECTION 2: WHY IT EXISTS (SHORTENED) ============ -->
         <section class="my-12">
             <h2 class="flex items-center gap-3 text-2xl font-bold text-amber-200 mb-6">
                 <span class="w-1.5 h-8 bg-gradient-to-b from-amber-400 to-teal-400 rounded"></span>
-                <span class="ar-only">الخطوة الثانية: لماذا تُكتب الواو الصغيرة؟</span>
-                <span class="en-only">Step 2: Why is the Small Waw Written?</span>
+                <span class="ar-only">الخطوة الثانية: لماذا تُكتب الواو المدية الصغيرة؟</span>
+                <span class="en-only">Step 2: Why is the Small Madd Waw Written?</span>
             </h2>
 
             <div
@@ -457,21 +467,24 @@
                     </h3>
                     <p class="leading-loose text-slate-100">
                         <span class="ar-only">
-                            كُتب المصحف أول الأمر بالرسم العثماني الذي يحذف الواو في بعض الكلمات (مثل: <span
-                                class="font-ar text-amber-200 text-xl">أُولَٰئِكَ</span> حيث حُذفت الواو الأصلية في
-                            الرسم).
-                            ولما دعت الحاجة إلى تسهيل القراءة، وضع العلماء <strong>علامات ضبط</strong> تشمل الواو
-                            الصغيرة،
-                            ليدل القارئ على أن هذا الموضع يُنطق فيه بواو مدّية رغم أنها غير مرسومة بحجمها الكامل .
+                            كُتب المصحف بالرسم العثماني الذي يحذف الواو في بعض الكلمات، وأوضح مثالٍ كلمة
+                            <strong class="font-ar text-amber-200 text-xl">دَاوُودُ</strong>؛
+                            رُسمت بواوٍ واحدة ظاهرة (<span class="font-ar text-amber-200 text-xl">دَاوُدُ</span>)
+                            مع أن أصلها بواوين.
+                            فحُذفت الواو المدّية في الرسم، فوضع العلماء <strong>واوًا صغيرة</strong> بعد الواو الأولى
+                            للدلالة على أنها <strong>تُنطق مدًّا</strong> وإن لم تُرسم.
+                            وهكذا يحفظ الرسمُ هيئته، ويحفظ الضبطُ النطقَ الصحيح.
                         </span>
                         <span class="en-only">
-                            The Quran was first written in the Uthmanic script, which omits the Waw in certain words
-                            (e.g., <span class="font-ar text-amber-200 text-xl">أُولَٰئِكَ</span> where the original Waw
-                            is omitted in writing).
-                            When the need arose to make reading easier, scholars introduced <strong>diacritical
-                                marks</strong> including the Small Waw,
-                            to indicate that this position is pronounced with a Madd Waw even though it is not written
-                            at full size .
+                            The Mushaf was written in the Uthmanic script, which omits the Waw in some words — the clearest
+                            example being
+                            <strong class="font-ar text-amber-200 text-xl">دَاوُودُ</strong> (Dāwūd),
+                            written with one visible Waw
+                            (<span class="font-ar text-amber-200 text-xl">دَاوُدُ</span>)
+                            though originally it had two. The Madd Waw was omitted in writing, so scholars placed a
+                            <strong>small Waw</strong> after the first Waw to show it is
+                            <strong>pronounced as Madd</strong> even though it is not written.
+                            Thus the script keeps its form, and the diacritics keep the correct pronunciation.
                         </span>
                     </p>
                 </div>
@@ -479,24 +492,39 @@
                 <div class="bg-sky-900/20 border border-sky-400/30 rounded-2xl p-5">
                     <h3 class="text-sky-200 font-bold text-lg mb-3 flex items-center gap-2">
                         <span>🔤</span>
-                        <span class="ar-only">أشكال الواو الصغيرة</span>
-                        <span class="en-only">Forms of the Small Waw</span>
+                        <span class="ar-only">أشكال الواو المدية الصغيرة</span>
+                        <span class="en-only">Forms of the Small Madd Waw</span>
                     </h3>
-                    <ul class="space-y-2 text-slate-100 list-disc list-inside">
+                    <ul class="space-y-3 text-slate-100 list-disc list-inside">
                         <li>
-                            <span class="ar-only"><strong>واو صغيرة بعد الحرف</strong> — للدلالة على واو محذوفة في
-                                الرسم، مثل: <span class="font-ar text-amber-200 text-xl">أُولَٰئِكَ</span> (تُنطق:
-                                أُولاءِكَ بواو مدّية).</span>
-                            <span class="en-only"><strong>Small Waw after the letter</strong> — indicating an omitted
-                                Waw in writing, e.g., <span class="font-ar text-amber-200 text-xl">أُولَٰئِكَ</span>
-                                (pronounced: ūlā'ika with a long Waw).</span>
+                            <span class="ar-only">
+                                <strong>واو صغيرة بعد الحرف</strong> — تدل على واو محذوفة في الرسم، مثل:
+                                <strong class="font-ar text-amber-200 text-xl">دَاوُودُ</strong>
+                                (تُرسم: <span class="font-ar text-xl" dir="rtl"><span style="color:#1a56db;">دَ</span><span style="color:#1a56db;">ا</span><span style="color:#1a56db;">وُ</span><span class="small-waw-inline" style="color:#dc2626;">و</span><span style="color:#1a56db;">دُ</span></span>)
+                                — تُنطق بواو مدّية بمقدار حركتين.
+                            </span>
+                            <span class="en-only">
+                                <strong>Small Waw after the letter</strong> — indicates an omitted Waw in writing, e.g.
+                                <strong class="font-ar text-amber-200 text-xl">دَاوُودُ</strong>
+                                (written: <span class="font-ar text-xl" dir="rtl"><span style="color:#1a56db;">دَ</span><span style="color:#1a56db;">ا</span><span style="color:#1a56db;">وُ</span><span class="small-waw-inline" style="color:#dc2626;">و</span><span style="color:#1a56db;">دُ</span></span>)
+                                — pronounced with a Madd Waw of two counts.
+                            </span>
                         </li>
                         <li>
-                            <span class="ar-only"><strong>واو صغيرة فوق الحرف</strong> — في بعض المصاحف توضع فوق الحرف
-                                للدلالة على المدّ، وقد تُستخدم أيضًا للدلالة على واو الجماعة المحذوفة.</span>
-                            <span class="en-only"><strong>Small Waw above the letter</strong> — in some Mushafs placed
-                                above the letter to indicate Madd, and may also indicate an omitted Waw of the
-                                plural.</span>
+                            <span class="ar-only">
+                                <strong>واو صغيرة فوق الحرف أو على السطر</strong> — تدل على المدّ، وقد تدل على واو الجماعة
+                                المحذوفة، مثل:
+                                <strong class="font-ar text-amber-200 text-xl">وُورِىَ</strong>
+                                (تُرسم: <span class="font-ar text-xl" dir="rtl"><span style="color:#1a56db;">وُ</span><span class="small-waw-inline" style="color:#dc2626;">و</span><span style="color:#1a56db;">رِىَ</span></span>)
+                                — تُنطق بواو مدّية بمقدار حركتين.
+                            </span>
+                            <span class="en-only">
+                                <strong>Small Waw above the letter or on the line</strong> — indicates Madd, and may indicate
+                                an omitted plural Waw, e.g.
+                                <strong class="font-ar text-amber-200 text-xl">وُورِىَ</strong>
+                                (written: <span class="font-ar text-xl" dir="rtl"><span style="color:#1a56db;">وُ</span><span class="small-waw-inline" style="color:#dc2626;">و</span><span style="color:#1a56db;">رِىَ</span></span>)
+                                — pronounced with a Madd Waw of two counts.
+                            </span>
                         </li>
                     </ul>
                 </div>
@@ -507,8 +535,8 @@
         <section class="my-12">
             <h2 class="flex items-center gap-3 text-2xl font-bold text-amber-200 mb-6">
                 <span class="w-1.5 h-8 bg-gradient-to-b from-amber-400 to-teal-400 rounded"></span>
-                <span class="ar-only">الخطوة الثالثة: أمثلة على الواو الصغيرة</span>
-                <span class="en-only">Step 3: Examples of Small Waw</span>
+                <span class="ar-only">الخطوة الثالثة: أمثلة على الواو المدية الصغيرة</span>
+                <span class="en-only">Step 3: Examples of Small Madd Waw</span>
             </h2>
 
             <p class="text-slate-300 mb-6">
@@ -528,13 +556,15 @@
             </h2>
 
             <div class="bg-white/5 border border-amber-300/25 rounded-3xl p-8 text-center shadow-xl">
-                <div id="audioWord"
-                    class="font-ar text-6xl text-amber-300 mb-2 drop-shadow-[0_0_25px_rgba(245,197,66,0.4)]">أُولَٰئِكَ
+                <!-- Added dir="rtl" here to prevent letter reversal in English mode -->
+                <div id="audioWord" dir="rtl"
+                    class="font-ar text-6xl text-amber-300 mb-2 drop-shadow-[0_0_25px_rgba(245,197,66,0.4)]">
+                    <span style="color: #1a56db;">ـه</span><span class="small-waw-inline" style="color: #dc2626;">و</span><span style="color: #dc2626;">ُ</span>
                 </div>
-                <div id="audioTranslit" class="italic text-slate-300 mb-2">Ūlā'ika</div>
+                <div id="audioTranslit" class="italic text-slate-300 mb-2">Hu</div>
                 <div id="audioMeaning" class="text-slate-400 mb-6">
-                    <span class="ar-only">الواو الصغيرة بعد الهمزة — تُنطق واوًا مدّية بمقدار حركتين</span>
-                    <span class="en-only">Small Waw after the Hamzah — pronounced as a long Waw for two counts</span>
+                    <span class="ar-only">هُ — هاء في نهاية الكلمة مضمومة تليها واو صغيرة على السطر</span>
+                    <span class="en-only">Hu — Final Ha with Dammah followed by a small Waw on the line</span>
                 </div>
 
                 <button onclick="playCurrentAudio()" id="listenBtn"
@@ -666,17 +696,84 @@
         }
 
         /* ============================================================
+           HELPER: Replace small waw (U+06E5) with the requested red shape
+           ============================================================ */
+        function colorizeSmallWaw(html) {
+            return html.replace(/\u06E5/g, '<span class="small-waw-inline" style="color: #dc2626;">و</span><span style="color: #dc2626;">ُ</span>');
+        }
+
+        /* ============================================================
            SMALL WAW EXAMPLES DATA
            ============================================================ */
         const smallWawExamples = [
-            { word: "أُولَٰئِكَ", ttsText: "أُولَٰئِكَ", translit: "Ūlā'ika", meaningAr: "أولئك — واو صغيرة بعد الهمزة", meaningEn: "Those — Small Waw after Hamzah" },
-            { word: "أُولِي", ttsText: "أُولِي", translit: "Ūlī", meaningAr: "أولي — واو صغيرة للدلالة على المد", meaningEn: "Possessors — Small Waw indicating Madd" },
-            { word: "أُولَٰئِكَ لَهُمُ", ttsText: "أُولَٰئِكَ لَهُمُ", translit: "Ūlā'ika lahumu", meaningAr: "أولئك لهم — واو صغيرة في الرسم", meaningEn: "Those for them — Small Waw in script" },
-            { word: "جَاءُو", ttsText: "جَاءُو", translit: "Jā'ū", meaningAr: "جاؤوا — واو صغيرة للدلالة على واو الجماعة", meaningEn: "They came — Small Waw indicating plural Waw" },
-            { word: "قَالُوا", ttsText: "قَالُوا", translit: "Qālū", meaningAr: "قالوا — واو صغيرة في الرسم", meaningEn: "They said — Small Waw in script" },
-            { word: "يَقُولُو", ttsText: "يَقُولُو", translit: "Yaqūlū", meaningAr: "يقولوا — واو صغيرة للدلالة على واو الجماعة", meaningEn: "They say — Small Waw indicating plural Waw" },
-            { word: "أُولَٰئِكَ هُمُ", ttsText: "أُولَٰئِكَ هُمُ", translit: "Ūlā'ika humu", meaningAr: "أولئك هم — واو صغيرة في الرسم", meaningEn: "Those are they — Small Waw in script" },
-            { word: "فَأُولَٰئِكَ", ttsText: "فَأُولَٰئِكَ", translit: "Fa'ūlā'ika", meaningAr: "فأولئك — واو صغيرة بعد الفاء", meaningEn: "Then those — Small Waw after Fa" }
+            // 1. Final Ha (هـ) + Damma + Small Waw on baseline
+            { 
+                word: '<span style="color: #1a56db;">ـه</span><span class="small-waw-inline" style="color: #dc2626;">و</span><span style="color: #dc2626;">ُ</span>', 
+                ttsText: "هُ", 
+                translit: "Hu", 
+                meaningAr: "هُ — هاء في نهاية الكلمة مضمومة تليها واو صغيرة على السطر", 
+                meaningEn: "Hu — Final Ha with Dammah followed by a small Waw on the line",
+                isImageStyle: true 
+            },
+            // 2. Waw + Damma + Small Waw on baseline
+            { 
+                word: '<span style="color: #1a56db;">و</span><span class="small-waw-inline" style="color: #dc2626;">و</span><span style="color: #dc2626;">ُ</span>', 
+                ttsText: "وُو", 
+                translit: "Wū", 
+                meaningAr: "وُو — واو مضمومة تليها واو صغيرة على السطر", 
+                meaningEn: "Wū — Dammah on Waw followed by a small Waw on the line",
+                isImageStyle: true 
+            },
+            // 3. Seen + Damma + Small Waw
+            { 
+                word: '<span style="color: #1a56db;">سـ</span><span class="small-waw-inline" style="color: #dc2626;">و</span><span style="color: #dc2626;">ُ</span>', 
+                ttsText: "سُو", 
+                translit: "Sū", 
+                meaningAr: "سو — سين مضمومة تليها واو صغيرة على السطر", 
+                meaningEn: "Sū — Dammah on Seen followed by a small Waw on the line",
+                isImageStyle: true 
+            },
+            // 4. Hamza + Damma + Small Waw
+            { 
+                word: '<span style="color: #1a56db;">ء</span><span class="small-waw-inline" style="color: #dc2626;">و</span><span style="color: #dc2626;">ُ</span>', 
+                ttsText: "ءُ", 
+                translit: "ʿŪ", 
+                meaningAr: "ء — همزة مضمومة تليها واو صغيرة على السطر", 
+                meaningEn: "ʿŪ — Dammah on Hamza followed by a small Waw on the line",
+                isImageStyle: true 
+            },
+            
+            // 5. وُورِىَ — first Waw with damma, second Waw small on the line in red
+            { 
+                word: '<span style="color: #1a56db;">وُ</span><span class="small-waw-inline" style="color: #dc2626;">و</span><span style="color: #1a56db;">رِىَ</span>', 
+                ttsText: "وُورِيَ", 
+                translit: "Wūriya", 
+                meaningAr: "وُورِىَ — الواو الأولى مضمومة، والواو الثانية صغيرة على السطر باللون الأحمر للدلالة على المد", 
+                meaningEn: "Wūriya — the first Waw has a Dammah, and the second Waw is small on the line in red to indicate Madd",
+                isImageStyle: true 
+            },
+            
+            // 6. دَاوُودُ — first Waw with damma, second Waw small on the line in red
+            { 
+                word: '<span style="color: #1a56db;">دَ</span><span style="color: #1a56db;">ا</span><span style="color: #1a56db;">وُ</span><span class="small-waw-inline" style="color: #dc2626;">و</span><span style="color: #1a56db;">دُ</span>', 
+                ttsText: "دَاوُودُ", 
+                translit: "Dāwūdu", 
+                meaningAr: "دَاوُودُ — الواو الأولى مضمومة، والواو الثانية صغيرة على السطر باللون الأحمر للدلالة على المد", 
+                meaningEn: "Dāwūdu — the first Waw has a Dammah, and the second Waw is small on the line in red to indicate Madd",
+                isImageStyle: true 
+            },
+            
+            // ---- Standard text examples ----
+            { word: "لَهُۥ مَا فِي", ttsText: "لَهُ مَا فِي", translit: "Lahū mā fī", meaningAr: "له ما في — واو صغيرة للضمير", meaningEn: "Lahū mā fī — Small Waw for pronoun" },
+            { word: "مَعَهُۥ فِي", ttsText: "مَعَهُ فِي", translit: "Maʿahū fī", meaningAr: "معه في — واو صغيرة للضمير", meaningEn: "Maʿahū fī — Small Waw for pronoun" },
+            { word: "خَلَقَهُۥ وَبَدَأَ", ttsText: "خَلَقَهُ وَبَدَأَ", translit: "Khalaqahū wa bada'a", meaningAr: "خلقه وبدأ — واو صغيرة للضمير", meaningEn: "Khalaqahū wa bada'a — Small Waw for pronoun" },
+            { word: "قَرِينَهُۥ وَهَٰذَا", ttsText: "قَرِينَهُ وَهَذَا", translit: "Qarīnahū wa hādhā", meaningAr: "قرينه وهذا — واو صغيرة للضمير", meaningEn: "Qarīnahū wa hādhā — Small Waw for pronoun" },
+            { word: "فَوَكَزَهُۥ مُوسَىٰ", ttsText: "فَوَكَزَهُ مُوسَى", translit: "Fa-wakazahū Mūsā", meaningAr: "فوكزه موسى — واو صغيرة للضمير", meaningEn: "Fa-wakazahū Mūsā — Small Waw for pronoun" },
+            { word: "أُوتِىَ كِتَٰبَهُۥ بِيَمِينِهِۦ", ttsText: "أُوتِيَ كِتَابَهُ بِيَمِينِهِ", translit: "Ūtiya kitābahū bi-yamīnihī", meaningAr: "أوتي كتابه بيمينه — واو صغيرة للضمير", meaningEn: "Ūtiya kitābahū bi-yamīnihī — Small Waw for pronoun" },
+            { word: "مَالُهُۥ وَوَلَدُهُۥ", ttsText: "مَالُهُ وَوَلَدُهُ", translit: "Mālahū wa waladuhū", meaningAr: "ماله وولده — واو صغيرة للضمير", meaningEn: "Mālahū wa waladuhū — Small Waw for pronoun" },
+            { word: "فَقَعُوا۟ لَهُۥ سَٰجِدِينَ", ttsText: "فَقَعُوا لَهُ سَاجِدِينَ", translit: "Faqaʿū lahū sājidīn", meaningAr: "فقعوا له ساجدين — واو الجماعة وواو الضمير الصغيرة", meaningEn: "Faqaʿū lahū sājidīn — Small plural Waw and pronoun Waw" },
+            { word: "تَكُونُ لَهُۥ عَٰقِبَةٌ", ttsText: "تَكُونُ لَهُ عَاقِبَةٌ", translit: "Takūnu lahū ʿāqibatun", meaningAr: "تكون له عقبة — واو صغيرة للضمير", meaningEn: "Takūnu lahū ʿāqibatun — Small Waw for pronoun" },
+            { word: "لَهُۥ وَبَرَزَقِينَ", ttsText: "لَهُ وَبَرَزَقِينَ", translit: "Lahū wa barazaqīn", meaningAr: "له وبرزقين — واو صغيرة للضمير", meaningEn: "Lahū wa barazaqīn — Small Waw for pronoun" }
         ];
 
         function renderSmallWawExamples() {
@@ -687,21 +784,39 @@
             smallWawExamples.forEach((item) => {
                 const btn = document.createElement("button");
                 btn.type = "button";
-                btn.className = "group bg-emerald-50 border-2 border-emerald-200 text-emerald-900 rounded-2xl p-4 text-center transition-all hover:-translate-y-0.5 hover:shadow-md active:scale-95";
+                
+                btn.className = "example-card group bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-4 text-center transition-all hover:-translate-y-0.5 hover:shadow-md active:scale-95 flex flex-col justify-center min-h-[120px]";
+                
+                const wordContent = item.isImageStyle ? item.word : colorizeSmallWaw(item.word);
+
+                const wordHtml = item.isImageStyle 
+                    ? `<div class="font-ar text-4xl sm:text-5xl font-bold mb-2 leading-relaxed tracking-widest" dir="rtl">${wordContent}</div>`
+                    : `<div class="font-ar text-2xl sm:text-3xl font-bold mb-2 leading-relaxed">${wordContent}</div>`;
+
                 btn.innerHTML = `
-      <div class="font-ar text-3xl font-bold mb-1">${item.word}</div>
-      <div class="text-xs font-bold text-slate-500">${item.translit}</div>
-      <div class="mt-2 text-[11px] flex items-center justify-center gap-1 text-emerald-700 font-bold">
-        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"></path><path d="M16 9a5 5 0 0 1 0 6"></path><path d="M19.364 18.364a9 9 0 0 0 0-12.728"></path></svg>
-        <span class="ar-only">استمع</span><span class="en-only">Listen</span>
-      </div>
-    `;
+                  ${wordHtml}
+                  <div class="text-xs font-bold">${item.translit}</div>
+                  <div class="mt-2 text-[11px] flex items-center justify-center gap-1 font-bold">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"></path><path d="M16 9a5 5 0 0 1 0 6"></path><path d="M19.364 18.364a9 9 0 0 0 0-12.728"></path></svg>
+                    <span class="ar-only">استمع</span><span class="en-only">Listen</span>
+                  </div>
+                `;
+
                 btn.addEventListener("click", () => {
                     btn.classList.add("pop");
                     setTimeout(() => btn.classList.remove("pop"), 400);
-                    document.getElementById("audioWord").textContent = item.word;
+
+                    // Update the Pronunciation Lab display
+                    document.getElementById("audioWord").innerHTML = item.isImageStyle
+                        ? item.word
+                        : colorizeSmallWaw(item.word);
+
                     document.getElementById("audioTranslit").textContent = item.translit;
                     setAudioMeaning({ word: item.word, ar: item.meaningAr, en: item.meaningEn });
+
+                    // Keep the lab in sync with what is being spoken (used by language switch)
+                    currentTtsText = item.ttsText;
+
                     speakWithAzure(item.ttsText);
                 });
                 container.appendChild(btn);
@@ -714,15 +829,17 @@
         }
 
         function updateAudioDisplayForLang() {
-            const wordEl = document.getElementById("audioWord").textContent;
-            const found = smallWawExamples.find(l => l.word === wordEl);
-            if (found) setAudioMeaning({ word: found.word, ar: found.meaningAr, en: found.meaningEn });
+            // Match by the currently displayed TTS text (the reliable key)
+            const found = smallWawExamples.find(l => l.ttsText === currentTtsText);
+            if (found) {
+                setAudioMeaning({ word: found.word, ar: found.meaningAr, en: found.meaningEn });
+            }
         }
 
         /* ============================================================
            AZURE NEURAL TTS ENGINE (with fallback)
            ============================================================ */
-        let currentTtsText = "أُولَٰئِكَ";
+        let currentTtsText = "هُ";
 
         async function speakWithAzure(text) {
             currentTtsText = text;
@@ -799,18 +916,18 @@
            ============================================================ */
         const quizQuestions = {
             ar: [
-                { q: "ما هي الواو الصغيرة في رسم المصحف؟", options: ["واو محذوفة في الرسم ولكنها منطوقة", "واو زائدة تُحذف من النطق", "حرف تنوين", "علامة وقف"], correct: 0 },
-                { q: "كم مقدار مد الواو الصغيرة عند النطق؟", options: ["حركتان", "أربع حركات", "ست حركات", "حركة واحدة"], correct: 0 },
-                { q: "في كلمة «أُولَٰئِكَ» أين توجد الواو الصغيرة؟", options: ["بعد الهمزة", "فوق اللام", "بعد الكاف", "قبل الهمزة"], correct: 0 },
-                { q: "ما وظيفة الواو الصغيرة في رسم المصحف؟", options: ["تدل على واو محذوفة في الرسم ومنطوقة", "تدل على واو زائدة تُحذف", "تدل على وقف", "تدل على إدغام"], correct: 0 },
-                { q: "أي مثال فيه واو صغيرة؟", options: ["أُولَٰئِكَ", "قَالَ", "كَانَ", "بَابٌ"], correct: 0 }
+                { q: "ما هي الواو المدية الصغيرة في رسم المصحف؟", options: ["واو محذوفة في الرسم ولكنها منطوقة", "واو زائدة تُحذف من النطق", "حرف تنوين", "علامة وقف"], correct: 0 },
+                { q: "كم مقدار مد الواو المدية الصغيرة عند النطق؟", options: ["حركتان", "أربع حركات", "ست حركات", "حركة واحدة"], correct: 0 },
+                { q: "في كلمة «دَاوُودُ» أين توجد الواو المدية الصغيرة؟", options: ["بعد الواو الأولى المضمومة", "فوق الدال", "بعد الدال", "قبل الألف"], correct: 0 },
+                { q: "ما وظيفة الواو المدية الصغيرة في رسم المصحف؟", options: ["تدل على واو محذوفة في الرسم ومنطوقة", "تدل على واو زائدة تُحذف", "تدل على وقف", "تدل على إدغام"], correct: 0 },
+                { q: "أي مثال فيه واو مدية صغيرة؟", options: ["دَاوُودُ", "قَالَ", "كَانَ", "بَابٌ"], correct: 0 }
             ],
             en: [
-                { q: "What is the Small Waw in Quranic script?", options: ["A Waw omitted in writing but pronounced", "An extra Waw that is dropped in pronunciation", "A Tanween mark", "A stop sign"], correct: 0 },
-                { q: "How long is the Small Waw prolonged in recitation?", options: ["Two counts", "Four counts", "Six counts", "One count"], correct: 0 },
-                { q: "In «أُولَٰئِكَ» (Ūlā'ika), where is the Small Waw?", options: ["After the Hamzah", "Above the Lam", "After the Kaf", "Before the Hamzah"], correct: 0 },
-                { q: "What is the function of the Small Waw in Quranic script?", options: ["It indicates an omitted Waw that is pronounced", "It indicates an extra Waw that is dropped", "It indicates a stop", "It indicates Idgham"], correct: 0 },
-                { q: "Which example contains a Small Waw?", options: ["أُولَٰئِكَ (Ūlā'ika)", "قَالَ (Qāla)", "كَانَ (Kāna)", "بَابٌ (Bābun)"], correct: 0 }
+                { q: "What is the Small Madd Waw in Quranic script?", options: ["A Waw omitted in writing but pronounced", "An extra Waw that is dropped in pronunciation", "A Tanween mark", "A stop sign"], correct: 0 },
+                { q: "How long is the Small Madd Waw prolonged in recitation?", options: ["Two counts", "Four counts", "Six counts", "One count"], correct: 0 },
+                { q: "In «دَاوُودُ» (Dāwūd), where is the Small Madd Waw?", options: ["After the first Waw carrying a Dammah", "Above the Dal", "After the Dal", "Before the Alif"], correct: 0 },
+                { q: "What is the function of the Small Madd Waw in Quranic script?", options: ["It indicates an omitted Waw that is pronounced", "It indicates an extra Waw that is dropped", "It indicates a stop", "It indicates Idgham"], correct: 0 },
+                { q: "Which example contains a Small Madd Waw?", options: ["دَاوُودُ (Dāwūd)", "قَالَ (Qāla)", "كَانَ (Kāna)", "بَابٌ (Bābun)"], correct: 0 }
             ]
         };
 
@@ -866,7 +983,14 @@
                 document.getElementById("quizNextWrap").classList.remove("hidden");
             } else {
                 document.getElementById("quizRestartWrap").classList.remove("hidden");
-                feedback.textContent += ` — ${currentLang === "ar" ? "النتيجة" : "Final"}: ${quizScore}/5`;
+
+                // If the last answer was correct, praise the learner; otherwise just show the score
+                const lastWasCorrect = (i === q.correct);
+                const praise = lastWasCorrect
+                    ? (currentLang === "ar" ? "أحسنت! ⭐" : "Excellent! ⭐")
+                    : (currentLang === "ar" ? "راجع الإجابة ✅" : "Review ✅");
+
+                feedback.textContent = praise + ` — ${currentLang === "ar" ? "النتيجة" : "Final"}: ${quizScore}/5`;
             }
         }
 
