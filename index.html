@@ -1006,6 +1006,19 @@
     }
     .modal-close:active { transform: scale(0.97); }
   </style>
+
+  <!-- ============ SAVE LANGUAGE BEFORE PAGE RENDERS (avoids flicker) ============ -->
+  <script>
+    (function () {
+      try {
+        var savedLang = localStorage.getItem('lws-lang');
+        if (savedLang === 'ar' || savedLang === 'en') {
+          document.documentElement.setAttribute('lang', savedLang);
+          document.documentElement.setAttribute('dir', savedLang === 'ar' ? 'rtl' : 'ltr');
+        }
+      } catch (e) { /* localStorage may be unavailable */ }
+    })();
+  </script>
 </head>
 
 <body>
@@ -1574,14 +1587,30 @@
     // ---- Year ----
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // ---- Language toggle ----
+    // ---- Language toggle (persists across reloads via localStorage) ----
     const langToggle = document.getElementById('languageToggle');
     const htmlRoot = document.getElementById('htmlRoot');
+
+    function applyLanguage(lang) {
+      htmlRoot.setAttribute('lang', lang);
+      htmlRoot.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+      document.body.style.direction = lang === 'ar' ? 'rtl' : 'ltr';
+      try { localStorage.setItem('lws-lang', lang); } catch (e) { /* ignore */ }
+    }
+
+    // Apply saved language on load (also handled inline in <head> for no flicker)
+    (function initLanguage() {
+      let savedLang = null;
+      try { savedLang = localStorage.getItem('lws-lang'); } catch (e) { /* ignore */ }
+      const initialLang = (savedLang === 'ar' || savedLang === 'en') ? savedLang : 'en';
+      applyLanguage(initialLang);
+    })();
+
     langToggle.addEventListener('click', () => {
       const currentLang = htmlRoot.getAttribute('lang');
-      const newLang = currentLang === 'en' ? 'ar' : 'en';
-      htmlRoot.setAttribute('lang', newLang);
-      document.body.style.direction = newLang === 'ar' ? 'rtl' : 'ltr';
+      const newLang = currentLang === 'ar' ? 'en' : 'ar';
+      applyLanguage(newLang);
+      updateProgress(); // refresh progress label language
     });
 
     // ---- Mobile menu ----
@@ -1609,9 +1638,8 @@
     function updateProgress() {
       const total = checkboxes.length;
       const checked = [...checkboxes].filter(cb => cb.checked).length;
-      const percent = (checked / total) * 100;
+      const percent = (total === 0) ? 0 : (checked / total) * 100;
       progressFill.style.width = percent + '%';
-      // Update label with language awareness
       const isArabic = htmlRoot.getAttribute('lang') === 'ar';
       if (isArabic) {
         progressLabel.innerHTML = `<span class="ar-only">${checked} من ${total} مهام مكتملة</span>`;
@@ -1628,12 +1656,6 @@
 
     // Initial update
     updateProgress();
-
-    // ---- Re-run progress update on language toggle (to refresh label) ----
-    langToggle.addEventListener('click', () => {
-      // Delay to let attribute change apply
-      setTimeout(updateProgress, 10);
-    });
 
     // ---- Under Construction Modal ----
     (function() {
