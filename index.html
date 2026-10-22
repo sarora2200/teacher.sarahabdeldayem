@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" id="htmlRoot">
+<html lang="ar" id="htmlRoot">
 
 <head>
   <meta charset="UTF-8">
@@ -1010,13 +1010,15 @@
   <!-- ============ SAVE LANGUAGE BEFORE PAGE RENDERS (avoids flicker) ============ -->
   <script>
     (function () {
+      var lang = 'ar'; // default language for first visit
       try {
         var savedLang = localStorage.getItem('lws-lang');
         if (savedLang === 'ar' || savedLang === 'en') {
-          document.documentElement.setAttribute('lang', savedLang);
-          document.documentElement.setAttribute('dir', savedLang === 'ar' ? 'rtl' : 'ltr');
+          lang = savedLang;
         }
       } catch (e) { /* localStorage may be unavailable */ }
+      document.documentElement.setAttribute('lang', lang);
+      document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
     })();
   </script>
 </head>
@@ -1598,11 +1600,11 @@
       try { localStorage.setItem('lws-lang', lang); } catch (e) { /* ignore */ }
     }
 
-    // Apply saved language on load (also handled inline in <head> for no flicker)
+    // Apply saved language on load; default to Arabic on first visit
     (function initLanguage() {
       let savedLang = null;
       try { savedLang = localStorage.getItem('lws-lang'); } catch (e) { /* ignore */ }
-      const initialLang = (savedLang === 'ar' || savedLang === 'en') ? savedLang : 'en';
+      const initialLang = (savedLang === 'ar' || savedLang === 'en') ? savedLang : 'ar';
       applyLanguage(initialLang);
     })();
 
