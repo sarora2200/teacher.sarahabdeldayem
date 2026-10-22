@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlRoot">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>امتحان أنواع المدود | Madd Types Exam</title>
+<link rel="icon" type="image/png" href="../../images/quran.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Poppins:wght@400;500;700;900&family=Amiri:wght@400;700&family=Baloo+Bhaijaan+2:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #fffbeb;
+    --ink: #1e293b;
+    --amber: #f59e0b;
+    --amber-dark: #b45309;
+    --green: #10b981;
+    --red: #ef4444;
+    --blue: #3b82f6;
+    --purple: #8b5cf6;
+    --pink: #ec4899;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html[lang="ar"] body { font-family: 'Tajawal', sans-serif; }
+  html[lang="en"] body { font-family: 'Poppins', sans-serif; }
+  .font-kid { font-family: 'Baloo Bhaijaan 2', 'Tajawal', cursive; }
+  .font-ar { font-family: 'Amiri', serif; }
+
+  html[lang="ar"] .en-only { display: none !important; }
+  html[lang="en"] .ar-only { display: none !important; }
+  html[lang="en"] .font-ar { font-family: 'Poppins', sans-serif; }
+
+  body {
+    background-color: var(--bg);
+    background-image: radial-gradient(#fde68a 2px, transparent 2px);
+    background-size: 24px 24px;
+    color: var(--ink);
+    min-height: 100vh;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  ::-webkit-scrollbar { width: 12px; }
+  ::-webkit-scrollbar-track { background: #fef3c7; }
+  ::-webkit-scrollbar-thumb { background: #fbbf24; border-radius: 6px; border: 2px solid #fef3c7; }
+  ::-webkit-scrollbar-thumb:hover { background: #f59e0b; }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 0 20px 60px; }
+
+  /* ===== Top controls ===== */
+  .top-controls {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 0;
+    background: rgba(255, 251, 235, 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 2px dashed #fcd34d;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+  }
+  .brand-pill {
+    font-weight: 900;
+    font-size: 0.85rem;
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: #fff;
+    padding: 6px 16px;
+    border-radius: 999px;
+    box-shadow: 0 3px 0 #b45309;
+    white-space: nowrap;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-weight: 800;
+    font-family: inherit;
+    font-size: 0.85rem;
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .btn-amber { background: #fbbf24; color: #fff; box-shadow: 0 4px 0 #b45309; border-color: #fcd34d; }
+  .btn-amber:hover { background: #f59e0b; transform: translateY(-2px); }
+  .btn-amber:active { transform: translateY(2px); box-shadow: 0 1px 0 #b45309; }
+  .btn-outline { background: #fff; color: #b45309; border-color: #fcd34d; }
+  .btn-outline:hover { background: #fef3c7; border-color: #f59e0b; }
+  .btn-outline.active { background: #fbbf24; color: #fff; border-color: #f59e0b; }
+
+  /* ===== Header ===== */
+  header.hero {
+    text-align: center;
+    padding: 10px 0 30px;
+  }
+  .hero-icon { font-size: 3.5rem; line-height: 1; margin-bottom: 10px; }
+  h1 {
+    font-size: clamp(1.6rem, 5vw, 2.4rem);
+    font-weight: 900;
+    color: var(--amber-dark);
+    margin-bottom: 8px;
+    line-height: 1.25;
+  }
+  .hero p {
+    color: #64748b;
+    font-weight: 700;
+    font-size: 0.95rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* ===== Progress bar ===== */
+  .progress-wrap {
+    position: sticky;
+    top: 62px;
+    z-index: 40;
+    background: #fff;
+    border: 3px solid #fcd34d;
+    border-radius: 999px;
+    padding: 6px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.15);
+  }
+  .progress-track { height: 16px; background: #fef3c7; border-radius: 999px; overflow: hidden; }
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #fbbf24, #f59e0b, #10b981);
+    border-radius: 999px;
+    transition: width 0.4s ease;
+    background-size: 200% 100%;
+    animation: shimmer 2s linear infinite;
+  }
+  @keyframes shimmer { 0%{background-position:0% 0;} 100%{background-position:200% 0;} }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: #b45309;
+    margin-top: 6px;
+    padding: 0 6px;
+  }
+
+  /* ===== Question card ===== */
+  .question-card {
+    background: #fff;
+    border: 3px solid #fef3c7;
+    border-radius: 24px;
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+    transition: border-color 0.3s, box-shadow 0.3s;
+    animation: fadeUp 0.4s ease;
+  }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(12px);} to{opacity:1;transform:translateY(0);} }
+  .question-card.answered-correct { border-color: #6ee7b7; box-shadow: 0 6px 20px rgba(16,185,129,0.12); }
+  .question-card.answered-wrong { border-color: #fca5a5; box-shadow: 0 6px 20px rgba(239,68,68,0.12); }
+
+  .q-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .q-num {
+    flex-shrink: 0;
+    width: 40px; height: 40px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: #fff;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    box-shadow: 0 3px 0 #b45309;
+  }
+  .q-text { font-size: 1.05rem; font-weight: 800; color: #1e293b; }
+  .q-text .ar-q { font-family: 'Amiri', serif; font-size: 1.7rem; color: #0f172a; display: block; margin-top: 6px; }
+
+  /* ===== Options ===== */
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 14px;
+    background: #fff;
+    border: 2px solid #e2e8f0;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 0.95rem;
+    transition: all 0.15s;
+    position: relative;
+    user-select: none;
+  }
+  .option:hover { border-color: #fbbf24; background: #fffbeb; }
+  .option .letter {
+    flex-shrink: 0;
+    width: 30px; height: 30px;
+    border-radius: 8px;
+    background: #fef3c7;
+    color: #b45309;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    transition: all 0.15s;
+  }
+  .option.selected { border-color: #3b82f6; background: #eff6ff; }
+  .option.selected .letter { background: #3b82f6; color: #fff; }
+  .option.correct { border-color: #10b981; background: #ecfdf5; }
+  .option.correct .letter { background: #10b981; color: #fff; }
+  .option.wrong { border-color: #ef4444; background: #fef2f2; }
+  .option.wrong .letter { background: #ef4444; color: #fff; }
+  .option.disabled { pointer-events: none; opacity: 0.85; }
+
+  .option .mark {
+    margin-inline-start: auto;
+    font-weight: 900;
+    font-size: 1.1rem;
+  }
+  .option.correct .mark { color: #10b981; }
+  .option.wrong .mark { color: #ef4444; }
+
+  /* ===== Feedback ===== */
+  .feedback {
+    margin-top: 14px;
+    padding: 12px 16px;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    display: none;
+    line-height: 1.6;
+  }
+  .feedback.show { display: block; animation: fadeUp 0.3s ease; }
+  .feedback.ok { background: #ecfdf5; color: #065f46; border: 2px solid #6ee7b7; }
+  .feedback.no { background: #fef2f2; color: #991b1b; border: 2px solid #fca5a5; }
+
+  /* ===== Exam mode bar ===== */
+  .mode-bar {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  /* ===== Results ===== */
+  .results-card {
+    display: none;
+    background: #fff;
+    border: 4px solid #fcd34d;
+    border-radius: 28px;
+    padding: 36px 24px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(245,158,11,0.15);
+    margin-top: 30px;
+  }
+  .results-card.show { display: block; animation: fadeUp 0.5s ease; }
+  .result-emoji { font-size: 4.5rem; line-height: 1; margin-bottom: 10px; }
+  .result-score {
+    font-size: 3rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #f59e0b, #10b981);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    margin: 10px 0;
+  }
+  .result-msg { font-size: 1.1rem; font-weight: 800; color: #1e293b; margin-bottom: 6px; }
+  .result-sub { color: #64748b; font-weight: 700; font-size: 0.95rem; margin-bottom: 24px; }
+  .result-stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 26px;
+  }
+  .stat-box {
+    background: #fffbeb;
+    border: 2px solid #fcd34d;
+    border-radius: 16px;
+    padding: 12px 22px;
+    min-width: 100px;
+  }
+  .stat-num { font-size: 1.6rem; font-weight: 900; color: #b45309; line-height: 1; }
+  .stat-label { font-size: 0.75rem; font-weight: 800; color: #64748b; margin-top: 4px; }
+
+  .review-btn-wrap { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+  /* ===== Kids theme tweaks ===== */
+  body.kids-mode .hero-icon { animation: bounce 2s infinite; }
+  @keyframes bounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);} }
+  body.kids-mode .q-num { background: linear-gradient(135deg, #ec4899, #8b5cf6); box-shadow: 0 3px 0 #7c3aed; }
+  body.kids-mode .btn-amber { background: linear-gradient(135deg, #ec4899, #8b5cf6); box-shadow: 0 4px 0 #7c3aed; border-color: #f0abfc; }
+  body.kids-mode .question-card { border-radius: 28px; }
+  body.kids-mode .brand-pill { background: linear-gradient(135deg, #ec4899, #8b5cf6); box-shadow: 0 3px 0 #7c3aed; }
+
+  @media (max-width: 640px) {
+    .q-text { font-size: 0.95rem; }
+    .q-text .ar-q { font-size: 1.4rem; }
+    .question-card { padding: 18px; }
+    .option { font-size: 0.88rem; padding: 10px 12px; }
+    .top-controls { gap: 6px; }
+    .btn { font-size: 0.78rem; padding: 7px 12px; }
+    .brand-pill { font-size: 0.75rem; padding: 5px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- ===== Top controls ===== -->
+  <div class="top-controls">
+    <span class="brand-pill">🌳 <span class="ar-only">امتحان المدود</span><span class="en-only">Madd Exam</span></span>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn btn-outline" id="langBtn" onclick="toggleLang()">🇬🇧 EN</button>
+      <a class="btn btn-outline" href="../../index.html">
+        <span class="ar-only">🏠 الرئيسية</span><span class="en-only">🏠 Home</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- ===== Hero ===== -->
+  <header class="hero">
+    <div class="hero-icon" id="heroIcon">🌳</div>
+    <h1>
+      <span class="ar-only">امتحان أنواع المدود</span>
+      <span class="en-only">The Madd Types Exam</span>
+    </h1>
+    <p>
+      <span class="ar-only">امتحان شامل وممتع يضمن فهمك الكامل لجميع أنواع المدود — اختر نسختك وابدأ!</span>
+      <span class="en-only">A complete & fun exam that ensures full mastery of all Madd types — pick your version and start!</span>
+    </p>
+  </header>
+
+  <!-- ===== Mode selector ===== -->
+  <div class="mode-bar">
+    <button class="btn btn-outline active" id="modeKids" onclick="setMode('kids')">
+      👦 <span class="ar-only">نسخة الأطفال</span><span class="en-only">Kids Version</span>
+    </button>
+    <button class="btn btn-outline" id="modeAdults" onclick="setMode('adults')">
+      🎓 <span class="ar-only">نسخة الكبار</span><span class="en-only">Adults Version</span>
+    </button>
+    <button class="btn btn-amber" onclick="restartExam()">
+      🔄 <span class="ar-only">إعادة</span><span class="en-only">Restart</span>
+    </button>
+  </div>
+
+  <!-- ===== Progress ===== -->
+  <div class="progress-wrap">
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-label">
+      <span><span class="ar-only">التقدم</span><span class="en-only">Progress</span>: <span id="progText">0 / 0</span></span>
+      <span><span class="ar-only">النتيجة</span><span class="en-only">Score</span>: <span id="scoreText">0</span></span>
+    </div>
+  </div>
+
+  <!-- ===== Questions container ===== -->
+  <div id="questionsContainer"></div>
+
+  <!-- ===== Results ===== -->
+  <div class="results-card" id="resultsCard">
+    <div class="result-emoji" id="resultEmoji">🎉</div>
+    <div class="result-score"><span id="finalScore">0</span> / <span id="finalTotal">0</span></div>
+    <div class="result-msg" id="resultMsg"></div>
+    <div class="result-sub" id="resultSub"></div>
+    <div class="result-stats">
+      <div class="stat-box"><div class="stat-num" id="statCorrect">0</div><div class="stat-label"><span class="ar-only">صحيحة</span><span class="en-only">Correct</span></div></div>
+      <div class="stat-box"><div class="stat-num" id="statWrong">0</div><div class="stat-label"><span class="ar-only">خاطئة</span><span class="en-only">Wrong</span></div></div>
+      <div class="stat-box"><div class="stat-num" id="statPercent">0%</div><div class="stat-label"><span class="ar-only">النسبة</span><span class="en-only">Percent</span></div></div>
+    </div>
+    <div class="review-btn-wrap">
+      <button class="btn btn-amber" onclick="restartExam()">
+        🔄 <span class="ar-only">إعادة الامتحان</span><span class="en-only">Retake Exam</span>
+      </button>
+      <a class="btn btn-outline" href="../../index.html">
+        🏠 <span class="ar-only">الرئيسية</span><span class="en-only">Home</span>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ============================================================
+   STATE
+   ============================================================ */
+let lang = 'ar';
+let mode = 'kids';
+let questions = [];
+let answers = {};       // qIndex -> selected option index
+let currentScore = 0;
+
+/* ============================================================
+   QUESTION BANK
+   Kids: simpler wording, 14 questions
+   Adults: deeper wording, 22 questions
+   ============================================================ */
+const KIDS_QUESTIONS = [
+  {
+    ar: "ما هو المد الأصلي (الطبيعي)؟",
+    en: "What is Original (Natural) Madd?",
+    arQ: "آمَنُوا",
+    enQ: "آمَنُوا",
+    options: {
+      ar: ["نمدّه حركتين فقط", "نمدّه ٦ حركات", "نمدّه ٤ حركات", "لا نمدّه أبداً"],
+      en: ["Stretch 2 counts", "Stretch 6 counts", "Stretch 4 counts", "Never stretch it"]
+    },
+    correct: 0,
+    explain: {
+      ar: "المد الأصلي هو الأساس، نمدّه حركتين فقط بدون سبب.",
+      en: "Original Madd is the base — stretched exactly 2 counts, no extra reason."
+    }
+  },
+  {
+    ar: "كم نمدّ المد اللازم؟",
+    en: "How long is Madd Lazim stretched?",
+    arQ: "الضَّالِّينَ",
+    enQ: "الضَّالِّينَ",
+    options: {
+      ar: ["حركتان", "٤ حركات", "٦ حركات", "٣ حركات"],
+      en: ["2 counts", "4 counts", "6 counts", "3 counts"]
+    },
+    correct: 2,
+    explain: {
+      ar: "المد اللازم هو أطول المدود — ٦ حركات دائماً.",
+      en: "Madd Lazim is the longest — always 6 counts."
+    }
+  },
+  {
+    ar: "ما سبب المد المتصل؟",
+    en: "What causes Madd Muttasil?",
+    arQ: "السَّمَاءِ",
+    enQ: "السَّمَاءِ",
+    options: {
+      ar: ["همزة في نفس الكلمة", "همزة في كلمة أخرى", "سكون في نهاية الكلمة", "تنوين"],
+      en: ["Hamza in the same word", "Hamza in next word", "Sukoon at end", "Tanween"]
+    },
+    correct: 0,
+    explain: {
+      ar: "المتصل: حرف المد والهمزة في نفس الكلمة.",
+      en: "Muttasil: Madd letter + Hamza in the SAME word."
+    }
+  },
+  {
+    ar: "كم نمدّ المد المنفصل؟",
+    en: "How long is Madd Munfasil?",
+    arQ: "بِمَا أُنْزِلَ",
+    enQ: "بِمَا أُنْزِلَ",
+    options: {
+      ar: ["٦ حركات فقط", "٢ أو ٤ أو ٥ حركات", "٤ حركات فقط", "حركتان فقط"],
+      en: ["6 counts only", "2, 4, or 5 counts", "4 counts only", "2 counts only"]
+    },
+    correct: 1,
+    explain: {
+      ar: "المنفصل جائز: ٢ أو ٤ أو ٥ حركات.",
+      en: "Munfasil is allowed: 2, 4, or 5 counts."
+    }
+  },
+  {
+    ar: "ما هو المد العارض للسكون؟",
+    en: "What is Madd 'Aridh?",
+    arQ: "الرَّحْمَٰنِ",
+    enQ: "الرَّحْمَٰنِ",
+    options: {
+      ar: ["نقف على الكلمة فيصبح الحرف ساكناً", "همزة قبل المد", "حرف مشدد بعد المد", "تنوين الفتح"],
+      en: ["We stop on the word making last letter silent", "Hamza before Madd", "Doubled letter after Madd", "Fatha Tanween"]
+    },
+    correct: 0,
+    explain: {
+      ar: "العارض للسكون: نمدّه ٢ أو ٤ أو ٦ عند الوقف.",
+      en: "Aridh: stretched 2, 4, or 6 counts when stopping."
+    }
+  },
+  {
+    ar: "ما هو المد البدل؟",
+    en: "What is Madd Badal?",
+    arQ: "آمَنُوا",
+    enQ: "آمَنُوا",
+    options: {
+      ar: ["همزة قبل حرف المد في نفس الكلمة", "همزة بعد المد", "سكون بعد المد", "تنوين بعد المد"],
+      en: ["Hamza BEFORE Madd in same word", "Hamza after Madd", "Sukoon after Madd", "Tanween after Madd"]
+    },
+    correct: 0,
+    explain: {
+      ar: "البدل: الهمزة تتقدم على حرف المد، نمدّه حركتين.",
+      en: "Badal: Hamza comes before the Madd letter, stretched 2 counts."
+    }
+  },
+  {
+    ar: "كم نمدّ مد اللين؟",
+    en: "How long is Madd Lin?",
+    arQ: "خَوْفٌ",
+    enQ: "خَوْفٌ",
+    options: {
+      ar: ["حركتان فقط", "٦ حركات فقط", "٢ أو ٤ أو ٦", "٣ حركات"],
+      en: ["2 counts only", "6 counts only", "2, 4, or 6", "3 counts"]
+    },
+    correct: 2,
+    explain: {
+      ar: "اللين: ٢ أو ٤ أو ٦ عند الوقف على واو أو ياء ساكنة.",
+      en: "Lin: 2, 4, or 6 counts when stopping on silent Waw/Yaa."
+    }
+  },
+  {
+    ar: "ما هو المد اللازم الكلمي؟",
+    en: "What is Madd Lazim Kalimi?",
+    arQ: "آلْآنَ",
+    enQ: "آلْآنَ",
+    options: {
+      ar: ["في كلمة واحدة", "في حرفين", "في كلمتين", "في حروف فواتح السور"],
+      en: ["In one word", "In two letters", "In two words", "In opening letters of Surahs"]
+    },
+    correct: 0,
+    explain: {
+      ar: "الكلمي: المد والسكون في كلمة واحدة مثل آلْآنَ.",
+      en: "Kalimi: Madd + Sukoon within ONE word like آلْآنَ."
+    }
+  },
+  {
+    ar: "ما هو المد اللازم الحرفي؟",
+    en: "What is Madd Lazim Harfi?",
+    arQ: "الٓمٓ",
+    enQ: "الٓمٓ",
+    options: {
+      ar: ["في حروف فواتح السور", "في كلمة واحدة", "عند الوقف فقط", "في كلمتين"],
+      en: ["In opening letters of Surahs", "In one word", "Only when stopping", "In two words"]
+    },
+    correct: 0,
+    explain: {
+      ar: "الحرفي: في حروف فواتح السور مثل الٓمٓ.",
+      en: "Harfi: in the opening letters of Surahs like الٓمٓ."
+    }
+  },
+  {
+    ar: "كم نمدّ صلة صغرى؟",
+    en: "How long is Silah Sughra?",
+    arQ: "بِهِ وَالِدُهُ",
+    enQ: "بِهِ وَالِدُهُ",
+    options: {
+      ar: ["حركتان", "٤ حركات", "٦ حركات", "٥ حركات"],
+      en: ["2 counts", "4 counts", "6 counts", "5 counts"]
+    },
+    correct: 0,
+    explain: {
+      ar: "الصلة الصغرى: هاء الضمير بين متحركين، حركتان.",
+      en: "Silah Sughra: pronoun Ha between two vowels, 2 counts."
+    }
+  },
+  {
+    ar: "كم نمدّ صلة كبرى؟",
+    en: "How long is Silah Kubra?",
+    arQ: "بِهِ أَحَدًا",
+    enQ: "بِهِ أَحَدًا",
+    options: {
+      ar: ["حركتان", "٢ أو ٤ أو ٦", "٤ أو ٥ حركات", "٦ حركات"],
+      en: ["2 counts", "2, 4, or 6", "4 or 5 counts", "6 counts"]
+    },
+    correct: 2,
+    explain: {
+      ar: "الصلة الكبرى: هاء + همزة قطع، ٤ أو ٥ حركات.",
+      en: "Silah Kubra: Ha + Hamza, stretched 4 or 5 counts."
+    }
+  },
+  {
+    ar: "ما هو المد التمكين؟",
+    en: "What is Madd Tamkeen?",
+    arQ: "يُحْيِي",
+    enQ: "يُحْيِي",
+    options: {
+      ar: ["ياء بعدها ياء أو واو بعدها واو", "همزة قبل المد", "سكون بعد المد", "تنوين"],
+      en: ["Yaa after Yaa or Waw after Waw", "Hamza before Madd", "Sukoon after Madd", "Tanween"]
+    },
+    correct: 0,
+    explain: {
+      ar: "التمكين: حرف مدّ يتبعه حرف مماثل، نمدّه حركتين.",
+      en: "Tamkeen: a Madd letter followed by a similar letter, 2 counts."
+    }
+  },
+  {
+    ar: "ما هو مد العوض؟",
+    en: "What is Madd 'Iwad?",
+    arQ: "رَبًّا",
+    enQ: "رَبًّا",
+    options: {
+      ar: ["تعويض عن تنوين الفتح عند الوقف", "همزة قبل المد", "حرف مشدد", "ياء بعدها ياء"],
+      en: ["Compensating for Fatha Tanween when stopping", "Hamza before Madd", "Doubled letter", "Yaa after Yaa"]
+    },
+    correct: 0,
+    explain: {
+      ar: "العوض: نقف على تنوين الفتح فنمدّ الألف حركتين.",
+      en: "Iwad: stopping on Fatha Tanween, stretching Alif 2 counts."
+    }
+  },
+  {
+    ar: "أي مدّ يجب أن نمدّه ٦ حركات دائماً؟",
+    en: "Which Madd is ALWAYS 6 counts?",
+    arQ: "",
+    enQ: "",
+    options: {
+      ar: ["المد اللازم", "المد المنفصل", "المد العارض", "مد اللين"],
+      en: ["Madd Lazim", "Madd Munfasil", "Madd 'Aridh", "Madd Lin"]
+    },
+    correct: 0,
+    explain: {
+      ar: "المد اللازم هو الوحيد الذي يُمدّ ٦ حركات دائماً بلا استثناء.",
+      en: "Madd Lazim is the only one always stretched 6 counts without exception."
+    }
+  }
+];
+
+/* ============================================================
+   ADULTS QUESTIONS — correct answers randomized across A/B/C/D
+   ============================================================ */
+const ADULTS_QUESTIONS = [
+  {
+    ar: "ما تعريف المد الأصلي (الطبيعي)؟",
+    en: "Define Original (Natural) Madd.",
+    arQ: "نُوحِيهَا",
+    enQ: "نُوحِيهَا",
+    options: {
+      ar: ["مدّ عند الوقف فقط", "مدّ بسبب التنوين", "مدّ حرف المدّ دون سبب، بمقدار حركتين", "مدّ بسبب سكون أو همزة"],
+      en: ["Stretching only when stopping", "Stretching due to Tanween", "Stretching a Madd letter without cause, 2 counts", "Stretching due to Sukoon or Hamza"]
+    },
+    correct: 2,
+    explain: {
+      ar: "المد الأصلي: لا سبب له سوى وجود حرف المد، ويُمدّ حركتين ثابتتين.",
+      en: "Original Madd: no cause except the Madd letter itself, fixed at 2 counts."
+    }
+  },
+  {
+    ar: "ما الفرق الجوهري بين المد المتصل والمنفصل؟",
+    en: "What is the core difference between Muttasil and Munfasil?",
+    arQ: "السَّمَاءِ — بِمَا أُنْزِلَ",
+    enQ: "السَّمَاءِ — بِمَا أُنْزِلَ",
+    options: {
+      ar: ["المتصل: ٢ حركة، المنفصل: ٦ حركات", "المتصل: عند الوقف، المنفصل: دائماً", "لا فرق بينهما", "المتصل: الهمزة في نفس الكلمة، المنفصل: الهمزة في كلمة أخرى"],
+      en: ["Muttasil: 2 counts; Munfasil: 6 counts", "Muttasil: when stopping; Munfasil: always", "No difference", "Muttasil: Hamza in same word; Munfasil: Hamza in next word"]
+    },
+    correct: 3,
+    explain: {
+      ar: "المتصل: الهمزة في نفس الكلمة (واجب ٤–٥). المنفصل: الهمزة في كلمة تالية (جائز ٢–٤–٥).",
+      en: "Muttasil: Hamza same word (obligatory 4–5). Munfasil: Hamza next word (allowed 2–4–5)."
+    }
+  },
+  {
+    ar: "ما حكم المد المتصل؟",
+    en: "What is the ruling of Madd Muttasil?",
+    arQ: "",
+    enQ: "",
+    options: {
+      ar: ["حركتان فقط", "واجب بمقدار ٤ أو ٥ حركات", "جائز بمقدار ٢ أو ٤ أو ٦", "٦ حركات دائماً"],
+      en: ["2 counts only", "Obligatory, 4 or 5 counts", "Allowed, 2, 4, or 6 counts", "Always 6 counts"]
+    },
+    correct: 1,
+    explain: {
+      ar: "المتصل واجب: لا يجوز قصره عن ٤ حركات.",
+      en: "Muttasil is obligatory: it cannot be shortened below 4 counts."
+    }
+  },
+  {
+    ar: "ما سبب تسمية المد اللازم بهذا الاسم؟",
+    en: "Why is Madd Lazim called 'Lazim' (necessary)?",
+    arQ: "",
+    enQ: "",
+    options: {
+      ar: ["لأنه يلزم عند الوقف فقط", "لأنه يلزم في كلمة واحدة فقط", "لأنه يلزم في آخر السورة", "لأنه يلزم جميع القرّاء مدّه ٦ حركات"],
+      en: ["Because it is necessary only when stopping", "Because it is necessary in one word only", "Because it is necessary at end of Surah", "Because all reciters must stretch it 6 counts"]
+    },
+    correct: 3,
+    explain: {
+      ar: "سُمّي لازماً لأن جمعه القرّاء على مدّه ٦ حركات وجوباً.",
+      en: "Called Lazim because all reciters agree on stretching it 6 counts obligatorily."
+    }
+  },
+  {
+    ar: "ما أقسام المد اللازم الكلمي؟",
+    en: "What are the types of Madd Lazim Kalimi?",
+    arQ: "الضَّالِّينَ — آلْآنَ",
+    enQ: "الضَّالِّينَ — آلْآنَ",
+    options: {
+      ar: ["متصل ومنفصل", "عارض ولين", "مثقل ومخفف", "بدل وعوض"],
+      en: ["Muttasil and Munfasil", "'Aridh and Lin", "Muthaqqal and Mukhaffaf", "Badal and 'Iwad"]
+    },
+    correct: 2,
+    explain: {
+      ar: "الكلمي ينقسم إلى: مثقل (حرف مشدد) ومخفف (حرف ساكن أصلي).",
+      en: "Kalimi splits into: Muthaqqal (doubled) and Mukhaffaf (original Sukoon)."
+    }
+  },
+  {
+    ar: "ما أقسام المد اللازم الحرفي؟",
+    en: "What are the types of Madd Lazim Harfi?",
+    arQ: "الٓمٓ — الر",
+    enQ: "الٓمٓ — الر",
+    options: {
+      ar: ["متصل ومنفصل", "كلمي وحرفي", "بدل وعوض", "مثقل ومخفف"],
+      en: ["Muttasil and Munfasil", "Kalimi and Harfi", "Badal and 'Iwad", "Muthaqqal and Mukhaffaf"]
+    },
+    correct: 3,
+    explain: {
+      ar: "الحرفي أيضاً ينقسم إلى مثقل (الٓمٓ) ومخفف (الر).",
+      en: "Harfi also splits into Muthaqqal (الٓمٓ) and Mukhaffaf (الر)."
+    }
+  },
+  {
+    ar: "ما هو المد العارض للسكون؟",
+    en: "Define Madd 'Aridh.",
+    arQ: "الرَّحْمَٰنِ",
+    enQ: "الرَّحْمَٰنِ",
+    options: {
+      ar: ["مدّ بسبب سكون أصلي، ٦ حركات", "مدّ بسبب سكون عارض عند الوقف، ٢ أو ٤ أو ٦ حركات", "مدّ بسبب همزة قبل المد", "مدّ بسبب التنوين"],
+      en: ["Madd due to original Sukoon, 6 counts", "Madd due to temporary Sukoon when stopping, 2/4/6 counts", "Madd due to Hamza before Madd", "Madd due to Tanween"]
+    },
+    correct: 1,
+    explain: {
+      ar: "العارض للسكون: السكون عارض عند الوقف، فجاز مدّه ٢ أو ٤ أو ٦.",
+      en: "'Aridh: Sukoon is temporary when stopping, so stretching 2/4/6 is allowed."
+    }
+  },
+  {
+    ar: "ما الفرق بين المد البدل والمد العوض؟",
+    en: "What is the difference between Madd Badal and 'Iwad?",
+    arQ: "آمَنُوا — رَبًّا",
+    enQ: "آمَنُوا — رَبًّا",
+    options: {
+      ar: ["البدل: تنوين، العوض: همزة", "كلاهما ٦ حركات", "البدل: عند الوقف، العوض: دائماً", "البدل: همزة قبل المد، العوض: تعويض عن تنوين الفتح"],
+      en: ["Badal: Tanween; 'Iwad: Hamza", "Both are 6 counts", "Badal: when stopping; 'Iwad: always", "Badal: Hamza before Madd; 'Iwad: replacing Fatha Tanween"]
+    },
+    correct: 3,
+    explain: {
+      ar: "البدل: الهمزة قبل حرف المد. العوض: الألف عوض عن تنوين الفتح عند الوقف.",
+      en: "Badal: Hamza before Madd. 'Iwad: Alif replacing Fatha Tanween when stopping."
+    }
+  },
+  {
+    ar: "ما هو مد اللين وما شرطه؟",
+    en: "What is Madd Lin and its condition?",
+    arQ: "خَوْفٌ",
+    enQ: "خَوْفٌ",
+    options: {
+      ar: ["مدّ أي حرف مدّ عند الوقف", "مدّ الهمزة بعد حرف المدّ", "مدّ واو أو ياء ساكنة قبلها فتح، عند الوقف", "مدّ التنوين عند الوصل"],
+      en: ["Stretching any Madd letter when stopping", "Stretching Hamza after Madd", "Stretching silent Waw/Yaa preceded by Fatha, when stopping", "Stretching Tanween when connecting"]
+    },
+    correct: 2,
+    explain: {
+      ar: "اللين: واو أو ياء ساكنة قبلها فتح، ويُمدّ ٢ أو ٤ أو ٦ عند الوقف.",
+      en: "Lin: silent Waw/Yaa preceded by Fatha, stretched 2/4/6 when stopping."
+    }
+  },
+  {
+    ar: "ما هي الصلة الصغرى؟",
+    en: "What is Silah Sughra?",
+    arQ: "بِهِ وَالِدُهُ",
+    enQ: "بِهِ وَالِدُهُ",
+    options: {
+      ar: ["هاء الضمير بعدها همزة، تُمدّ ٤–٥", "هاء في أول الكلمة", "هاء ساكنة دائماً", "هاء الضمير بين متحركين، تُمدّ حركتين"],
+      en: ["Pronoun Ha followed by Hamza, 4–5 counts", "Ha at start of word", "Ha always silent", "Pronoun Ha between two vowels, 2 counts"]
+    },
+    correct: 3,
+    explain: {
+      ar: "الصلة الصغرى: هاء الضمير بين متحركين بدون همزة بعدها، حركتان.",
+      en: "Silah Sughra: pronoun Ha between two vowels without following Hamza, 2 counts."
+    }
+  },
+  {
+    ar: "ما هي الصلة الكبرى؟",
+    en: "What is Silah Kubra?",
+    arQ: "بِهِ أَحَدًا",
+    enQ: "بِهِ أَحَدًا",
+    options: {
+      ar: ["هاء الضمير بدون همزة، حركتان", "هاء الضمير بين متحركين بعدها همزة قطع، ٤ أو ٥ حركات", "هاء في أول الكلمة", "همزة بعد حرف مدّ"],
+      en: ["Pronoun Ha without Hamza, 2 counts", "Pronoun Ha between vowels followed by Hamza, 4 or 5 counts", "Ha at start of word", "Hamza after Madd letter"]
+    },
+    correct: 1,
+    explain: {
+      ar: "الصلة الكبرى: هاء + همزة قطع بعدها، تُمدّ ٤ أو ٥ عند الوصل.",
+      en: "Silah Kubra: Ha + following Hamza, stretched 4 or 5 counts when connecting."
+    }
+  },
+  {
+    ar: "ما هو المد التمكين؟",
+    en: "What is Madd Tamkeen?",
+    arQ: "يُحْيِي",
+    enQ: "يُحْيِي",
+    options: {
+      ar: ["مدّ بسبب الهمزة", "مدّ بسبب السكون", "مدّ حرف المدّ عند التقائه بحرف مماثل له، حركتان", "مدّ عند الوقف فقط"],
+      en: ["Madd due to Hamza", "Madd due to Sukoon", "Madd letter meeting a similar letter, 2 counts", "Madd only when stopping"]
+    },
+    correct: 2,
+    explain: {
+      ar: "التمكين: ياء بعدها ياء أو واو بعدها واو، يُمدّ حركتين لتقوية النطق.",
+      en: "Tamkeen: Yaa after Yaa or Waw after Waw, 2 counts to strengthen pronunciation."
+    }
+  },
+  {
+    ar: "أي المدود التالية يُمدّ ٦ حركات دائماً؟",
+    en: "Which of the following is ALWAYS stretched 6 counts?",
+    arQ: "",
+    enQ: "",
+    options: {
+      ar: ["المد المتصل", "المد المنفصل", "المد اللازم بشقيه (الكلمي والحرفي)", "المد العارض للسكون"],
+      en: ["Madd Muttasil", "Madd Munfasil", "Madd Lazim (both Kalimi and Harfi)", "Madd 'Aridh"]
+    },
+    correct: 2,
+    explain: {
+      ar: "المد اللازم هو الوحيد الذي يُمدّ ٦ حركات دائماً، سواء كلمي أو حرفي.",
+      en: "Madd Lazim is the only one always stretched 6 counts, whether Kalimi or Harfi."
+    }
+  },
+  {
+    ar: "ما حكم المد المنفصل؟",
+    en: "What is the ruling of Madd Munfasil?",
+    arQ: "",
+    enQ: "",
+    options: {
+      ar: ["جائز: ٢ أو ٤ أو ٥ حركات", "واجب: ٤ أو ٥ حركات", "٦ حركات دائماً", "حركتان فقط"],
+      en: ["Allowed: 2, 4, or 5 counts", "Obligatory: 4 or 5 counts", "Always 6 counts", "2 counts only"]
+    },
+    correct: 0,
+    explain: {
+      ar: "المنفصل جائز المدّ: ٢ أو ٤ أو ٥، حسب رواية القارئ.",
+      en: "Munfasil is allowed: 2, 4, or 5 counts depending on the recitation."
+    }
+  },
+  {
+    ar: "أي المدود التالية يُسمّى 'مدّ التعويض'؟",
+    en: "Which Madd is called 'Compensation Madd'?",
+    arQ: "رَبًّا",
+    enQ: "رَبًّا",
+    options: {
+      ar: ["مد البدل", "مد اللين", "مد العوض", "مد التمكين"],
+      en: ["Madd Badal", "Madd Lin", "Madd 'Iwad", "Madd Tamkeen"]
+    },
+    correct: 2,
+    explain: {
+      ar: "مد العوض يعوّض تنوين الفتح عند الوقف بالألف.",
+      en: "Madd 'Iwad compensates for Fatha Tanween when stopping with Alif."
+    }
+  },
+  {
+    ar: "ما هو المد الذي سببه همزة قبل حرف المدّ؟",
+    en: "Which Madd is caused by a Hamza BEFORE the Madd letter?",
+    arQ: "آمَنُوا",
+    enQ: "آمَنُوا",
+    options: {
+      ar: ["المد المتصل", "المد البدل", "المد المنفصل", "المد العارض"],
+      en: ["Madd Muttasil", "Madd Badal", "Madd Munfasil", "Madd 'Aridh"]
+    },
+    correct: 1,
+    explain: {
+      ar: "البدل: الهمزة قبل حرف المد، نمدّه حركتين.",
+      en: "Badal: Hamza before the Madd letter, stretched 2 counts."
+    }
+  },
+  {
+    ar: "أي العبارات التالية صحيحة عن المد المتصل؟",
+    en: "Which statement about Madd Muttasil is correct?",
+    arQ: "",
+    enQ: "",
+    options: {
+      ar: ["الهمزة في كلمة أخرى، جائز ٢–٤–٥", "سبب السكون عند الوقف", "حركتان فقط", "الهمزة في نفس الكلمة، واجب ٤ أو ٥ حركات"],
+      en: ["Hamza next word, allowed 2–4–5", "Caused by Sukoon when stopping", "2 counts only", "Hamza same word, obligatory 4 or 5 counts"]
+    },
+    correct: 3,
+    explain: {
+      ar: "المتصل: الهمزة في نفس الكلمة، واجب ٤ أو ٥ حركات.",
+      en: "Muttasil: Hamza same word, obligatory 4 or 5 counts."
+    }
+  },
+  {
+    ar: "ما هو الفرق بين المد اللازم الكلمي والحرفي؟",
+    en: "Difference between Madd Lazim Kalimi and Harfi?",
+    arQ: "",
+    enQ: "",
+    options: {
+      ar: ["الكلمي ٦ حركات، الحرفي ٢ حركات", "الكلمي مثقل فقط، الحرفي مخفف فقط", "الكلمي في كلمة واحدة، الحرفي في حروف فواتح السور", "لا فرق بينهما"],
+      en: ["Kalimi 6 counts; Harfi 2 counts", "Kalimi Muthaqqal only; Harfi Mukhaffaf only", "Kalimi in one word; Harfi in opening letters of Surahs", "No difference"]
+    },
+    correct: 2,
+    explain: {
+      ar: "الكلمي: داخل كلمة واحدة. الحرفي: في حروف فواتح السور. كلاهما ٦ حركات.",
+      en: "Kalimi: within one word. Harfi: in opening letters of Surahs. Both 6 counts."
+    }
+  },
+  {
+    ar: "أي مدّ يُمدّ حركتين بسبب وجود حرف مدّ يليه حرف مماثل؟",
+    en: "Which Madd is stretched 2 counts because a Madd letter is followed by a similar letter?",
+    arQ: "يُحْيِي",
+    enQ: "يُحْيِي",
+    options: {
+      ar: ["مد البدل", "مد العوض", "المد المتصل", "مد التمكين"],
+      en: ["Madd Badal", "Madd 'Iwad", "Madd Muttasil", "Madd Tamkeen"]
+    },
+    correct: 3,
+    explain: {
+      ar: "التمكين: لتقوية نطق الحرف المماثل، حركتان.",
+      en: "Tamkeen: to strengthen pronunciation of the similar letter, 2 counts."
+    }
+  },
+  {
+    ar: "ما حكم مد الصلة الكبرى؟",
+    en: "What is the ruling of Silah Kubra?",
+    arQ: "بِهِ أَحَدًا",
+    enQ: "بِهِ أَحَدًا",
+    options: {
+      ar: ["حركتان دائماً", "٤ أو ٥ حركات عند الوصل", "٦ حركات دائماً", "٢ أو ٤ أو ٦"],
+      en: ["Always 2 counts", "4 or 5 counts when connecting", "Always 6 counts", "2, 4, or 6"]
+    },
+    correct: 1,
+    explain: {
+      ar: "الصلة الكبرى: تُمدّ ٤ أو ٥ عند الوصل، وترجع لحركتين عند الوقف على الهاء.",
+      en: "Silah Kubra: 4 or 5 counts when connecting; returns to 2 when stopping on Ha."
+    }
+  }
+];
+
+/* ============================================================
+   BUILD EXAM
+   ============================================================ */
+function buildExam() {
+  questions = (mode === 'kids') ? KIDS_QUESTIONS : ADULTS_QUESTIONS;
+  answers = {};
+  currentScore = 0;
+  renderQuestions();
+  updateProgress();
+  document.getElementById('resultsCard').classList.remove('show');
+  document.body.classList.toggle('kids-mode', mode === 'kids');
+}
+
+function renderQuestions() {
+  const container = document.getElementById('questionsContainer');
+  container.innerHTML = '';
+
+  questions.forEach((q, i) => {
+    const card = document.createElement('div');
+    card.className = 'question-card';
+    card.id = `qcard-${i}`;
+
+    const questionText = lang === 'ar' ? q.ar : q.en;
+    const arabicQ = lang === 'ar' ? q.arQ : q.enQ;
+    const opts = lang === 'ar' ? q.options.ar : q.options.en;
+
+    let optionsHtml = '';
+    const letters = ['A', 'B', 'C', 'D'];
+    opts.forEach((opt, oi) => {
+      optionsHtml += `
+        <div class="option" id="opt-${i}-${oi}" onclick="selectOption(${i}, ${oi})">
+          <span class="letter">${letters[oi]}</span>
+          <span>${opt}</span>
+          <span class="mark" id="mark-${i}-${oi}"></span>
+        </div>
+      `;
+    });
+
+    card.innerHTML = `
+      <div class="q-head">
+        <div class="q-num">${i + 1}</div>
+        <div class="q-text">
+          ${questionText}
+          ${arabicQ ? `<span class="ar-q">${arabicQ}</span>` : ''}
+        </div>
+      </div>
+      <div class="options">${optionsHtml}</div>
+      <div class="feedback" id="feedback-${i}"></div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+/* ============================================================
+   ANSWER SELECTION
+   ============================================================ */
+function selectOption(qIndex, optIndex) {
+  if (answers.hasOwnProperty(qIndex)) return; // already answered
+
+  const q = questions[qIndex];
+  answers[qIndex] = optIndex;
+
+  const letters = ['A', 'B', 'C', 'D'];
+  const correctIdx = q.correct;
+  const isCorrect = optIndex === correctIdx;
+
+  // Disable all options in this question
+  const opts = document.querySelectorAll(`[id^="opt-${qIndex}-"]`);
+  opts.forEach(o => o.classList.add('disabled'));
+
+  // Mark selected
+  const selectedEl = document.getElementById(`opt-${qIndex}-${optIndex}`);
+  selectedEl.classList.add(isCorrect ? 'correct' : 'wrong');
+
+  // Show correct answer if wrong
+  if (!isCorrect) {
+    const correctEl = document.getElementById(`opt-${qIndex}-${correctIdx}`);
+    correctEl.classList.add('correct');
+  }
+
+  // Marks
+  document.getElementById(`mark-${qIndex}-${optIndex}`).textContent = isCorrect ? '✓' : '✗';
+  if (!isCorrect) {
+    document.getElementById(`mark-${qIndex}-${correctIdx}`).textContent = '✓';
+  }
+
+  // Card color
+  const card = document.getElementById(`qcard-${qIndex}`);
+  card.classList.add(isCorrect ? 'answered-correct' : 'answered-wrong');
+
+  // Feedback
+  const fb = document.getElementById(`feedback-${qIndex}`);
+  fb.className = 'feedback show ' + (isCorrect ? 'ok' : 'no');
+  const explain = lang === 'ar' ? q.explain.ar : q.explain.en;
+  const correctText = lang === 'ar' ? q.options.ar[correctIdx] : q.options.en[correctIdx];
+  fb.innerHTML = isCorrect
+    ? `✅ ${explain}`
+    : `❌ ${lang === 'ar' ? 'الإجابة الصحيحة:' : 'Correct answer:'} <strong>${correctText}</strong><br>${explain}`;
+
+  if (isCorrect) currentScore++;
+
+  updateProgress();
+  checkCompletion();
+}
+
+/* ============================================================
+   PROGRESS & COMPLETION
+   ============================================================ */
+function updateProgress() {
+  const total = questions.length;
+  const answered = Object.keys(answers).length;
+  const pct = total ? (answered / total) * 100 : 0;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progText').textContent = `${answered} / ${total}`;
+  document.getElementById('scoreText').textContent = currentScore;
+}
+
+function checkCompletion() {
+  if (Object.keys(answers).length === questions.length) {
+    setTimeout(showResults, 600);
+  }
+}
+
+function showResults() {
+  const total = questions.length;
+  const correct = currentScore;
+  const wrong = total - correct;
+  const pct = Math.round((correct / total) * 100);
+
+  document.getElementById('finalScore').textContent = correct;
+  document.getElementById('finalTotal').textContent = total;
+  document.getElementById('statCorrect').textContent = correct;
+  document.getElementById('statWrong').textContent = wrong;
+  document.getElementById('statPercent').textContent = pct + '%';
+
+  let emoji, msg, sub;
+  if (pct === 100) {
+    emoji = '🏆';
+    msg = lang === 'ar' ? 'ممتاز! علامة كاملة!' : 'Perfect score! Outstanding!';
+    sub = lang === 'ar' ? 'أنت تتقن أنواع المدود تماماً. ما شاء الله!' : 'You have fully mastered Madd types. Amazing!';
+  } else if (pct >= 80) {
+    emoji = '🎉';
+    msg = lang === 'ar' ? 'أداء رائع!' : 'Great job!';
+    sub = lang === 'ar' ? 'فهمك للمدود قوي جداً، راجع الأخطاء البسيطة.' : 'Your understanding is strong — review the few mistakes.';
+  } else if (pct >= 60) {
+    emoji = '👍';
+    msg = lang === 'ar' ? 'جيد، لكن يمكنك التحسن!' : 'Good, but you can improve!';
+    sub = lang === 'ar' ? 'راجع شجرة المدود ثم أعد المحاولة.' : 'Review the Madd tree and try again.';
+  } else {
+    emoji = '📚';
+    msg = lang === 'ar' ? 'تحتاج مراجعة أكثر' : 'More review needed';
+    sub = lang === 'ar' ? 'لا بأس! ادرس شجرة المدود جيداً ثم أعد الامتحان.' : 'No worries! Study the Madd tree well and retake the exam.';
+  }
+
+  document.getElementById('resultEmoji').textContent = emoji;
+  document.getElementById('resultMsg').textContent = msg;
+  document.getElementById('resultSub').textContent = sub;
+
+  const card = document.getElementById('resultsCard');
+  card.classList.add('show');
+  card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* ============================================================
+   MODE & LANGUAGE
+   ============================================================ */
+function setMode(m) {
+  mode = m;
+  document.getElementById('modeKids').classList.toggle('active', m === 'kids');
+  document.getElementById('modeAdults').classList.toggle('active', m === 'adults');
+  restartExam();
+}
+
+function restartExam() {
+  buildExam();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleLang() {
+  lang = (lang === 'ar') ? 'en' : 'ar';
+  const html = document.getElementById('htmlRoot');
+  html.lang = lang;
+  html.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  document.getElementById('langBtn').textContent = lang === 'ar' ? '🇬🇧 EN' : '🇪🇬 عربي';
+  try { localStorage.setItem('preferredLangMaddExam', lang); } catch(e) {}
+  renderQuestions();
+  // Re-apply answered state
+  Object.keys(answers).forEach(qi => {
+    const qiNum = parseInt(qi);
+    const optIdx = answers[qiNum];
+    applyAnsweredState(qiNum, optIdx);
+  });
+  if (Object.keys(answers).length === questions.length) {
+    showResults();
+  }
+}
+
+function applyAnsweredState(qIndex, optIndex) {
+  const q = questions[qIndex];
+  const correctIdx = q.correct;
+  const isCorrect = optIndex === correctIdx;
+  const opts = document.querySelectorAll(`[id^="opt-${qIndex}-"]`);
+  opts.forEach(o => o.classList.add('disabled'));
+  document.getElementById(`opt-${qIndex}-${optIndex}`).classList.add(isCorrect ? 'correct' : 'wrong');
+  if (!isCorrect) {
+    document.getElementById(`opt-${qIndex}-${correctIdx}`).classList.add('correct');
+  }
+  document.getElementById(`mark-${qIndex}-${optIndex}`).textContent = isCorrect ? '✓' : '✗';
+  if (!isCorrect) {
+    document.getElementById(`mark-${qIndex}-${correctIdx}`).textContent = '✓';
+  }
+  const card = document.getElementById(`qcard-${qIndex}`);
+  card.classList.add(isCorrect ? 'answered-correct' : 'answered-wrong');
+  const fb = document.getElementById(`feedback-${qIndex}`);
+  fb.className = 'feedback show ' + (isCorrect ? 'ok' : 'no');
+  const explain = lang === 'ar' ? q.explain.ar : q.explain.en;
+  const correctText = lang === 'ar' ? q.options.ar[correctIdx] : q.options.en[correctIdx];
+  fb.innerHTML = isCorrect
+    ? `✅ ${explain}`
+    : `❌ ${lang === 'ar' ? 'الإجابة الصحيحة:' : 'Correct answer:'} <strong>${correctText}</strong><br>${explain}`;
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+try {
+  const savedLang = localStorage.getItem('preferredLangMaddExam');
+  if (savedLang === 'en') {
+    lang = 'en';
+    const html = document.getElementById('htmlRoot');
+    html.lang = 'en';
+    html.dir = 'ltr';
+    document.getElementById('langBtn').textContent = '🇪🇬 عربي';
+  }
+} catch(e) {}
+
+buildExam();
+</script>
+
+</body>
+</html>

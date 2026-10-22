@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlRoot">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>شجرة المدود الممتعة | Fun Madd Tree</title>
+<link rel="icon" type="image/png" href="../../images/quran.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Poppins:wght@400;500;700;900&family=Amiri:wght@400;700&family=Baloo+Bhaijaan+2:wght@400;600;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+  :root {
+    --bg: #fffbeb;
+    --line: #d97706;
+    --ink: #1e293b;
+  }
+
+  html[lang="ar"] body { font-family: 'Tajawal', sans-serif; }
+  html[lang="en"] body { font-family: 'Poppins', sans-serif; }
+  .font-kid { font-family: 'Baloo Bhaijaan 2', 'Tajawal', cursive; }
+  .font-ar  { font-family: 'Amiri', serif; }
+
+  body {
+    background-color: var(--bg);
+    background-image: radial-gradient(#fde68a 2px, transparent 2px);
+    background-size: 24px 24px;
+    color: var(--ink);
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow: auto; 
+  }
+
+  html[lang="ar"] .en-only { display: none !important; }
+  html[lang="en"] .ar-only { display: none !important; }
+  html[lang="en"] .font-ar { font-family: 'Poppins', sans-serif; }
+
+  ::-webkit-scrollbar { width: 12px; height: 12px; }
+  ::-webkit-scrollbar-track { background: #fef3c7; }
+  ::-webkit-scrollbar-thumb { background: #fbbf24; border-radius: 6px; border: 2px solid #fef3c7; }
+  ::-webkit-scrollbar-thumb:hover { background: #f59e0b; }
+
+  /* Fixed Top Bar */
+  .top-bar {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    z-index: 999;
+    pointer-events: none;
+  }
+  .top-bar > div { pointer-events: auto; }
+
+  .lang-toggle {
+    background: white;
+    border: 3px solid #fcd34d;
+    border-radius: 999px;
+    padding: 4px;
+    display: flex;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  }
+  .lang-btn {
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-weight: 900;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .lang-btn.active { background: #fbbf24; color: white; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+  .lang-btn:not(.active) { color: #64748b; }
+
+  .zoom-controls {
+    background: white;
+    border: 3px solid #fcd34d;
+    border-radius: 20px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  }
+  .zoom-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: #fef3c7;
+    color: #854d0e;
+    font-size: 1.5rem;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.1s;
+    border: 2px solid transparent;
+  }
+  .zoom-btn:hover { background: #fde68a; border-color: #fcd34d; }
+  .zoom-btn:active { transform: scale(0.9); }
+
+  /* Back Home Button */
+  .back-home-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: white;
+    border: 3px solid #fcd34d;
+    color: #b45309;
+    font-weight: 900;
+    font-size: 0.9rem;
+    padding: 8px 20px;
+    border-radius: 999px;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    transition: all 0.2s;
+  }
+  .back-home-btn:hover {
+    background: #fef3c7;
+    border-color: #f59e0b;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+  }
+  .back-home-btn:active { transform: translateY(0); }
+
+  /* Zoomable Wrapper */
+  #zoomWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 100%;
+    min-height: 100vh;
+    transform-origin: top center;
+    transition: transform 0.2s ease-out;
+    padding-bottom: 50px;
+  }
+
+  /* Top-Down Tree Container */
+  .tree-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 10px;
+  }
+
+  /* Base Node Styles */
+  .node {
+    border-radius: 20px;
+    padding: 10px 15px;
+    text-align: center;
+    font-weight: 900;
+    box-shadow: 0 6px 0 rgba(0,0,0,0.1), 0 4px 8px rgba(0,0,0,0.05);
+    position: relative;
+    z-index: 10;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 3px solid rgba(255,255,255,0.6);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .clickable-card { cursor: pointer; }
+  .clickable-card:hover { 
+    transform: translateY(-5px) scale(1.05); 
+    box-shadow: 0 10px 0 rgba(0,0,0,0.1), 0 8px 15px rgba(0,0,0,0.15);
+  }
+
+  .node-root {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: white;
+    border-radius: 40px;
+    padding: 15px 40px;
+    font-size: 2rem;
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.5), 0 8px 0 #b45309;
+  }
+
+  .node-l1 {
+    background: linear-gradient(135deg, #60a5fa, #3b82f6);
+    color: white;
+    font-size: 1.2rem;
+    min-width: 180px;
+    border-bottom: 5px solid #1d4ed8;
+  }
+
+  .node-l2 {
+    color: white;
+    font-size: 1.1rem;
+    min-width: 130px;
+    padding: 8px 12px;
+    border-bottom: 5px solid rgba(0,0,0,0.2);
+  }
+  .bg-red { background: linear-gradient(135deg, #ef4444, #dc2626); }
+  .bg-brown { background: linear-gradient(135deg, #92400e, #78350f); }
+
+  .node-l3 {
+    font-size: 1rem;
+    min-width: 110px;
+    padding: 8px 10px;
+    border-bottom: 5px solid rgba(0,0,0,0.15);
+    border-radius: 16px;
+  }
+  .bg-blue { background: linear-gradient(135deg, #93c5fd, #60a5fa); color: white; }
+  .bg-green { background: linear-gradient(135deg, #34d399, #10b981); color: white; }
+  .bg-yellow { background: linear-gradient(135deg, #fde047, #facc15); color: #854d0e; }
+
+  .node-l4 {
+    font-size: 0.85rem;
+    min-width: 80px;
+    padding: 6px 8px;
+    border-radius: 12px;
+    border-bottom: 3px solid rgba(0,0,0,0.1);
+  }
+  .bg-purple { background: linear-gradient(135deg, #a78bfa, #8b5cf6); color: white; }
+  .bg-light-green { background: linear-gradient(135deg, #a3e635, #84cc16); color: #365314; }
+
+  .explanation {
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-top: 4px;
+    background: rgba(255,255,255,0.9);
+    padding: 2px 8px;
+    border-radius: 10px;
+    color: #475569;
+    border: 1px dashed #cbd5e1;
+    text-align: center;
+    max-width: 140px;
+  }
+
+  .count-badge {
+    font-size: 0.8rem;
+    font-weight: 900;
+    margin-top: 6px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border: 2px solid white;
+  }
+  .badge-blue { background: #3b82f6; color: white; }
+  .badge-green { background: #10b981; color: white; }
+  .badge-yellow { background: #f59e0b; color: white; }
+  .badge-purple { background: #8b5cf6; color: white; }
+  .badge-lime { background: #84cc16; color: #1a2e05; }
+
+  .example-box {
+    background: white;
+    border: 3px solid #fcd34d;
+    border-radius: 12px;
+    padding: 4px 10px;
+    margin-top: 6px;
+    font-family: 'Amiri', serif;
+    font-size: 1.2rem;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 0 #f59e0b;
+    white-space: nowrap;
+  }
+  html[lang="en"] .example-box { font-family: 'Poppins', sans-serif; font-size: 1rem;}
+
+  .connector-v {
+    width: 4px;
+    background: var(--line);
+    margin: 0 auto;
+    border-radius: 2px;
+  }
+
+  .tree-branch {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10px;
+    position: relative;
+    width: 100%;
+    padding-top: 20px;
+  }
+
+  .tree-branch::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 4px;
+    background: var(--line);
+    border-radius: 2px;
+    z-index: 0;
+  }
+
+  .tree-branch > .branch-col {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .tree-branch > .branch-col::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    width: 4px;
+    height: 20px;
+    background: var(--line);
+    transform: translateX(-50%);
+    border-radius: 2px;
+  }
+
+  /* Modal Overlay */
+  .modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    overflow-y: auto;
+    padding: 2rem 1rem;
+  }
+  .modal-overlay.active { opacity: 1; pointer-events: auto; }
+  
+  .modal-content {
+    background: white;
+    border-radius: 30px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 800px;
+    position: relative;
+    transform: translateY(20px) scale(0.95);
+    transition: transform 0.3s ease;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    border: 6px solid #fcd34d;
+    margin: auto;
+  }
+  .modal-overlay.active .modal-content { transform: translateY(0) scale(1); }
+  
+  .close-btn {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: #ef4444;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #b91c1c;
+    transition: all 0.1s;
+    z-index: 20;
+  }
+  .close-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 #b91c1c; }
+
+  @media (max-width: 1024px) {
+    .tree-branch { flex-wrap: wrap; gap: 20px; }
+    .tree-branch::before { display: none; }
+    .tree-branch > .branch-col::before { display: none; }
+    .tree-branch > .branch-col { margin-top: 10px; }
+    .connector-v { height: 15px !important; }
+    .node-l1 { min-width: 140px; font-size: 1rem; }
+    .node-l2 { min-width: 110px; font-size: 0.9rem; }
+    .node-l3 { min-width: 90px; font-size: 0.85rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Top Bar (Fixed) -->
+<div class="top-bar">
+  <div class="lang-toggle">
+    <div class="lang-btn active" id="btnAr" onclick="setLang('ar')">🇪🇬 عربي</div>
+    <div class="lang-btn" id="btnEn" onclick="setLang('en')">🇬🇧 English</div>
+  </div>
+
+  <div class="zoom-controls">
+    <div class="zoom-btn" onclick="zoomIn()" title="Zoom In">+</div>
+    <div class="zoom-btn" onclick="zoomOut()" title="Zoom Out">−</div>
+    <div class="zoom-btn" onclick="resetZoom()" title="Reset" style="font-size: 1.2rem;">↺</div>
+  </div>
+</div>
+
+<!-- Zoomable Wrapper -->
+<div id="zoomWrapper">
+
+  <!-- Header -->
+  <header class="text-center pt-24 pb-2 px-4 w-full">
+    <div class="inline-block bg-white border-4 border-amber-300 text-amber-600 font-bold px-4 py-2 rounded-full text-sm mb-2 shadow-lg">
+      <span class="ar-only">🌟 هيا نتعلم المدود!</span>
+      <span class="en-only">🌟 Let's Learn Madd!</span>
+    </div>
+    <h1 class="text-4xl sm:text-5xl font-black text-amber-500 mb-2 font-kid drop-shadow-md">
+      <span class="ar-only">شجرة المدود</span>
+      <span class="en-only">The Madd Tree</span>
+    </h1>
+    <p class="text-slate-600 max-w-2xl mx-auto mb-2 text-sm font-bold">
+      <span class="ar-only">اضغط على أي بطاقة لقراءة التفاصيل!</span>
+      <span class="en-only">Click any card to read the details!</span>
+    </p>
+
+    <!-- Back Home Button -->
+    <div class="mt-4 mb-2">
+      <a href="../Tajweed-lessons/tajweed-lessons.html" class="back-home-btn">
+        <span class="en-only">← Back to home</span>
+        <span class="ar-only">العودة للرئيسية →</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- VERTICAL TREE DIAGRAM -->
+  <div class="tree-container">
+
+    <!-- Level 0: Root -->
+    <div class="node node-root font-kid mb-1">
+      <span class="text-2xl mb-1">🌳</span>
+      <span class="ar-only">المدود</span>
+      <span class="en-only">Madd</span>
+    </div>
+    <div class="connector-v h-6"></div>
+
+    <!-- Level 1: Main Branches -->
+    <div class="tree-branch">
+      
+      <!-- Right Branch: Asli -->
+      <div class="branch-col">
+        <div class="node node-l1">
+          <span class="text-xl mb-1">🌱</span>
+          <span class="ar-only">مد أصلي</span>
+          <span class="en-only">Original Madd</span>
+        </div>
+        <div class="explanation">
+          <span class="ar-only">نمدّه حركتين فقط</span>
+          <span class="en-only">Stretch 2 counts</span>
+        </div>
+        <div class="connector-v h-6"></div>
+
+        <div class="tree-branch">
+          <!-- 1 -->
+          <div class="branch-col">
+            <div class="node node-l2 bg-yellow clickable-card" onclick="openModal('tamkeen')">
+              <span class="text-lg mb-1">📌</span>
+              <span class="ar-only">التمكين</span>
+              <span class="en-only">Tamkeen</span>
+            </div>
+            <div class="explanation">
+              <span class="ar-only">ياء بعدها ياء أو واو بعدها واو</span>
+              <span class="en-only">Yaa after Yaa, or Waw after Waw</span>
+            </div>
+            <div class="count-badge badge-yellow">
+              <span>⏱️</span> <span class="ar-only">حركتان</span><span class="en-only">2 Counts</span>
+            </div>
+            <div class="example-box">يُحْيِي</div>
+          </div>
+
+          <!-- 2 -->
+          <div class="branch-col">
+            <div class="node node-l2 bg-yellow clickable-card" onclick="openModal('badal')">
+              <span class="text-lg mb-1">🔄</span>
+              <span class="ar-only">البدل</span>
+              <span class="en-only">Badal</span>
+            </div>
+            <div class="explanation">
+              <span class="ar-only">الهمزة قبل المد</span>
+              <span class="en-only">Hamza before Madd</span>
+            </div>
+            <div class="count-badge badge-yellow">
+              <span>⏱️</span> <span class="ar-only">حركتان</span><span class="en-only">2 Counts</span>
+            </div>
+            <div class="example-box">آمَنُوا</div>
+          </div>
+
+          <!-- 3 -->
+          <div class="branch-col">
+            <div class="node node-l2 bg-yellow clickable-card" onclick="openModal('iwad')">
+              <span class="text-lg mb-1">🎁</span>
+              <span class="ar-only">العوض</span>
+              <span class="en-only">'Iwad</span>
+            </div>
+            <div class="explanation">
+              <span class="ar-only">تعويض عن التنوين</span>
+              <span class="en-only">For Tanween</span>
+            </div>
+            <div class="count-badge badge-yellow">
+              <span>⏱️</span> <span class="ar-only">حركتان</span><span class="en-only">2 Counts</span>
+            </div>
+            <div class="example-box">رَبًّا</div>
+          </div>
+
+          <!-- 4 -->
+          <div class="branch-col">
+            <div class="node node-l2 bg-yellow clickable-card" onclick="openModal('silah-sughra')">
+              <span class="text-lg mb-1">💕</span>
+              <span class="ar-only">صلة صغرى</span>
+              <span class="en-only">Silah Sughra</span>
+            </div>
+            <div class="explanation">
+              <span class="ar-only">هاء الضمير بين متحركين</span>
+              <span class="en-only">Ha between vowels</span>
+            </div>
+            <div class="count-badge badge-yellow">
+              <span>⏱️</span> <span class="ar-only">حركتان</span><span class="en-only">2 Counts</span>
+            </div>
+            <div class="example-box">بِهِ وَالِدُهُ</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Left Branch: Far'i -->
+      <div class="branch-col">
+        <div class="node node-l1">
+          <span class="text-xl mb-1">🌿</span>
+          <span class="ar-only">مد فرعي</span>
+          <span class="en-only">Secondary Madd</span>
+        </div>
+        <div class="connector-v h-6"></div>
+
+        <div class="tree-branch">
+          
+          <!-- Cause: Sukoon -->
+          <div class="branch-col">
+            <div class="node node-l2 bg-red">
+              <span class="text-lg mb-1">⏸️</span>
+              <span class="ar-only">سببه سكون</span>
+              <span class="en-only">Cause: Sukoon</span>
+            </div>
+            <div class="explanation">
+              <span class="ar-only">نتوقف عنده فجأة</span>
+              <span class="en-only">We stop suddenly here</span>
+            </div>
+            <div class="connector-v h-5"></div>
+            
+            <div class="tree-branch">
+              <!-- Lazim -->
+              <div class="branch-col">
+                <div class="node node-l3 bg-blue clickable-card" onclick="openModal('lazim')">
+                  <span class="text-lg mb-1">🔒</span>
+                  <span class="ar-only">لازم</span>
+                  <span class="en-only">Lazim</span>
+                </div>
+                <div class="explanation">
+                  <span class="ar-only">نمدّه طويلاً جداً</span>
+                  <span class="en-only">Stretch very long</span>
+                </div>
+                <div class="count-badge badge-blue">
+                  <span>⏱️</span> <span class="ar-only">٦ حركات</span><span class="en-only">6 Counts</span>
+                </div>
+                <div class="example-box">الضَّالِّينَ</div>
+                
+                <!-- Sub-types of Lazim: now clickable cards -->
+                <div class="connector-v h-3 mt-1"></div>
+                <div class="flex gap-1 mt-1">
+                  <div class="node node-l4 bg-purple clickable-card" onclick="openModal('kalimi')">
+                    <span class="ar-only">كلمي</span>
+                    <span class="en-only">Kalimi</span>
+                  </div>
+                  <div class="node node-l4 bg-light-green clickable-card" onclick="openModal('harfi')">
+                    <span class="ar-only">حرفي</span>
+                    <span class="en-only">Harfi</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Aridh -->
+              <div class="branch-col">
+                <div class="node node-l3 bg-blue clickable-card" onclick="openModal('aridh')">
+                  <span class="text-lg mb-1">⏱️</span>
+                  <span class="ar-only">العارض للسكون</span>
+                  <span class="en-only">'Aridh</span>
+                </div>
+                <div class="explanation">
+                  <span class="ar-only">نقف في نهاية الكلمة</span>
+                  <span class="en-only">Stop at the end</span>
+                </div>
+                <div class="count-badge badge-blue">
+                  <span>⏱️</span> <span class="ar-only">٢ أو ٤ أو ٦</span><span class="en-only">2, 4, or 6</span>
+                </div>
+                <div class="example-box">الرَّحْمَٰنِ</div>
+              </div>
+
+              <!-- Lin -->
+              <div class="branch-col">
+                <div class="node node-l3 bg-blue clickable-card" onclick="openModal('lin')">
+                  <span class="text-lg mb-1">🍃</span>
+                  <span class="ar-only">لين</span>
+                  <span class="en-only">Lin</span>
+                </div>
+                <div class="explanation">
+                  <span class="ar-only">صوت ناعم (و أو ي)</span>
+                  <span class="en-only">Soft sound</span>
+                </div>
+                <div class="count-badge badge-blue">
+                  <span>⏱️</span> <span class="ar-only">٢ أو ٤ أو ٦</span><span class="en-only">2, 4, or 6</span>
+                </div>
+                <div class="example-box">خَوْفٌ</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cause: Hamza -->
+          <div class="branch-col">
+            <div class="node node-l2 bg-brown">
+              <span class="text-lg mb-1">🔊</span>
+              <span class="ar-only">سببه همزة</span>
+              <span class="en-only">Cause: Hamza</span>
+            </div>
+            <div class="explanation">
+              <span class="ar-only">حرف (أ) يجعلنا نمد</span>
+              <span class="en-only">Letter (A) makes us stretch</span>
+            </div>
+            <div class="connector-v h-5"></div>
+            
+            <div class="tree-branch">
+              <!-- Muttasil -->
+              <div class="branch-col">
+                <div class="node node-l3 bg-green clickable-card" onclick="openModal('muttasil')">
+                  <span class="text-lg mb-1">🔗</span>
+                  <span class="ar-only">المتصل</span>
+                  <span class="en-only">Muttasil</span>
+                </div>
+                <div class="explanation">
+                  <span class="ar-only">الهمزة في نفس الكلمة</span>
+                  <span class="en-only">Same word</span>
+                </div>
+                <div class="count-badge badge-green">
+                  <span>⏱️</span> <span class="ar-only">٤ أو ٥ حركات</span><span class="en-only">4 or 5 Counts</span>
+                </div>
+                <div class="example-box">السَّمَاءِ</div>
+              </div>
+
+              <!-- Munfasil -->
+              <div class="branch-col">
+                <div class="node node-l3 bg-green clickable-card" onclick="openModal('munfasil')">
+                  <span class="text-lg mb-1">↔️</span>
+                  <span class="ar-only">المنفصل</span>
+                  <span class="en-only">Munfasil</span>
+                </div>
+                <div class="explanation">
+                  <span class="ar-only">الهمزة في كلمة أخرى</span>
+                  <span class="en-only">Next word</span>
+                </div>
+                <div class="count-badge badge-green">
+                  <span>⏱️</span> <span class="ar-only">٢ أو ٤ أو ٥</span><span class="en-only">2, 4, or 5</span>
+                </div>
+                <div class="example-box">بِمَا أُنْزِلَ</div>
+              </div>
+
+              <!-- Silah Kubra -->
+              <div class="branch-col">
+                <div class="node node-l3 bg-green clickable-card" onclick="openModal('silah-kubra')">
+                  <span class="text-lg mb-1">💞</span>
+                  <span class="ar-only">صلة كبرى</span>
+                  <span class="en-only">Silah Kubra</span>
+                </div>
+                <div class="explanation">
+                  <span class="ar-only">هاء بين متحركين + همزة قطع</span>
+                  <span class="en-only">Ha + Hamza after it</span>
+                </div>
+                <div class="count-badge badge-green">
+                  <span>⏱️</span> <span class="ar-only">٤ أو ٥ حركات</span><span class="en-only">4 or 5 Counts</span>
+                </div>
+                <div class="example-box">بِهِ أَحَدًا</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="text-center py-6 text-slate-500 text-xs border-t border-gray-200 mt-8 w-full">
+    <p>© <span id="year"></span> — <span class="ar-only">المعلمة <strong class="text-amber-600">سارة أحمد</strong></span><span class="en-only">Teacher <strong class="text-amber-600">Sarah Ahmed</strong></span></p>
+  </footer>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="detailModal" onclick="closeModal(event)">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <div class="close-btn" onclick="closeModal()">×</div>
+    <div id="modalBody" class="text-center pt-4">
+      <!-- Content injected here -->
+    </div>
+  </div>
+</div>
+
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+
+/* ============================================================
+   LANGUAGE TOGGLE
+   ============================================================ */
+let currentLang = 'ar';
+
+function setLang(lang) {
+  currentLang = lang;
+  const html = document.getElementById("htmlRoot");
+  html.lang = lang;
+  html.dir = lang === 'ar' ? 'rtl' : 'ltr';
+
+  document.getElementById('btnAr').classList.toggle('active', lang === 'ar');
+  document.getElementById('btnEn').classList.toggle('active', lang === 'en');
+
+  try { localStorage.setItem("preferredLangMadd", lang); } catch (e) {}
+}
+
+try {
+  const savedLang = localStorage.getItem("preferredLangMadd");
+  if (savedLang === 'en') setLang('en');
+  else setLang('ar');
+} catch (e) { setLang('ar'); }
+
+/* ============================================================
+   ZOOM & PAN
+   ============================================================ */
+let currentZoom = 1.0;
+const ZOOM_STEP = 0.15;
+const ZOOM_MAX = 2.0;
+const ZOOM_MIN = 0.7;
+const zoomWrapper = document.getElementById('zoomWrapper');
+
+function applyZoom() {
+  zoomWrapper.style.transform = `scale(${currentZoom})`;
+  if (currentZoom > 1) {
+    zoomWrapper.style.width = `${currentZoom * 100}%`;
+  } else {
+    zoomWrapper.style.width = '100%';
+  }
+}
+
+function zoomIn() {
+  if (currentZoom < ZOOM_MAX) {
+    currentZoom += ZOOM_STEP;
+    applyZoom();
+  }
+}
+
+function zoomOut() {
+  if (currentZoom > ZOOM_MIN) {
+    currentZoom -= ZOOM_STEP;
+    applyZoom();
+  }
+}
+
+function resetZoom() {
+  currentZoom = 1.0;
+  applyZoom();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ============================================================
+   MODAL DATA & LOGIC
+   ============================================================ */
+const maddData = {
+  'lazim': {
+    titleAr: 'المد اللازم', titleEn: 'Madd Lazim',
+    icon: '🔒', color: 'bg-blue-100 border-blue-400 text-blue-800',
+    descAr: 'هو أن يأتي بعد حرف المد حرف ساكن أصلي أو حرف مشدد. نمدّه دائماً <strong>٦ حركات</strong> (طويل جداً).',
+    descEn: 'When a Madd letter is followed by an original Sukoon or a Shaddah. We always stretch it <strong>6 counts</strong> (very long).',
+    funAr: '💡 تلميح: هو أطول أنواع المدود! لا نقصره أبداً. وينقسم إلى: كلمي وحرفي.',
+    funEn: '💡 Tip: It is the longest type of Madd! Never shorten it. It is divided into: Kalimi and Harfi.'
+  },
+  'kalimi': {
+    titleAr: 'المد اللازم الكلمي', titleEn: 'Madd Lazim Kalimi',
+    icon: '📝', color: 'bg-purple-100 border-purple-400 text-purple-800',
+    descAr: 'هو أن يأتي بعد حرف المد حرف ساكن أصلي أو حرف مشدد <strong>في كلمة واحدة</strong>. نمدّه <strong>٦ حركات</strong>.',
+    descEn: 'When a Madd letter is followed by an original Sukoon or a Shaddah <strong>within one word</strong>. We stretch it <strong>6 counts</strong>.',
+    customHtml: `
+      <div class="bg-white border-4 border-purple-200 rounded-3xl p-6 mb-4 shadow-inner text-right">
+        <h3 class="text-xl font-black text-purple-800 mb-4 text-center border-b-2 border-purple-200 pb-2">
+          <span class="ar-only">أقسام المد اللازم الكلمي</span>
+          <span class="en-only">Types of Madd Lazim Kalimi</span>
+        </h3>
+        <div class="space-y-4">
+          <!-- Muthaqqal -->
+          <div class="bg-purple-50 p-4 rounded-xl border-2 border-purple-200">
+            <div class="font-bold text-purple-800 mb-1">
+              <span class="ar-only">أ. مثقل (حرف مشدد)</span>
+              <span class="en-only">A. Muthaqqal (Doubled letter)</span>
+            </div>
+            <p class="text-sm text-slate-600 mb-2">
+              <span class="ar-only">بعد حرف المد حرف مشدد (ساكن في الأصل).</span>
+              <span class="en-only">After the Madd letter is a doubled letter (originally silent).</span>
+            </p>
+            <div class="font-ar text-3xl text-center text-amber-600">الضَّالِّينَ</div>
+            <div class="text-xs text-center text-slate-500 mt-1">
+              <span class="ar-only">(اللام مشددة)</span>
+              <span class="en-only">(Doubled Lam)</span>
+            </div>
+          </div>
+          <!-- Mukhaffaf -->
+          <div class="bg-purple-50 p-4 rounded-xl border-2 border-purple-200">
+            <div class="font-bold text-purple-800 mb-1">
+              <span class="ar-only">ب. مخفف (حرف ساكن)</span>
+              <span class="en-only">B. Mukhaffaf (Silent letter)</span>
+            </div>
+            <p class="text-sm text-slate-600 mb-2">
+              <span class="ar-only">بعد حرف المد حرف ساكن أصلي (غير مشدد).</span>
+              <span class="en-only">After the Madd letter is an original silent letter (not doubled).</span>
+            </p>
+            <div class="font-ar text-3xl text-center text-amber-600">آلْآنَ</div>
+            <div class="text-xs text-center text-slate-500 mt-1">
+              <span class="ar-only">(اللام ساكنة)</span>
+              <span class="en-only">(Silent Lam)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    `
+  },
+  'harfi': {
+    titleAr: 'المد اللازم الحرفي', titleEn: 'Madd Lazim Harfi',
+    icon: '🔤', color: 'bg-lime-100 border-lime-400 text-lime-800',
+    descAr: 'هو أن يأتي بعد حرف المد حرف ساكن أو مشدد <strong>في حروف فواتح السور</strong>. نمدّه <strong>٦ حركات</strong>.',
+    descEn: 'When a Madd letter is followed by a silent or doubled letter <strong>in the opening letters of Surahs</strong>. We stretch it <strong>6 counts</strong>.',
+    customHtml: `
+      <div class="bg-white border-4 border-lime-200 rounded-3xl p-6 mb-4 shadow-inner text-right">
+        <h3 class="text-xl font-black text-lime-800 mb-4 text-center border-b-2 border-lime-200 pb-2">
+          <span class="ar-only">أقسام المد اللازم الحرفي</span>
+          <span class="en-only">Types of Madd Lazim Harfi</span>
+        </h3>
+        <div class="space-y-4">
+          <!-- Muthaqqal -->
+          <div class="bg-lime-50 p-4 rounded-xl border-2 border-lime-200">
+            <div class="font-bold text-lime-800 mb-1">
+              <span class="ar-only">أ. مثقل (حرف مشدد)</span>
+              <span class="en-only">A. Muthaqqal (Doubled letter)</span>
+            </div>
+            <p class="text-sm text-slate-600 mb-2">
+              <span class="ar-only">عند نطق الحرف، نمدّه ثم يأتي حرف مشدد بعده.</span>
+              <span class="en-only">When pronouncing the letter, we stretch it and a doubled letter follows.</span>
+            </p>
+            <div class="font-ar text-3xl text-center text-amber-600">الٓمٓ</div>
+            <div class="text-xs text-center text-slate-500 mt-1">
+              <span class="ar-only">(الميم مشددة في النطق)</span>
+              <span class="en-only">(Doubled Meem in pronunciation)</span>
+            </div>
+          </div>
+          <!-- Mukhaffaf -->
+          <div class="bg-lime-50 p-4 rounded-xl border-2 border-lime-200">
+            <div class="font-bold text-lime-800 mb-1">
+              <span class="ar-only">ب. مخفف (حرف ساكن)</span>
+              <span class="en-only">B. Mukhaffaf (Silent letter)</span>
+            </div>
+            <p class="text-sm text-slate-600 mb-2">
+              <span class="ar-only">عند نطق الحرف، نمدّه ثم يأتي حرف ساكن بعده.</span>
+              <span class="en-only">When pronouncing the letter, we stretch it and a silent letter follows.</span>
+            </p>
+            <div class="font-ar text-3xl text-center text-amber-600">الر</div>
+            <div class="text-xs text-center text-slate-500 mt-1">
+              <span class="ar-only">(الراء ساكنة)</span>
+              <span class="en-only">(Silent Raa)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    `
+  },
+  'aridh': {
+    titleAr: 'المد العارض للسكون', titleEn: "Madd 'Aridh",
+    icon: '⏱️', color: 'bg-blue-100 border-blue-400 text-blue-800',
+    descAr: 'هو أن نقف على الكلمة فيصبح الحرف الأخير ساكناً. نمدّه <strong>٢ أو ٤ أو ٦ حركات</strong>.',
+    descEn: 'When we stop on a word making the last letter silent. We stretch it <strong>2, 4, or 6 counts</strong>.',
+    example: 'الرَّحْمَٰنِ',
+    funAr: '💡 تلميح: إذا وصلنا الكلمة بما بعدها، يعود المد طبيعياً (حركتين).',
+    funEn: '💡 Tip: If we continue to the next word, it becomes natural (2 counts).'
+  },
+  'lin': {
+    titleAr: 'مد اللين', titleEn: 'Madd Lin',
+    icon: '🍃', color: 'bg-blue-100 border-blue-400 text-blue-800',
+    descAr: 'هو أن نقف على واو ساكنة أو ياء ساكنة قبلها فتح. نمدّه <strong>٢ أو ٤ أو ٦ حركات</strong>.',
+    descEn: 'Stopping on a silent Waw or Yaa preceded by Fatha. We stretch it <strong>2, 4, or 6 counts</strong>.',
+    example: 'خَوْفٌ',
+    funAr: '💡 تلميح: سُمّي ليناً لأن نطقه سهل ولين.',
+    funEn: '💡 Tip: It is called Lin (soft) because it is easy and soft to pronounce.'
+  },
+  'muttasil': {
+    titleAr: 'المد المتصل', titleEn: 'Madd Muttasil',
+    icon: '🔗', color: 'bg-green-100 border-green-400 text-green-800',
+    descAr: 'هو أن تأتي الهمزة <strong>في نفس الكلمة</strong> بعد حرف المد. نمدّه <strong>٤ أو ٥ حركات</strong> (واجب).',
+    descEn: 'When the Hamza comes <strong>in the same word</strong> after the Madd letter. We stretch it <strong>4 or 5 counts</strong> (Obligatory).',
+    example: 'السَّمَاءِ',
+    funAr: '💡 تلميح: سُمّي متصلاً لاتصال المد بالهمزة في كلمة واحدة.',
+    funEn: '💡 Tip: Called Muttasil (connected) because they are in one word.'
+  },
+  'munfasil': {
+    titleAr: 'المد المنفصل', titleEn: 'Madd Munfasil',
+    icon: '↔️', color: 'bg-green-100 border-green-400 text-green-800',
+    descAr: 'هو أن يكون حرف المد في آخر كلمة، والهمزة في أول الكلمة التالية. نمدّه <strong>٢ أو ٤ أو ٥ حركات</strong> (جائز).',
+    descEn: 'Madd letter at the end of a word, and Hamza at the start of the next word. We stretch it <strong>2, 4, or 5 counts</strong>.',
+    example: 'بِمَا أُنْزِلَ',
+    funAr: '💡 تلميح: سُمّي منفصلاً لانفصال المد عن الهمزة في كلمتين.',
+    funEn: '💡 Tip: Called Munfasil (separated) because they are in two words.'
+  },
+  'silah-kubra': {
+    titleAr: 'مد الصلة الكبرى', titleEn: 'Silah Kubra',
+    icon: '💞', color: 'bg-green-100 border-green-400 text-green-800',
+    descAr: 'هو مدّ <strong>هاء الكناية</strong> المتحركة الواقعة بين متحركين إذا جاء بعدها <strong>همزة قطع</strong>، ويُمدّ عند الوصل مقدار <strong>٤–٥ حركات</strong>.',
+    descEn: 'It is the stretching of the pronoun Ha (هـ) between two voweled letters when followed by a <strong>Hamza (ء)</strong>. It is stretched <strong>4–5 counts</strong> during connection (Wasl).',
+    example: 'بِهِ أَحَدًا',
+    funAr: '💡 تلميح: تُمدّ فقط عند الوصل (إذا لم نقف على الهاء).',
+    funEn: '💡 Tip: It is stretched only when connected (if we do not stop on the Ha).'
+  },
+  'tamkeen': {
+    titleAr: 'مد التمكين', titleEn: 'Madd Tamkeen',
+    icon: '📌', color: 'bg-yellow-100 border-yellow-400 text-yellow-800',
+    descAr: 'هو مدّ طبيعي يقع عند <strong>التقاء حرف مدّ (ياء أو واو) بحرف مماثل له</strong> متحرك أو مشدد بعده، مثل ياء بعدها ياء أو واو بعدها واو. نمدّه <strong>حركتين</strong> فقط.',
+    descEn: 'It is a natural Madd that occurs when a <strong>Madd letter (Yaa or Waw) meets a similar voweled or doubled letter after it</strong>, like Yaa followed by Yaa, or Waw followed by Waw. We stretch it <strong>2 counts</strong> only.',
+    example: 'يُحْيِي',
+    funAr: '💡 تلميح: سُمّي تمكيناً لأنه يُمكّن ويقوّي نطق الحرف المماثل.',
+    funEn: '💡 Tip: Called Tamkeen because it strengthens the pronunciation of the similar letter.'
+  },
+  'badal': {
+    titleAr: 'مد البدل', titleEn: 'Madd Badal',
+    icon: '🔄', color: 'bg-yellow-100 border-yellow-400 text-yellow-800',
+    descAr: 'هو أن تتقدم الهمزة على حرف المد في نفس الكلمة. نمدّه <strong>حركتين</strong> فقط.',
+    descEn: 'When a Hamza comes before the Madd letter in the same word. We stretch it <strong>2 counts</strong> only.',
+    example: 'آمَنُوا',
+    funAr: '💡 تلميح: سُمّي بدلاً لأن المد بدل عن همزة أصلية.',
+    funEn: '💡 Tip: Called Badal because the Madd replaces an original Hamza.'
+  },
+  'iwad': {
+    titleAr: 'مد العوض', titleEn: "Madd 'Iwad",
+    icon: '🎁', color: 'bg-yellow-100 border-yellow-400 text-yellow-800',
+    descAr: 'هو أن نقف على كلمة منتهية بتنوين الفتح، فنمد الألف عوضاً عن التنوين. نمدّه <strong>حركتين</strong>.',
+    descEn: 'Stopping on a word ending with Fatha Tanween, stretching the Alif instead. We stretch it <strong>2 counts</strong>.',
+    example: 'رَبًّا',
+    funAr: '💡 تلميح: سُمّي عوضاً لأنه عوض عن التنوين عند الوقف.',
+    funEn: '💡 Tip: Called Iwad because it compensates for the Tanween.'
+  },
+  'silah-sughra': {
+    titleAr: 'الصلة الصغرى', titleEn: 'Silah Sughra',
+    icon: '💕', color: 'bg-yellow-100 border-yellow-400 text-yellow-800',
+    descAr: 'هي هاء الضمير (هـ) التي تأتي بين حرفين متحركين. نمدّها <strong>حركتين</strong> فقط.',
+    descEn: 'The pronoun Ha (هـ) between two voweled letters. We stretch it <strong>2 counts</strong> only.',
+    example: 'بِهِ وَالِدُهُ',
+    funAr: '💡 تلميح: تكون صغرى إذا لم يأتِ بعدها همزة.',
+    funEn: '💡 Tip: It is Sughra when not followed by a Hamza.'
+  }
+};
+
+function openModal(id) {
+  const data = maddData[id];
+  if (!data) return;
+
+  const isAr = currentLang === 'ar';
+
+  let contentHtml = '';
+
+  if (data.customHtml) {
+    contentHtml = data.customHtml;
+  } else {
+    contentHtml = `
+      <div class="bg-white border-4 border-amber-200 rounded-3xl p-6 mb-4 shadow-inner">
+        <p class="text-sm font-bold text-slate-500 mb-2">${isAr ? 'المثال:' : 'Example:'}</p>
+        <div class="font-ar text-5xl text-amber-600 drop-shadow-sm">${data.example}</div>
+      </div>
+      <div class="text-sm font-bold text-slate-500 bg-slate-100 p-3 rounded-xl text-start">
+        ${isAr ? data.funAr : data.funEn}
+      </div>
+    `;
+  }
+
+  const html = `
+    <div class="text-6xl mb-4">${data.icon}</div>
+    <h2 class="text-3xl font-black mb-2 ${data.color.split(' ')[2]}">
+      ${isAr ? data.titleAr : data.titleEn}
+    </h2>
+    <div class="text-lg text-slate-700 leading-relaxed p-4 rounded-2xl ${data.color.split(' ')[0]} border-2 ${data.color.split(' ')[1]} mb-6 text-start">
+      ${isAr ? data.descAr : data.descEn}
+    </div>
+    
+    ${contentHtml}
+  `;
+
+  document.getElementById('modalBody').innerHTML = html;
+  
+  const modal = document.getElementById('detailModal');
+  modal.classList.add('active');
+}
+
+function closeModal(e) {
+  if (e && e.target !== e.currentTarget) return;
+  const modal = document.getElementById('detailModal');
+  modal.classList.remove('active');
+}
+</script>
+
+</body>
+</html>
