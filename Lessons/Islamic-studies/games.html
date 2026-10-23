@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" id="htmlRoot">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Islamic Games Hub | ألعاب إسلامية</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;600;800&family=Tajawal:wght@400;500;700;900&family=Poppins:wght@400;600;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg-color: #fdf8ef;
+    --text-color: #332d27;
+    --primary-orange: #f59e0b;
+    --primary-orange-dark: #d97706;
+    --primary-blue: #3b82f6;
+    --primary-blue-dark: #2563eb;
+    --primary-green: #4ade80;
+    --primary-green-dark: #16a34a;
+    --card-bg: #ffffff;
+    --card-border: #e5e5e5;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html[lang="ar"] body { font-family: 'Tajawal', sans-serif; }
+  html[lang="en"] body { font-family: 'Poppins', sans-serif; }
+  .font-ar { font-family: 'Amiri', serif; }
+
+  body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    min-height: 100vh;
+    line-height: 1.7;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 60px;
+  }
+
+  html[lang="ar"] .en-only { display: none !important; }
+  html[lang="en"] .ar-only { display: none !important; }
+
+  /* ===== TOP BAR ===== */
+  .top-bar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 60px; /* Slightly shorter top bar */
+    background: white;
+    border-bottom: 2px solid var(--card-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 900;
+    font-size: 1.1rem;
+    color: var(--primary-orange);
+    text-decoration: none;
+  }
+
+  .brand-mark {
+    width: 34px; height: 34px;
+    background: var(--primary-orange);
+    color: white;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+  }
+
+  /* ===== THINNER LANGUAGE TOGGLE ===== */
+  .lang-toggle {
+    display: flex;
+    background: #f3f4f6;
+    border-radius: 50px;
+    padding: 2px; /* Thinner container */
+    height: 32px; /* Fixed thin height */
+    align-items: center;
+  }
+
+  .lang-toggle button {
+    border: none; 
+    background: transparent;
+    padding: 0 12px; /* Thinner horizontal padding */
+    height: 28px; /* Thinner buttons */
+    border-radius: 50px;
+    font-size: 0.8rem; /* Smaller text */
+    font-weight: 700; 
+    cursor: pointer; 
+    transition: 0.3s;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lang-toggle button.active {
+    background: var(--primary-orange); 
+    color: white;
+    box-shadow: 0 2px 5px rgba(245, 158, 11, 0.4);
+  }
+
+  /* ===== ZOOM CONTROLS ===== */
+  .zoom-controls {
+    position: fixed;
+    bottom: 24px; right: 24px;
+    z-index: 1000;
+    display: flex; flex-direction: column; gap: 8px;
+    background: white;
+    border: 2px solid var(--card-border);
+    border-radius: 18px;
+    padding: 8px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  }
+
+  .zoom-btn {
+    width: 44px; height: 44px; border-radius: 12px;
+    border: none; background: #f3f4f6;
+    color: var(--text-color); font-size: 1.2rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: 0.2s;
+  }
+
+  .zoom-btn:hover { background: #e5e7eb; }
+  .zoom-btn:active { transform: scale(0.94); }
+  .zoom-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+  .zoom-level-badge {
+    text-align: center; font-size: 0.7rem; font-weight: 700; color: #6b7280;
+  }
+
+  /* ===== MAIN CONTAINER ===== */
+  #zoomTarget {
+    max-width: 1100px;
+    margin: 90px auto 0; /* Adjusted for shorter top bar */
+    padding: 0 20px;
+    width: 100%;
+    transform-origin: top center;
+    transition: transform 0.3s ease;
+  }
+
+  .header-section {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .header-section h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 900;
+    color: var(--primary-orange);
+    margin-bottom: 10px;
+  }
+
+  .header-section p {
+    font-size: 1.2rem;
+    color: #6b7280;
+    font-weight: 600;
+  }
+
+  /* ===== GAMES GRID ===== */
+  .games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  .game-card {
+    background: var(--card-bg);
+    border: 3px solid var(--card-border);
+    border-radius: 24px;
+    padding: 30px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .game-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--primary-orange);
+    box-shadow: 0 15px 30px rgba(245, 158, 11, 0.15);
+  }
+
+  .game-icon {
+    font-size: 4rem;
+    margin-bottom: 15px;
+    display: block;
+    line-height: 1;
+  }
+
+  .game-card h3 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+
+  .game-card p {
+    font-size: 1rem;
+    color: #6b7280;
+    font-weight: 500;
+    flex-grow: 1;
+  }
+
+  .play-badge {
+    margin-top: 20px;
+    background: var(--primary-blue);
+    color: white;
+    padding: 10px 30px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 0 var(--primary-blue-dark);
+    transition: 0.2s;
+  }
+
+  .game-card:hover .play-badge {
+    background: var(--primary-orange);
+    box-shadow: 0 4px 0 var(--primary-orange-dark);
+  }
+
+  /* ===== GAME MODAL (Overlay) ===== */
+  .game-modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--bg-color);
+    z-index: 2000;
+    display: none;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .game-modal.show { display: flex; }
+
+  .modal-header {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    border-bottom: 2px solid var(--card-border);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .close-game-btn {
+    background: var(--primary-orange);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 0 var(--primary-orange-dark);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .close-game-btn:active { transform: translateY(4px); box-shadow: 0 0 0; }
+
+  .modal-body {
+    padding: 30px 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* ===== SHARED GAME ELEMENTS ===== */
+  .game-title {
+    font-size: 2rem;
+    font-weight: 900;
+    text-align: center;
+    margin-bottom: 10px;
+    color: var(--primary-orange);
+  }
+
+  .game-instruction {
+    font-size: 1.3rem;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #4b5563;
+    font-weight: 600;
+  }
+
+  .btn-action {
+    background: var(--primary-green);
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 50px;
+    font-size: 1.3rem;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 6px 0 var(--primary-green-dark);
+    transition: 0.1s;
+    margin-top: 20px;
+  }
+
+  .btn-action:active { transform: translateY(6px); box-shadow: 0 0 0; }
+
+  /* Game 1: Ordering Slots */
+  .slots-container { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 600px; margin-bottom: 20px; }
+  .slot { display: flex; align-items: center; background: #ccfbf1; border: 3px solid #14b8a6; border-radius: 15px; padding: 15px; min-height: 70px; }
+  .slot.empty { background: transparent; border: 3px dashed #d6d3d1; }
+  .slot-number { background: var(--primary-orange); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; font-weight: 800; margin-left: 15px; margin-right: 15px; flex-shrink: 0; }
+  .slot-text { font-size: 1.3rem; font-weight: 700; flex-grow: 1; }
+  .blocks-container { display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 600px; }
+  .drag-block { background: var(--primary-blue); color: white; border-radius: 15px; padding: 20px; font-size: 1.3rem; font-weight: 700; text-align: center; cursor: grab; box-shadow: 0 5px 0 var(--primary-blue-dark); transition: 0.1s; user-select: none; }
+  .drag-block.placed { display: none; }
+
+  /* Game 2: Multiple Choice */
+  .mc-options { display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 500px; }
+  .mc-btn { background: white; border: 3px solid var(--primary-blue); color: var(--primary-blue); padding: 20px; border-radius: 20px; font-size: 1.4rem; font-weight: 700; cursor: pointer; transition: 0.2s; text-align: center; }
+  .mc-btn:hover { background: #eff6ff; transform: scale(1.02); }
+  .mc-btn.correct { background: var(--primary-green); border-color: var(--primary-green-dark); color: white; }
+  .mc-btn.wrong { background: #ef4444; border-color: #b91c1c; color: white; }
+
+  /* Game 3: Memory Match */
+  .memory-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; max-width: 500px; width: 100%; }
+  .mem-card { background: var(--primary-blue); border-radius: 15px; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 2rem; cursor: pointer; transition: 0.3s; transform-style: preserve-3d; }
+  .mem-card.flipped { background: white; border: 3px solid var(--primary-blue); }
+  .mem-card.matched { background: var(--primary-green); border-color: var(--primary-green-dark); }
+
+  /* Game 4: True/False */
+  .tf-container { display: flex; gap: 20px; justify-content: center; margin-top: 30px; }
+  .tf-btn { padding: 20px 40px; font-size: 1.5rem; font-weight: 800; border: none; border-radius: 20px; cursor: pointer; color: white; }
+  .tf-true { background: var(--primary-green); box-shadow: 0 6px 0 var(--primary-green-dark); }
+  .tf-false { background: #ef4444; box-shadow: 0 6px 0 #b91c1c; }
+  .tf-btn:active { transform: translateY(6px); box-shadow: 0 0 0; }
+
+  /* Game 5: Fill in the Blank */
+  .fill-blank-text { font-size: 2rem; font-weight: 800; text-align: center; margin-bottom: 30px; direction: rtl; }
+  .fill-options { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
+  .fill-opt { background: white; border: 3px solid var(--primary-orange); padding: 15px 30px; border-radius: 50px; font-size: 1.3rem; font-weight: 700; cursor: pointer; }
+
+  /* Game 6: Sorting (Good vs Bad) */
+  .sorting-areas { display: flex; gap: 20px; width: 100%; max-width: 800px; margin-top: 20px; }
+  .sort-box { flex: 1; background: #e5e7eb; border-radius: 20px; padding: 20px; min-height: 200px; border: 3px dashed #9ca3af; }
+  .sort-box h4 { text-align: center; margin-bottom: 15px; font-size: 1.3rem; color: #4b5563; }
+  .sort-items { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+  .sort-item { background: white; padding: 15px; border-radius: 10px; font-weight: 700; cursor: grab; box-shadow: 0 3px 0 #ccc; border: 2px solid #ddd; }
+
+  /* Game 7: Missing Number */
+  .number-sequence { font-size: 3rem; font-weight: 900; text-align: center; margin-bottom: 30px; letter-spacing: 10px; }
+  .number-options { display: flex; gap: 15px; justify-content: center; }
+  .num-btn { width: 60px; height: 60px; border-radius: 50%; background: white; border: 3px solid var(--primary-blue); font-size: 1.5rem; font-weight: 800; cursor: pointer; color: var(--primary-blue); }
+
+  /* Game 8: Color Match (Names of Allah) */
+  .color-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; max-width: 500px; width: 100%; }
+  .color-card { background: white; border: 3px solid var(--primary-orange); border-radius: 15px; padding: 20px 10px; text-align: center; font-size: 1.5rem; font-weight: 800; cursor: pointer; }
+  .color-card.selected { background: var(--primary-orange); color: white; }
+  .color-card.matched { background: var(--primary-green); color: white; border-color: var(--primary-green-dark); }
+
+  /* Game 9: Prophet Quiz */
+  .quiz-img { font-size: 5rem; text-align: center; margin-bottom: 20px; }
+  .quiz-question { font-size: 1.5rem; font-weight: 800; text-align: center; margin-bottom: 30px; }
+
+  /* Game 10: Spelling */
+  .spell-letters { display: flex; gap: 10px; justify-content: center; margin-bottom: 30px; direction: rtl; }
+  .spell-letter-box { width: 50px; height: 50px; border-bottom: 4px solid var(--primary-blue); display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 800; }
+  .spell-options { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; direction: rtl; }
+  .spell-btn { width: 50px; height: 50px; border-radius: 10px; background: var(--primary-orange); color: white; font-size: 1.5rem; font-weight: 800; border: none; cursor: pointer; }
+
+  /* Shared Success Modal */
+  .success-popup { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8); background: white; padding: 40px; border-radius: 30px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.2); z-index: 3000; opacity: 0; pointer-events: none; transition: 0.3s; }
+  .success-popup.show { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%) scale(1); }
+  .success-popup h2 { color: var(--primary-green-dark); font-size: 2.5rem; margin-bottom: 10px; }
+
+  @media (max-width: 600px) {
+    .memory-grid { grid-template-columns: repeat(3, 1fr); }
+    .sorting-areas { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <a href="#" class="brand">
+    <span class="brand-mark">ن</span>
+    <span class="en-only">Games Hub</span>
+    <span class="ar-only">مركز الألعاب</span>
+  </a>
+  <div class="lang-toggle">
+    <button id="btnEn" class="active" onclick="setLang('en')">EN</button>
+    <button id="btnAr" onclick="setLang('ar')">ع</button>
+  </div>
+</div>
+
+<!-- ZOOM CONTROLS -->
+<div class="zoom-controls">
+  <button class="zoom-btn" id="zoomInBtn" onclick="zoomIn()">＋</button>
+  <div class="zoom-level-badge" id="zoomLevelBadge">100%</div>
+  <button class="zoom-btn" id="zoomOutBtn" onclick="zoomOut()">−</button>
+</div>
+
+<!-- MAIN HUB -->
+<div id="zoomTarget">
+  <div class="header-section">
+    <h1>
+      <span class="en-only">Play & Learn! 🎮</span>
+      <span class="ar-only">الْعَبْ وَتَعَلَّم! 🎮</span>
+    </h1>
+    <p>
+      <span class="en-only">10 Fun Islamic Games for Kids</span>
+      <span class="ar-only">10 أَلْعَابٍ إِسْلَامِيَّةٍ مُمْتِعَةٍ لِلْأَطْفَال</span>
+    </p>
+  </div>
+
+  <div class="games-grid">
+    <!-- Game 1 -->
+    <div class="game-card" onclick="openGame(1)">
+      <span class="game-icon">📜</span>
+      <h3><span class="en-only">Prophet's Life</span><span class="ar-only">حَيَاةُ النَّبِي</span></h3>
+      <p><span class="en-only">Order the events from oldest to newest.</span><span class="ar-only">رَتِّبِ الأَحْدَاثَ مِنَ الأَقْدَمِ لِلْأَحْدَث.</span></p>
+      <div class="play-badge"><span class="en-only">Play</span><span class="ar-only">العب</span></div>
+    </div>
+
+    <!-- Game 2 -->
+    <div class="game-card" onclick="openGame(2)">
+      <span class="game-icon">🕋</span>
+      <h3><span class="en-only">Pillars of Islam</span><span class="ar-only">أَرْكَانُ الإِسْلَام</span></h3>
+      <p><span class="en-only">How many pillars are there?</span><span class="ar-only">كَمْ عَدَدُ أَرْكَانِ الإِسْلَام؟</span></p>
+      <div class="play-badge"><span class="en-only">Play</span><span class="ar-only">العب</span></div>
+    </div>
+
+    <!-- Game 3 -->
+    <div class="game-card" onclick="openGame(3)">
+      <span class="game-icon">🧠</span>
+      <h3><span class="en-only">Memory Match</span><span class="ar-only">لُعْبَةُ الذَّاكِرَة</span></h3>
+      <p><span class="en-only">Find the matching Islamic symbols.</span><span class="ar-only">جِدِ الرُّمُوزَ الإِسْلَامِيَّةَ الْمُتَطَابِقَة.</span></p>
+      <div class="play-badge"><span class="en-only">Play</span><span class="ar-only">العب</span></div>
+    </div>
+
+    <!-- Game 4 -->
+    <div class="game-card" onclick="openGame(4)">
+      <span class="game-icon">⚖️</span>
+      <h3><span class="en-only">True or False</span><span class="ar-only">صَحِيح أَمْ خَطَأ</span></h3>
+      <p><span class="en-only">Test your Islamic knowledge.</span><span class="ar-only">اِخْتَبِرْ مَعْلُومَاتِكَ الإِسْلَامِيَّة.</span></p>
+      <div class="play-badge"><span class="en-only">Play</span><span class="ar-only">العب</span></div>
+    </div>
+
+    <!-- Game 5 -->
+    <div class="game-card" onclick="openGame(5)">
+      <span class="game-icon">💧</span>
+      <h3><span class="en-only">Wudu Steps</span><span class="ar-only">خُطُوَاتُ الْوُضُوء</span></h3>
+      <p><span class="en-only">What do we wash first?</span><span class="ar-only">مَاذَا نَغْسِلُ أَوَّلاً؟</span></p>
+      <div class="play-badge"><span class="en-only">Play</span><span class="ar-only">العب</span></div>
+    </div>
+
+    <!-- Game 6 -->
+    <div class="game-card" onclick="openGame(6)">
+      <span class="game-icon">🤲</span>
+      <h3><span class="en-only">Good Manners</span><span class="ar-only">الأَخْلَاقُ الْحَسَنَة</span></h3>
+      <p><span class="en-only">Sort good and bad actions.</span><span class="ar-only">صَنِّفِ الأَفْعَالَ الْحَسَنَةَ وَالسَّيِّئَة.</span></p>
+      <div class="play-badge"><span class="en-only">Play</span><span class="ar-only">العب</span></div>
+    </div>
+
+    <!-- Game 7 -->
+    <div class="game-card" onclick="openGame(7)">
+      <span class="game-icon">🔢</span>
+      <h3><span class="en-only">Missing Number</span><span class="ar-only">الرَّقَمُ النَّاقِص</span></h3>
+      <p><span class="en-only">Find the missing number in the sequence.</span><span class="ar-only">جِدِ الرَّقَمَ النَّاقِصَ فِي التَّسَلْسُل.</span></p>
+      <div class="play-badge"><span class="en-only">Play</span><span class="ar-only">العب</span></div>
+    </div>
+
+    <!-- Game 8 -->
+    <div class="game-card" onclick="openGame(8)">
+      <span class="game-icon">✨</span>
+      <h3><span class="en-only">Names of Allah</span><span class="ar-only">أَسْمَاءُ اللَّه</span></h3>
+      <p><span class="en-only">Match the name to its meaning.</span><span class="ar-only">طَابِقِ الاِسْمَ مَعَ مَعْنَاه.</span></p>
+      <div class="play-badge"><span class="en-only">Play</span><span class="ar-only">العب</span></div>
+    </div>
+
+    <!-- Game 9 -->
+    <div class="game-card" onclick="openGame(9)">
+      <span class="game-icon">🐳</span>
+      <h3><span class="en-only">Prophet Quiz</span><span class="ar-only">اخْتِبَارُ الأَنْبِيَاء</span></h3>
+      <p><span class="en-only">Who is this Prophet?</span><span class="ar-only">مَنْ هَذَا النَّبِيّ؟</span></p>
+      <div class="play-badge"><span class="en-only">Play</span><span class="ar-only">العب</span></div>
+    </div>
+
+    <!-- Game 10 -->
+    <div class="game-card" onclick="openGame(10)">
+      <span class="game-icon">🔤</span>
+      <h3><span class="en-only">Spell it!</span><span class="ar-only">تَهْجِئَةُ الْكَلِمَات</span></h3>
+      <p><span class="en-only">Spell the Arabic word correctly.</span><span class="ar-only">تَهَجَّى الْكَلِمَةَ الْعَرَبِيَّةَ بِشَكْلٍ صَحِيح.</span></p>
+      <div class="play-badge"><span class="en-only">Play</span><span class="ar-only">العب</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- GAME MODAL -->
+<div class="game-modal" id="gameModal">
+  <div class="modal-header">
+    <button class="close-game-btn" onclick="closeGame()">
+      <span>↩</span> <span class="en-only">Back to Games</span><span class="ar-only">رجوع للألعاب</span>
+    </button>
+    <div style="font-weight: 800; color: var(--primary-blue);" id="gameScoreDisplay"></div>
+  </div>
+  <div class="modal-body" id="modalBody">
+    <!-- Game content will be injected here -->
+  </div>
+  
+  <!-- Success Popup inside Modal -->
+  <div class="success-popup" id="successPopup">
+    <h2>🎉 <span class="en-only">Excellent!</span><span class="ar-only">مُمْتَاز!</span> 🎉</h2>
+    <p style="font-size: 1.2rem; margin-bottom: 20px;"><span class="en-only">You solved it!</span><span class="ar-only">لَقَدْ حَلَلْتَهَا!</span></p>
+    <button class="btn-action" onclick="closeGame()"><span class="en-only">Play Another</span><span class="ar-only">العب لُعْبَةً أُخْرَى</span></button>
+  </div>
+</div>
+
+<script>
+/* ==========================================
+   AUDIO ENGINE (Synthesized)
+   ========================================== */
+const AudioContext = window.AudioContext || window.webkitAudioContext;
+let audioCtx;
+function initAudio() { if (!audioCtx) audioCtx = new AudioContext(); }
+function playSound(type) {
+  initAudio();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.connect(gain); gain.connect(audioCtx.destination);
+  
+  if (type === 'pop') {
+    osc.type = 'sine'; osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.1);
+    gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+    osc.start(); osc.stop(audioCtx.currentTime + 0.1);
+  } else if (type === 'correct') {
+    osc.type = 'triangle'; osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+    osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1);
+    osc.frequency.setValueAtTime(783.99, audioCtx.currentTime + 0.2);
+    gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+    gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.4);
+    osc.start(); osc.stop(audioCtx.currentTime + 0.4);
+  } else if (type === 'wrong') {
+    osc.type = 'sawtooth'; osc.frequency.setValueAtTime(200, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(150, audioCtx.currentTime + 0.2);
+    gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+    gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.3);
+    osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+  }
+}
+
+/* ==========================================
+   ZOOM & LANGUAGE
+   ========================================== */
+const ZOOM_MIN = 0.5, ZOOM_MAX = 2.0, ZOOM_STEP = 0.1;
+let currentZoom = 1.0;
+
+function applyZoom(level) {
+  currentZoom = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, level));
+  document.getElementById("zoomTarget").style.transform = `scale(${currentZoom})`;
+  document.getElementById("zoomLevelBadge").textContent = Math.round(currentZoom * 100) + "%";
+  document.getElementById("zoomInBtn").disabled = currentZoom >= ZOOM_MAX - 0.001;
+  document.getElementById("zoomOutBtn").disabled = currentZoom <= ZOOM_MIN + 0.001;
+}
+function zoomIn() { applyZoom(currentZoom + ZOOM_STEP); }
+function zoomOut() { applyZoom(currentZoom - ZOOM_STEP); }
+
+let currentLang = "en";
+function setLang(lang) {
+  currentLang = lang;
+  const html = document.getElementById("htmlRoot");
+  html.lang = lang; html.dir = lang === "ar" ? "rtl" : "ltr";
+  document.getElementById("btnEn").classList.toggle("active", lang === "en");
+  document.getElementById("btnAr").classList.toggle("active", lang === "ar");
+  
+  if (document.getElementById("gameModal").classList.contains("show")) {
+     openGame(currentActiveGame);
+  }
+}
+
+/* ==========================================
+   GAME HUB LOGIC
+   ========================================== */
+let currentActiveGame = 0;
+let gameScore = 0;
+const modal = document.getElementById("gameModal");
+const modalBody = document.getElementById("modalBody");
+const scoreDisplay = document.getElementById("gameScoreDisplay");
+const successPopup = document.getElementById("successPopup");
+
+function updateScore(pts) {
+  gameScore += pts;
+  scoreDisplay.innerHTML = `⭐ ${gameScore}`;
+}
+
+function showSuccess() {
+  playSound('correct');
+  successPopup.classList.add("show");
+}
+
+function closeGame() {
+  modal.classList.remove("show");
+  successPopup.classList.remove("show");
+  modalBody.innerHTML = "";
+  gameScore = 0;
+  scoreDisplay.innerHTML = "";
+}
+
+function openGame(gameId) {
+  currentActiveGame = gameId;
+  modal.classList.add("show");
+  successPopup.classList.remove("show");
+  gameScore = 0;
+  scoreDisplay.innerHTML = `⭐ 0`;
+  modalBody.innerHTML = ""; 
+
+  switch(gameId) {
+    case 1: loadGame1(); break;
+    case 2: loadGame2(); break;
+    case 3: loadGame3(); break;
+    case 4: loadGame4(); break;
+    case 5: loadGame5(); break;
+    case 6: loadGame6(); break;
+    case 7: loadGame7(); break;
+    case 8: loadGame8(); break;
+    case 9: loadGame9(); break;
+    case 10: loadGame10(); break;
+  }
+}
+
+/* ==========================================
+   THE 10 GAMES (Bilingual)
+   ========================================== */
+
+// --- Game 1: Ordering Events ---
+function loadGame1() {
+  const t1 = currentLang === 'ar' ? 'ميلاد النبي ﷺ في مكة' : 'Birth of Prophet in Makkah';
+  const t2 = currentLang === 'ar' ? 'الطفولة عند حليمة السعدية' : 'Childhood with Halima';
+  const t3 = currentLang === 'ar' ? 'غزوة بدر الكبرى' : 'Battle of Badr';
+  const t4 = currentLang === 'ar' ? 'حجة الوداع' : 'Farewell Pilgrimage';
+  const btnTxt = currentLang === 'ar' ? 'تحقق' : 'Check';
+
+  modalBody.innerHTML = `
+    <h2 class="game-title">${currentLang === 'ar' ? 'حَيَاةُ النَّبِي' : 'Prophet\'s Life'}</h2>
+    <p class="game-instruction">${currentLang === 'ar' ? 'اسحب المربعات لترتيب الأحداث.' : 'Drag to order events.'}</p>
+    <div class="slots-container">
+      <div class="slot" id="s1"><div class="slot-number">1</div><div class="slot-text">${t1}</div></div>
+      <div class="slot" id="s2"><div class="slot-number">2</div><div class="slot-text">${t2}</div></div>
+      <div class="slot empty" id="s3"><div class="slot-number">3</div><div class="slot-text"></div></div>
+      <div class="slot empty" id="s4"><div class="slot-number">4</div><div class="slot-text"></div></div>
+    </div>
+    <div class="blocks-container" id="blocks">
+      <div class="drag-block" draggable="true" data-order="3">${t3}</div>
+      <div class="drag-block" draggable="true" data-order="4">${t4}</div>
+    </div>
+    <button class="btn-action" onclick="checkGame1()">${btnTxt}</button>
+  `;
+
+  const blocks = document.querySelectorAll('.drag-block');
+  const slots = document.querySelectorAll('.slot');
+  let dragged = null;
+
+  blocks.forEach(b => {
+    b.addEventListener('dragstart', (e) => { dragged = b; playSound('pop'); });
+    b.addEventListener('touchstart', (e) => {
+        dragged = b; playSound('pop');
+        b.style.opacity = "0.5";
+    }, {passive: true});
+  });
+
+  slots.forEach(s => {
+    s.addEventListener('dragover', e => e.preventDefault());
+    s.addEventListener('drop', (e) => {
+      e.preventDefault();
+      if (s.classList.contains('empty') && dragged) {
+        s.classList.remove('empty');
+        s.querySelector('.slot-text').textContent = dragged.textContent;
+        s.dataset.order = dragged.dataset.order;
+        dragged.classList.add('placed');
+        dragged = null;
+      }
+    });
+    s.addEventListener('touchend', (e) => {
+        if (s.classList.contains('empty') && dragged) {
+            s.classList.remove('empty');
+            s.querySelector('.slot-text').textContent = dragged.textContent;
+            s.dataset.order = dragged.dataset.order;
+            dragged.classList.add('placed');
+            dragged = null;
+        }
+    });
+  });
+}
+function checkGame1() {
+  const s3 = document.getElementById('s3');
+  const s4 = document.getElementById('s4');
+  if(s3.dataset.order === "3" && s4.dataset.order === "4") {
+    updateScore(3);
+    showSuccess();
+  } else {
+    playSound('wrong');
+    alert(currentLang === 'ar' ? "حاول مرة أخرى!" : "Try again!");
+    document.querySelectorAll('.drag-block').forEach(b => b.classList.remove('placed'));
+    s3.classList.add('empty'); s3.querySelector('.slot-text').textContent = ""; delete s3.dataset.order;
+    s4.classList.add('empty'); s4.querySelector('.slot-text').textContent = ""; delete s4.dataset.order;
+  }
+}
+
+// --- Game 2: Multiple Choice ---
+function loadGame2() {
+  modalBody.innerHTML = `
+    <h2 class="game-title">${currentLang === 'ar' ? 'أَرْكَانُ الإِسْلَام' : 'Pillars of Islam'}</h2>
+    <p class="game-instruction">${currentLang === 'ar' ? 'كَمْ عَدَدُ أَرْكَانِ الإِسْلَام؟' : 'How many pillars are there?'}</p>
+    <div class="mc-options">
+      <button class="mc-btn" onclick="checkMC(this, false)">3</button>
+      <button class="mc-btn" onclick="checkMC(this, true)">5</button>
+      <button class="mc-btn" onclick="checkMC(this, false)">7</button>
+    </div>
+  `;
+}
+function checkMC(btn, isCorrect) {
+  if (isCorrect) {
+    btn.classList.add('correct');
+    updateScore(1);
+    setTimeout(showSuccess, 500);
+  } else {
+    btn.classList.add('wrong');
+    playSound('wrong');
+  }
+}
+
+// --- Game 3: Memory Match ---
+function loadGame3() {
+  const icons = ['🕋', '🕌', '📖', '🤲', '🌙', '⭐'];
+  const deck = [...icons, ...icons].sort(() => Math.random() - 0.5);
+  
+  modalBody.innerHTML = `
+    <h2 class="game-title">${currentLang === 'ar' ? 'لُعْبَةُ الذَّاكِرَة' : 'Memory Match'}</h2>
+    <p class="game-instruction">${currentLang === 'ar' ? 'جِدِ الأَزْوَاجَ الْمُتَطَابِقَة!' : 'Find the matching pairs!'}</p>
+    <div class="memory-grid" id="memoryGrid"></div>
+  `;
+  
+  const grid = document.getElementById('memoryGrid');
+  let flipped = [];
+  let matched = 0;
+
+  deck.forEach((icon, i) => {
+    const card = document.createElement('div');
+    card.className = 'mem-card';
+    card.dataset.icon = icon;
+    card.dataset.index = i;
+    card.onclick = () => flipCard(card, icon);
+    grid.appendChild(card);
+  });
+
+  function flipCard(card, icon) {
+    if (card.classList.contains('flipped') || card.classList.contains('matched')) return;
+    playSound('pop');
+    card.classList.add('flipped');
+    card.innerHTML = icon;
+    flipped.push({card, icon});
+
+    if (flipped.length === 2) {
+      if (flipped[0].icon === flipped[1].icon) {
+        flipped[0].card.classList.add('matched');
+        flipped[1].card.classList.add('matched');
+        matched++;
+        flipped = [];
+        if (matched === icons.length) setTimeout(showSuccess, 500);
+      } else {
+        setTimeout(() => {
+          flipped[0].card.classList.remove('flipped');
+          flipped[0].card.innerHTML = '';
+          flipped[1].card.classList.remove('flipped');
+          flipped[1].card.innerHTML = '';
+          flipped = [];
+        }, 800);
+      }
+    }
+  }
+}
+
+// --- Game 4: True or False ---
+function loadGame4() {
+  modalBody.innerHTML = `
+    <h2 class="game-title">${currentLang === 'ar' ? 'صَحِيح أَمْ خَطَأ' : 'True or False'}</h2>
+    <p class="game-instruction">${currentLang === 'ar' ? 'نُصَلِّي خَمْسَ مَرَّاتٍ فِي الْيَوْم.' : 'We pray 5 times a day.'}</p>
+    <div class="tf-container">
+      <button class="tf-btn tf-true" onclick="checkTF(true)">${currentLang === 'ar' ? 'صَحِيح' : 'TRUE'}</button>
+      <button class="tf-btn tf-false" onclick="checkTF(false)">${currentLang === 'ar' ? 'خَطَأ' : 'FALSE'}</button>
+    </div>
+  `;
+}
+function checkTF(ans) {
+  if (ans === true) {
+    playSound('correct'); updateScore(1); showSuccess();
+  } else {
+    playSound('wrong'); alert(currentLang === 'ar' ? "حاول مرة أخرى!" : "Try Again!");
+  }
+}
+
+// --- Game 5: Fill in the blank ---
+function loadGame5() {
+  modalBody.innerHTML = `
+    <h2 class="game-title">${currentLang === 'ar' ? 'خُطُوَاتُ الْوُضُوء' : 'Wudu Steps'}</h2>
+    <p class="game-instruction">${currentLang === 'ar' ? 'مَاذَا نَغْسِلُ أَوَّلاً؟' : 'What do we wash first?'}</p>
+    <div class="fill-blank-text">${currentLang === 'ar' ? 'أَغْسِلُ ______' : 'I wash my ______'}</div>
+    <div class="fill-options">
+      <div class="fill-opt" onclick="checkFill(this, false)">${currentLang === 'ar' ? 'القَدَمَيْن' : 'Feet'}</div>
+      <div class="fill-opt" onclick="checkFill(this, true)">${currentLang === 'ar' ? 'اليَدَيْن' : 'Hands'}</div>
+      <div class="fill-opt" onclick="checkFill(this, false)">${currentLang === 'ar' ? 'الوَجْه' : 'Face'}</div>
+    </div>
+  `;
+}
+function checkFill(el, isCorrect) {
+  if (isCorrect) {
+    el.style.background = 'var(--primary-green)'; el.style.color = 'white';
+    updateScore(1); setTimeout(showSuccess, 500);
+  } else {
+    el.style.background = '#ef4444'; el.style.color = 'white'; playSound('wrong');
+  }
+}
+
+// --- Game 6: Sorting ---
+function loadGame6() {
+  modalBody.innerHTML = `
+    <h2 class="game-title">${currentLang === 'ar' ? 'الأَخْلَاقُ الْحَسَنَة' : 'Good Manners'}</h2>
+    <p class="game-instruction">${currentLang === 'ar' ? 'انقر لتصنيف الأفعال!' : 'Click to sort!'}</p>
+    <div class="sorting-areas">
+      <div class="sort-box" onclick="checkSort(this, true)">
+        <h4>😊 ${currentLang === 'ar' ? 'حَسَن' : 'Good'}</h4>
+      </div>
+      <div class="sort-box" onclick="checkSort(this, false)">
+        <h4>😡 ${currentLang === 'ar' ? 'سَيِّئ' : 'Bad'}</h4>
+      </div>
+    </div>
+    <div class="sort-items">
+      <div class="sort-item" data-good="true">${currentLang === 'ar' ? 'الابتسامة' : 'Smiling'}</div>
+      <div class="sort-item" data-good="false">${currentLang === 'ar' ? 'الصراخ' : 'Yelling'}</div>
+    </div>
+  `;
+}
+function checkSort(box, isGoodBox) {
+  if (isGoodBox) { updateScore(1); showSuccess(); }
+}
+
+// --- Game 7: Missing Number ---
+function loadGame7() {
+  modalBody.innerHTML = `
+    <h2 class="game-title">${currentLang === 'ar' ? 'الرَّقَمُ النَّاقِص' : 'Missing Number'}</h2>
+    <p class="game-instruction">${currentLang === 'ar' ? 'جِدِ الرَّقَمَ النَّاقِص.' : 'Find the missing number.'}</p>
+    <div class="number-sequence">1 2 _ 4 5</div>
+    <div class="number-options">
+      <button class="num-btn" onclick="checkNum(this, false)">6</button>
+      <button class="num-btn" onclick="checkNum(this, true)">3</button>
+      <button class="num-btn" onclick="checkNum(this, false)">2</button>
+    </div>
+  `;
+}
+function checkNum(btn, isCorrect) {
+  if (isCorrect) {
+    btn.style.background = 'var(--primary-green)'; btn.style.color = 'white';
+    updateScore(1); setTimeout(showSuccess, 500);
+  } else { playSound('wrong'); }
+}
+
+// --- Game 8: Names of Allah ---
+function loadGame8() {
+  modalBody.innerHTML = `
+    <h2 class="game-title">${currentLang === 'ar' ? 'أَسْمَاءُ اللَّه' : 'Names of Allah'}</h2>
+    <p class="game-instruction">${currentLang === 'ar' ? 'طَابِقِ الاِسْمَ مَعَ مَعْنَاه.' : 'Match the name to its meaning.'}</p>
+    <div class="color-grid">
+      <div class="color-card" onclick="matchName(this, true)">الرَّحْمَن<br><small>${currentLang === 'ar' ? 'الرحيم' : 'The Most Merciful'}</small></div>
+      <div class="color-card" onclick="matchName(this, false)">المَلِك<br><small>${currentLang === 'ar' ? 'المالك' : 'The King'}</small></div>
+    </div>
+  `;
+}
+function matchName(el, isCorrect) {
+  if (isCorrect) {
+    el.classList.add('matched'); updateScore(1); setTimeout(showSuccess, 500);
+  } else { playSound('wrong'); }
+}
+
+// --- Game 9: Prophet Quiz ---
+function loadGame9() {
+  modalBody.innerHTML = `
+    <h2 class="game-title">${currentLang === 'ar' ? 'اخْتِبَارُ الأَنْبِيَاء' : 'Prophet Quiz'}</h2>
+    <div class="quiz-img">🐳</div>
+    <p class="quiz-question">${currentLang === 'ar' ? 'مَنْ كَانَ فِي بَطْنِ الْحُوت؟' : 'Who was in the belly of the whale?'}</p>
+    <div class="mc-options">
+      <button class="mc-btn" onclick="checkMC(this, false)">${currentLang === 'ar' ? 'مُوسَى' : 'Musa'}</button>
+      <button class="mc-btn" onclick="checkMC(this, true)">${currentLang === 'ar' ? 'يُونُس' : 'Yunus'}</button>
+      <button class="mc-btn" onclick="checkMC(this, false)">${currentLang === 'ar' ? 'عِيسَى' : 'Isa'}</button>
+    </div>
+  `;
+}
+
+// --- Game 10: Spelling ---
+function loadGame10() {
+  modalBody.innerHTML = `
+    <h2 class="game-title">${currentLang === 'ar' ? 'تَهْجِئَةُ الْكَلِمَات' : 'Spell it!'}</h2>
+    <p class="game-instruction">${currentLang === 'ar' ? 'تَهَجَّى الْكَلِمَة: إِسْلَام' : 'Spell the word: Islam'}</p>
+    <div class="spell-letters">
+      <div class="spell-letter-box">إ</div>
+      <div class="spell-letter-box">س</div>
+      <div class="spell-letter-box">ل</div>
+      <div class="spell-letter-box">ا</div>
+      <div class="spell-letter-box">م</div>
+    </div>
+    <button class="btn-action" onclick="showSuccess()">${currentLang === 'ar' ? 'صَحِيح' : 'Correct'}</button>
+  `;
+}
+
+// Init
+document.addEventListener("DOMContentLoaded", () => {
+  applyZoom(1.0);
+});
+</script>
+
+</body>
+</html>

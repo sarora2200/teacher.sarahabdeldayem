@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" id="htmlRoot">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tafsir (Quran) | التفسير</title>
+<link rel="icon" type="image/png" href="../../images/quran.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Poppins:wght@400;500;700;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg-dark: #0a1628; --gold: #f5c542; --gold-dark: #d4a24c; --gold-soft: #ffe08a; --text: #eaf2ff; --text-soft: #b8cce6; --card-bg: rgba(255, 255, 255, 0.06); --card-border: rgba(245, 197, 66, 0.25); --nav-bg: rgba(10, 22, 40, 0.92); }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html[lang="ar"] body { font-family: 'Tajawal', sans-serif; }
+  html[lang="en"] body { font-family: 'Poppins', sans-serif; }
+  .font-ar { font-family: 'Amiri', serif; }
+  body { background: radial-gradient(circle at 20% 10%, #1a3355 0%, var(--bg-dark) 55%, #050b14 100%); color: var(--text); min-height: 100vh; line-height: 1.7; overflow-x: hidden; padding-top: 70px; }
+  html[lang="ar"] .en-only { display: none !important; }
+  html[lang="en"] .ar-only { display: none !important; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+  .top-toolbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: var(--nav-bg); border-bottom: 1px solid var(--card-border); backdrop-filter: blur(12px); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); }
+  .toolbar-inner { max-width: 1100px; margin: 0 auto; padding: 0 24px; height: 70px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .toolbar-brand { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 1.1rem; color: var(--gold); text-decoration: none; white-space: nowrap; }
+  .toolbar-brand .brand-mark { width: 34px; height: 34px; background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: #1a1200; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-family: 'Amiri', serif; font-weight: 700; font-size: 1.1rem; flex-shrink: 0; }
+  .toolbar-nav { display: flex; align-items: center; gap: 6px; flex: 1; justify-content: center; }
+  .toolbar-nav a { color: var(--text-soft); text-decoration: none; font-weight: 700; font-size: 0.88rem; padding: 8px 14px; border-radius: 50px; transition: all 0.25s; white-space: nowrap; }
+  .toolbar-nav a:hover { background: rgba(245, 197, 66, 0.12); color: var(--gold); }
+  .lang-toggle { display: flex; background: rgba(255, 255, 255, 0.06); border: 1px solid var(--card-border); border-radius: 50px; padding: 3px; flex-shrink: 0; }
+  .lang-toggle button { border: none; background: transparent; color: var(--text-soft); font-family: inherit; font-weight: 700; font-size: 0.82rem; padding: 6px 14px; border-radius: 50px; cursor: pointer; transition: all 0.3s; white-space: nowrap; }
+  .lang-toggle button.active { background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: #1a1200; box-shadow: 0 3px 10px rgba(245, 197, 66, 0.4); }
+  .mobile-menu-btn { display: none; background: transparent; border: 1px solid var(--card-border); color: var(--gold); font-size: 1.3rem; padding: 6px 12px; border-radius: 12px; cursor: pointer; }
+  header { text-align: center; padding: 40px 20px 20px; position: relative; }
+  .brand-badge { display: inline-block; background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: #1a1200; font-weight: 700; padding: 8px 22px; border-radius: 50px; font-size: 0.9rem; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(245, 197, 66, 0.4); letter-spacing: 0.5px; }
+  h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 900; background: linear-gradient(135deg, #fff, var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 16px; line-height: 1.2; }
+  .subtitle { color: var(--text-soft); font-size: 1.1rem; max-width: 680px; margin: 0 auto 20px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; padding: 12px 28px; border-radius: 50px; text-decoration: none; cursor: pointer; border: none; transition: all 0.3s; font-family: inherit; font-size: 0.95rem; }
+  .btn-quiet { background: transparent; color: var(--text); border: 2px solid var(--card-border); }
+  .btn-quiet:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+  .sections-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin: 40px 0; }
+  .section-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 24px; padding: 32px 26px; text-decoration: none; color: var(--text); transition: all 0.35s ease; position: relative; overflow: hidden; display: flex; flex-direction: column; backdrop-filter: blur(10px); }
+  .section-card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 5px; background: var(--accent, var(--gold)); transition: height 0.3s; }
+  .section-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4); border-color: var(--accent, var(--gold)); background: rgba(255, 255, 255, 0.09); }
+  .section-card:hover::before { height: 6px; }
+  .section-card .icon { font-size: 3rem; margin-bottom: 18px; display: block; line-height: 1; font-family: 'Amiri', serif; color: var(--accent, var(--gold)); }
+  .section-card h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: 10px; line-height: 1.3; }
+  .section-card .ar-name { display: block; font-family: 'Amiri', serif; font-size: 1.5rem; color: var(--accent, var(--gold)); font-weight: 700; margin-top: 2px; }
+  .section-card p { color: var(--text-soft); font-size: 0.95rem; margin-bottom: 20px; flex-grow: 1; }
+  .section-card .meta { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 0.88rem; font-weight: 700; color: var(--accent, var(--gold)); padding-top: 16px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+  .section-card .meta .arrow { font-size: 1.2rem; transition: transform 0.3s; }
+  .section-card:hover .meta .arrow { transform: translateX(6px); }
+  html[lang="ar"] .section-card:hover .meta .arrow { transform: translateX(-6px); }
+  .card-teal { --accent: #2dd4bf; } .card-gold { --accent: #f5c542; } .card-purple { --accent: #a78bfa; } .card-rose { --accent: #fb7185; } .card-sky { --accent: #38bdf8; } .card-emerald { --accent: #34d399; }
+  .games-section { padding: 40px 0 80px; }
+  .games-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+  .game-card { background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02)); border: 2px solid var(--card-border); border-radius: 24px; padding: 30px 24px; text-decoration: none; color: var(--text); transition: all 0.3s; text-align: center; backdrop-filter: blur(10px); display: flex; flex-direction: column; align-items: center; }
+  .game-card:hover { transform: scale(1.03); border-color: var(--gold); box-shadow: 0 15px 35px rgba(245, 197, 66, 0.15); }
+  .game-card .game-icon { font-size: 3.5rem; margin-bottom: 15px; }
+  .game-card h4 { font-size: 1.3rem; font-weight: 800; color: var(--gold-soft); margin-bottom: 8px; }
+  .game-card p { font-size: 0.95rem; color: var(--text-soft); margin-bottom: 20px; flex-grow: 1; }
+  .game-btn { background: var(--gold); color: #1a1200; font-weight: 800; padding: 10px 24px; border-radius: 50px; font-size: 0.9rem; transition: all 0.2s; display: inline-block; }
+  .game-card:hover .game-btn { background: var(--gold-soft); transform: translateY(-2px); }
+  footer { text-align: center; padding: 40px 24px; color: var(--text-soft); font-size: 0.9rem; border-top: 1px solid rgba(255, 255, 255, 0.08); }
+  footer strong { color: var(--gold); }
+  .zoom-controls { position: fixed; bottom: 24px; right: 24px; z-index: 90; display: flex; flex-direction: column; gap: 8px; background: rgba(10, 22, 40, 0.85); border: 1px solid rgba(245, 197, 66, 0.35); border-radius: 18px; padding: 8px; backdrop-filter: blur(10px); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4); }
+  .zoom-btn { width: 44px; height: 44px; border-radius: 12px; border: 1px solid rgba(245, 197, 66, 0.2); background: rgba(255, 255, 255, 0.06); color: #ffe08a; font-size: 1.2rem; font-weight: 700; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s ease; user-select: none; -webkit-tap-highlight-color: transparent; }
+  .zoom-btn:hover { background: rgba(245, 197, 66, 0.2); border-color: rgba(245, 197, 66, 0.6); color: #f5c542; transform: scale(1.08); }
+  .zoom-btn:active { transform: scale(0.94); }
+  .zoom-btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; background: rgba(255, 255, 255, 0.03); }
+  .zoom-level-badge { text-align: center; font-size: 0.65rem; font-weight: 700; color: #94a3b8; letter-spacing: 0.5px; padding: 2px 0; min-width: 44px; }
+  .zoom-level-badge.zoom-active { color: #2dd4bf; }
+  @media (max-width: 640px) { .zoom-controls { bottom: 16px; right: 16px; padding: 6px; } .zoom-btn { width: 40px; height: 40px; font-size: 1.1rem; } }
+  #zoomTarget { transform-origin: top center; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); will-change: transform; }
+  @media (max-width: 850px) { .toolbar-nav { display: none; position: absolute; top: 70px; left: 0; right: 0; background: var(--nav-bg); flex-direction: column; padding: 12px 24px; border-bottom: 1px solid var(--card-border); gap: 4px; align-items: stretch; } .toolbar-nav.open { display: flex; } .toolbar-nav a { padding: 12px 16px; text-align: center; } .mobile-menu-btn { display: inline-block; } .toolbar-brand .brand-text { display: none; } }
+  @media (max-width: 640px) { header { padding: 30px 16px 20px; } .section-card { padding: 26px 22px; } .toolbar-inner { padding: 0 16px; } }
+</style>
+</head>
+<body>
+<div class="top-toolbar">
+  <div class="toolbar-inner">
+    <a href="islamic-studies.html" class="toolbar-brand">
+      <span class="brand-mark">ن</span>
+      <span class="brand-text"><span class="en-only">Learning with Sarah</span><span class="ar-only">سارة للتعلّم</span></span>
+    </a>
+    <nav class="toolbar-nav" id="toolbarNav">
+      <a href="#topics"><span class="en-only">Lessons</span><span class="ar-only">الدروس</span></a>
+      <a href="#games"><span class="en-only">Games</span><span class="ar-only">الألعاب</span></a>
+      <a href="islamic-studies.html"><span class="en-only">Home</span><span class="ar-only">الرئيسية</span></a>
+    </nav>
+    <div class="lang-toggle">
+      <button id="btnEn" class="active" onclick="setLang('en')">🇬🇧 EN</button>
+      <button id="btnAr" onclick="setLang('ar')">🇪🇬 ع</button>
+    </div>
+    <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
+  </div>
+</div>
+
+<div class="zoom-controls" id="zoomControls">
+  <button class="zoom-btn" id="zoomInBtn" onclick="zoomIn()">＋</button>
+  <div class="zoom-level-badge" id="zoomLevelBadge">100%</div>
+  <button class="zoom-btn" id="zoomOutBtn" onclick="zoomOut()">−</button>
+  <button class="zoom-btn" id="zoomResetBtn" onclick="resetZoom()" style="font-size:0.9rem;">↺</button>
+</div>
+
+<div class="container" id="zoomTarget">
+  <header>
+    <div class="brand-badge"><span class="en-only">📖 Topic 5</span><span class="ar-only">📖 الموضوع الخامس</span></div>
+    <h1><span class="en-only">Tafsir (Quran)</span><span class="ar-only">التَّفْسِير</span></h1>
+    <p class="subtitle">
+      <span class="en-only">Understand the meaning of the Quran, starting with short Surahs and the stories within them.</span>
+      <span class="ar-only">اِفْهَمْ مَعَانِيَ الْقُرْآنِ الْكَرِيم، بِدْءًا مِنَ السُّوَرِ الْقَصِيرَةِ وَالْقِصَصِ الَّتِي فِيهَا.</span>
+    </p>
+    <a class="btn btn-quiet" href="islamic-studies.html"><span class="en-only">← Back to Topics</span><span class="ar-only">العودة للمواضيع →</span></a>
+  </header>
+
+  <section class="sections-grid" id="topics">
+    <a class="section-card card-sky" href="#">
+      <span class="icon">📖</span>
+      <h3><span class="en-only">Surah Al-Fatihah</span><span class="ar-name">سُورَةُ الْفَاتِحَة</span></h3>
+      <p><span class="en-only">The opening of the Book. Learn why it is the greatest Surah and its deep meanings.</span><span class="ar-only">فَاتِحَةُ الْكِتَاب. تعلَّمْ لِمَاذَا هِيَ أَعْظَمُ سُورَةٍ وَمَعَانِيهَا الْعَمِيقَة.</span></p>
+      <span class="meta"><span class="en-only">Explore Lesson</span><span class="ar-only">اِسْتَكْشِفِ الدَّرْس</span><span class="arrow">→</span></span>
+    </a>
+    <a class="section-card card-sky" href="#">
+      <span class="icon">🔍</span>
+      <h3><span class="en-only">Surah Al-Ikhlas</span><span class="ar-name">سُورَةُ الْإِخْلَاص</span></h3>
+      <p><span class="en-only">The Surah of Pure Monotheism. It equals one-third of the Quran.</span><span class="ar-only">سُورَةُ التَّوْحِيدِ الْخَالِص. تَعْدِلُ ثُلُثَ الْقُرْآن.</span></p>
+      <span class="meta"><span class="en-only">Explore Lesson</span><span class="ar-only">اِسْتَكْشِفِ الدَّرْس</span><span class="arrow">→</span></span>
+    </a>
+    <a class="section-card card-sky" href="#">
+      <span class="icon">🛡️</span>
+      <h3><span class="en-only">Al-Mu'awwidhatayn</span><span class="ar-name">الْمُعَوِّذَتَان</span></h3>
+      <p><span class="en-only">Surah Al-Falaq and An-Nas. Learn how to protect yourself with these powerful words.</span><span class="ar-only">سُورَتَا الْفَلَقِ وَالنَّاس. تعلَّمْ كَيْفَ تَحْمِي نَفْسَكَ بِهَذِهِ الْكَلِمَاتِ الْقَوِيَّة.</span></p>
+      <span class="meta"><span class="en-only">Explore Lesson</span><span class="ar-only">اِسْتَكْشِفِ الدَّرْس</span><span class="arrow">→</span></span>
+    </a>
+    <a class="section-card card-sky" href="#">
+      <span class="icon">⚖️</span>
+      <h3><span class="en-only">Surah Al-Asr</span><span class="ar-name">سُورَةُ الْعَصْر</span></h3>
+      <p><span class="en-only">A short Surah that summarizes the whole Quran: Faith, Good Deeds, and Patience.</span><span class="ar-only">سُورَةٌ قَصِيرَةٌ تُلَخِّصُ الْقُرْآنَ كُلَّهُ: الْإِيمَان، وَالْعَمَلُ الصَّالِح، وَالصَّبْر.</span></p>
+      <span class="meta"><span class="en-only">Explore Lesson</span><span class="ar-only">اِسْتَكْشِفِ الدَّرْس</span><span class="arrow">→</span></span>
+    </a>
+    <a class="section-card card-sky" href="#">
+      <span class="icon">🎁</span>
+      <h3><span class="en-only">Surah Al-Kawthar</span><span class="ar-name">سُورَةُ الْكَوْثَر</span></h3>
+      <p><span class="en-only">The shortest Surah, revealing the abundant good given to the Prophet ﷺ.</span><span class="ar-only">أَقْصَرُ سُورَة، تُبَيِّنُ الْخَيْرَ الْكَثِيرَ الَّذِي أُعْطِيَ لِلنَّبِيِّ ﷺ.</span></p>
+      <span class="meta"><span class="en-only">Explore Lesson</span><span class="ar-only">اِسْتَكْشِفِ الدَّرْس</span><span class="arrow">→</span></span>
+    </a>
+    <a class="section-card card-sky" href="#">
+      <span class="icon">🕋</span>
+      <h3><span class="en-only">Ayat Al-Kursi</span><span class="ar-name">آيَةُ الْكُرْسِي</span></h3>
+      <p><span class="en-only">The greatest verse in the Quran. Learn it for protection before sleeping.</span><span class="ar-only">أَعْظَمُ آيَةٍ فِي الْقُرْآن. تعلَّمْهَا لِلْحِمَايَةِ قَبْلَ النَّوْم.</span></p>
+      <span class="meta"><span class="en-only">Explore Lesson</span><span class="ar-only">اِسْتَكْشِفِ الدَّرْس</span><span class="arrow">→</span></span>
+    </a>
+  </section>
+
+  <section class="games-section" id="games">
+    <div class="text-center mb-10">
+      <span class="text-amber-400 font-bold tracking-widest text-sm uppercase"><span class="en-only">Interactive Learning</span><span class="ar-only">تَعَلُّمٌ تَفَاعُلِيّ</span></span>
+      <h2 class="text-3xl font-black text-white mt-2"><span class="en-only">Play & Learn! 🎮</span><span class="ar-only">الْعَبْ وَتَعَلَّم! 🎮</span></h2>
+    </div>
+    <div class="games-grid">
+      <a class="game-card" href="#">
+        <span class="game-icon">📖</span>
+        <h4><span class="en-only">Surah Order</span><span class="ar-only">تَرْتِيبُ السُّوَر</span></h4>
+        <p><span class="en-only">Put the short Surahs in the correct order from the Quran.</span><span class="ar-only">رَتِّبِ السُّوَرَ الْقَصِيرَةَ بِالتَّرْتِيبِ الصَّحِيحِ مِنَ الْقُرْآن.</span></p>
+        <span class="game-btn"><span class="en-only">Play →</span><span class="ar-only">اِلْعَب →</span></span>
+      </a>
+      <a class="game-card" href="#">
+        <span class="game-icon">🧩</span>
+        <h4><span class="en-only">Verse Match</span><span class="ar-only">مُطَابَقَةُ الْآيَات</span></h4>
+        <p><span class="en-only">Match the beginning of the verse with its ending.</span><span class="ar-only">طَابِقْ بَيْنَ بِدَايَةِ الْآيَةِ وَنِهَايَتِهَا.</span></p>
+        <span class="game-btn"><span class="en-only">Play →</span><span class="ar-only">اِلْعَب →</span></span>
+      </a>
+    </div>
+  </section>
+</div>
+<footer>
+  <p>© <span id="year"></span> — <span class="en-only">Learning with Sarah</span><span class="ar-only">سارة للتعلّم</span></p>
+  <p style="margin-top: 6px;">Quran • Arabic • Islamic Studies</p>
+</footer>
+<script>
+  const ZOOM_MIN = 0.5; const ZOOM_MAX = 2.0; const ZOOM_STEP = 0.1; let currentZoom = 1.0;
+  function applyZoom(level) { currentZoom = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, level)); const target = document.getElementById("zoomTarget"); if (target) target.style.transform = `scale(${currentZoom})`; const badge = document.getElementById("zoomLevelBadge"); if (badge) { badge.textContent = Math.round(currentZoom * 100) + "%"; badge.classList.toggle("zoom-active", Math.abs(currentZoom - 1.0) > 0.01); } const zoomInBtn = document.getElementById("zoomInBtn"); const zoomOutBtn = document.getElementById("zoomOutBtn"); if (zoomInBtn) zoomInBtn.disabled = currentZoom >= ZOOM_MAX - 0.001; if (zoomOutBtn) zoomOutBtn.disabled = currentZoom <= ZOOM_MIN + 0.001; try { localStorage.setItem("tafsirZoom", currentZoom); } catch (e) {} }
+  function zoomIn() { applyZoom(currentZoom + ZOOM_STEP); } function zoomOut() { applyZoom(currentZoom - ZOOM_STEP); } function resetZoom() { applyZoom(1.0); }
+  try { const savedZoom = parseFloat(localStorage.getItem("tafsirZoom")); if (!isNaN(savedZoom) && savedZoom >= ZOOM_MIN && savedZoom <= ZOOM_MAX) { currentZoom = savedZoom; } } catch (e) {}
+  document.addEventListener("DOMContentLoaded", function () { applyZoom(currentZoom); });
+  let currentLang = "en";
+  function setLang(lang) { currentLang = lang; const html = document.getElementById("htmlRoot"); html.lang = lang; html.dir = lang === "ar" ? "rtl" : "ltr"; document.getElementById("btnEn").classList.toggle("active", lang === "en"); document.getElementById("btnAr").classList.toggle("active", lang === "ar"); try { localStorage.setItem("preferredLangTafsir", lang); } catch(e) {} }
+  try { const saved = localStorage.getItem("preferredLangTafsir"); if (saved === "ar") setLang("ar"); } catch(e) {}
+  function toggleMenu() { const nav = document.getElementById("toolbarNav"); nav.classList.toggle("open"); }
+  document.querySelectorAll(".toolbar-nav a").forEach(link => { link.addEventListener("click", () => { document.getElementById("toolbarNav").classList.remove("open"); }); });
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

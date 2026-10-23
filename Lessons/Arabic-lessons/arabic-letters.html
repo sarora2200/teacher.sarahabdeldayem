@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fun Arabic Letters for Kids! 🎈</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background: linear-gradient(145deg, #fef9e7 0%, #fdebd0 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding: 1.5rem;
+            color: #4a3728;
+        }
+
+        .page-wrapper {
+            max-width: 1200px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 3rem;
+            box-shadow: 0 20px 40px -15px rgba(150, 100, 50, 0.3), 0 0 0 8px #fdebd0 inset;
+            padding: 2rem 2rem 2.5rem;
+            border: 4px dashed #f5cba7;
+        }
+
+        .fun-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #e67e22;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            text-shadow: 3px 3px 0 #fdebd0;
+            letter-spacing: -0.5px;
+        }
+
+        h1 span {
+            font-family: 'Amiri', serif;
+            font-size: 4rem;
+            color: #d35400;
+            background: #fff3e0;
+            width: 90px;
+            height: 90px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            box-shadow: 0 10px 0 #e67e22, 0 15px 20px -10px #b85e1a;
+            animation: bounce 1.2s infinite alternate ease-in-out;
+            line-height: 1;
+        }
+
+        @keyframes bounce {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-8px); }
+        }
+
+        .subhead {
+            font-size: 1.5rem;
+            color: #a04000;
+            background: #fef5e7;
+            display: inline-block;
+            padding: 0.5rem 2rem;
+            border-radius: 50px;
+            margin: 1rem 0 0.5rem;
+            border: 3px solid #f8c471;
+            font-weight: 600;
+            box-shadow: 0 6px 0 #f0b27a;
+        }
+
+        .alphabet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 1.3rem;
+            margin: 2rem 0 2.5rem;
+            direction: rtl;
+        }
+
+        .letter-card {
+            background: #ffffff;
+            border-radius: 2rem;
+            padding: 1.3rem 0.5rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 8px 0 rgba(200, 150, 100, 0.3), 0 10px 20px -8px rgba(0, 0, 0, 0.15);
+            transition: all 0.15s ease;
+            border: 4px solid #fdebd0;
+            direction: ltr;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .letter-card:hover {
+            transform: scale(1.04) translateY(-4px);
+            border-color: #f8c471;
+            box-shadow: 0 12px 0 #e67e22, 0 15px 25px -8px #b85e1a;
+            background: #fffaf0;
+        }
+
+        .letter-card.active {
+            border-color: #e67e22;
+            background: #fff3e0;
+            box-shadow: 0 12px 0 #e67e22, 0 15px 25px -8px #b85e1a;
+        }
+
+        .letter-card:nth-child(6n+1) { background: #fef9e7; border-color: #f9e79f; }
+        .letter-card:nth-child(6n+2) { background: #e8f8f5; border-color: #a3e4d7; }
+        .letter-card:nth-child(6n+3) { background: #fdedec; border-color: #f5b7b1; }
+        .letter-card:nth-child(6n+4) { background: #ebf5fb; border-color: #aed6f1; }
+        .letter-card:nth-child(6n+5) { background: #f5eef8; border-color: #d2b4de; }
+        .letter-card:nth-child(6n+6) { background: #fef5e7; border-color: #f8c471; }
+
+        .arabic-char {
+            font-family: 'Amiri', serif;
+            font-size: 4.5rem;
+            line-height: 1.1;
+            color: #4a3728;
+            margin-bottom: 0.3rem;
+            font-weight: 700;
+            direction: rtl;
+            text-shadow: 3px 3px 0 rgba(230, 126, 34, 0.2);
+        }
+
+        .letter-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #e67e22;
+            background: rgba(255,255,255,0.8);
+            padding: 0.2rem 1rem;
+            border-radius: 30px;
+            margin-bottom: 0.2rem;
+            display: inline-block;
+            border: 2px dashed #f8c471;
+        }
+
+        .pronunciation {
+            font-size: 0.95rem;
+            color: #7e5109;
+            font-style: italic;
+            background: #fff9f0;
+            padding: 0.15rem 0.8rem;
+            border-radius: 20px;
+            margin-top: 0.2rem;
+            font-weight: 500;
+            border: 1px solid #f0b27a;
+        }
+
+        /* sound button inside card */
+        .sound-btn {
+            margin-top: 0.5rem;
+            background: #e67e22;
+            color: #fff;
+            border: none;
+            border-radius: 40px;
+            padding: 0.35rem 1.2rem;
+            font-size: 0.95rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #b85e1a;
+            transition: all 0.1s ease;
+            font-family: 'Fredoka', sans-serif;
+            letter-spacing: 0.5px;
+            width: fit-content;
+            border: 2px solid #fdebd0;
+        }
+
+        .sound-btn:hover {
+            background: #d35400;
+            transform: scale(1.02);
+        }
+
+        .sound-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 1px 0 #b85e1a;
+        }
+
+        .sound-btn.loading {
+            background: #bdc3c7;
+            cursor: wait;
+            box-shadow: 0 5px 0 #7f8c8d;
+        }
+
+        .sound-btn .speaker-icon {
+            font-size: 1.2rem;
+        }
+
+        /* ---- LETTER FORMS MODAL / OVERLAY ---- */
+        .forms-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .forms-overlay.show {
+            display: flex;
+        }
+
+        .forms-popup {
+            background: #ffffff;
+            border-radius: 3rem;
+            padding: 2rem 2rem 2.2rem;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 4px solid #e67e22;
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.4), 0 0 0 8px #fdebd0 inset;
+            position: relative;
+            direction: ltr;
+        }
+
+        .forms-popup h2 {
+            font-size: 2rem;
+            color: #e67e22;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1.2rem;
+            text-shadow: 2px 2px 0 #fdebd0;
+            padding-right: 2.5rem;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #e67e22;
+            color: #fff;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 0 #b85e1a;
+            transition: all 0.1s ease;
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        .close-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #b85e1a;
+        }
+
+        .close-btn:hover {
+            background: #d35400;
+        }
+
+        .popup-letter-display {
+            font-family: 'Amiri', serif;
+            font-size: 5rem;
+            color: #d35400;
+            text-align: center;
+            background: #fff3e0;
+            border-radius: 2rem;
+            padding: 1rem;
+            margin-bottom: 1.2rem;
+            border: 3px solid #f8c471;
+            direction: rtl;
+            text-shadow: 3px 3px 0 rgba(230, 126, 34, 0.2);
+        }
+
+        .popup-name {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #e67e22;
+            background: #fef5e7;
+            padding: 0.4rem 1.5rem;
+            border-radius: 50px;
+            display: inline-block;
+            margin: 0 auto 1.5rem;
+            border: 3px dashed #f8c471;
+        }
+
+        .popup-rows {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .popup-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #fef9e7;
+            border-radius: 1rem;
+            padding: 0.7rem 1.2rem;
+            border: 2px solid #fdebd0;
+        }
+
+        .popup-label {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #e67e22;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .popup-char {
+            font-family: 'Amiri', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: #1e8449;
+            direction: rtl;
+            line-height: 1.2;
+            text-shadow: 1px 1px 0 #d5f5e3;
+        }
+
+        .popup-note {
+            background: #fef5e7;
+            border-radius: 1rem;
+            padding: 0.8rem 1.2rem;
+            margin-top: 0.8rem;
+            border: 2px solid #f8c471;
+            color: #b9770e;
+            font-size: 1rem;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        /* ---- VIDEO SECTION ---- */
+        .video-section {
+            background: linear-gradient(135deg, #fdebd0, #fef9e7);
+            border-radius: 3rem;
+            padding: 1.8rem 2rem 2rem;
+            margin: 2rem 0 1.8rem;
+            border: 4px solid #f8c471;
+            box-shadow: 0 12px 0 #e67e22, 0 15px 25px -10px #b85e1a;
+        }
+
+        .video-section h2 {
+            font-size: 2rem;
+            color: #e67e22;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 0 #fdebd0;
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 2rem;
+            border: 4px solid #fff;
+            box-shadow: 0 10px 25px -8px rgba(0,0,0,0.3), 0 0 0 3px #f0b27a;
+            background: #000;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* game banners */
+        .game-banner {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            border-radius: 3rem;
+            padding: 1.5rem 2rem;
+            margin: 1.8rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            box-shadow: 0 12px 0 #b85e1a, 0 15px 25px -10px #b85e1a;
+            border: 4px solid #fdebd0;
+            transition: transform 0.2s;
+        }
+
+        .game-banner:hover {
+            transform: scale(1.01);
+        }
+
+        .game-banner.secondary {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            box-shadow: 0 12px 0 #1a5276, 0 15px 25px -10px #1a5276;
+        }
+
+        .game-banner-text {
+            color: #fff;
+            font-size: 1.6rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.15);
+        }
+
+        .game-banner-text span {
+            font-size: 2.8rem;
+            background: #fff3e0;
+            border-radius: 50%;
+            width: 65px;
+            height: 65px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 0 rgba(0,0,0,0.2);
+        }
+
+        .game-button {
+            background: #fff3e0;
+            color: #e67e22;
+            font-size: 1.5rem;
+            font-weight: 700;
+            padding: 0.7rem 2rem;
+            border-radius: 60px;
+            text-decoration: none;
+            border: 4px solid #fdebd0;
+            box-shadow: 0 8px 0 #b85e1a, 0 10px 20px -5px #8a4a0e;
+            transition: all 0.1s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+        }
+
+        .game-banner.secondary .game-button {
+            color: #2980b9;
+            box-shadow: 0 8px 0 #1a5276, 0 10px 20px -5px #0e2f44;
+        }
+
+        .game-button:active {
+            transform: translateY(6px);
+            box-shadow: 0 2px 0 #b85e1a;
+        }
+
+        .game-banner.secondary .game-button:active {
+            box-shadow: 0 2px 0 #1a5276;
+        }
+
+        .game-button:hover {
+            background: #ffffff;
+            color: #d35400;
+        }
+
+        .game-banner.secondary .game-button:hover {
+            color: #1f618d;
+        }
+
+        .kids-note {
+            background: #fef9e7;
+            border-radius: 2.5rem;
+            padding: 1.8rem 2rem;
+            border: 4px dashed #f8c471;
+            margin-top: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .kids-note h2 {
+            font-size: 1.8rem;
+            color: #e67e22;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .kids-info {
+            flex: 1 1 200px;
+            background: #ffffff;
+            border-radius: 2rem;
+            padding: 1.3rem 1.5rem;
+            border: 3px solid #fdebd0;
+            box-shadow: 0 6px 0 #f0b27a;
+        }
+
+        .kids-info p {
+            font-size: 1.15rem;
+            line-height: 1.7;
+            color: #4a3728;
+        }
+
+        .form-example {
+            font-family: 'Amiri', serif;
+            font-size: 2rem;
+            color: #d35400;
+            background: #fff3e0;
+            border-radius: 16px;
+            padding: 0.1rem 0.9rem;
+            display: inline-block;
+            margin: 0.2rem;
+            border: 2px solid #f8c471;
+            direction: rtl;
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 2.5rem;
+            font-size: 1.2rem;
+            color: #a04000;
+            border-top: 3px dotted #f8c471;
+            padding-top: 1.5rem;
+            font-weight: 500;
+        }
+
+        .tap-hint {
+            text-align: center;
+            font-size: 1.3rem;
+            color: #1e8449;
+            background: #e8f8f5;
+            display: inline-block;
+            padding: 0.6rem 2rem;
+            border-radius: 50px;
+            margin: 0 auto 1.5rem;
+            border: 3px dashed #7dcea0;
+            font-weight: 600;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .tap-hint-container {
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        @media (max-width: 700px) {
+            .page-wrapper { padding: 1.5rem 1rem; }
+            h1 { font-size: 2.3rem; }
+            h1 span { width: 70px; height: 70px; font-size: 3rem; }
+            .subhead { font-size: 1.2rem; padding: 0.4rem 1rem; }
+            .alphabet-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 0.9rem; }
+            .arabic-char { font-size: 3.2rem; }
+            .letter-name { font-size: 1rem; padding: 0.1rem 0.6rem; }
+            .pronunciation { font-size: 0.8rem; }
+            .game-banner { padding: 1.2rem 1.5rem; }
+            .game-banner-text { font-size: 1.2rem; }
+            .game-banner-text span { width: 50px; height: 50px; font-size: 2rem; }
+            .game-button { font-size: 1.2rem; padding: 0.6rem 1.3rem; }
+            .kids-info p { font-size: 1rem; }
+            .video-section { padding: 1.2rem; }
+            .video-section h2 { font-size: 1.5rem; }
+            .forms-popup { padding: 1.5rem 1.2rem 1.8rem; border-radius: 2rem; }
+            .forms-popup h2 { font-size: 1.5rem; }
+            .popup-letter-display { font-size: 3.5rem; padding: 0.6rem; }
+            .popup-char { font-size: 2.4rem; }
+            .popup-row { padding: 0.5rem 0.8rem; }
+            .tap-hint { font-size: 1.1rem; padding: 0.4rem 1rem; }
+            .sound-btn { font-size: 0.8rem; padding: 0.25rem 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="fun-header">
+            <h1>
+                <span>أ</span> 
+                Arabic Letters!
+                <span>ب</span>
+            </h1>
+            <div class="subhead">🎈 Let's learn and play! 🎈</div>
+        </div>
+
+        <div class="tap-hint-container">
+            <div class="tap-hint">👆 Tap a letter to see its shapes! &nbsp;🔊 Tap the speaker to hear it!</div>
+        </div>
+
+        <div id="alphabetGrid" class="alphabet-grid"></div>
+
+        <!-- 🎬 VIDEO SECTION (Alif Baa Taa Phonics Song) -->
+        <div class="video-section">
+            <h2>🎵 Alif Baa Taa Song</h2>
+            <div class="video-wrapper">
+                <iframe 
+                    src="https://www.youtube.com/embed/FeoSJL1NDPg" 
+                    title="Alif Baa Taa Phonics Song for Kids | Learn Arabic Phonics | Muslim Kids Universe"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+
+        <!-- Game link banners -->
+        <div class="game-banner">
+            <div class="game-banner-text">
+                <span>🎮</span> Letters & Games
+            </div>
+            <a href="https://wordwall.net/en-ae/community/arabic-letters" target="_blank" class="game-button">
+                🎯 Arabic Letters →
+            </a>
+        </div>
+
+        <div class="game-banner secondary">
+            <div class="game-banner-text">
+                <span>🕌</span> More Arabic Fun
+            </div>
+            <a href="https://wordwall.net/en-us/community/arabic" target="_blank" class="game-button">
+                ✨ Explore Games →
+            </a>
+        </div>
+
+        <div class="kids-note">
+            <h2>✨ Did you know? ✨</h2>
+            <div class="kids-info">
+                <p><strong>Letters change shape!</strong> Like a caterpillar turning into a butterfly 🦋. Most letters hold hands (connect) with the next letter, but some letters like <span class="form-example">ا د ذ ر ز و</span> like to stand alone.</p>
+            </div>
+            <div class="kids-info">
+                <p><strong>Look at the letter ب (bāʾ):</strong><br>
+                <span class="form-example">ب</span> alone · 
+                <span class="form-example">بـ</span> at start · 
+                <span class="form-example">ـبـ</span> in middle · 
+                <span class="form-example">ـب</span> at end.
+                </p>
+            </div>
+        </div>
+
+        <div class="footer-note">
+            🌟 You are doing great! Keep practicing! 🌟
+        </div>
+    </div>
+
+    <!-- FORMS POPUP OVERLAY -->
+    <div id="formsOverlay" class="forms-overlay">
+        <div class="forms-popup">
+            <button class="close-btn" id="closePopup">✕</button>
+            <h2>🔤 Letter Shapes</h2>
+            <div class="popup-letter-display" id="popupLetterDisplay"></div>
+            <div class="popup-name" id="popupName"></div>
+            <div class="popup-rows" id="popupRows"></div>
+        </div>
+    </div>
+
+    <script src="../../config.js"></script>
+    <script>
+        /* ============================================================
+           AZURE NEURAL TTS CONFIGURATION
+           ============================================================ */
+        const AZURE_TTS_CONFIG = window.AZURE_TTS_CONFIG || {
+            subscriptionKey: "",
+            region: "",
+            voice: "ar-SA-HamedNeural"
+        };
+
+        /* ============================================================
+           ARABIC LETTER DATA — includes Hamza (ء) as a bonus letter
+           ============================================================ */
+        const arabicLetters = [
+            { char: 'ء', name: 'Hamza', pron: 'ʾ (glottal stop)' },
+            { char: 'ا', name: 'Alif',  pron: 'a' },
+            { char: 'ب', name: 'Bāʾ',   pron: 'b' },
+            { char: 'ت', name: 'Tāʾ',   pron: 't' },
+            { char: 'ث', name: 'Thāʾ',  pron: 'th' },
+            { char: 'ج', name: 'Jīm',   pron: 'j' },
+            { char: 'ح', name: 'Ḥāʾ',   pron: 'h' },
+            { char: 'خ', name: 'Khāʾ',  pron: 'kh' },
+            { char: 'د', name: 'Dāl',   pron: 'd' },
+            { char: 'ذ', name: 'Dhāl',  pron: 'dh' },
+            { char: 'ر', name: 'Rāʾ',   pron: 'r' },
+            { char: 'ز', name: 'Zāy',   pron: 'z' },
+            { char: 'س', name: 'Sīn',   pron: 's' },
+            { char: 'ش', name: 'Shīn',  pron: 'sh' },
+            { char: 'ص', name: 'Ṣād',   pron: 's (deep)' },
+            { char: 'ض', name: 'Ḍād',   pron: 'd (deep)' },
+            { char: 'ط', name: 'Ṭāʾ',   pron: 't (deep)' },
+            { char: 'ظ', name: 'Ẓāʾ',   pron: 'dh (deep)' },
+            { char: 'ع', name: 'ʿAyn',  pron: 'ʿ (throat)' },
+            { char: 'غ', name: 'Ghayn', pron: 'gh' },
+            { char: 'ف', name: 'Fāʾ',   pron: 'f' },
+            { char: 'ق', name: 'Qāf',   pron: 'q' },
+            { char: 'ك', name: 'Kāf',   pron: 'k' },
+            { char: 'ل', name: 'Lām',   pron: 'l' },
+            { char: 'م', name: 'Mīm',   pron: 'm' },
+            { char: 'ن', name: 'Nūn',   pron: 'n' },
+            { char: 'ه', name: 'Hāʾ',   pron: 'h' },
+            { char: 'و', name: 'Wāw',   pron: 'w' },
+            { char: 'ي', name: 'Yāʾ',   pron: 'y' }
+        ];
+
+        /* ============================================================
+           LETTER FORMS — start / middle / end / isolated
+           ============================================================ */
+        const letterForms = {
+            'ء': { start: 'ء', middle: 'ء', end: 'ء', isolated: 'ء', note: 'Hamza usually stands alone' },
+            'ا': { start: 'ا', middle: 'ـا', end: 'ـا', isolated: 'ا', note: 'Never connects to the left' },
+            'ب': { start: 'بـ', middle: 'ـبـ', end: 'ـب', isolated: 'ب' },
+            'ت': { start: 'تـ', middle: 'ـتـ', end: 'ـت', isolated: 'ت' },
+            'ث': { start: 'ثـ', middle: 'ـثـ', end: 'ـث', isolated: 'ث' },
+            'ج': { start: 'جـ', middle: 'ـجـ', end: 'ـج', isolated: 'ج' },
+            'ح': { start: 'حـ', middle: 'ـحـ', end: 'ـح', isolated: 'ح' },
+            'خ': { start: 'خـ', middle: 'ـخـ', end: 'ـخ', isolated: 'خ' },
+            'د': { start: 'د', middle: 'ـد', end: 'ـد', isolated: 'د', note: 'Never connects to the left' },
+            'ذ': { start: 'ذ', middle: 'ـذ', end: 'ـذ', isolated: 'ذ', note: 'Never connects to the left' },
+            'ر': { start: 'ر', middle: 'ـر', end: 'ـر', isolated: 'ر', note: 'Never connects to the left' },
+            'ز': { start: 'ز', middle: 'ـز', end: 'ـز', isolated: 'ز', note: 'Never connects to the left' },
+            'س': { start: 'سـ', middle: 'ـسـ', end: 'ـس', isolated: 'س' },
+            'ش': { start: 'شـ', middle: 'ـشـ', end: 'ـش', isolated: 'ش' },
+            'ص': { start: 'صـ', middle: 'ـصـ', end: 'ـص', isolated: 'ص' },
+            'ض': { start: 'ضـ', middle: 'ـضـ', end: 'ـض', isolated: 'ض' },
+            'ط': { start: 'طـ', middle: 'ـطـ', end: 'ـط', isolated: 'ط' },
+            'ظ': { start: 'ظـ', middle: 'ـظـ', end: 'ـظ', isolated: 'ظ' },
+            'ع': { start: 'عـ', middle: 'ـعـ', end: 'ـع', isolated: 'ع' },
+            'غ': { start: 'غـ', middle: 'ـغـ', end: 'ـغ', isolated: 'غ' },
+            'ف': { start: 'فـ', middle: 'ـفـ', end: 'ـف', isolated: 'ف' },
+            'ق': { start: 'قـ', middle: 'ـقـ', end: 'ـق', isolated: 'ق' },
+            'ك': { start: 'كـ', middle: 'ـكـ', end: 'ـك', isolated: 'ك' },
+            'ل': { start: 'لـ', middle: 'ـلـ', end: 'ـل', isolated: 'ل' },
+            'م': { start: 'مـ', middle: 'ـمـ', end: 'ـم', isolated: 'م' },
+            'ن': { start: 'نـ', middle: 'ـنـ', end: 'ـن', isolated: 'ن' },
+            'ه': { start: 'هـ', middle: 'ـهـ', end: 'ـه', isolated: 'ه' },
+            'و': { start: 'و', middle: 'ـو', end: 'ـو', isolated: 'و', note: 'Never connects to the left' },
+            'ي': { start: 'يـ', middle: 'ـيـ', end: 'ـي', isolated: 'ي' }
+        };
+
+        /* ============================================================
+           WHAT AZURE SHOULD SAY FOR EACH LETTER
+           Full, fully-vowelled Arabic letter names give the clearest
+           neural pronunciation (much better than a bare glyph).
+           ============================================================ */
+        const letterSpeechText = {
+            'ء': 'هَمْزَة',
+            'ا': 'أَلِف',
+            'ب': 'بَاء',
+            'ت': 'تَاء',
+            'ث': 'ثَاء',
+            'ج': 'جِيم',
+            'ح': 'حَاء',
+            'خ': 'خَاء',
+            'د': 'دَال',
+            'ذ': 'ذَال',
+            'ر': 'رَاء',
+            'ز': 'زَاي',
+            'س': 'سِين',
+            'ش': 'شِين',
+            'ص': 'صَاد',
+            'ض': 'ضَاد',
+            'ط': 'طَاء',
+            'ظ': 'ظَاء',
+            'ع': 'عَيْن',
+            'غ': 'غَيْن',
+            'ف': 'فَاء',
+            'ق': 'قَاف',
+            'ك': 'كَاف',
+            'ل': 'لَام',
+            'م': 'مِيم',
+            'ن': 'نُون',
+            'ه': 'هَاء',
+            'و': 'وَاو',
+            'ي': 'يَاء'
+        };
+
+        /* ============================================================
+           AZURE TTS ENGINE (with in-memory cache)
+           ============================================================ */
+        const azureAudioCache = new Map();   // char -> objectURL
+        let currentAudio = null;
+
+        function isAzureConfigured() {
+            return !!(AZURE_TTS_CONFIG.subscriptionKey && AZURE_TTS_CONFIG.region);
+        }
+
+        function getAzureVoiceLocale(voiceName) {
+            // Infer locale from voice name, e.g. "ar-SA-HamedNeural" -> "ar-SA"
+            const parts = (voiceName || '').split('-');
+            if (parts.length >= 2) return `${parts[0]}-${parts[1]}`;
+            return 'ar-SA';
+        }
+
+        function buildSSML(letterChar) {
+            const text = letterSpeechText[letterChar] || letterChar;
+            const voice = AZURE_TTS_CONFIG.voice || 'ar-SA-HamedNeural';
+            const locale = getAzureVoiceLocale(voice);
+            return `
+                <speak version='1.0' xml:lang='${locale}'>
+                    <voice name='${voice}'>
+                        <prosody rate='-15%' pitch='+0%'>${text}</prosody>
+                    </voice>
+                </speak>`.trim();
+        }
+
+        async function fetchAzureAudio(letterChar) {
+            const endpoint = `https://${AZURE_TTS_CONFIG.region}.tts.speech.microsoft.com/cognitiveservices/v1`;
+            const res = await fetch(endpoint, {
+                method: 'POST',
+                headers: {
+                    'Ocp-Apim-Subscription-Key': AZURE_TTS_CONFIG.subscriptionKey,
+                    'Content-Type': 'application/ssml+xml',
+                    'X-Microsoft-OutputFormat': 'audio-24khz-48kbitrate-mono-mp3',
+                    'User-Agent': 'KidsArabicLetters'
+                },
+                body: buildSSML(letterChar)
+            });
+            if (!res.ok) {
+                const errText = await res.text().catch(() => '');
+                throw new Error(`Azure TTS ${res.status}: ${errText}`);
+            }
+            return res.blob();
+        }
+
+        /* Browser speechSynthesis fallback (used only if Azure fails) */
+        function browserSpeak(letterChar) {
+            if (!window.speechSynthesis) return;
+            window.speechSynthesis.cancel();
+            const u = new SpeechSynthesisUtterance(letterSpeechText[letterChar] || letterChar);
+            u.lang = getAzureVoiceLocale(AZURE_TTS_CONFIG.voice);
+            u.rate = 0.8;
+            window.speechSynthesis.speak(u);
+        }
+
+        /* Main entry point used by all sound buttons */
+        async function playLetterSound(letterChar, sourceBtn) {
+            // Stop any previous playback
+            if (currentAudio) {
+                try { currentAudio.pause(); } catch (_) {}
+                currentAudio = null;
+            }
+            if (window.speechSynthesis) window.speechSynthesis.cancel();
+
+            // Fallback if Azure is not configured
+            if (!isAzureConfigured()) {
+                console.warn('Azure TTS not configured — falling back to browser speechSynthesis.');
+                browserSpeak(letterChar);
+                return;
+            }
+
+            const previousClass = sourceBtn ? sourceBtn.className : null;
+            if (sourceBtn) sourceBtn.classList.add('loading');
+
+            try {
+                let url = azureAudioCache.get(letterChar);
+                if (!url) {
+                    const blob = await fetchAzureAudio(letterChar);
+                    url = URL.createObjectURL(blob);
+                    azureAudioCache.set(letterChar, url);
+                }
+                const audio = new Audio(url);
+                currentAudio = audio;
+                audio.addEventListener('ended', () => {
+                    if (sourceBtn && previousClass !== null) sourceBtn.className = previousClass;
+                });
+                await audio.play();
+            } catch (err) {
+                console.error('Azure TTS error:', err);
+                browserSpeak(letterChar); // last-resort fallback
+            } finally {
+                if (sourceBtn && previousClass !== null && !currentAudio) {
+                    sourceBtn.className = previousClass;
+                }
+            }
+        }
+
+        /* ============================================================
+           BUILD THE ALPHABET GRID
+           ============================================================ */
+        const grid = document.getElementById('alphabetGrid');
+        const overlay = document.getElementById('formsOverlay');
+        const closeBtn = document.getElementById('closePopup');
+        const popupLetterDisplay = document.getElementById('popupLetterDisplay');
+        const popupName = document.getElementById('popupName');
+        const popupRows = document.getElementById('popupRows');
+
+        let activeCard = null;
+
+        arabicLetters.forEach(letter => {
+            const card = document.createElement('div');
+            card.className = 'letter-card';
+
+            const charDiv = document.createElement('div');
+            charDiv.className = 'arabic-char';
+            charDiv.textContent = letter.char;
+            charDiv.setAttribute('lang', 'ar');
+            charDiv.setAttribute('dir', 'rtl');
+
+            const nameDiv = document.createElement('div');
+            nameDiv.className = 'letter-name';
+            nameDiv.textContent = letter.name;
+
+            const pronDiv = document.createElement('div');
+            pronDiv.className = 'pronunciation';
+            pronDiv.textContent = letter.pron;
+
+            // ---- SOUND BUTTON ----
+            const soundBtn = document.createElement('button');
+            soundBtn.className = 'sound-btn';
+            soundBtn.innerHTML = '<span class="speaker-icon">🔊</span> Hear';
+            soundBtn.setAttribute('aria-label', `Hear pronunciation of ${letter.name}`);
+            soundBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); // prevent card click (popup)
+                playLetterSound(letter.char, soundBtn);
+            });
+
+            card.appendChild(charDiv);
+            card.appendChild(nameDiv);
+            card.appendChild(pronDiv);
+            card.appendChild(soundBtn);
+
+            // Click handler: show forms popup
+            card.addEventListener('click', () => {
+                if (activeCard) activeCard.classList.remove('active');
+                card.classList.add('active');
+                activeCard = card;
+                showForms(letter);
+            });
+
+            grid.appendChild(card);
+        });
+
+        /* ============================================================
+           LETTER FORMS POPUP
+           ============================================================ */
+        function showForms(letter) {
+            const forms = letterForms[letter.char];
+            if (!forms) return;
+
+            popupLetterDisplay.textContent = letter.char;
+            popupLetterDisplay.setAttribute('lang', 'ar');
+            popupLetterDisplay.setAttribute('dir', 'rtl');
+            popupName.textContent = letter.name + '  ·  ' + letter.pron;
+
+            popupRows.innerHTML = '';
+
+            const buildRow = (label, char) => {
+                const row = document.createElement('div');
+                row.className = 'popup-row';
+
+                const labelSpan = document.createElement('span');
+                labelSpan.className = 'popup-label';
+                labelSpan.textContent = label;
+
+                const charSpan = document.createElement('span');
+                charSpan.className = 'popup-char';
+                charSpan.textContent = char;
+                charSpan.setAttribute('lang', 'ar');
+                charSpan.setAttribute('dir', 'rtl');
+
+                row.appendChild(labelSpan);
+                row.appendChild(charSpan);
+                return row;
+            };
+
+            if (forms.note) {
+                popupRows.appendChild(buildRow('Isolated', forms.isolated));
+                popupRows.appendChild(buildRow('End', forms.end));
+                const noteDiv = document.createElement('div');
+                noteDiv.className = 'popup-note';
+                noteDiv.textContent = '⚠️ ' + forms.note;
+                popupRows.appendChild(noteDiv);
+            } else {
+                popupRows.appendChild(buildRow('Start', forms.start));
+                popupRows.appendChild(buildRow('Middle', forms.middle));
+                popupRows.appendChild(buildRow('End', forms.end));
+                popupRows.appendChild(buildRow('Isolated', forms.isolated));
+            }
+
+            // Sound button inside popup too
+            const popupSoundBtn = document.createElement('button');
+            popupSoundBtn.className = 'sound-btn';
+            popupSoundBtn.style.marginTop = '1rem';
+            popupSoundBtn.style.width = '100%';
+            popupSoundBtn.innerHTML = '🔊 Hear the letter';
+            popupSoundBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                playLetterSound(letter.char, popupSoundBtn);
+            });
+            popupRows.appendChild(popupSoundBtn);
+
+            overlay.classList.add('show');
+        }
+
+        function closePopup() {
+            overlay.classList.remove('show');
+            if (activeCard) {
+                activeCard.classList.remove('active');
+                activeCard = null;
+            }
+        }
+
+        closeBtn.addEventListener('click', closePopup);
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) closePopup();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closePopup();
+        });
+    </script>
+</body>
+</html>
