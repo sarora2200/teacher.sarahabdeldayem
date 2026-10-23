@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="درس الإيمان بالملائكة للأطفال — من هم الملائكة؟ أسماءهم وأعمالهم.">
+<title>الإيمان بالملائكة | Belief in Angels 👼</title>
+
+<link rel="icon" type="image/png" href="../../images/quran.png">
+<link rel="apple-touch-icon" href="images/quran.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Nunito+Sans:wght@400;600;700;800;900&family=Baloo+Bhaijaan+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --cream: #fdf8f0;
+    --warm-white: #fffaf3;
+    --sage: #8ba888;
+    --sage-dark: #5c7a58;
+    --gold: #d4a24c;
+    --gold-dark: #a87d2c;
+    --peach: #e8b48c;
+    --lilac: #b8a5d1;
+    --sky: #a8cfe0;
+    --rose: #e8a0a8;
+    --text: #2d2416;
+    --text-soft: #5c5040;
+    --border: #e8dcc8;
+    --shadow: 0 4px 24px rgba(90, 70, 40, 0.08);
+    --shadow-lg: 0 12px 40px rgba(90, 70, 40, 0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body { width: 100%; overflow-x: hidden; }
+
+  body {
+    font-family: 'Baloo Bhaijaan 2', 'Nunito Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.9;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: font-family 0.2s;
+  }
+
+  html[lang="en"] body { font-family: 'Nunito Sans', sans-serif; }
+
+  .ar-quran { font-family: 'Amiri', serif; direction: rtl; }
+
+  /* ============ LANGUAGE TOGGLE ============ */
+  .lang-toggle-wrap { position: fixed; top: 18px; left: 18px; z-index: 100; }
+  .lang-toggle {
+    display: flex; background: var(--warm-white); border: 1px solid var(--border);
+    border-radius: 50px; padding: 4px; box-shadow: var(--shadow);
+  }
+  .lang-toggle button {
+    border: none; background: transparent; color: var(--text-soft);
+    font-family: 'Nunito Sans', sans-serif; font-weight: 700; font-size: 0.85rem;
+    padding: 8px 16px; border-radius: 50px; cursor: pointer; transition: all 0.3s;
+  }
+  .lang-toggle button.active {
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: #fff; box-shadow: 0 4px 12px rgba(212, 162, 76, 0.35);
+  }
+
+  html[lang="ar"] .en-only { display: none !important; }
+  html[lang="en"] .ar-only { display: none !important; }
+  html[lang="en"] .lesson-section .quran-verse { direction: rtl; }
+
+  /* ============ STICKY TOP BAR ============ */
+  .topbar {
+    position: sticky; top: 0; z-index: 90; width: 100%;
+    background: rgba(255, 250, 243, 0.95); backdrop-filter: blur(10px);
+    border-bottom: 2px solid var(--border); padding: 10px 18px;
+    display: flex; align-items: center; justify-content: center; gap: 16px;
+  }
+  .topbar-inner {
+    width: 100%; max-width: 860px; display: flex; align-items: center;
+    justify-content: space-between; gap: 12px;
+  }
+  .topbar .home-link {
+    text-decoration: none; color: var(--sage-dark); font-weight: 800;
+    font-size: 1rem; background: var(--warm-white); border: 2px solid var(--border);
+    padding: 8px 16px; border-radius: 50px; transition: all 0.25s;
+  }
+  .topbar .home-link:hover { border-color: var(--sage); transform: translateX(3px); }
+
+  .star-counter {
+    display: flex; align-items: center; gap: 8px;
+    background: linear-gradient(135deg, #fff6e0, #ffe9b8);
+    border: 2px solid var(--gold); padding: 6px 18px; border-radius: 50px;
+    font-weight: 800; font-size: 1.15rem; color: var(--gold-dark);
+    box-shadow: 0 4px 14px rgba(212, 162, 76, 0.3); transition: transform 0.2s;
+  }
+  .star-counter .star-icon {
+    font-size: 1.4rem; display: inline-block; animation: twinkle 2s ease-in-out infinite;
+  }
+  @keyframes twinkle {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    50% { transform: scale(1.2) rotate(15deg); }
+  }
+
+  /* ============ CONTAINER ============ */
+  .container {
+    width: 100%; max-width: 860px;
+    margin-left: auto; margin-right: auto; padding: 0 20px;
+  }
+
+  /* ============ HERO ============ */
+  .hero { text-align: center; padding: 50px 0 30px; position: relative; width: 100%; }
+  .hero .big-moon {
+    font-size: 5rem; line-height: 1; display: inline-block;
+    animation: floaty 4s ease-in-out infinite;
+  }
+  @keyframes floaty {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+  .hero h1 {
+    font-size: clamp(2.4rem, 8vw, 4rem); font-weight: 800;
+    color: var(--gold-dark); line-height: 1.2; margin: 10px 0;
+    text-shadow: 2px 2px 0 #fff, 4px 4px 0 rgba(212,162,76,0.2);
+  }
+  .hero .subtitle {
+    font-size: clamp(1.2rem, 4vw, 1.6rem); color: var(--text-soft); font-weight: 600;
+  }
+
+  /* ============ BIG SECTIONS ============ */
+  .lesson-section {
+    background: var(--warm-white); border: 3px solid var(--border);
+    border-radius: 32px; padding: 40px 28px; margin: 34px 0;
+    text-align: center; box-shadow: var(--shadow);
+    position: relative; overflow: hidden; width: 100%;
+  }
+  .lesson-section .big-emoji {
+    font-size: 5.5rem; line-height: 1; display: block; margin-bottom: 18px;
+    animation: pop-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+  @keyframes pop-in {
+    0% { transform: scale(0); }
+    100% { transform: scale(1); }
+  }
+  .lesson-section h2 {
+    font-size: clamp(1.8rem, 6vw, 2.6rem); font-weight: 800;
+    color: var(--gold-dark); margin-bottom: 12px; line-height: 1.3;
+  }
+  .lesson-section p {
+    font-size: clamp(1.15rem, 4vw, 1.5rem); color: var(--text);
+    font-weight: 600; max-width: 600px; margin: 0 auto;
+  }
+  .lesson-section .quran-verse {
+    display: inline-block; margin-top: 20px;
+    background: linear-gradient(135deg, #eef6ec, #dcebda);
+    border: 2px dashed var(--sage); border-radius: 20px;
+    padding: 14px 24px; font-size: clamp(1.3rem, 5vw, 1.8rem);
+    color: var(--sage-dark); font-weight: 700;
+  }
+  .section-gold   { border-color: #f0d9a8; background: linear-gradient(180deg, #fffdf7, #fdf4e3); }
+  .section-sage   { border-color: #c7dcc4; background: linear-gradient(180deg, #f9fcf8, #eef6ec); }
+  .section-sky    { border-color: #c2dfea; background: linear-gradient(180deg, #f7fcfe, #e8f4f9); }
+  .section-peach  { border-color: #f3d3b6; background: linear-gradient(180deg, #fffaf5, #fdeede); }
+  .section-lilac  { border-color: #ddd2ea; background: linear-gradient(180deg, #fbf9fd, #f1ebf8); }
+
+  /* ============ TAP-TO-COLLECT STARS ============ */
+  .tap-star {
+    display: inline-block; font-size: 2.8rem; cursor: pointer;
+    margin: 0 6px; transition: transform 0.2s; user-select: none;
+  }
+  .tap-star:hover { transform: scale(1.3) rotate(-10deg); }
+  .tap-star.collected {
+    animation: star-burst 0.6s ease-out forwards; pointer-events: none;
+  }
+  @keyframes star-burst {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.8) rotate(30deg); }
+    100% { transform: scale(0); opacity: 0; }
+  }
+
+  /* ============ ANGELS CARDS GRID ============ */
+  .angels-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 16px;
+    margin-top: 24px;
+    width: 100%;
+  }
+  .angel-card {
+    background: var(--warm-white);
+    border: 3px solid var(--border);
+    border-radius: 24px;
+    padding: 22px 14px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    overflow: hidden;
+  }
+  .angel-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 5px;
+    background: var(--accent, var(--sky));
+  }
+  .angel-card:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--accent, var(--sky));
+  }
+  .angel-card .angel-emoji {
+    font-size: 3rem; line-height: 1; display: block; margin-bottom: 12px;
+    animation: floaty 3s ease-in-out infinite;
+  }
+  .angel-card .angel-name {
+    font-family: 'Amiri', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gold-dark);
+    line-height: 1.3;
+    margin-bottom: 6px;
+  }
+  .angel-card .angel-job {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-soft);
+    line-height: 1.5;
+  }
+  .angel-card.tapped {
+    background: linear-gradient(135deg, #fff6e0, #ffe9b8);
+    border-color: var(--gold);
+  }
+  .angel-card.tapped::after {
+    content: "⭐";
+    position: absolute;
+    top: 8px; left: 8px;
+    font-size: 1.3rem;
+    animation: pop-in 0.4s ease;
+  }
+
+  /* ============ VIDEO SECTION ============ */
+  .video-section {
+    background: linear-gradient(135deg, #fffdf7, #fdf4e3);
+    border: 4px solid var(--gold); border-radius: 32px;
+    padding: 30px 22px 24px; margin: 34px 0;
+    box-shadow: var(--shadow-lg); text-align: center; width: 100%;
+  }
+  .video-section h2 {
+    font-size: clamp(1.6rem, 5vw, 2.2rem); color: var(--gold-dark);
+    margin-bottom: 6px; font-weight: 800;
+  }
+  .video-section .subtitle {
+    font-size: 1.05rem; color: var(--text-soft); font-weight: 600; margin-bottom: 20px;
+  }
+  .video-wrap {
+    position: relative; width: 100%; padding-bottom: 56.25%;
+    border-radius: 20px; overflow: hidden; background: #000;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.2); border: 3px solid var(--gold);
+  }
+  .video-wrap iframe {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    border: 0; display: block;
+  }
+  .video-note {
+    margin-top: 16px; font-size: 1rem; font-weight: 700;
+    color: var(--sage-dark); background: #eef6ec;
+    padding: 10px 16px; border-radius: 14px; display: inline-block;
+  }
+
+  /* ============ GAME LINK SECTION ============ */
+  .game-section {
+    background: linear-gradient(135deg, #f7fcfe, #e8f4f9);
+    border: 4px solid var(--sky); border-radius: 32px;
+    padding: 40px 26px 34px; margin: 34px 0;
+    box-shadow: var(--shadow-lg); text-align: center;
+    width: 100%; position: relative; overflow: hidden;
+  }
+  .game-section::before {
+    content: "🎮"; position: absolute; top: -20px; left: -10px;
+    font-size: 10rem; opacity: 0.08; line-height: 1; pointer-events: none;
+  }
+  .game-section h2 {
+    font-size: clamp(1.6rem, 5vw, 2.2rem); color: var(--sage-dark);
+    margin-bottom: 6px; font-weight: 800;
+  }
+  .game-section .subtitle {
+    font-size: 1.05rem; color: var(--text-soft); font-weight: 600; margin-bottom: 26px;
+  }
+  .game-link-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+    text-decoration: none;
+    background: linear-gradient(135deg, var(--sage), var(--sage-dark));
+    color: #fff; font-weight: 800;
+    font-size: clamp(1.15rem, 4vw, 1.4rem);
+    padding: 20px 40px; border-radius: 50px;
+    box-shadow: 0 8px 0 var(--sage-dark), 0 14px 28px rgba(92, 122, 88, 0.4);
+    transition: all 0.2s ease; margin: 6px auto; min-width: 240px;
+    position: relative; z-index: 2;
+  }
+  .game-link-btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 0 var(--sage-dark), 0 18px 34px rgba(92, 122, 88, 0.5);
+  }
+  .game-link-btn:active {
+    transform: translateY(4px);
+    box-shadow: 0 4px 0 var(--sage-dark), 0 8px 18px rgba(92, 122, 88, 0.4);
+  }
+  .game-link-btn .btn-icon {
+    font-size: 1.6rem; display: inline-block; animation: floaty 2.5s ease-in-out infinite;
+  }
+  .game-link-btn .btn-arrow {
+    font-size: 1.4rem; display: inline-block; transition: transform 0.25s;
+  }
+  .game-link-btn:hover .btn-arrow { transform: translateX(5px); }
+
+  .game-note {
+    margin-top: 20px; font-size: 0.95rem; font-weight: 700;
+    color: var(--sage-dark); background: #eef6ec;
+    padding: 10px 16px; border-radius: 14px; display: inline-block;
+  }
+
+  /* ============ QUIZ ============ */
+  .quiz-box {
+    background: var(--warm-white); border: 3px solid var(--gold);
+    border-radius: 28px; padding: 34px 26px; margin: 34px 0;
+    text-align: center; box-shadow: var(--shadow-lg); width: 100%;
+  }
+  .quiz-box h3 {
+    font-size: clamp(1.5rem, 5vw, 2rem); color: var(--gold-dark);
+    margin-bottom: 22px; font-weight: 800;
+  }
+  .quiz-options {
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: 16px; margin-top: 10px;
+  }
+  .quiz-btn {
+    font-family: inherit; font-size: clamp(1.2rem, 4vw, 1.6rem);
+    font-weight: 800; padding: 18px 30px; border-radius: 24px;
+    border: 3px solid var(--border); background: var(--warm-white);
+    color: var(--text); cursor: pointer; transition: all 0.2s;
+    min-width: 150px; box-shadow: 0 5px 0 var(--border);
+  }
+  .quiz-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 0 var(--border); }
+  .quiz-btn:active { transform: translateY(2px); box-shadow: 0 3px 0 var(--border); }
+  .quiz-btn.correct {
+    background: linear-gradient(135deg, #b6e3a8, #8bcf7a);
+    border-color: #5c9e4d; color: #1e4a13;
+    box-shadow: 0 5px 0 #5c9e4d;
+    animation: celebrate-pop 0.5s ease;
+  }
+  .quiz-btn.wrong {
+    background: linear-gradient(135deg, #f4b8b8, #ec8f8f);
+    border-color: #c75d5d; color: #6b1616;
+    box-shadow: 0 5px 0 #c75d5d;
+    animation: shake 0.4s ease;
+  }
+  @keyframes celebrate-pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.12); }
+    100% { transform: scale(1); }
+  }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-8px); }
+    75% { transform: translateX(8px); }
+  }
+  .quiz-feedback {
+    font-size: clamp(1.3rem, 4.5vw, 1.7rem); font-weight: 800;
+    margin-top: 20px; min-height: 2em; color: var(--sage-dark);
+  }
+
+  /* ============ REWARD ============ */
+  .reward-box {
+    display: none;
+    background: linear-gradient(135deg, #fff6e0, #ffe9b8);
+    border: 4px dashed var(--gold); border-radius: 32px;
+    padding: 40px 28px; margin: 40px 0; text-align: center;
+    animation: reward-in 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    width: 100%;
+  }
+  .reward-box.show { display: block; }
+  @keyframes reward-in {
+    0% { transform: scale(0.5) rotate(-10deg); opacity: 0; }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  }
+  .reward-box .trophy {
+    font-size: 6rem; line-height: 1; display: block;
+    animation: floaty 3s ease-in-out infinite;
+  }
+  .reward-box h2 {
+    font-size: clamp(2rem, 6vw, 3rem); color: var(--gold-dark); margin: 14px 0;
+  }
+  .reward-box p {
+    font-size: clamp(1.2rem, 4vw, 1.5rem); color: var(--text-soft); font-weight: 700;
+  }
+
+  /* ============ CONFETTI ============ */
+  .confetti {
+    position: fixed; top: -20px; font-size: 1.6rem;
+    pointer-events: none; z-index: 200;
+    animation: confetti-fall linear forwards;
+  }
+  @keyframes confetti-fall {
+    0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(105vh) rotate(720deg); opacity: 0.3; }
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 600px) {
+    .lesson-section { padding: 30px 18px; margin: 24px 0; border-radius: 26px; }
+    .lesson-section .big-emoji { font-size: 4.2rem; }
+    .hero { padding: 34px 0 18px; }
+    .quiz-btn { min-width: 120px; padding: 15px 22px; }
+    .star-counter { font-size: 1rem; padding: 5px 14px; }
+    .angels-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+    .angel-card .angel-emoji { font-size: 2.4rem; }
+    .angel-card .angel-name { font-size: 1.2rem; }
+    .angel-card .angel-job { font-size: 0.85rem; }
+    .video-section, .game-section { padding: 26px 16px 22px; }
+    .topbar-inner { gap: 8px; }
+    .topbar .home-link { font-size: 0.9rem; padding: 6px 12px; }
+    .lang-toggle-wrap { top: 62px; left: 12px; }
+    .lang-toggle button { font-size: 0.75rem; padding: 6px 12px; }
+    .game-link-btn { padding: 18px 26px; min-width: 200px; font-size: 1.05rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ LANGUAGE TOGGLE ============ -->
+<div class="lang-toggle-wrap">
+  <div class="lang-toggle">
+    <button id="btnEn" onclick="setLang('en')">🇬🇧 English</button>
+    <button id="btnAr" class="active" onclick="setLang('ar')">🇪🇬 العربية</button>
+  </div>
+</div>
+
+<!-- ============ TOP BAR ============ -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <a class="home-link" href="./aqeedah.html">
+      <span class="ar-only">← العقيدة</span>
+      <span class="en-only">← Aqeedah</span>
+    </a>
+    <div class="star-counter" aria-live="polite">
+      <span class="star-icon">⭐</span>
+      <span id="starCount">0</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============ HERO ============ -->
+<section class="hero container">
+  <span class="big-moon">👼</span>
+  <h1>
+    <span class="ar-only">الإِيمَانُ بِالْمَلَائِكَة</span>
+    <span class="en-only">Belief in Angels</span>
+  </h1>
+  <p class="subtitle">
+    <span class="ar-only">دَرْسٌ عَنِ الْمَلَائِكَةِ لِلصِّغَار 🕊️</span>
+    <span class="en-only">A lesson about angels for little ones 🕊️</span>
+  </p>
+</section>
+
+<!-- ============ SECTION 1 ============ -->
+<section class="lesson-section section-sky container">
+  <span class="big-emoji">🕊️</span>
+  <h2>
+    <span class="ar-only">مَنْ هُمُ الْمَلَائِكَة؟</span>
+    <span class="en-only">Who are the angels?</span>
+  </h2>
+  <p>
+    <span class="ar-only">الْمَلَائِكَةُ خَلْقٌ مِنْ نُور، خَلَقَهُمُ اللَّهُ لِيَعْبُدُوهُ وَيُطِيعُوه. لَا يَأْكُلُون، وَلَا يَشْرَبُون، وَلَا يَنَامُون، وَلَا يَعْصُونَ اللَّهَ أَبَدًا.</span>
+    <span class="en-only">Angels are made from light. Allah created them to worship and obey Him. They do not eat, drink, or sleep — and they never disobey Allah.</span>
+  </p>
+  <div style="margin-top: 24px;">
+    <span class="tap-star" data-star="1">⭐</span>
+    <span class="tap-star" data-star="2">⭐</span>
+    <span class="tap-star" data-star="3">⭐</span>
+  </div>
+</section>
+
+<!-- ============ SECTION 2 ============ -->
+<section class="lesson-section section-peach container">
+  <span class="big-emoji">👀</span>
+  <h2>
+    <span class="ar-only">لَا نَرَى الْمَلَائِكَة</span>
+    <span class="en-only">We cannot see the angels</span>
+  </h2>
+  <p>
+    <span class="ar-only">الْمَلَائِكَةُ لَا نَرَاهُم فِي الدُّنْيَا، لَكِنَّهُم مَوْجُودُون حَوْلَنَا. يَكْتُبُونَ أَعْمَالَنَا، وَيَحْفَظُونَنَا بِإِذْنِ الله.</span>
+    <span class="en-only">We cannot see angels in this world, but they are around us. They write our deeds and protect us by Allah's permission.</span>
+  </p>
+  <div class="quran-verse ar-quran">وَإِنَّ عَلَيْكُمْ لَحَافِظِينَ</div>
+  <div style="margin-top: 24px;">
+    <span class="tap-star" data-star="4">⭐</span>
+    <span class="tap-star" data-star="5">⭐</span>
+    <span class="tap-star" data-star="6">⭐</span>
+  </div>
+</section>
+
+<!-- ============ SECTION 3 ============ -->
+<section class="lesson-section section-sage container">
+  <span class="big-emoji">💛</span>
+  <h2>
+    <span class="ar-only">الْمَلَائِكَةُ تُحِبُّ الأَطْفَال</span>
+    <span class="en-only">Angels love children</span>
+  </h2>
+  <p>
+    <span class="ar-only">الْمَلَائِكَةُ تُحِبُّ الأَطْفَالَ الصَّالِحِين، وَتَدْعُو لَهُم بِالْخَيْر. وَإِذَا قُلْنَا: <strong>سُبْحَانَ الله</strong>، تُصَلِّي عَلَيْنَا الْمَلَائِكَة 🤍</span>
+    <span class="en-only">Angels love good children and pray for them. When we say <strong>"SubhanAllah"</strong>, the angels pray for us 🤍</span>
+  </p>
+  <div style="margin-top: 24px;">
+    <span class="tap-star" data-star="7">⭐</span>
+    <span class="tap-star" data-star="8">⭐</span>
+    <span class="tap-star" data-star="9">⭐</span>
+  </div>
+</section>
+
+<!-- ============ NAMED ANGELS GRID ============ -->
+<section class="lesson-section section-lilac container" id="angelsSection">
+  <span class="big-emoji">✨</span>
+  <h2>
+    <span class="ar-only">أَسْمَاءُ بَعْضِ الْمَلَائِكَة</span>
+    <span class="en-only">Names of some angels</span>
+  </h2>
+  <p style="font-size: 1.15rem; margin-bottom: 10px;">
+    <span class="ar-only">لِكُلِّ مَلَكٍ عَمَلٌ خَاصّ 👇 اِضْغَطْ عَلَى كُلِّ مَلَكٍ لِتَجْمَعَ نَجْمَة ⭐</span>
+    <span class="en-only">Each angel has a special job 👇 Tap each angel to collect a star ⭐</span>
+  </p>
+
+  <div class="angels-grid" id="angelsGrid">
+
+    <div class="angel-card" style="--accent: #2dd4bf;" data-angel="1">
+      <span class="angel-emoji">📖</span>
+      <div class="angel-name">جِبْرِيل</div>
+      <div class="angel-job">
+        <span class="ar-only">يُوحِي إِلَى الأَنْبِيَاء</span>
+        <span class="en-only">Reveals to the Prophets</span>
+      </div>
+    </div>
+
+    <div class="angel-card" style="--accent: #38bdf8;" data-angel="2">
+      <span class="angel-emoji">🌧️</span>
+      <div class="angel-name">مِيكَائِيل</div>
+      <div class="angel-job">
+        <span class="ar-only">يُنْزِلُ الْمَطَرَ وَالرِّزْق</span>
+        <span class="en-only">Brings rain and provision</span>
+      </div>
+    </div>
+
+    <div class="angel-card" style="--accent: #a78bfa;" data-angel="3">
+      <span class="angel-emoji">🎺</span>
+      <div class="angel-name">إِسْرَافِيل</div>
+      <div class="angel-job">
+        <span class="ar-only">يَنْفُخُ فِي الصُّور</span>
+        <span class="en-only">Blows the trumpet</span>
+      </div>
+    </div>
+
+    <div class="angel-card" style="--accent: #fb7185;" data-angel="4">
+      <span class="angel-emoji">🔥</span>
+      <div class="angel-name">مَالِك</div>
+      <div class="angel-job">
+        <span class="ar-only">خَازِنُ النَّار</span>
+        <span class="en-only">Guardian of the Fire</span>
+      </div>
+    </div>
+
+    <div class="angel-card" style="--accent: #f5c542;" data-angel="5">
+      <span class="angel-emoji">📝</span>
+      <div class="angel-name">رَقِيب</div>
+      <div class="angel-job">
+        <span class="ar-only">يَكْتُبُ الحَسَنَات</span>
+        <span class="en-only">Writes the good deeds</span>
+      </div>
+    </div>
+
+    <div class="angel-card" style="--accent: #34d399;" data-angel="6">
+      <span class="angel-emoji">📋</span>
+      <div class="angel-name">عَتِيد</div>
+      <div class="angel-job">
+        <span class="ar-only">يَكْتُبُ السَّيِّئَات</span>
+        <span class="en-only">Writes the bad deeds</span>
+      </div>
+    </div>
+
+  </div>
+
+  <p style="margin-top: 24px; font-size: 1.05rem; color: var(--sage-dark); font-weight: 700;">
+    <span class="ar-only">👆 اِضْغَطْ عَلَى كُلِّ مَلَكٍ لِتَجْمَعَ نَجْمَة ⭐</span>
+    <span class="en-only">👆 Tap each angel to collect a star ⭐</span>
+  </p>
+</section>
+
+<!-- ============ VIDEO ============ -->
+<section class="video-section container">
+  <h2>
+    <span class="ar-only">🎬 فِيدْيُو الْمَلَائِكَة</span>
+    <span class="en-only">🎬 Angels Video</span>
+  </h2>
+  <p class="subtitle">
+    <span class="ar-only">شَاهِدْ وَتَعَلَّمْ مَعَنَا — الْمَلَائِكَةُ خَلْقٌ مِنْ نُور 🕊️</span>
+    <span class="en-only">Watch and learn with us — angels are made of light 🕊️</span>
+  </p>
+
+   <!-- Arabic video -->
+  <div class="video-wrap ar-only">
+    <iframe
+      src="https://www.youtube.com/embed/C6ldC6I50w0?rel=0&modestbranding=1"
+      title="الإيمان بالملائكة للأطفال بشكل كرتوني جميل"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      referrerpolicy="strict-origin-when-cross-origin"
+      allowfullscreen
+      loading="lazy">
+    </iframe>
+  </div>
+
+  <!-- English video-->
+  <div class="video-wrap en-only">
+    <iframe
+      src="https://www.youtube.com/embed/eHTHBLWmFsY?rel=0&modestbranding=1"
+      title="Belief in Angels — English video"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      referrerpolicy="strict-origin-when-cross-origin"
+      allowfullscreen
+      loading="lazy">
+    </iframe>
+  </div>
+
+  <div class="video-note">
+    <span class="ar-only">👆 شَاهِدِ الفِيدْيُو بَعْدَ قِرَاءَةِ الدَّرْس</span>
+    <span class="en-only">👆 Watch the video after reading the lesson</span>
+  </div>
+</section>
+
+<!-- ============ GAME (LINK) ============ -->
+<section class="game-section container">
+  <h2>
+    <span class="ar-only">🎮 لُعْبَةُ الإِيمَان</span>
+    <span class="en-only">🎮 Faith Game</span>
+  </h2>
+  <p class="subtitle">
+    <span class="ar-only">اِلْعَبْ وَتَعَلَّمْ — الإِيمَانُ بِاللهِ وَمَلَائِكَتِه 🕊️</span>
+    <span class="en-only">Play and learn — faith in Allah and His angels 🕊️</span>
+  </p>
+
+    <!-- Arabic game -->
+  <a class="game-link-btn ar-only"
+     href="https://wordwall.net/resource/100687458/%D8%AA%D8%B1%D8%A8%D9%8A%D8%A9-%D8%A7%D8%B3%D9%84%D8%A7%D9%85%D9%8A%D8%A9/%D8%A7%D9%84%D8%A5%D9%8A%D9%85%D8%A7%D9%86"
+     target="_blank"
+     rel="noopener">
+    <span class="btn-icon">🕹️</span>
+    <span>اِلْعَبِ الآن</span>
+    <span class="btn-arrow">↗</span>
+  </a>
+
+  <!-- English game -->
+  <a class="game-link-btn en-only"
+     href="https://wordwall.net/resource/5719109/believing-in-angels"
+     target="_blank"
+     rel="noopener">
+    <span class="btn-icon">🕹️</span>
+    <span>Play Now</span>
+    <span class="btn-arrow">↗</span>
+  </a>
+
+  <div class="game-note">
+    <span class="ar-only">🎈 تَفْتَحُ اللُّعْبَةُ فِي نَافِذَةٍ جَدِيدَة</span>
+    <span class="en-only">🎈 The game opens in a new tab</span>
+  </div>
+</section>
+
+<!-- ============ QUIZ ============ -->
+<section class="quiz-box container" id="quizSection">
+  <h3>
+    <span class="ar-only">🤔 سُؤَالَانِ صَغِيرَان</span>
+    <span class="en-only">🤔 Two little questions</span>
+  </h3>
+
+  <p style="font-size: 1.3rem; font-weight: 700; margin-bottom: 10px;">
+    <span class="ar-only">١. مِنْ أَيِّ شَيْءٍ خَلَقَ اللَّهُ الْمَلَائِكَة؟</span>
+    <span class="en-only">1. What did Allah create the angels from?</span>
+  </p>
+  <div class="quiz-options" data-quiz="1">
+    <button class="quiz-btn" data-answer="wrong">
+      <span class="ar-only">مِنْ طِين</span>
+      <span class="en-only">Clay</span>
+    </button>
+    <button class="quiz-btn" data-answer="correct">
+      <span class="ar-only">مِنْ نُور</span>
+      <span class="en-only">Light</span>
+    </button>
+    <button class="quiz-btn" data-answer="wrong">
+      <span class="ar-only">مِنْ نَار</span>
+      <span class="en-only">Fire</span>
+    </button>
+  </div>
+  <div class="quiz-feedback" id="quizFeedback1"></div>
+
+  <p style="font-size: 1.3rem; font-weight: 700; margin: 30px 0 10px;">
+    <span class="ar-only">٢. مَنِ الْمَلَكُ الَّذِي يُوحِي إِلَى الأَنْبِيَاء؟</span>
+    <span class="en-only">2. Which angel reveals revelation to the prophets?</span>
+  </p>
+  <div class="quiz-options" data-quiz="2">
+    <button class="quiz-btn" data-answer="wrong">
+      <span class="ar-only">مِيكَائِيل</span>
+      <span class="en-only">Mikail</span>
+    </button>
+    <button class="quiz-btn" data-answer="correct">
+      <span class="ar-only">جِبْرِيل</span>
+      <span class="en-only">Jibreel</span>
+    </button>
+    <button class="quiz-btn" data-answer="wrong">
+      <span class="ar-only">إِسْرَافِيل</span>
+      <span class="en-only">Israfil</span>
+    </button>
+  </div>
+  <div class="quiz-feedback" id="quizFeedback2"></div>
+</section>
+
+<!-- ============ REWARD ============ -->
+<div class="reward-box container" id="rewardBox">
+  <span class="trophy">🏆</span>
+  <h2>
+    <span class="ar-only">مَا شَاءَ الله! 🎉</span>
+    <span class="en-only">Masha'Allah! 🎉</span>
+  </h2>
+  <p>
+    <span class="ar-only">أَنْتَ بَطَلُ الإِيمَانِ بِالْمَلَائِكَة! الْمَلَائِكَةُ تُحِبُّك 🕊️</span>
+    <span class="en-only">You are a champion of belief in angels! The angels love you 🕊️</span>
+  </p>
+  <p style="margin-top: 10px; font-size: 1.1rem;">
+    <span class="ar-only">جَمَعْتَ <strong id="finalStars">0</strong> نُجُوم ⭐</span>
+    <span class="en-only">You collected <strong id="finalStarsEn">0</strong> stars ⭐</span>
+  </p>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<footer style="text-align:center; padding: 40px 20px; color: var(--text-soft); font-size: 0.95rem; border-top: 2px solid var(--border); margin-top: 40px; width: 100%;">
+  <p>© <span id="year"></span> — <strong style="color: var(--gold-dark);">
+    <span class="ar-only">سارة للتعلّم</span>
+    <span class="en-only">Learning with Sarah</span>
+  </strong></p>
+  <p style="margin-top: 6px;">
+    <span class="ar-only">العقيدة • الملائكة • القرآن</span>
+    <span class="en-only">Aqeedah • Angels • Quran</span>
+  </p>
+</footer>
+
+<script>
+/* ============================================================
+   LANGUAGE TOGGLE
+   ============================================================ */
+let currentLang = "ar";
+
+function setLang(lang) {
+  currentLang = lang;
+  const html = document.documentElement;
+  html.lang = lang;
+  html.dir = lang === "ar" ? "rtl" : "ltr";
+
+  document.getElementById("btnEn").classList.toggle("active", lang === "en");
+  document.getElementById("btnAr").classList.toggle("active", lang === "ar");
+
+  const finalStarsEn = document.getElementById("finalStarsEn");
+  if (finalStarsEn) finalStarsEn.textContent = stars;
+
+  try { localStorage.setItem("preferredLangAngels", lang); } catch (e) {}
+}
+
+try {
+  const saved = localStorage.getItem("preferredLangAngels");
+  if (saved === "en") setLang("en");
+  else if (saved === "ar") setLang("ar");
+} catch (e) {}
+
+/* ============================================================
+   STAR COLLECTION
+   ============================================================ */
+let stars = 0;
+const starEl = document.getElementById('starCount');
+const finalStarsEl = document.getElementById('finalStars');
+const finalStarsEnEl = document.getElementById('finalStarsEn');
+
+function addStar() {
+  stars++;
+  starEl.textContent = stars;
+  if (finalStarsEl) finalStarsEl.textContent = stars;
+  if (finalStarsEnEl) finalStarsEnEl.textContent = stars;
+  starEl.parentElement.style.transform = 'scale(1.15)';
+  setTimeout(() => { starEl.parentElement.style.transform = 'scale(1)'; }, 180);
+}
+
+document.querySelectorAll('.tap-star').forEach(star => {
+  star.addEventListener('click', () => {
+    star.classList.add('collected');
+    addStar();
+    spawnConfetti(star.getBoundingClientRect());
+  });
+});
+
+/* ============================================================
+   ANGEL CARDS
+   ============================================================ */
+const tappedAngels = new Set();
+document.querySelectorAll('.angel-card').forEach(card => {
+  card.addEventListener('click', () => {
+    const id = card.dataset.angel;
+    if (!tappedAngels.has(id)) {
+      tappedAngels.add(id);
+      card.classList.add('tapped');
+      addStar();
+      spawnConfetti(card.getBoundingClientRect());
+    }
+  });
+});
+
+/* ============================================================
+   QUIZ
+   ============================================================ */
+function setupQuiz(quizNum) {
+  const container = document.querySelector(`[data-quiz="${quizNum}"]`);
+  const feedback = document.getElementById(`quizFeedback${quizNum}`);
+  const buttons = container.querySelectorAll('.quiz-btn');
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (btn.disabled) return;
+      if (btn.dataset.answer === 'correct') {
+        btn.classList.add('correct');
+        const isAr = document.documentElement.lang === 'ar';
+        feedback.textContent = quizNum === 1
+          ? (isAr ? '✅ صَحِيح! الْمَلَائِكَةُ خُلِقُوا مِنْ نُور 🎉' : '✅ Correct! Angels are made from light 🎉')
+          : (isAr ? '✅ صَحِيح! جِبْرِيلُ يُوحِي إِلَى الأَنْبِيَاء 🌟' : '✅ Correct! Jibreel reveals to the prophets 🌟');
+        feedback.style.color = '#5c7a58';
+        buttons.forEach(b => { if (b !== btn) b.disabled = true; });
+        spawnConfetti(btn.getBoundingClientRect());
+        checkAllQuizzes();
+      } else {
+        btn.classList.add('wrong');
+        const isAr = document.documentElement.lang === 'ar';
+        feedback.textContent = isAr ? '❌ حَاوِلْ مَرَّةً أُخْرَى 😊' : '❌ Try again 😊';
+        feedback.style.color = '#c75d5d';
+        setTimeout(() => btn.classList.remove('wrong'), 500);
+      }
+    });
+  });
+}
+setupQuiz(1);
+setupQuiz(2);
+
+let quiz1Done = false, quiz2Done = false;
+function checkAllQuizzes() {
+  if (!quiz1Done && document.querySelector('[data-quiz="1"] .correct')) quiz1Done = true;
+  if (!quiz2Done && document.querySelector('[data-quiz="2"] .correct')) quiz2Done = true;
+
+  if (quiz1Done && quiz2Done) {
+    const baseTapStars = document.querySelectorAll('.tap-star').length;
+    const needed = baseTapStars - stars;
+    if (needed > 0) {
+      for (let i = 0; i < needed; i++) {
+        setTimeout(() => {
+          stars++;
+          starEl.textContent = stars;
+          if (finalStarsEl) finalStarsEl.textContent = stars;
+          if (finalStarsEnEl) finalStarsEnEl.textContent = stars;
+        }, i * 100);
+      }
+    }
+    setTimeout(showReward, 600);
+  }
+}
+
+/* ============================================================
+   REWARD
+   ============================================================ */
+let rewardShown = false;
+function showReward() {
+  if (rewardShown) return;
+  rewardShown = true;
+  const box = document.getElementById('rewardBox');
+  if (finalStarsEl) finalStarsEl.textContent = stars;
+  if (finalStarsEnEl) finalStarsEnEl.textContent = stars;
+  box.classList.add('show');
+  box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  for (let i = 0; i < 40; i++) {
+    setTimeout(() => spawnConfetti(), i * 60);
+  }
+}
+
+/* ============================================================
+   CONFETTI
+   ============================================================ */
+const confettiEmojis = ['⭐', '🌟', '✨', '🎉', '💛', '🤍', '🕊️', '👼', '🎊'];
+function spawnConfetti(fromRect) {
+  const el = document.createElement('div');
+  el.className = 'confetti';
+  el.textContent = confettiEmojis[Math.floor(Math.random() * confettiEmojis.length)];
+  const startX = fromRect ? fromRect.left + fromRect.width / 2 : Math.random() * window.innerWidth;
+  el.style.left = (startX + (Math.random() * 100 - 50)) + 'px';
+  el.style.animationDuration = (2 + Math.random() * 2) + 's';
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 4500);
+}
+
+/* ============================================================
+   YEAR
+   ============================================================ */
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
