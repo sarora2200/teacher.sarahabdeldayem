@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlRoot">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نون قطني | Noon Qutni</title>
+<link rel="icon" type="image/png" href="../../../images/quran.png">
+<link rel="apple-touch-icon" href="images/quran.png">
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Poppins:wght@400;500;700;900&family=Amiri:wght@400;700&family=Baloo+Bhaijaan+2:wght@400;600;800&display=swap" rel="stylesheet">
+
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+  :root {
+    --bg-dark: #0a1628;
+    --gold: #f5c542;
+    --gold-soft: #ffe08a;
+    --teal: #2dd4bf;
+    --base-font-size: 16px;
+  }
+
+  html {
+    font-size: var(--base-font-size);
+    transition: font-size 0.2s ease-out;
+  }
+
+  html[lang="ar"] body { font-family: 'Tajawal', sans-serif; }
+  html[lang="en"] body { font-family: 'Poppins', sans-serif; }
+
+  .font-kid { font-family: 'Baloo Bhaijaan 2', 'Tajawal', cursive; }
+  .font-ar  { font-family: 'Amiri', serif; }
+
+  body {
+    background: radial-gradient(circle at 20% 10%, #1a3355 0%, var(--bg-dark) 55%, #050b14 100%);
+    color: #eaf2ff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 6rem;
+  }
+
+  html[lang="ar"] .en-only { display: none !important; }
+  html[lang="en"] .ar-only { display: none !important; }
+
+  @keyframes pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.06); }
+    100% { transform: scale(1); }
+  }
+  .pop { animation: pop 0.4s ease; }
+
+  .progress-fill {
+    transition: width 0.5s ease;
+    background: linear-gradient(90deg, var(--teal), var(--gold));
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+  .float { animation: float 3s ease-in-out infinite; }
+
+  @keyframes pulseDot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+  }
+  .pulse-dot { animation: pulseDot 1.8s infinite; }
+
+  .audio-loading {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #f5c542;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .back-home-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 24px;
+    padding: 10px 22px;
+    border-radius: 9999px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #ffe08a;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(245, 197, 66, 0.35);
+    text-decoration: none;
+    backdrop-filter: blur(6px);
+    transition: all 0.25s ease;
+  }
+  .back-home-btn:hover {
+    background: rgba(245, 197, 66, 0.15);
+    border-color: rgba(245, 197, 66, 0.7);
+    color: #f5c542;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(245, 197, 66, 0.18);
+  }
+  .back-home-btn:active { transform: translateY(0) scale(0.97); }
+  html[lang="ar"] .back-home-btn:hover .ar-only { display: inline-block; transform: translateX(-4px); transition: transform 0.25s ease; }
+  html[lang="en"] .back-home-btn:hover .en-only { display: inline-block; transform: translateX(4px); transition: transform 0.25s ease; }
+
+  .video-embed-wrap {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 24px;
+    align-items: stretch;
+  }
+  .video-embed-frame {
+    position: relative;
+    background: #000;
+    border: 1px solid rgba(245, 197, 66, 0.25);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    aspect-ratio: 16 / 9;
+    /* إصلاح: ضمان بقاء الإطار محتفظاً بمكانه في كل اللغات */
+    width: 100%;
+    display: block;
+  }
+  .video-embed-frame iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+  /* إصلاح: إخفاء الـ iframe غير المستخدم فقط، مع الحفاظ على الحاوية */
+  html[lang="ar"] .video-embed-frame iframe.en-only { display: none !important; }
+  html[lang="en"] .video-embed-frame iframe.ar-only { display: none !important; }
+
+  .video-notes {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(245, 197, 66, 0.25);
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .video-notes h3 { color: var(--gold); font-size: 1.15rem; margin-bottom: 8px; }
+  .video-points { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+  .video-points li { position: relative; padding-inline-start: 26px; font-size: 0.98rem; color: #d6e3f5; line-height: 1.6; }
+  .video-points li::before { content: "✦"; position: absolute; inset-inline-start: 0; top: 0; color: var(--teal); font-size: 1rem; }
+  .video-link-btn { align-self: flex-start; display: inline-block; text-decoration: none; margin-top: 6px; }
+
+  @media (max-width: 800px) {
+    .video-embed-wrap { grid-template-columns: 1fr; }
+  }
+
+  .zoom-controls {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(15, 30, 55, 0.95);
+    backdrop-filter: blur(12px);
+    border: 2px solid rgba(245, 197, 66, 0.6);
+    border-radius: 9999px;
+    padding: 8px 16px;
+    z-index: 100;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+    transition: all 0.3s ease;
+  }
+  .zoom-controls:hover {
+    border-color: #f5c542;
+    box-shadow: 0 8px 40px rgba(245, 197, 66, 0.4);
+  }
+  .zoom-controls button {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    background: rgba(255, 255, 255, 0.1);
+    color: #f5c542;
+    line-height: 1;
+  }
+  .zoom-controls button:hover {
+    background: rgba(245, 197, 66, 0.25);
+    transform: scale(1.12);
+  }
+  .zoom-controls button:active { transform: scale(0.94); }
+  .zoom-controls button:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
+  .zoom-controls .zoom-level {
+    color: #ffe08a;
+    font-weight: 700;
+    font-size: 15px;
+    min-width: 52px;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  @media (max-width: 640px) {
+    .zoom-controls { bottom: 16px; padding: 6px 12px; gap: 6px; }
+    .zoom-controls button { width: 38px; height: 38px; font-size: 20px; }
+    .zoom-controls .zoom-level { font-size: 13px; min-width: 44px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ LANGUAGE TOGGLE ============ -->
+<div class="fixed top-4 left-4 rtl:left-4 ltr:right-4 z-50">
+  <div class="flex bg-slate-900/85 border border-amber-300/30 rounded-full p-1 backdrop-blur shadow-lg">
+    <button id="btnAr" onclick="setLang('ar')" class="px-4 py-2 rounded-full text-sm font-bold transition-all">🇪🇬 العربية</button>
+    <button id="btnEn" onclick="setLang('en')" class="px-4 py-2 rounded-full text-sm font-bold transition-all">🇬🇧 English</button>
+  </div>
+</div>
+
+<!-- ============ ZOOM CONTROLS ============ -->
+<div class="zoom-controls" id="zoomControls" aria-label="Zoom controls">
+  <button id="zoomOutBtn" onclick="changeZoom(-10)" title="تصغير / Zoom out">−</button>
+  <span class="zoom-level" id="zoomLevel">100%</span>
+  <button id="zoomInBtn" onclick="changeZoom(10)" title="تكبير / Zoom in">+</button>
+  <button id="zoomResetBtn" onclick="resetZoom()" title="إعادة الضبط / Reset" style="font-size:18px;">⟲</button>
+</div>
+
+<div class="max-w-6xl mx-auto px-4 py-6 flex-grow w-full" id="mainContent">
+
+  <!-- ============ HEADER ============ -->
+  <header class="text-center pt-20 pb-6">
+    <div class="inline-block bg-gradient-to-br from-amber-400 to-amber-600 text-amber-950 font-bold px-5 py-2 rounded-full text-sm mb-4 shadow-lg">
+      <span class="ar-only">⭐ موقع تعليمي موثّق ومعتمد</span>
+      <span class="en-only">⭐ Verified & Certified Learning Platform</span>
+    </div>
+
+    <h1 class="text-4xl sm:text-5xl font-black bg-gradient-to-br from-white to-amber-300 bg-clip-text text-transparent mb-3 leading-tight">
+      <span class="ar-only">نون قطني (نون صغيرة)</span>
+      <span class="en-only">Noon Qutni (Small Noon)</span>
+    </h1>
+
+    <p class="text-slate-300 max-w-2xl mx-auto mb-4">
+      <span class="ar-only">تعلّم قاعدة نون قطني الخاصة بالتنوين عند وصله بهمزة الوصل، وكيفية نطقها الصحيح للتخلص من التقاء الساكنين.</span>
+      <span class="en-only">Learn the Noon Qutni rule regarding Tanween when joined with Hamzatul Wasl, and how to pronounce it correctly to avoid meeting two silent letters.</span>
+    </p>
+
+    <div class="inline-flex items-center gap-2 bg-white/5 border border-amber-300/25 px-4 py-2 rounded-full text-sm">
+      <span class="w-2.5 h-2.5 bg-teal-400 rounded-full pulse-dot"></span>
+      <span class="ar-only">إعداد وتوثيق: المعلمة سارة أحمد 👩‍🏫</span>
+      <span class="en-only">Prepared by: Teacher Sarah Ahmed 👩‍🏫</span>
+    </div>
+
+    <div class="mt-6">
+      <a href="../tajweed-lessons.html" class="back-home-btn">
+        <span class="en-only">← Back to home</span>
+        <span class="ar-only">العودة للرئيسية →</span>
+      </a>
+    </div>
+  </header>
+
+  <div class="text-center text-7xl my-4 float">✍️</div>
+
+  <!-- ============ STEP 1: RULE ============ -->
+  <section class="my-12">
+    <h2 class="flex items-center gap-3 text-2xl font-bold text-amber-200 mb-6">
+      <span class="w-1.5 h-8 bg-gradient-to-b from-amber-400 to-teal-400 rounded"></span>
+      <span class="ar-only">الخطوة الأولى: فهم القاعدة</span>
+      <span class="en-only">Step 1: Understanding the Rule</span>
+    </h2>
+
+    <div class="relative overflow-hidden bg-white/5 border border-amber-300/25 rounded-3xl p-8 backdrop-blur shadow-xl">
+      <div class="absolute top-0 left-0 rtl:left-auto rtl:right-0 font-ar text-[12rem] text-amber-400 opacity-[0.07] leading-none select-none pointer-events-none">ن</div>
+
+      <p class="text-lg leading-loose text-white border-s-4 border-amber-400 ps-5 mb-6 relative z-10">
+        <span class="ar-only">
+          «<strong>نُونٌ قَطْنِي</strong> هِيَ نُونٌ صَغِيرَةٌ (نِ) تُكْتَبُ تَحْتَ التَّنْوِينِ عِنْدَ وَصْلِهِ بِهَمْزَةِ الْوَصْلِ. وَسَبَبُهَا هُوَ التَّخَلُّصُ مِنَ الْتِقَاءِ السَّاكِنَيْنِ (سُكُونِ التَّنْوِينِ وَسُكُونِ الْحَرْفِ بَعْدَ هَمْزَةِ الْوَصْلِ).»
+        </span>
+        <span class="en-only">
+          "<strong>Noon Qutni</strong> is a small Noon (نِ) written under the Tanween when joined with Hamzatul Wasl. The reason is to avoid meeting two silent letters (the Tanween's Sukoon and the letter's Sukoon after Hamzatul Wasl)."
+        </span>
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 relative z-10">
+        <div class="bg-teal-400/10 border border-teal-400/25 rounded-2xl p-4 text-center">
+          <div class="text-3xl mb-1">✍️</div>
+          <span class="ar-only text-sm">تُكْتَبُ نُونًا صَغِيرَةً</span>
+          <span class="en-only text-sm">Written as a small Noon</span>
+        </div>
+        <div class="bg-teal-400/10 border border-teal-400/25 rounded-2xl p-4 text-center">
+          <div class="text-3xl mb-1">🔗</div>
+          <span class="ar-only text-sm">تَرْبِطُ التَّنْوِينَ بِهَمْزَةِ الْوَصْلِ</span>
+          <span class="en-only text-sm">Connects Tanween with Hamzatul Wasl</span>
+        </div>
+        <div class="bg-teal-400/10 border border-teal-400/25 rounded-2xl p-4 text-center">
+          <div class="text-3xl mb-1">🗣️</div>
+          <span class="ar-only text-sm">تُنْطَقُ نون بِالْكَسْرِ (نِ)</span>
+          <span class="en-only text-sm">Pronounced noon with Kasra (Ni)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mnemonic -->
+    <div class="mt-6 bg-gradient-to-br from-amber-400/15 to-teal-400/10 border-2 border-dashed border-amber-400 rounded-3xl p-8 text-center">
+      <h3 class="text-amber-300 font-bold text-lg mb-3">
+        <span class="ar-only">🔑 سرّ الحفظ: نون قطني = نون مكسورة للربط</span>
+        <span class="en-only">🔑 Memory Trick: Noon Qutni = Kasra Noon for connection</span>
+      </h3>
+      <p class="font-ar text-3xl font-bold text-white tracking-wider drop-shadow-[0_0_20px_rgba(245,197,66,0.5)]">نُوحٌ ابْنَهُ ➔ نُوحُنِ ابْنَهُ</p>
+    </div>
+  </section>
+
+  <!-- ============ VIDEO EXPLANATION ============ -->
+<section id="video">
+  <h2 class="section-title">
+    <span class="ar-only">شرح بالفيديو 🎬</span>
+    <span class="en-only">Video Explanation 🎬</span>
+  </h2>
+  <p style="margin-bottom:18px; color:#b8cce6;">
+    <span class="ar-only">شاهد الشرح الكامل لقاعدة نون قطني قبل البدء بالتطبيق.</span>
+    <span class="en-only">Watch the complete explanation of the Noon Qutni rule before practising.</span>
+  </p>
+
+  <div class="video-embed-wrap">
+    <!-- تم تعديل الحاوية لتبقى ظاهرة دائماً، وإخفاء الـ iframe فقط -->
+    <div class="video-embed-frame">
+      <iframe id="video-ar" class="ar-only" src="https://www.youtube.com/embed/3VjXvX8X6A" title="شرح نون قطني" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      <iframe id="video-en" class="en-only" src="https://www.youtube.com/embed/3VjXvX8X6B" title="Noon Qutni Explanation" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+
+    <div class="video-notes">
+      <h3>
+        <span class="ar-only">📌 نقاط مهمة من الفيديو</span>
+        <span class="en-only">📌 Key points from the video</span>
+      </h3>
+      <ul class="video-points">
+        <li>
+          <span class="ar-only">تحدث عند وصل التنوين (بجميع أنواعه) بهمزة وصل.</span>
+          <span class="en-only">Occurs when joining Tanween (all types) with Hamzatul Wasl.</span>
+        </li>
+        <li>
+          <span class="ar-only">السبب: التقاء الساكنين (سكون التنوين + سكون الحرف بعد همزة الوصل).</span>
+          <span class="en-only">Reason: Meeting two Sukoons (Tanween's Sukoon + the letter's Sukoon after Hamzatul Wasl).</span>
+        </li>
+        <li>
+          <span class="ar-only">الحل: إسقاط همزة الوصل ونطق نون مكسورة (نِ).</span>
+          <span class="en-only">Solution: Drop the Hamzatul Wasl and pronounce a Kasra Noon (نِ).</span>
+        </li>
+        <li>
+          <span class="ar-only">أمثلة: نُوحٌ ابْنَهُ، بِغُلَامٍ اسْمُهُ، جَزَاءً الْحُسْنَى.</span>
+          <span class="en-only">Examples: Nuhunibnahu, Bighulaminismuhu, Jaza'anil-Husna.</span>
+        </li>
+      </ul>
+      <a class="button btn-primary video-link-btn" id="videoLinkBtn" href="https://www.youtube.com/watch?v=3VjXvX8X6A" target="_blank" rel="noopener">
+        <span class="ar-only">شاهد على يوتيوب ↗</span>
+        <span class="en-only">Watch on YouTube ↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+  <!-- ============ STEP 2: EXAMPLE CARDS ============ -->
+  <section class="my-12">
+    <h2 class="flex items-center gap-3 text-2xl font-bold text-amber-200 mb-6">
+      <span class="w-1.5 h-8 bg-gradient-to-b from-amber-400 to-teal-400 rounded"></span>
+      <span class="ar-only">بطاقات الأمثلة 🔤</span>
+      <span class="en-only">Example Cards 🔤</span>
+    </h2>
+
+    <p class="text-slate-300 mb-6">
+      <span class="ar-only">اضغط على كل بطاقة لتستمع لكيفية نطق الكلمة مع نون قطني (من الجدول المرفق).</span>
+      <span class="en-only">Click each card to hear how the word is pronounced with Noon Qutni (from the provided table).</span>
+    </p>
+
+    <div id="cardsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4"></div>
+
+    <p class="text-amber-300 text-center mt-4 text-sm font-bold">
+      <span class="ar-only">📌 هذه هي الأمثلة الوحيدة لنون قطني في المصحف العثماني كاملاً.</span>
+      <span class="en-only">📌 These are the only Noon Qutni examples in the entire Uthmaani Quran.</span>
+    </p>
+
+    <div class="mt-6 bg-white/5 border border-amber-300/25 rounded-2xl p-4">
+      <div class="flex justify-between text-sm mb-2">
+        <span>
+          <span class="ar-only">تقدّمك</span>
+          <span class="en-only">Your progress</span>
+        </span>
+        <span><span id="visitedCount">0</span> / 17</span>
+      </div>
+      <div class="bg-white/10 h-3 rounded-full overflow-hidden">
+        <div id="cardsProgress" class="h-full rounded-full progress-fill" style="width:0%"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STEP 3: AUDIO LAB ============ -->
+  <section class="my-12">
+    <h2 class="flex items-center gap-3 text-2xl font-bold text-amber-200 mb-6">
+      <span class="w-1.5 h-8 bg-gradient-to-b from-amber-400 to-teal-400 rounded"></span>
+      <span class="ar-only">مختبر النطق 🎧</span>
+      <span class="en-only">Pronunciation Lab 🎧</span>
+    </h2>
+
+    <div class="bg-white/5 border border-amber-300/25 rounded-3xl p-8 text-center shadow-xl">
+      <div id="audioWord" class="font-ar text-6xl text-amber-300 mb-2 drop-shadow-[0_0_25px_rgba(245,197,66,0.4)]">نُوحٌ ابْنَهُ</div>
+      <div id="audioTranslit" class="italic text-slate-300 mb-2">Nuhunibnahu</div>
+      <div id="audioMeaning" class="text-slate-400 mb-6">
+        <span class="ar-only">نُوحٌ ابْنَهُ (هود: ٤٢)</span>
+        <span class="en-only">Nuhunibnahu (Hud: 42)</span>
+      </div>
+
+      <button onclick="playCurrentAudio()" id="listenBtn" class="bg-gradient-to-br from-amber-400 to-amber-600 text-amber-950 font-bold px-10 py-3 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all inline-flex items-center gap-2">
+        <span class="ar-only">🔊 استمع للنطق</span>
+        <span class="en-only">🔊 Listen</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============ STEP 4: GAME ============ -->
+  <section class="my-12">
+    <h2 class="flex items-center gap-3 text-2xl font-bold text-amber-200 mb-6">
+      <span class="w-1.5 h-8 bg-gradient-to-b from-amber-400 to-teal-400 rounded"></span>
+      <span class="ar-only">مدينة الألعاب 🎮</span>
+      <span class="en-only">Games Arcade 🎮</span>
+    </h2>
+
+    <div class="bg-white/5 border border-amber-300/25 rounded-3xl p-8 shadow-xl">
+      <div class="flex justify-between items-center flex-wrap gap-3 mb-6 text-sm">
+        <span>
+          <span class="ar-only">السؤال <span id="gameQNumAr">1</span> من 5</span>
+          <span class="en-only">Question <span id="gameQNum">1</span> of 5</span>
+        </span>
+        <span class="bg-amber-400/15 border border-amber-400 px-4 py-1.5 rounded-full font-bold text-amber-300">
+          <span class="ar-only">نقاطك: <span id="gameScoreAr">0</span> ⭐</span>
+          <span class="en-only">Score: <span id="gameScore">0</span> ⭐</span>
+        </span>
+      </div>
+
+      <div id="gameQuestion" class="text-center font-bold text-lg mb-6">...</div>
+      <div id="gameOptions" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
+      <div id="gameFeedback" class="text-center mt-5 font-bold min-h-[1.5rem]"></div>
+
+      <div class="text-center mt-8 hidden" id="gameNextWrap">
+        <button onclick="nextGameQuestion()" class="bg-gradient-to-br from-teal-400 to-teal-600 text-teal-950 font-bold px-8 py-3 rounded-full shadow-lg hover:scale-105 transition-all">
+          <span class="ar-only">السؤال التالي ➡️</span>
+          <span class="en-only">Next ➡️</span>
+        </button>
+      </div>
+
+      <div class="text-center mt-8 hidden" id="gameRestartWrap">
+        <button onclick="restartGame()" class="bg-gradient-to-br from-teal-400 to-teal-600 text-teal-950 font-bold px-8 py-3 rounded-full shadow-lg hover:scale-105 transition-all">
+          <span class="ar-only">🔄 العب مرة أخرى</span>
+          <span class="en-only">🔄 Play Again</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STEP 5: QUIZ ============ -->
+  <section class="my-12">
+    <h2 class="flex items-center gap-3 text-2xl font-bold text-amber-200 mb-6">
+      <span class="w-1.5 h-8 bg-gradient-to-b from-amber-400 to-teal-400 rounded"></span>
+      <span class="ar-only">تحدّي بطل نون قطني 🏅</span>
+      <span class="en-only">Noon Qutni Champion Challenge 🏅</span>
+    </h2>
+
+    <div class="bg-white/5 border border-amber-300/25 rounded-3xl p-8 shadow-xl">
+      <div class="bg-white/10 h-2 rounded-full overflow-hidden mb-6">
+        <div id="quizProgress" class="h-full rounded-full progress-fill" style="width:0%"></div>
+      </div>
+
+      <div class="flex justify-between items-center flex-wrap gap-3 mb-6 text-sm">
+        <span>
+          <span class="ar-only">السؤال <span id="quizQNumAr">1</span> من 10</span>
+          <span class="en-only">Question <span id="quizQNum">1</span> of 10</span>
+        </span>
+        <span class="bg-amber-400/15 border border-amber-400 px-4 py-1.5 rounded-full font-bold text-amber-300">
+          <span class="ar-only">صحيح: <span id="quizScoreAr">0</span></span>
+          <span class="en-only">Correct: <span id="quizScore">0</span></span>
+        </span>
+      </div>
+
+      <div id="quizQuestion" class="text-center font-bold text-lg mb-6">...</div>
+      <div id="quizOptions" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
+      <div id="quizFeedback" class="text-center mt-5 font-bold min-h-[1.5rem]"></div>
+
+      <div class="text-center mt-8 hidden" id="quizNextWrap">
+        <button onclick="nextQuizQuestion()" class="bg-gradient-to-br from-teal-400 to-teal-600 text-teal-950 font-bold px-8 py-3 rounded-full shadow-lg hover:scale-105 transition-all">
+          <span class="ar-only">التالي ➡️</span>
+          <span class="en-only">Next ➡️</span>
+        </button>
+      </div>
+    </div>
+
+    <div id="certificate" class="hidden mt-8 bg-gradient-to-br from-amber-50 to-amber-100 text-amber-950 border-8 border-double border-amber-400 rounded-3xl p-10 text-center shadow-2xl">
+      <div class="text-5xl mb-3">🏅</div>
+      <h2 class="text-3xl font-black text-amber-700 mb-4">
+        <span class="ar-only">شهادة إتقان</span>
+        <span class="en-only">Certificate of Mastery</span>
+      </h2>
+      <p class="text-lg">
+        <span class="ar-only">تشهد المعلمة</span>
+        <span class="en-only">This certifies that</span>
+      </p>
+      <div id="certStudentName" class="font-ar text-4xl my-5 border-b-2 border-dotted border-amber-600 inline-block px-8 pb-2">—</div>
+      <p class="text-lg">
+        <span class="ar-only">قد أتقن قاعدة <strong>نون قطني</strong> بنجاح.</span>
+        <span class="en-only">has successfully mastered the <strong>Noon Qutni</strong> rule.</span>
+      </p>
+      <p class="mt-6 text-amber-800">
+        <span class="ar-only">🌟 المعلمة: <strong>سارة أحمد</strong> · التاريخ: <span id="certDateAr"></span></span>
+        <span class="en-only">🌟 Teacher: <strong>Sarah Ahmed</strong> · Date: <span id="certDate"></span></span>
+      </p>
+    </div>
+
+    <div class="text-center mt-8 hidden" id="certBtnWrap">
+      <button onclick="downloadCertificate()" class="bg-gradient-to-br from-teal-400 to-teal-600 text-teal-950 font-bold px-8 py-3 rounded-full shadow-lg hover:scale-105 transition-all">
+        <span class="ar-only">📥 تحميل الشهادة</span>
+        <span class="en-only">📥 Download Certificate</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============ NEW: FULL REFERENCE TABLE ============ -->
+  <section class="my-12">
+    <h2 class="flex items-center gap-3 text-2xl font-bold text-amber-200 mb-6">
+      <span class="w-1.5 h-8 bg-gradient-to-b from-amber-400 to-teal-400 rounded"></span>
+      <span class="ar-only">الجدول المرجعي الكامل 📋</span>
+      <span class="en-only">Full Reference Table 📋</span>
+    </h2>
+    
+    <div class="bg-white/5 border border-amber-300/25 rounded-3xl p-4 sm:p-8 shadow-xl overflow-x-auto">
+      <p class="text-slate-300 mb-4 text-sm">
+        <span class="ar-only">مواضع نون قطني في المصحف العثماني.</span>
+        <span class="en-only">Noon Qutni places in the Uthmaani Quran (as shown in the provided image).</span>
+      </p>
+      <table class="w-full text-center text-sm sm:text-base border-collapse min-w-[600px]">
+        <thead>
+          <tr class="bg-amber-400/20 text-amber-200 border-b-2 border-amber-400/50">
+            <th class="p-3 border border-amber-400/30 ar-only">السورة</th>
+            <th class="p-3 border border-amber-400/30 en-only">Surah</th>
+            <th class="p-3 border border-amber-400/30 ar-only">الآية</th>
+            <th class="p-3 border border-amber-400/30 en-only">Ayah</th>
+            <th class="p-3 border border-amber-400/30 ar-only">الكلمات (الرسم العثماني)</th>
+            <th class="p-3 border border-amber-400/30 en-only">Words (Uthmaani)</th>
+            <th class="p-3 border border-amber-400/30 ar-only">كيف تُقرأ وصلاً</th>
+            <th class="p-3 border border-amber-400/30 en-only">Read when continuing</th>
+          </tr>
+        </thead>
+        <tbody class="text-slate-200">
+          <!-- Row 1 -->
+          <tr class="hover:bg-white/5 transition-colors">
+            <td class="p-3 border border-amber-400/30">البقرة (2)</td>
+            <td class="p-3 border border-amber-400/30">180</td>
+            <td class="p-3 border border-amber-400/30 font-ar text-xl text-amber-100">خَيْرًا الْوَصِيَّةُ</td>
+            <td class="p-3 border border-amber-400/30 font-ar text-xl text-teal-200">خَيْرَنِ الْوَصِيَّةُ</td>
+          </tr>
+          <!-- Row 2 -->
+          <tr class="hover:bg-white/5 transition-colors">
+            <td class="p-3 border border-amber-400/30">الأعراف (7)</td>
+            <td class="p-3 border border-amber-400/30">8</td>
+            <td class="p-3 border border-amber-400/30 font-ar text-xl text-amber-100">يَوْمَئِذٍ الْحَقُّ</td>
+            <td class="p-3 border border-amber-400/30 font-ar text-xl text-teal-200">يَوْمَئِذِنِ الْحَقُّ</td>
+          </tr>
+          <!-- Row 3 -->
+          <tr class="hover:bg-white/5 transition-colors">
+            <td class="p-3 border border-amber-400/30">الأعراف (7)</td>
+            <td class="p-3 border border-amber-400/30">158</td>
+            <td class="p-3 border border-amber-400/30 font-ar text-xl text-amber-100">جَمِيعًا الَّذِي</td>
+            <td class="p-3 border border-amber-400/30 font-ar text-xl text-teal-200">جَمِيعَنِ الَّذِي</td>
+          </tr>
+          <!-- Row 4 -->
+          <tr class="hover:bg-white/5 transition-colors">
+            <td class="p-3 border border-amber-400/30">الأعراف (7)</td>
+            <td class="p-3 border border-amber-400/30">164</td>
+            <td class="p-3 border border-amber-400/30 font-ar text-xl text-amber-100">قَوْمًا اللَّهُ</td>
+            <td class="p-3 border border-amber-400/30 font-ar text-xl text-teal-200">قَوْمَنِ اللَّهُ</td>
+          </tr>
+          <!-- Row 5 -->
+          <tr class="hover:bg-white/5 transition-colors">
+            <td class="p-3 border border-amber-400/30">الأعراف (7)</td>
+            <td class="p-3 border border-amber-400/30">177</td>
+            <td class="p-3 border border-amber-400/30 font-ar text-xl text-amber-100">مَثَلًا الْقَوْمُ</td>
+            <td class="p-3 border border-amber-400/30 font-ar text-xl text-teal-200">مَثَلَنِ الْقَوْمُ</td>
+          </tr>
+          <!-- Row 6 -->
+          <tr class="hover:bg-white/5 transition-colors">
+            <td class="p-3 border border-amber-400/30">التوبة (9)</td>
+            <td class="p-3 border border-amber-400/30">24</td>
+            <td class="p-3 border border-amber-400/30 font-ar text-xl text-amber-100">وَأَمْوَالٌ اقْتَرَفْتُمُوهَا</td>
+            <td class="p-3 border border-amber-400/30 font-ar text-xl text-teal-200">وَأَمْوَالَنِ اقْتَرَفْتُمُوهَا</td>
+          </tr>
+          <!-- Row 7 -->
+          <tr class="hover:bg-white/5 transition-colors">
+            <td class="p-3 border border-amber-400/30">التوبة (9)</td>
+            <td class="p-3 border border-amber-400/30">30</td>
+            <td class="p-3 border border-amber-400/30 font-ar text-xl text-amber-100">عُزَيْرٌ ابْنُ</td>
+            <td class="p-3 border border-amber-400/30 font-ar text-xl text-teal-200">عُزَيْرُنِ ابْنُ</td>
+          </tr>
+          <!-- Row 8 -->
+          <tr class="hover:bg-white/5 transition-colors">
+            <td class="p-3 border border-amber-400/30">هود (11)</td>
+            <td class="p-3 border border-amber-400/30">42</td>
+            <td class="p-3 border border-amber-400/30 font-ar text-xl text-amber-100">نُوحٌ ابْنَهُ</td>
+            <td class="p-3 border border-amber-400/30 font-ar text-xl text-teal-200">نُوحُنِ ابْنَهُ</td>
+          </tr>
+          <!-- Row 9 -->
+          <tr class="hover:bg-white/5 transition-colors">
+            <td class="p-3 border border-amber-400/30">إبراهيم (14)</td>
+            <td class="p-3 border border-amber-400/30">18</td>
+            <td class="p-3 border border-amber-400/30 font-ar text-xl text-amber-100">كَرَمَادٍ اشْتَدَّتْ</td>
+            <td class="p-3 border border-amber-400/30 font-ar text-xl text-teal-200">كَرَمَادِنِ اشْتَدَّتْ</td>
+          </tr>
+          <!-- Row 10 -->
+          <tr class="hover:bg-white/5 transition-colors">
+            <td class="p-3 border border-amber-400/30">إبراهيم (14)</td>
+            <td class="p-3 border border-amber-400/30">26</td>
+            <td class="p-3 border border-amber-400/30 font-ar text-xl text-amber-100">خَبِيثَةٍ اجْتُثَّتْ</td>
+            <td class="p-3 border border-amber-400/30 font-ar text-xl text-teal-200">خَبِيثَةِنِ اجْتُثَّتْ</td>
+          </tr>
+          <!-- Row 11 -->
+          <tr class="hover:bg-white/5 transition-colors">
+            <td class="p-3 border border-amber-400/30">الحجر (15)</td>
+            <td class="p-3 border border-amber-400/30">61</td>
+            <td class="p-3 border border-amber-400/30 font-ar text-xl text-amber-100">لُوطٍ الْمُرْسَلُونَ</td>
+            <td class="p-3 border border-amber-400/30 font-ar text-xl text-teal-200">لُوطِنِ الْمُرْسَلُونَ</td>
+          </tr>
+          <!-- Row 12 -->
+          <tr class="hover:bg-white/5 transition-colors">
+            <td class="p-3 border border-amber-400/30">النحل (16)</td>
+            <td class="p-3 border border-amber-400/30">87</td>
+            <td class="p-3 border border-amber-400/30 font-ar text-xl text-amber-100">يَوْمَئِذٍ السَّلَامُ</td>
+            <td class="p-3 border border-amber-400/30 font-ar text-xl text-teal-200">يَوْمَئِذِنِ السَّلَامُ</td>
+          </tr>
+          <!-- Row 13 -->
+          <tr class="hover:bg-white/5 transition-colors">
+            <td class="p-3 border border-amber-400/30">الكهف (18)</td>
+            <td class="p-3 border border-amber-400/30">77</td>
+            <td class="p-3 border border-amber-400/30 font-ar text-xl text-amber-100">قَرْيَةٍ اسْتَطْعَمَا أَهْلَهَا</td>
+            <td class="p-3 border border-amber-400/30 font-ar text-xl text-teal-200">قَرْيَةِنِ اسْتَطْعَمَا أَهْلَهَا</td>
+          </tr>
+          <!-- Row 14 -->
+          <tr class="hover:bg-white/5 transition-colors">
+            <td class="p-3 border border-amber-400/30">الكهف (18)</td>
+            <td class="p-3 border border-amber-400/30">88</td>
+            <td class="p-3 border border-amber-400/30 font-ar text-xl text-amber-100">جَزَاءً الْحُسْنَى</td>
+            <td class="p-3 border border-amber-400/30 font-ar text-xl text-teal-200">جَزَاءَنِ الْحُسْنَى</td>
+          </tr>
+          <!-- Row 15 -->
+          <tr class="hover:bg-white/5 transition-colors">
+            <td class="p-3 border border-amber-400/30">مريم (19)</td>
+            <td class="p-3 border border-amber-400/30">7</td>
+            <td class="p-3 border border-amber-400/30 font-ar text-xl text-amber-100">بِغُلَامٍ اسْمُهُ</td>
+            <td class="p-3 border border-amber-400/30 font-ar text-xl text-teal-200">بِغُلَامِنِ اسْمُهُ</td>
+          </tr>
+          <!-- Row 16 -->
+          <tr class="hover:bg-white/5 transition-colors">
+            <td class="p-3 border border-amber-400/30">مريم (19)</td>
+            <td class="p-3 border border-amber-400/30">61</td>
+            <td class="p-3 border border-amber-400/30 font-ar text-xl text-amber-100">عَدْنٍ الَّتِي</td>
+            <td class="p-3 border border-amber-400/30 font-ar text-xl text-teal-200">عَدْنِنِ الَّتِي</td>
+          </tr>
+          <!-- Row 17 -->
+          <tr class="hover:bg-white/5 transition-colors">
+            <td class="p-3 border border-amber-400/30">الحج (22)</td>
+            <td class="p-3 border border-amber-400/30">11</td>
+            <td class="p-3 border border-amber-400/30 font-ar text-xl text-amber-100">خَيْرٌ اطْمَأَنَّ</td>
+            <td class="p-3 border border-amber-400/30 font-ar text-xl text-teal-200">خَيْرُنِ اطْمَأَنَّ</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</div>
+
+<footer class="text-center py-10 text-slate-400 text-sm border-t border-white/5 mt-auto relative z-10">
+  <p>© <span id="year"></span> — <span class="ar-only">المعلمة <strong class="text-amber-300">سارة أحمد</strong></span><span class="en-only">Teacher <strong class="text-amber-300">Sarah Ahmed</strong></span></p>
+  <p class="mt-2">Quran • Tajweed • Arabic Language</p>
+</footer>
+
+<script src="../../config.js"></script>
+
+<script>
+/* ============================================================
+   ZOOM FEATURE
+   ============================================================ */
+let currentZoom = 100;
+const MIN_ZOOM = 50;
+const MAX_ZOOM = 200;
+const ZOOM_STEP = 10;
+const BASE_FONT_PX = 16;
+
+function applyZoom() {
+  const newFontSize = (BASE_FONT_PX * (currentZoom / 100)) + "px";
+  document.documentElement.style.setProperty('--base-font-size', newFontSize);
+  const levelEl = document.getElementById("zoomLevel");
+  if (levelEl) levelEl.textContent = currentZoom + "%";
+  const outBtn = document.getElementById("zoomOutBtn");
+  const inBtn = document.getElementById("zoomInBtn");
+  if (outBtn) outBtn.disabled = currentZoom <= MIN_ZOOM;
+  if (inBtn) inBtn.disabled = currentZoom >= MAX_ZOOM;
+  try { localStorage.setItem("noonQutniZoomLevel", currentZoom); } catch (e) {}
+}
+
+function changeZoom(delta) {
+  currentZoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, currentZoom + delta));
+  applyZoom();
+}
+
+function resetZoom() {
+  currentZoom = 100;
+  applyZoom();
+}
+
+try {
+  const savedZoom = localStorage.getItem("noonQutniZoomLevel");
+  if (savedZoom) currentZoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, parseInt(savedZoom, 10) || 100));
+} catch (e) {}
+applyZoom();
+
+document.addEventListener("keydown", (e) => {
+  if ((e.ctrlKey || e.metaKey) && (e.key === "=" || e.key === "+")) {
+    e.preventDefault();
+    changeZoom(ZOOM_STEP);
+  } else if ((e.ctrlKey || e.metaKey) && e.key === "-") {
+    e.preventDefault();
+    changeZoom(-ZOOM_STEP);
+  } else if ((e.ctrlKey || e.metaKey) && e.key === "0") {
+    e.preventDefault();
+    resetZoom();
+  }
+});
+
+/* ============================================================
+   AZURE TTS CONFIG
+   ============================================================ */
+const AZURE_TTS_CONFIG = window.AZURE_TTS_CONFIG || {
+  subscriptionKey: "",
+  region: "",
+  voice: "ar-SA-HamedNeural"
+};
+
+/* ============================================================
+   LANGUAGE TOGGLE
+   ============================================================ */
+let currentLang = "ar";
+
+function setLang(lang) {
+  currentLang = lang;
+  const html = document.getElementById("htmlRoot");
+  html.lang = lang;
+  html.dir = lang === "ar" ? "rtl" : "ltr";
+
+  document.getElementById("btnAr").classList.toggle("bg-amber-400", lang === "ar");
+  document.getElementById("btnAr").classList.toggle("text-amber-950", lang === "ar");
+  document.getElementById("btnAr").classList.toggle("text-slate-300", lang !== "ar");
+  document.getElementById("btnEn").classList.toggle("bg-amber-400", lang === "en");
+  document.getElementById("btnEn").classList.toggle("text-amber-950", lang === "en");
+  document.getElementById("btnEn").classList.toggle("text-slate-300", lang !== "en");
+
+  const videoLinkBtn = document.getElementById("videoLinkBtn");
+  if (lang === "en") {
+    videoLinkBtn.href = "https://www.youtube.com/watch?v=3VjXvX8X6B";
+  } else {
+    videoLinkBtn.href = "https://www.youtube.com/watch?v=3VjXvX8X6A";
+  }
+
+  renderCards();
+  renderGameQuestion();
+  renderQuizQuestion();
+  updateAudioDisplayForLang();
+  updateCertDateForLang();
+
+  try { localStorage.setItem("preferredLangNoonQutni", lang); } catch (e) {}
+}
+
+/* ============================================================
+   EXAMPLE DATA (Exactly from the provided table — 17 examples)
+   ============================================================ */
+const letters = [
+  { letter: "خ", word: "خَيْرًا الْوَصِيَّةُ",        ttsText: "خَيْرَنِ الْوَصِيَّةُ",        translit: "Khayranil-Wasiyyah",         emoji: "📜", en: "Al-Baqarah 180", ar: "البقرة ١٨٠", color: "sky"     },
+  { letter: "ي", word: "يَوْمَئِذٍ الْحَقُّ",          ttsText: "يَوْمَئِذِنِ الْحَقُّ",          translit: "Yawma'izinil-Haqq",          emoji: "⚖️", en: "Al-A'raf 8",     ar: "الأعراف ٨",  color: "emerald" },
+  { letter: "ج", word: "جَمِيعًا الَّذِي",            ttsText: "جَمِيعَنِ الَّذِي",            translit: "Jami'anil-Ladhi",            emoji: "🌍", en: "Al-A'raf 158",   ar: "الأعراف ١٥٨", color: "violet"  },
+  { letter: "ق", word: "قَوْمًا اللَّهُ",              ttsText: "قَوْمَنِ اللَّهُ",              translit: "Qawmanillah",                emoji: "🕌", en: "Al-A'raf 164",   ar: "الأعراف ١٦٤", color: "rose"    },
+  { letter: "م", word: "مَثَلًا الْقَوْمُ",            ttsText: "مَثَلَنِ الْقَوْمُ",            translit: "Mathalanil-Qawm",            emoji: "📊", en: "Al-A'raf 177",   ar: "الأعراف ١٧٧", color: "amber"   },
+  { letter: "أ", word: "وَأَمْوَالٌ اقْتَرَفْتُمُوهَا", ttsText: "وَأَمْوَالَنِ اقْتَرَفْتُمُوهَا", translit: "Wa-amwalanil-Iqtaraftumuha", emoji: "💰", en: "At-Tawba 24",    ar: "التوبة ٢٤",  color: "sky"     },
+  { letter: "ع", word: "عُزَيْرٌ ابْنُ",               ttsText: "عُزَيْرُنِ ابْنُ",               translit: "Uzayrunibnu",                emoji: "📖", en: "At-Tawba 30",    ar: "التوبة ٣٠",  color: "violet"  },
+  { letter: "ن", word: "نُوحٌ ابْنَهُ",                ttsText: "نُوحُنِ ابْنَهُ",                translit: "Nuhunibnahu",                emoji: "🚢", en: "Hud 42",          ar: "هود ٤٢",     color: "emerald" },
+  { letter: "ك", word: "كَرَمَادٍ اشْتَدَّتْ",          ttsText: "كَرَمَادِنِ اشْتَدَّتْ",          translit: "Karamadinish-taddat",        emoji: "🌪️", en: "Ibraheem 18",    ar: "إبراهيم ١٨", color: "amber"   },
+  { letter: "خ", word: "خَبِيثَةٍ اجْتُثَّتْ",          ttsText: "خَبِيثَةِنِ اجْتُثَّتْ",          translit: "Khabithatinij-tutthat",      emoji: "🌱", en: "Ibraheem 26",    ar: "إبراهيم ٢٦", color: "rose"    },
+  { letter: "ل", word: "لُوطٍ الْمُرْسَلُونَ",          ttsText: "لُوطِنِ الْمُرْسَلُونَ",          translit: "Lutinil-Mursalun",           emoji: "👥", en: "Al-Hijr 61",     ar: "الحجر ٦١",   color: "sky"     },
+  { letter: "ي", word: "يَوْمَئِذٍ السَّلَامُ",         ttsText: "يَوْمَئِذِنِ السَّلَامُ",         translit: "Yawma'izinis-Salam",         emoji: "🕊️", en: "An-Nahl 87",     ar: "النحل ٨٧",   color: "emerald" },
+  { letter: "ق", word: "قَرْيَةٍ اسْتَطْعَمَا",         ttsText: "قَرْيَةِنِ اسْتَطْعَمَا",         translit: "Qaryatinistath'ama",         emoji: "🏘️", en: "Al-Kahf 77",     ar: "الكهف ٧٧",   color: "violet"  },
+  { letter: "ج", word: "جَزَاءً الْحُسْنَى",            ttsText: "جَزَاءَنِ الْحُسْنَى",            translit: "Jaza'anil-Husna",            emoji: "🏆", en: "Al-Kahf 88",     ar: "الكهف ٨٨",   color: "amber"   },
+  { letter: "ب", word: "بِغُلَامٍ اسْمُهُ",             ttsText: "بِغُلَامِنِ اسْمُهُ",             translit: "Bighulaminismuhu",           emoji: "👶", en: "Maryam 7",       ar: "مريم ٧",     color: "rose"    },
+  { letter: "ع", word: "عَدْنٍ الَّتِي",               ttsText: "عَدْنِنِ الَّتِي",               translit: "'Adninillati",               emoji: "🌿", en: "Maryam 61",      ar: "مريم ٦١",    color: "sky"     },
+  { letter: "خ", word: "خَيْرٌ اطْمَأَنَّ",             ttsText: "خَيْرُنِ اطْمَأَنَّ",             translit: "Khayrun-itma'anna",          emoji: "🤝", en: "Al-Hajj 11",     ar: "الحج ١١",    color: "emerald" }
+];
+
+const colorMap = {
+  amber:   { bg: "bg-amber-50",    border: "border-amber-200",  text: "text-amber-900",  accent: "text-amber-800",  hover: "group-hover:bg-amber-400" },
+  sky:     { bg: "bg-sky-50",      border: "border-sky-200",    text: "text-sky-900",    accent: "text-sky-800",    hover: "group-hover:bg-sky-400" },
+  emerald: { bg: "bg-emerald-50",  border: "border-emerald-200",text: "text-emerald-900",accent: "text-emerald-800",hover: "group-hover:bg-emerald-400" },
+  rose:    { bg: "bg-rose-50",     border: "border-rose-200",   text: "text-rose-900",   accent: "text-rose-800",   hover: "group-hover:bg-rose-400" },
+  violet:  { bg: "bg-violet-50",   border: "border-violet-200", text: "text-violet-900", accent: "text-violet-800", hover: "group-hover:bg-violet-400" }
+};
+
+const cardsGrid = document.getElementById("cardsGrid");
+const visitedSet = new Set();
+
+function renderCards() {
+  cardsGrid.innerHTML = "";
+  letters.forEach((item, i) => {
+    const c = colorMap[item.color];
+    const card = document.createElement("button");
+    card.type = "button";
+    card.className = `group relative p-3 sm:p-4 rounded-3xl border-2 transition-all transform hover:-translate-y-1 active:scale-95 text-center flex flex-col justify-between cursor-pointer ${c.bg} ${c.border} ${c.text} hover:shadow-md ${visitedSet.has(i) ? "ring-2 ring-teal-400" : ""}`;
+    card.innerHTML = `
+      <div class="my-1">
+        <span class="text-4xl sm:text-5xl font-black font-kid block group-hover:scale-110 transition-transform">${item.letter}</span>
+        <span class="text-xs font-bold text-slate-500 block mt-0.5">${item.translit}</span>
+      </div>
+      <div class="mt-2 pt-2 border-t border-slate-200/60 flex flex-col items-center">
+        <span class="text-2xl mb-1">${item.emoji}</span>
+        <span class="text-sm sm:text-base font-bold text-slate-900 block font-kid">${item.word}</span>
+      </div>
+      <div class="mt-2 flex items-center justify-center">
+        <span class="p-1 rounded-full bg-white/80 ${c.accent} text-[10px] font-bold flex items-center gap-1 shadow-sm ${c.hover} transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3">
+            <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"></path>
+            <path d="M16 9a5 5 0 0 1 0 6"></path>
+            <path d="M19.364 18.364a9 9 0 0 0 0-12.728"></path>
+          </svg>
+          <span class="ar-only">اسْتَمِعْ</span>
+          <span class="en-only">Listen</span>
+        </span>
+      </div>
+    `;
+    card.addEventListener("click", () => {
+      if (!visitedSet.has(i)) {
+        visitedSet.add(i);
+        card.classList.add("ring-2", "ring-teal-400");
+        updateCardsProgress();
+      }
+      card.classList.add("pop");
+      setTimeout(() => card.classList.remove("pop"), 400);
+
+      document.getElementById("audioWord").textContent = item.word;
+      document.getElementById("audioTranslit").textContent = item.translit;
+      setAudioMeaning(item);
+      speakWithAzure(item.ttsText);
+    });
+    cardsGrid.appendChild(card);
+  });
+  updateCardsProgress();
+}
+
+function setAudioMeaning(item) {
+  document.getElementById("audioMeaning").innerHTML =
+    currentLang === "ar" ? item.ar : item.en;
+}
+
+function updateAudioDisplayForLang() {
+  const wordEl = document.getElementById("audioWord").textContent;
+  const found = letters.find(l => l.word === wordEl);
+  if (found) setAudioMeaning(found);
+}
+
+function updateCardsProgress() {
+  const count = visitedSet.size;
+  document.getElementById("visitedCount").textContent = count;
+  document.getElementById("cardsProgress").style.width =
+    ((count / letters.length) * 100) + "%";
+}
+
+/* ============================================================
+   AZURE TTS ENGINE
+   ============================================================ */
+let currentTtsText = "نُوحُنِ ابْنَهُ";
+
+async function speakWithAzure(text) {
+  currentTtsText = text;
+  const btn = document.getElementById("listenBtn");
+  const originalHTML = btn.innerHTML;
+
+  btn.innerHTML = `<span class="audio-loading"></span>`;
+  btn.disabled = true;
+
+  if (!AZURE_TTS_CONFIG.subscriptionKey || AZURE_TTS_CONFIG.subscriptionKey === "YOUR_AZURE_KEY_HERE") {
+    speakFallback(text);
+    btn.innerHTML = originalHTML;
+    btn.disabled = false;
+    return;
+  }
+
+  try {
+    const endpoint = `https://${AZURE_TTS_CONFIG.region}.tts.speech.microsoft.com/cognitiveservices/v1`;
+    const ssml = `
+      <speak version='1.0' xml:lang='ar-SA'>
+        <voice name='${AZURE_TTS_CONFIG.voice}'>
+          <prosody rate='-10%' pitch='0%'>
+            ${text}
+          </prosody>
+        </voice>
+      </speak>
+    `;
+
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Ocp-Apim-Subscription-Key": AZURE_TTS_CONFIG.subscriptionKey,
+        "Content-Type": "application/ssml+xml",
+        "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+        "User-Agent": "SarahAhmedNoonQutniLesson"
+      },
+      body: ssml
+    });
+
+    if (!response.ok) throw new Error(`Azure TTS error: ${response.status}`);
+
+    const audioBlob = await response.blob();
+    const audioUrl = URL.createObjectURL(audioBlob);
+    const audio = new Audio(audioUrl);
+
+    audio.onended = () => URL.revokeObjectURL(audioUrl);
+    await audio.play();
+
+  } catch (error) {
+    console.error("Azure TTS failed:", error);
+    speakFallback(text);
+  } finally {
+    btn.innerHTML = originalHTML;
+    btn.disabled = false;
+  }
+}
+
+function playCurrentAudio() { speakWithAzure(currentTtsText); }
+
+function speakFallback(text) {
+  if ("speechSynthesis" in window) {
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "ar-SA";
+    u.rate = 0.85;
+    u.pitch = 1.0;
+    const voices = speechSynthesis.getVoices();
+    const arabicVoice = voices.find(v => v.lang.startsWith("ar"));
+    if (arabicVoice) u.voice = arabicVoice;
+    speechSynthesis.speak(u);
+  }
+}
+
+if ("speechSynthesis" in window) {
+  speechSynthesis.onvoiceschanged = () => {};
+}
+
+/* ============================================================
+   GAME DATA — all options are pronunciation forms, only one
+   with correct Kasra Noon. No two correct answers.
+   ============================================================ */
+const gameQuestions = {
+  ar: [
+    { q: "فِي «خَيْرًا الْوَصِيَّةُ» تُنْطَقُ:",
+      options: ["خَيْرَنُ الْوَصِيَّةُ", "خَيْرَنِ الْوَصِيَّةُ", "خَيْرَنَ الْوَصِيَّةُ", "خَيْرَ الْوَصِيَّةُ"],
+      correct: 1 },
+    { q: "فِي «قَوْمًا اللَّهُ» تُنْطَقُ:",
+      options: ["قَوْمَنُ اللَّهُ", "قَوْمَنِ اللَّهُ", "قَوْمَنَ اللَّهُ", "قَوْمَ اللَّهُ"],
+      correct: 1 },
+    { q: "فِي «نُوحٌ ابْنَهُ» تُنْطَقُ:",
+      options: ["نُوحُنُ ابْنَهُ", "نُوحُنِ ابْنَهُ", "نُوحُنَ ابْنَهُ", "نُوحُ ابْنَهُ"],
+      correct: 1 },
+    { q: "فِي «يَوْمَئِذٍ الْحَقُّ» تُنْطَقُ:",
+      options: ["يَوْمَئِذِنُ الْحَقُّ", "يَوْمَئِذِنِ الْحَقُّ", "يَوْمَئِذِنَ الْحَقُّ", "يَوْمَئِذُ الْحَقُّ"],
+      correct: 1 },
+    { q: "فِي «جَمِيعًا الَّذِي» تُنْطَقُ:",
+      options: ["جَمِيعَنُ الَّذِي", "جَمِيعَنِ الَّذِي", "جَمِيعَنَ الَّذِي", "جَمِيعَ الَّذِي"],
+      correct: 1 }
+  ],
+  en: [
+    { q: "In «خَيْرًا الْوَصِيَّةُ» it is pronounced:",
+      options: ["Khayranul-Wasiyyah", "Khayranil-Wasiyyah", "Khayranal-Wasiyyah", "Khayra Al-Wasiyyah"],
+      correct: 1 },
+    { q: "In «قَوْمًا اللَّهُ» it is pronounced:",
+      options: ["Qawmanullah", "Qawmanillah", "Qawmanallah", "Qawma Allah"],
+      correct: 1 },
+    { q: "In «نُوحٌ ابْنَهُ» it is pronounced:",
+      options: ["Nuhun Ibnahu", "Nuhunibnahu", "Nuhan Ibnahu", "Nuhu Ibnahu"],
+      correct: 1 },
+    { q: "In «يَوْمَئِذٍ الْحَقُّ» it is pronounced:",
+      options: ["Yawma'izin Al-Haqq", "Yawma'izinil-Haqq", "Yawma'izinal-Haqq", "Yawma'izu Al-Haqq"],
+      correct: 1 },
+    { q: "In «جَمِيعًا الَّذِي» it is pronounced:",
+      options: ["Jami'an Al-Ladhi", "Jami'anil-Ladhi", "Jami'anal-Ladhi", "Jami'a Al-Ladhi"],
+      correct: 1 }
+  ]
+};
+
+/* ============================================================
+   QUIZ DATA — same principle: one correct pronunciation only
+   ============================================================ */
+const quizQuestions = {
+  ar: [
+    { q: "فِي «وَأَمْوَالٌ اقْتَرَفْتُمُوهَا» تُنْطَقُ:",
+      options: ["وَأَمْوَالَنُ اقْتَرَفْتُمُوهَا", "وَأَمْوَالَنِ اقْتَرَفْتُمُوهَا", "وَأَمْوَالَنَ اقْتَرَفْتُمُوهَا", "وَأَمْوَالَ اقْتَرَفْتُمُوهَا"],
+      correct: 1 },
+    { q: "فِي «عُزَيْرٌ ابْنُ» تُنْطَقُ:",
+      options: ["عُزَيْرُنُ ابْنُ", "عُزَيْرُنِ ابْنُ", "عُزَيْرُنَ ابْنُ", "عُزَيْرُ ابْنُ"],
+      correct: 1 },
+    { q: "فِي «خَبِيثَةٍ اجْتُثَّتْ» تُنْطَقُ:",
+      options: ["خَبِيثَةِنُ اجْتُثَّتْ", "خَبِيثَةِنِ اجْتُثَّتْ", "خَبِيثَةِنَ اجْتُثَّتْ", "خَبِيثَةُ اجْتُثَّتْ"],
+      correct: 1 },
+    { q: "فِي «لُوطٍ الْمُرْسَلُونَ» تُنْطَقُ:",
+      options: ["لُوطِنُ الْمُرْسَلُونَ", "لُوطِنِ الْمُرْسَلُونَ", "لُوطِنَ الْمُرْسَلُونَ", "لُوطُ الْمُرْسَلُونَ"],
+      correct: 1 },
+    { q: "فِي «جَزَاءً الْحُسْنَى» تُنْطَقُ:",
+      options: ["جَزَاءَنُ الْحُسْنَى", "جَزَاءَنِ الْحُسْنَى", "جَزَاءَنَ الْحُسْنَى", "جَزَاءَ الْحُسْنَى"],
+      correct: 1 },
+    { q: "فِي «بِغُلَامٍ اسْمُهُ» تُنْطَقُ:",
+      options: ["بِغُلَامِنُ اسْمُهُ", "بِغُلَامِنِ اسْمُهُ", "بِغُلَامِنَ اسْمُهُ", "بِغُلَامُ اسْمُهُ"],
+      correct: 1 },
+    { q: "فِي «خَيْرٌ اطْمَأَنَّ» تُنْطَقُ:",
+      options: ["خَيْرُنُ اطْمَأَنَّ", "خَيْرُنِ اطْمَأَنَّ", "خَيْرُنَ اطْمَأَنَّ", "خَيْرُ اطْمَأَنَّ"],
+      correct: 1 },
+    { q: "فِي «مَثَلًا الْقَوْمُ» تُنْطَقُ:",
+      options: ["مَثَلَنُ الْقَوْمُ", "مَثَلَنِ الْقَوْمُ", "مَثَلَنَ الْقَوْمُ", "مَثَلَ الْقَوْمُ"],
+      correct: 1 },
+    { q: "فِي «قَرْيَةٍ اسْتَطْعَمَا أَهْلَهَا» تُنْطَقُ:",
+      options: ["قَرْيَةِنُ اسْتَطْعَمَا", "قَرْيَةِنِ اسْتَطْعَمَا", "قَرْيَةِنَ اسْتَطْعَمَا", "قَرْيَةُ اسْتَطْعَمَا"],
+      correct: 1 },
+    { q: "فِي «عَدْنٍ الَّتِي» تُنْطَقُ:",
+      options: ["عَدْنِنُ الَّتِي", "عَدْنِنِ الَّتِي", "عَدْنِنَ الَّتِي", "عَدْنُ الَّتِي"],
+      correct: 1 }
+  ],
+  en: [
+    { q: "In «وَأَمْوَالٌ اقْتَرَفْتُمُوهَا» it is pronounced:",
+      options: ["Wa-amwalun Iqtaraftumuha", "Wa-amwalanil-Iqtaraftumuha", "Wa-amwalanul-Iqtaraftumuha", "Wa-amwala Iqtaraftumuha"],
+      correct: 1 },
+    { q: "In «عُزَيْرٌ ابْنُ» it is pronounced:",
+      options: ["Uzayrun Ibnu", "Uzayrunibnu", "Uzayran Ibnu", "Uzayru Ibnu"],
+      correct: 1 },
+    { q: "In «خَبِيثَةٍ اجْتُثَّتْ» it is pronounced:",
+      options: ["Khabithatin Ij-tutthat", "Khabithatinij-tutthat", "Khabithatan Ij-tutthat", "Khabithatu Ij-tutthat"],
+      correct: 1 },
+    { q: "In «لُوطٍ الْمُرْسَلُونَ» it is pronounced:",
+      options: ["Lutin Al-Mursalun", "Lutinil-Mursalun", "Lutan Al-Mursalun", "Lutu Al-Mursalun"],
+      correct: 1 },
+    { q: "In «جَزَاءً الْحُسْنَى» it is pronounced:",
+      options: ["Jaza'an Al-Husna", "Jaza'anil-Husna", "Jaza'anul-Husna", "Jaza'a Al-Husna"],
+      correct: 1 },
+    { q: "In «بِغُلَامٍ اسْمُهُ» it is pronounced:",
+      options: ["Bighulamin Ismuhu", "Bighulaminismuhu", "Bighulaman Ismuhu", "Bighulamu Ismuhu"],
+      correct: 1 },
+    { q: "In «خَيْرٌ اطْمَأَنَّ» it is pronounced:",
+      options: ["Khayrun Itma'anna", "Khayrun-itma'anna", "Khayran Itma'anna", "Khayru Itma'anna"],
+      correct: 1 },
+    { q: "In «مَثَلًا الْقَوْمُ» it is pronounced:",
+      options: ["Mathalan Al-Qawm", "Mathalanil-Qawm", "Mathalanul-Qawm", "Mathala Al-Qawm"],
+      correct: 1 },
+    { q: "In «قَرْيَةٍ اسْتَطْعَمَا أَهْلَهَا» it is pronounced:",
+      options: ["Qaryatin Istath'ama", "Qaryatinistath'ama", "Qaryatan Istath'ama", "Qaryatu Istath'ama"],
+      correct: 1 },
+    { q: "In «عَدْنٍ الَّتِي» it is pronounced:",
+      options: ["'Adnin Allati", "'Adninillati", "'Adnan Allati", "'Adnu Allati"],
+      correct: 1 }
+  ]
+};
+
+let gameIndex = 0, gameScore = 0, gameLocked = false;
+let quizIndex = 0, quizScore = 0, quizLocked = false;
+
+function renderGameQuestion() {
+  gameLocked = false;
+  const q = gameQuestions[currentLang][gameIndex];
+
+  document.getElementById("gameQNumAr").textContent = gameIndex + 1;
+  document.getElementById("gameQNum").textContent = gameIndex + 1;
+  document.getElementById("gameQuestion").textContent = q.q;
+  document.getElementById("gameFeedback").textContent = "";
+  document.getElementById("gameNextWrap").classList.add("hidden");
+  document.getElementById("gameRestartWrap").classList.add("hidden");
+
+  const optWrap = document.getElementById("gameOptions");
+  optWrap.innerHTML = "";
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement("button");
+    btn.className = "bg-white/5 border border-amber-300/25 text-white text-xl p-5 rounded-2xl hover:bg-amber-400/10 hover:border-amber-400 transition-all font-ar";
+    btn.textContent = opt;
+    btn.onclick = () => checkGameAnswer(i, btn);
+    optWrap.appendChild(btn);
+  });
+}
+
+function checkGameAnswer(i, btn) {
+  if (gameLocked) return;
+  gameLocked = true;
+  const q = gameQuestions[currentLang][gameIndex];
+  const buttons = document.querySelectorAll("#gameOptions button");
+  const feedback = document.getElementById("gameFeedback");
+
+  if (i === q.correct) {
+    btn.classList.add("bg-teal-400/25", "border-teal-400", "pop");
+    gameScore++;
+    document.getElementById("gameScoreAr").textContent = gameScore;
+    document.getElementById("gameScore").textContent = gameScore;
+    feedback.style.color = "#2dd4bf";
+    feedback.textContent = currentLang === "ar" ? "أحسنت! ⭐" : "Excellent! ⭐";
+  } else {
+    btn.classList.add("bg-red-400/25", "border-red-400");
+    buttons[q.correct].classList.add("bg-teal-400/25", "border-teal-400");
+    feedback.style.color = "#ef4444";
+    feedback.textContent = currentLang === "ar" ? "حاول مرة أخرى 💪" : "Try again 💪";
+  }
+
+  buttons.forEach(b => (b.disabled = true));
+
+  if (gameIndex < gameQuestions[currentLang].length - 1) {
+    document.getElementById("gameNextWrap").classList.remove("hidden");
+  } else {
+    document.getElementById("gameRestartWrap").classList.remove("hidden");
+    feedback.textContent += ` — ${currentLang === "ar" ? "النتيجة" : "Final"}: ${gameScore}/5`;
+  }
+}
+
+function nextGameQuestion() { gameIndex++; renderGameQuestion(); }
+function restartGame() {
+  gameIndex = 0; gameScore = 0;
+  document.getElementById("gameScoreAr").textContent = "0";
+  document.getElementById("gameScore").textContent = "0";
+  renderGameQuestion();
+}
+
+function renderQuizQuestion() {
+  quizLocked = false;
+  const list = quizQuestions[currentLang];
+  const q = list[quizIndex];
+
+  document.getElementById("quizQNumAr").textContent = quizIndex + 1;
+  document.getElementById("quizQNum").textContent = quizIndex + 1;
+  document.getElementById("quizQuestion").textContent = q.q;
+  document.getElementById("quizFeedback").textContent = "";
+  document.getElementById("quizNextWrap").classList.add("hidden");
+  document.getElementById("quizProgress").style.width = ((quizIndex / list.length) * 100) + "%";
+
+  const optWrap = document.getElementById("quizOptions");
+  optWrap.innerHTML = "";
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement("button");
+    btn.className = "bg-white/5 border border-amber-300/25 text-white text-xl p-5 rounded-2xl hover:bg-amber-400/10 hover:border-amber-400 transition-all font-ar";
+    btn.textContent = opt;
+    btn.onclick = () => checkQuizAnswer(i, btn);
+    optWrap.appendChild(btn);
+  });
+}
+
+function checkQuizAnswer(i, btn) {
+  if (quizLocked) return;
+  quizLocked = true;
+  const q = quizQuestions[currentLang][quizIndex];
+  const buttons = document.querySelectorAll("#quizOptions button");
+  const feedback = document.getElementById("quizFeedback");
+
+  if (i === q.correct) {
+    btn.classList.add("bg-teal-400/25", "border-teal-400", "pop");
+    quizScore++;
+    document.getElementById("quizScoreAr").textContent = quizScore;
+    document.getElementById("quizScore").textContent = quizScore;
+    feedback.style.color = "#2dd4bf";
+    feedback.textContent = currentLang === "ar" ? "ممتاز! ⭐" : "Great! ⭐";
+  } else {
+    btn.classList.add("bg-red-400/25", "border-red-400");
+    buttons[q.correct].classList.add("bg-teal-400/25", "border-teal-400");
+    feedback.style.color = "#ef4444";
+    feedback.textContent = currentLang === "ar" ? "راجع الإجابة ✅" : "Review ✅";
+  }
+
+  buttons.forEach(b => (b.disabled = true));
+
+  if (quizIndex < quizQuestions[currentLang].length - 1) {
+    document.getElementById("quizNextWrap").classList.remove("hidden");
+  } else {
+    finishQuiz();
+  }
+}
+
+function nextQuizQuestion() { quizIndex++; renderQuizQuestion(); }
+
+function finishQuiz() {
+  document.getElementById("quizProgress").style.width = "100%";
+  if (quizScore >= 7) {
+    document.getElementById("certStudentName").textContent = currentLang === "ar" ? "الطالب المتميّز" : "Outstanding Student";
+    updateCertDateForLang();
+    document.getElementById("certificate").classList.remove("hidden");
+    document.getElementById("certBtnWrap").classList.remove("hidden");
+  } else {
+    document.getElementById("quizFeedback").innerHTML = currentLang === "ar"
+      ? `نتيجتك: ${quizScore}/10 — تحتاج ٧ على الأقل. حاول مرة أخرى 💪`
+      : `Your score: ${quizScore}/10 — You need at least 7. Try again 💪`;
+    setTimeout(() => {
+      quizIndex = 0; quizScore = 0;
+      document.getElementById("quizScoreAr").textContent = "0";
+      document.getElementById("quizScore").textContent = "0";
+      renderQuizQuestion();
+    }, 3000);
+  }
+}
+
+function updateCertDateForLang() {
+  const d = new Date();
+  document.getElementById("certDate").textContent = d.toLocaleDateString("en-GB");
+  document.getElementById("certDateAr").textContent = d.toLocaleDateString("ar-EG");
+}
+
+function downloadCertificate() {
+  const script = document.createElement("script");
+  script.src = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
+  script.onload = () => {
+    html2canvas(document.getElementById("certificate"), { scale: 2, backgroundColor: "#fffbeb" }).then(canvas => {
+      const link = document.createElement("a");
+      link.download = currentLang === "ar" ? "شهادة-نون-قطني.png" : "Noon-Qutni-Certificate.png";
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    });
+  };
+  document.body.appendChild(script);
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+try {
+  const saved = localStorage.getItem("preferredLangNoonQutni");
+  if (saved === "en") {
+    setLang("en");
+  } else {
+    setLang("ar");
+  }
+} catch (e) {
+  setLang("ar");
+}
+
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>

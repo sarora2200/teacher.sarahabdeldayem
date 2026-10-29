@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🐫 Arabic Letter Shapes | أشكال الحروف العربية</title>
+  <link rel="icon" type="image/png" href="../../../images/quran.png">
+    <link rel="apple-touch-icon" href="images/quran.png">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: linear-gradient(145deg, #fde8b3 0%, #fccf8b 100%);
+      font-family: 'Comic Sans MS', 'Chalkboard SE', 'Tahoma', 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      transition: direction 0.2s;
+    }
+
+    body.en { direction: ltr; }
+    body.ar { direction: rtl; }
+
+    .game-container {
+      max-width: 950px;
+      width: 100%;
+      background: #fff9e6;
+      border-radius: 90px 90px 60px 60px;
+      box-shadow: 0 20px 0 #e6a017, 0 25px 30px rgba(0,0,0,0.2);
+      padding: 2rem 2rem 3rem;
+      border: 8px solid #ffcf7a;
+      position: relative;
+    }
+
+    .lang-toggle {
+      position: absolute;
+      top: -1.2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #ffb347;
+      border: none;
+      border-radius: 50px;
+      padding: 0.6rem 1.8rem;
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #2d1b0e;
+      cursor: pointer;
+      box-shadow: 0 6px 0 #b46f1e, 0 6px 10px rgba(0,0,0,0.2);
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.05s linear;
+      white-space: nowrap;
+      z-index: 10;
+    }
+    .lang-toggle:active {
+      transform: translateX(-50%) translateY(5px);
+      box-shadow: 0 2px 0 #b46f1e, 0 6px 10px rgba(0,0,0,0.1);
+    }
+
+    .title {
+      font-size: 2.6rem;
+      text-align: center;
+      color: #b45f1b;
+      text-shadow: 5px 5px 0 #ffd966, 0 10px 15px rgba(255,200,50,0.6);
+      line-height: 1.3;
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+      transform: rotate(-2deg);
+    }
+
+    .title span { display: inline-block; animation: bounce 1.5s infinite alternate; }
+
+    @keyframes bounce {
+      0% { transform: translateY(0px); }
+      100% { transform: translateY(-8px); }
+    }
+
+    .question-box {
+      background: #a5d6ff;
+      border-radius: 120px;
+      padding: 2.5rem 2rem;
+      margin: 1.5rem 0 1.2rem;
+      box-shadow: inset 0 -8px 0 #6ba8d9, 0 12px 0 #4b7aa1, 0 12px 20px rgba(0,0,0,0.2);
+      border: 4px solid #ffffffb0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .letter-badge {
+      background: #ffb347;
+      padding: 0.5rem 2.5rem;
+      border-radius: 100px;
+      font-size: 6rem;
+      font-weight: bold;
+      color: #2d1b0e;
+      text-shadow: 3px 3px 0 #ffe599;
+      line-height: 1.3;
+      box-shadow: 0 8px 0 #cc7f1a, 0 8px 15px rgba(0,0,0,0.2);
+      display: inline-block;
+      font-family: 'Traditional Arabic', 'Amiri', 'Scheherazade', 'Tahoma', sans-serif;
+      min-width: 180px;
+      text-align: center;
+      direction: rtl;
+    }
+
+    .question-text {
+      font-size: 1.9rem;
+      text-align: center;
+      color: #1e3a5f;
+      background: #fffbe6;
+      padding: 1.2rem 2rem;
+      border-radius: 60px;
+      box-shadow: inset 0 -5px 0 #d4c28b, 0 8px 0 #b39b5c;
+      font-weight: bold;
+      line-height: 1.5;
+      max-width: 95%;
+    }
+
+    .answers-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+      margin: 2rem 0 1.5rem;
+    }
+
+    .answer-btn {
+      background: #f9e076;
+      border: none;
+      border-radius: 80px;
+      padding: 1.5rem 2.5rem;
+      font-size: 2rem;
+      font-weight: bold;
+      color: #3e2b12;
+      box-shadow: 0 12px 0 #c49b3f, 0 12px 20px rgba(0,0,0,0.2);
+      cursor: pointer;
+      transition: all 0.05s linear;
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-width: 220px;
+      border: 4px solid #fff8e0;
+    }
+
+    .answer-btn:active {
+      transform: translateY(8px);
+      box-shadow: 0 4px 0 #c49b3f, 0 12px 20px rgba(0,0,0,0.1);
+    }
+
+    .answer-btn:hover {
+      background: #ffde7a;
+      transform: scale(1.02);
+    }
+
+    .answer-btn.correct {
+      background: #9bdd7c;
+      box-shadow: 0 8px 0 #4e8f38, 0 12px 20px rgba(0,0,0,0.2);
+      transform: translateY(4px);
+    }
+
+    .answer-btn.wrong {
+      background: #ff9f9f;
+      box-shadow: 0 8px 0 #b34a4a, 0 12px 20px rgba(0,0,0,0.2);
+      transform: translateY(4px);
+    }
+
+    .feedback-area {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-top: 0.8rem;
+      gap: 1rem;
+    }
+
+    .feedback-emoji {
+      font-size: 2.5rem;
+      min-height: 4rem;
+      background: #ffeaa7;
+      padding: 0.3rem 1.8rem;
+      border-radius: 70px;
+      box-shadow: inset 0 -5px 0 #ddb85a;
+      transition: 0.1s;
+    }
+
+    .score-board {
+      font-size: 1.8rem;
+      background: #ffb882;
+      padding: 0.8rem 2rem;
+      border-radius: 70px;
+      font-weight: bold;
+      color: #3e2b12;
+      box-shadow: 0 8px 0 #b4743a;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .next-btn {
+      background: #ffb347;
+      border: none;
+      font-size: 2rem;
+      font-weight: bold;
+      color: #2d1b0e;
+      padding: 1rem 2.2rem;
+      border-radius: 70px;
+      box-shadow: 0 12px 0 #b46f1e, 0 8px 15px rgba(0,0,0,0.2);
+      cursor: pointer;
+      transition: all 0.05s linear;
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 4px solid #fff2cc;
+    }
+
+    .next-btn:active {
+      transform: translateY(8px);
+      box-shadow: 0 4px 0 #b46f1e, 0 8px 15px rgba(0,0,0,0.1);
+    }
+
+    .next-btn:disabled {
+      opacity: 0.5;
+      transform: translateY(4px);
+      box-shadow: 0 8px 0 #7a551f;
+      pointer-events: none;
+    }
+
+    .sound-toggle {
+      position: absolute;
+      top: -1.2rem;
+      right: 1rem;
+      background: #ffb347;
+      border: none;
+      border-radius: 50px;
+      padding: 0.6rem 1rem;
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #2d1b0e;
+      cursor: pointer;
+      box-shadow: 0 6px 0 #b46f1e, 0 6px 10px rgba(0,0,0,0.2);
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.05s linear;
+      z-index: 10;
+    }
+    .sound-toggle:active {
+      transform: translateY(5px);
+      box-shadow: 0 2px 0 #b46f1e, 0 6px 10px rgba(0,0,0,0.1);
+    }
+
+    @media (max-width: 700px) {
+      .game-container { padding: 1.2rem; }
+      .title { font-size: 1.8rem; margin-top: 1.2rem; }
+      .letter-badge { font-size: 4rem; padding: 0.3rem 1.2rem; min-width: 130px; }
+      .question-text { font-size: 1.3rem; padding: 0.8rem 1rem; }
+      .answer-btn { font-size: 1.3rem; padding: 1rem 1.2rem; min-width: 140px; }
+      .score-board { font-size: 1.2rem; }
+      .next-btn { font-size: 1.3rem; padding: 0.8rem 1.4rem; }
+      .lang-toggle { font-size: 1rem; padding: 0.4rem 1.2rem; top: -1rem; }
+      .sound-toggle { font-size: 1rem; padding: 0.4rem 0.8rem; top: -1rem; right: 0.5rem; }
+    }
+  </style>
+</head>
+<body class="ar">
+
+<div class="game-container">
+  <button class="lang-toggle" id="langToggle" onclick="toggleLanguage()">
+    🌐 English
+  </button>
+  <button class="sound-toggle" id="soundToggle" onclick="toggleSound()">
+    🔊
+  </button>
+
+  <h1 class="title" id="mainTitle">
+    <span>🐫</span> <span id="titleText">أشكال الحروف العربية</span> <span>✨</span>
+  </h1>
+
+  <div class="question-box">
+    <div class="letter-badge" id="letterDisplay">بـ</div>
+    <div class="question-text" id="questionText">أين هذا الحرف؟</div>
+  </div>
+
+  <div class="answers-grid" id="answersContainer">
+    <button class="answer-btn" data-answer="beginning" id="btnBegin">🌱 في الأول</button>
+    <button class="answer-btn" data-answer="middle" id="btnMiddle">🌸 في النص</button>
+    <button class="answer-btn" data-answer="end" id="btnEnd">🌙 في الآخر</button>
+  </div>
+
+  <div class="feedback-area">
+    <div class="feedback-emoji" id="feedbackEmoji">🤔</div>
+    <div class="score-board">
+      <span>⭐</span> <span id="scoreDisplay">0</span> / <span id="totalDisplay">30</span>
+    </div>
+    <button class="next-btn" id="nextBtn" disabled>➡️ التالي</button>
+  </div>
+</div>
+
+<div style="font-size: 2rem; text-align: center; margin-top: 1rem; opacity: 0.8;">
+  ⭐ ⭐ ⭐
+</div>
+
+<script>
+  // ============ TRANSLATIONS ============
+  const translations = {
+    ar: {
+      title: 'أشكال الحروف العربية',
+      question: 'أين هذا الحرف؟',
+      btnBegin: '🌱 في الأول',
+      btnMiddle: '🌸 في النص',
+      btnEnd: '🌙 في الآخر',
+      next: '➡️ التالي',
+      feedbackCorrect: '🎉 أحسنت! إجابة صحيحة!',
+      feedbackWrong: '😊 حاول في السؤال القادم!',
+      feedbackThink: '🤔',
+      feedbackDone: '🥳',
+      allDone: 'أحسنت! لقد أكملت كل الأسئلة!',
+      langLabel: '🌐 English',
+      dir: 'rtl',
+      langCode: 'ar',
+      tryAgainPhrase: 'حاول مرة أخرى'
+    },
+    en: {
+      title: 'Arabic Letter Shapes',
+      question: 'Where is this letter?',
+      btnBegin: '🌱 Beginning',
+      btnMiddle: '🌸 Middle',
+      btnEnd: '🌙 End',
+      next: '➡️ Next',
+      feedbackCorrect: '🎉 Great job! Correct!',
+      feedbackWrong: '😊 Try again next time!',
+      feedbackThink: '🤔',
+      feedbackDone: '🥳',
+      allDone: 'Well done! You finished all questions!',
+      langLabel: '🌐 العربية',
+      dir: 'ltr',
+      langCode: 'en',
+      tryAgainPhrase: 'Try again'
+    }
+  };
+
+  let currentLang = 'ar';
+  let soundEnabled = true;
+
+  // ============ AUDIO ENGINE (Web Audio API) ============
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+  let audioCtx = null;
+
+  function getAudioContext() {
+    if (!audioCtx) {
+      audioCtx = new AudioContext();
+    }
+    return audioCtx;
+  }
+
+  // 🎉 CHEERFUL HAPPY SOUND (musical chime + rising melody + sparkle)
+  function playHappySound() {
+    if (!soundEnabled) return;
+    try {
+      const ctx = getAudioContext();
+      if (ctx.state === 'suspended') ctx.resume();
+
+      const now = ctx.currentTime;
+
+      // ---- 1. Happy rising melody (C5, E5, G5, C6) ----
+      const melodyNotes = [523.25, 659.25, 783.99, 1046.50]; // C5 E5 G5 C6
+      melodyNotes.forEach((freq, i) => {
+        const startTime = now + i * 0.12;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, startTime);
+        gain.gain.setValueAtTime(0.001, startTime);
+        gain.gain.exponentialRampToValueAtTime(0.35, startTime + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.25);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(startTime);
+        osc.stop(startTime + 0.3);
+      });
+
+      // ---- 2. Sparkle "ding" at the end (higher pitch) ----
+      const sparkleStart = now + 0.5;
+      const sparkleOsc = ctx.createOscillator();
+      const sparkleGain = ctx.createGain();
+      sparkleOsc.type = 'sine';
+      sparkleOsc.frequency.setValueAtTime(1568, sparkleStart); // G6
+      sparkleOsc.frequency.exponentialRampToValueAtTime(2093, sparkleStart + 0.15); // C7
+      sparkleGain.gain.setValueAtTime(0.001, sparkleStart);
+      sparkleGain.gain.exponentialRampToValueAtTime(0.25, sparkleStart + 0.03);
+      sparkleGain.gain.exponentialRampToValueAtTime(0.001, sparkleStart + 0.4);
+      sparkleOsc.connect(sparkleGain);
+      sparkleGain.connect(ctx.destination);
+      sparkleOsc.start(sparkleStart);
+      sparkleOsc.stop(sparkleStart + 0.45);
+
+      // ---- 3. Soft shimmer (two detuned oscillators) ----
+      const shimmerStart = now + 0.3;
+      [1046.50, 1318.51].forEach((freq, idx) => {
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.type = 'sine';
+        o.frequency.setValueAtTime(freq, shimmerStart);
+        g.gain.setValueAtTime(0.001, shimmerStart);
+        g.gain.exponentialRampToValueAtTime(0.08, shimmerStart + 0.05);
+        g.gain.exponentialRampToValueAtTime(0.001, shimmerStart + 0.6);
+        o.connect(g);
+        g.connect(ctx.destination);
+        o.start(shimmerStart);
+        o.stop(shimmerStart + 0.65);
+      });
+
+      // ---- 4. Little "pop" at the start (like a happy surprise!) ----
+      const popOsc = ctx.createOscillator();
+      const popGain = ctx.createGain();
+      popOsc.type = 'sine';
+      popOsc.frequency.setValueAtTime(800, now);
+      popOsc.frequency.exponentialRampToValueAtTime(1600, now + 0.06);
+      popGain.gain.setValueAtTime(0.001, now);
+      popGain.gain.exponentialRampToValueAtTime(0.4, now + 0.01);
+      popGain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+      popOsc.connect(popGain);
+      popGain.connect(ctx.destination);
+      popOsc.start(now);
+      popOsc.stop(now + 0.12);
+
+    } catch (e) {
+      console.warn('Audio play error:', e);
+    }
+  }
+
+  // "Try again" sound using speech synthesis
+  function speakTryAgain() {
+    if (!soundEnabled) return;
+    try {
+      const phrase = translations[currentLang].tryAgainPhrase;
+      const utterance = new SpeechSynthesisUtterance(phrase);
+      utterance.lang = currentLang === 'ar' ? 'ar-SA' : 'en-US';
+      utterance.rate = 0.9;
+      utterance.pitch = 1.3;
+      utterance.volume = 1;
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.speak(utterance);
+    } catch (e) {
+      console.warn('Speech error:', e);
+    }
+  }
+
+  // ============ SOUND TOGGLE ============
+  function toggleSound() {
+    soundEnabled = !soundEnabled;
+    const soundToggle = document.getElementById('soundToggle');
+    soundToggle.textContent = soundEnabled ? '🔊' : '🔇';
+  }
+
+  // ============ DOM ELEMENTS ============
+  const bodyEl = document.body;
+  const titleText = document.getElementById('titleText');
+  const letterDisplay = document.getElementById('letterDisplay');
+  const questionText = document.getElementById('questionText');
+  const answersContainer = document.getElementById('answersContainer');
+  const btnBegin = document.getElementById('btnBegin');
+  const btnMiddle = document.getElementById('btnMiddle');
+  const btnEnd = document.getElementById('btnEnd');
+  const answerButtons = document.querySelectorAll('.answer-btn');
+  const nextBtn = document.getElementById('nextBtn');
+  const scoreDisplay = document.getElementById('scoreDisplay');
+  const totalDisplay = document.getElementById('totalDisplay');
+  const feedbackEmoji = document.getElementById('feedbackEmoji');
+  const langToggle = document.getElementById('langToggle');
+
+  // ============ LANGUAGE FUNCTIONS ============
+  function applyLanguage(lang) {
+    currentLang = lang;
+    const t = translations[lang];
+    bodyEl.className = lang;
+    bodyEl.dir = t.dir;
+    document.documentElement.lang = t.langCode;
+
+    titleText.textContent = t.title;
+    questionText.textContent = t.question;
+    btnBegin.textContent = t.btnBegin;
+    btnMiddle.textContent = t.btnMiddle;
+    btnEnd.textContent = t.btnEnd;
+    nextBtn.textContent = t.next;
+    langToggle.textContent = t.langLabel;
+
+    if (currentIndex >= questions.length) {
+      feedbackEmoji.textContent = t.feedbackDone;
+      questionText.textContent = t.allDone;
+    } else if (!answered) {
+      feedbackEmoji.textContent = t.feedbackThink;
+    }
+  }
+
+  function toggleLanguage() {
+    const newLang = currentLang === 'ar' ? 'en' : 'ar';
+    applyLanguage(newLang);
+  }
+
+  // ============ QUESTIONS DATA ============
+  const allQuestions = [
+    { letter: 'ب', displayForm: 'بـ', correct: 'beginning' },
+    { letter: 'ب', displayForm: 'ـبـ', correct: 'middle' },
+    { letter: 'ب', displayForm: 'ـب', correct: 'end' },
+    { letter: 'ت', displayForm: 'تـ', correct: 'beginning' },
+    { letter: 'ت', displayForm: 'ـتـ', correct: 'middle' },
+    { letter: 'ت', displayForm: 'ـت', correct: 'end' },
+    { letter: 'ث', displayForm: 'ثـ', correct: 'beginning' },
+    { letter: 'ث', displayForm: 'ـثـ', correct: 'middle' },
+    { letter: 'ث', displayForm: 'ـث', correct: 'end' },
+    { letter: 'ج', displayForm: 'جـ', correct: 'beginning' },
+    { letter: 'ج', displayForm: 'ـجـ', correct: 'middle' },
+    { letter: 'ج', displayForm: 'ـج', correct: 'end' },
+    { letter: 'ح', displayForm: 'حـ', correct: 'beginning' },
+    { letter: 'ح', displayForm: 'ـحـ', correct: 'middle' },
+    { letter: 'ح', displayForm: 'ـح', correct: 'end' },
+    { letter: 'خ', displayForm: 'خـ', correct: 'beginning' },
+    { letter: 'خ', displayForm: 'ـخـ', correct: 'middle' },
+    { letter: 'خ', displayForm: 'ـخ', correct: 'end' },
+    { letter: 'د', displayForm: 'د', correct: 'beginning' },
+    { letter: 'د', displayForm: 'ـد', correct: 'end' },
+    { letter: 'ر', displayForm: 'ر', correct: 'beginning' },
+    { letter: 'ر', displayForm: 'ـر', correct: 'end' },
+    { letter: 'س', displayForm: 'سـ', correct: 'beginning' },
+    { letter: 'س', displayForm: 'ـسـ', correct: 'middle' },
+    { letter: 'س', displayForm: 'ـس', correct: 'end' },
+    { letter: 'ش', displayForm: 'شـ', correct: 'beginning' },
+    { letter: 'ش', displayForm: 'ـشـ', correct: 'middle' },
+    { letter: 'ش', displayForm: 'ـش', correct: 'end' },
+    { letter: 'ص', displayForm: 'صـ', correct: 'beginning' },
+    { letter: 'ص', displayForm: 'ـصـ', correct: 'middle' },
+    { letter: 'ص', displayForm: 'ـص', correct: 'end' },
+    { letter: 'ض', displayForm: 'ضـ', correct: 'beginning' },
+    { letter: 'ض', displayForm: 'ـضـ', correct: 'middle' },
+    { letter: 'ض', displayForm: 'ـض', correct: 'end' },
+    { letter: 'ط', displayForm: 'طـ', correct: 'beginning' },
+    { letter: 'ط', displayForm: 'ـطـ', correct: 'middle' },
+    { letter: 'ط', displayForm: 'ـط', correct: 'end' },
+    { letter: 'ع', displayForm: 'عـ', correct: 'beginning' },
+    { letter: 'ع', displayForm: 'ـعـ', correct: 'middle' },
+    { letter: 'ع', displayForm: 'ـع', correct: 'end' },
+    { letter: 'غ', displayForm: 'غـ', correct: 'beginning' },
+    { letter: 'غ', displayForm: 'ـغـ', correct: 'middle' },
+    { letter: 'غ', displayForm: 'ـغ', correct: 'end' },
+    { letter: 'ف', displayForm: 'فـ', correct: 'beginning' },
+    { letter: 'ف', displayForm: 'ـفـ', correct: 'middle' },
+    { letter: 'ف', displayForm: 'ـف', correct: 'end' },
+    { letter: 'ق', displayForm: 'قـ', correct: 'beginning' },
+    { letter: 'ق', displayForm: 'ـقـ', correct: 'middle' },
+    { letter: 'ق', displayForm: 'ـق', correct: 'end' },
+    { letter: 'ك', displayForm: 'كـ', correct: 'beginning' },
+    { letter: 'ك', displayForm: 'ـكـ', correct: 'middle' },
+    { letter: 'ك', displayForm: 'ـك', correct: 'end' },
+    { letter: 'ل', displayForm: 'لـ', correct: 'beginning' },
+    { letter: 'ل', displayForm: 'ـلـ', correct: 'middle' },
+    { letter: 'ل', displayForm: 'ـل', correct: 'end' },
+    { letter: 'م', displayForm: 'مـ', correct: 'beginning' },
+    { letter: 'م', displayForm: 'ـمـ', correct: 'middle' },
+    { letter: 'م', displayForm: 'ـم', correct: 'end' },
+    { letter: 'ن', displayForm: 'نـ', correct: 'beginning' },
+    { letter: 'ن', displayForm: 'ـنـ', correct: 'middle' },
+    { letter: 'ن', displayForm: 'ـن', correct: 'end' },
+    { letter: 'ه', displayForm: 'هـ', correct: 'beginning' },
+    { letter: 'ه', displayForm: 'ـهـ', correct: 'middle' },
+    { letter: 'ه', displayForm: 'ـه', correct: 'end' },
+    { letter: 'و', displayForm: 'و', correct: 'beginning' },
+    { letter: 'و', displayForm: 'ـو', correct: 'end' },
+    { letter: 'ي', displayForm: 'يـ', correct: 'beginning' },
+    { letter: 'ي', displayForm: 'ـيـ', correct: 'middle' },
+    { letter: 'ي', displayForm: 'ـي', correct: 'end' },
+  ];
+
+  const TOTAL_QUESTIONS = 30;
+  let questions = [];
+  let currentIndex = 0;
+  let score = 0;
+  let answered = false;
+  let currentQuestion = null;
+
+  // ============ GAME FUNCTIONS ============
+  function shuffleArray(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  function generateRandomQuestions() {
+    const shuffled = shuffleArray([...allQuestions]);
+    return shuffled.slice(0, TOTAL_QUESTIONS);
+  }
+
+  function loadQuestion() {
+    if (currentIndex >= questions.length) {
+      letterDisplay.textContent = '🎉';
+      questionText.textContent = translations[currentLang].allDone;
+      answersContainer.style.display = 'none';
+      nextBtn.disabled = true;
+      feedbackEmoji.textContent = translations[currentLang].feedbackDone;
+      return;
+    }
+
+    const q = questions[currentIndex];
+    currentQuestion = q;
+    answered = false;
+
+    answerButtons.forEach(btn => {
+      btn.classList.remove('correct', 'wrong');
+      btn.disabled = false;
+      btn.style.opacity = '1';
+      btn.style.pointerEvents = 'auto';
+    });
+
+    letterDisplay.textContent = q.displayForm;
+    questionText.textContent = translations[currentLang].question;
+    nextBtn.disabled = true;
+    feedbackEmoji.textContent = translations[currentLang].feedbackThink;
+    scoreDisplay.textContent = score;
+  }
+
+  function onAnswerClick(event) {
+    const btn = event.currentTarget;
+    if (answered) return;
+    if (currentIndex >= questions.length) return;
+
+    const selectedAnswer = btn.dataset.answer;
+    const correctAnswer = currentQuestion.correct;
+    const t = translations[currentLang];
+
+    answered = true;
+
+    answerButtons.forEach(b => {
+      b.disabled = true;
+      b.style.pointerEvents = 'none';
+      if (b.dataset.answer === correctAnswer) {
+        b.classList.add('correct');
+      }
+    });
+
+    if (selectedAnswer !== correctAnswer) {
+      btn.classList.add('wrong');
+      feedbackEmoji.textContent = t.feedbackWrong;
+      speakTryAgain();
+    } else {
+      feedbackEmoji.textContent = t.feedbackCorrect;
+      score++;
+      scoreDisplay.textContent = score;
+      playHappySound();  // 🎉 cheerful happy sound!
+    }
+
+    nextBtn.disabled = false;
+  }
+
+  function onNext() {
+    if (currentIndex < questions.length) {
+      currentIndex++;
+      if (currentIndex < questions.length) {
+        loadQuestion();
+      } else {
+        letterDisplay.textContent = '🎉';
+        questionText.textContent = translations[currentLang].allDone;
+        answersContainer.style.display = 'none';
+        nextBtn.disabled = true;
+        feedbackEmoji.textContent = translations[currentLang].feedbackDone;
+      }
+    }
+  }
+
+  function startGame() {
+    questions = generateRandomQuestions();
+    currentIndex = 0;
+    score = 0;
+    answered = false;
+    scoreDisplay.textContent = '0';
+    totalDisplay.textContent = TOTAL_QUESTIONS;
+    answersContainer.style.display = 'flex';
+    nextBtn.disabled = true;
+    answerButtons.forEach(btn => {
+      btn.classList.remove('correct', 'wrong');
+      btn.disabled = false;
+      btn.style.pointerEvents = 'auto';
+    });
+    applyLanguage(currentLang);
+    loadQuestion();
+  }
+
+  // ============ EVENT LISTENERS ============
+  answerButtons.forEach(btn => btn.addEventListener('click', onAnswerClick));
+  nextBtn.addEventListener('click', onNext);
+
+  // Initialize audio context on first user interaction
+  document.body.addEventListener('click', function initAudio() {
+    if (!audioCtx) {
+      try {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      } catch (e) {}
+    }
+    if (audioCtx && audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+  }, { once: true });
+
+  // Start the game
+  startGame();
+</script>
+
+</body>
+</html>

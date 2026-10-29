@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlRoot">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الياء الصغيرة | Small Madd Yaa</title>
+<link rel="icon" type="image/png" href="../../../images/quran.png">
+<link rel="apple-touch-icon" href="images/quran.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Poppins:wght@400;500;700;900&family=Amiri:wght@400;700&family=Baloo+Bhaijaan+2:wght@400;600;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+  :root {
+    --bg-dark: #0a1628;
+    --gold: #f5c542;
+    --gold-soft: #ffe08a;
+    --teal: #2dd4bf;
+    --rose: #fb7185;
+    --violet: #a78bfa;
+    --sky: #38bdf8;
+    --emerald: #34d399;
+  }
+
+  html[lang="ar"] body { font-family: 'Tajawal', sans-serif; }
+  html[lang="en"] body { font-family: 'Poppins', sans-serif; }
+
+  .font-kid { font-family: 'Baloo Bhaijaan 2', 'Tajawal', cursive; }
+  .font-ar  { font-family: 'Amiri', serif; }
+
+  body {
+    background: radial-gradient(circle at 20% 10%, #1a3355 0%, var(--bg-dark) 55%, #050b14 100%);
+    color: #eaf2ff;
+    min-height: 100vh;
+  }
+
+  html[lang="ar"] .en-only { display: none !important; }
+  html[lang="en"] .ar-only { display: none !important; }
+
+  @keyframes pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.06); }
+    100% { transform: scale(1); }
+  }
+  .pop { animation: pop 0.4s ease; }
+
+  .progress-fill {
+    transition: width 0.5s ease;
+    background: linear-gradient(90deg, var(--teal), var(--gold));
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+  .float { animation: float 3s ease-in-out infinite; }
+
+  @keyframes pulseDot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+  }
+  .pulse-dot { animation: pulseDot 1.8s infinite; }
+
+  .back-home-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 24px;
+    padding: 10px 22px;
+    border-radius: 9999px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #ffe08a;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(245, 197, 66, 0.35);
+    text-decoration: none;
+    backdrop-filter: blur(6px);
+    transition: all 0.25s ease;
+  }
+
+  .back-home-btn:hover {
+    background: rgba(245, 197, 66, 0.15);
+    border-color: rgba(245, 197, 66, 0.7);
+    color: #f5c542;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(245, 197, 66, 0.18);
+  }
+
+  .back-home-btn:active {
+    transform: translateY(0) scale(0.97);
+  }
+
+  html[lang="ar"] .back-home-btn:hover .ar-only { display: inline-block; transform: translateX(-4px); transition: transform 0.25s ease; }
+  html[lang="en"] .back-home-btn:hover .en-only { display: inline-block; transform: translateX(4px); transition: transform 0.25s ease; }
+
+  .rule-detail-card {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .rule-detail-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.4);
+  }
+
+  .rule-letter-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 9999px;
+    font-family: 'Amiri', serif;
+    font-weight: 700;
+    font-size: 1.35rem;
+    line-height: 1;
+    border: 2px solid;
+    transition: transform 0.2s ease;
+  }
+  .rule-letter-chip:hover { transform: scale(1.12); }
+
+  #readingProgress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0%;
+    background: linear-gradient(90deg, var(--teal), var(--gold));
+    z-index: 100;
+    transition: width 0.15s linear;
+  }
+
+  details > summary {
+    cursor: pointer;
+    list-style: none;
+  }
+  details > summary::-webkit-details-marker { display: none; }
+  details[open] .chevron { transform: rotate(180deg); }
+  .chevron { transition: transform 0.3s ease; }
+
+  .zoom-controls {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 90;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: rgba(10, 22, 40, 0.85);
+    border: 1px solid rgba(245, 197, 66, 0.35);
+    border-radius: 18px;
+    padding: 8px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  }
+
+  .zoom-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    border: 1px solid rgba(245, 197, 66, 0.2);
+    background: rgba(255, 255, 255, 0.06);
+    color: #ffe08a;
+    font-size: 1.2rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .zoom-btn:hover {
+    background: rgba(245, 197, 66, 0.2);
+    border-color: rgba(245, 197, 66, 0.6);
+    color: #f5c542;
+    transform: scale(1.08);
+  }
+
+  .zoom-btn:active {
+    transform: scale(0.94);
+  }
+
+  .zoom-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    transform: none;
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .zoom-level-badge {
+    text-align: center;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #94a3b8;
+    letter-spacing: 0.5px;
+    padding: 2px 0;
+    min-width: 44px;
+  }
+
+  .zoom-level-badge.zoom-active {
+    color: #2dd4bf;
+  }
+
+  @media (max-width: 640px) {
+    .zoom-controls {
+      bottom: 16px;
+      right: 16px;
+      padding: 6px;
+    }
+    .zoom-btn {
+      width: 40px;
+      height: 40px;
+      font-size: 1.1rem;
+    }
+  }
+
+  #zoomTarget {
+    transform-origin: top center;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+  }
+
+  .small-yaa-inline {
+    font-family: 'Amiri', serif;
+    font-size: 0.9em;
+    vertical-align: baseline;
+    color: #dc2626;
+    font-weight: 700;
+    display: inline-block;
+    margin: 0 2px;
+    line-height: 1;
+    position: relative;
+    bottom: 0px;
+  }
+
+  .example-card,
+  .example-card * {
+    color: #064e3b !important;
+  }
+  .example-card .small-yaa-inline {
+    color: #dc2626 !important;
+  }
+</style>
+</head>
+<body>
+
+<div id="readingProgress"></div>
+
+<div class="fixed top-4 left-4 rtl:left-4 ltr:right-4 z-50">
+  <div class="flex bg-slate-900/85 border border-amber-300/30 rounded-full p-1 backdrop-blur shadow-lg">
+    <button id="btnAr" onclick="setLang('ar')" class="px-4 py-2 rounded-full text-sm font-bold transition-all">🇪🇬 العربية</button>
+    <button id="btnEn" onclick="setLang('en')" class="px-4 py-2 rounded-full text-sm font-bold transition-all">🇬🇧 English</button>
+  </div>
+</div>
+
+<div class="zoom-controls" id="zoomControls" title="Zoom">
+  <button class="zoom-btn" id="zoomInBtn" onclick="zoomIn()" aria-label="Zoom in" title="Zoom in">＋</button>
+  <div class="zoom-level-badge" id="zoomLevelBadge">100%</div>
+  <button class="zoom-btn" id="zoomOutBtn" onclick="zoomOut()" aria-label="Zoom out" title="Zoom out">−</button>
+  <button class="zoom-btn" id="zoomResetBtn" onclick="resetZoom()" aria-label="Reset zoom" title="Reset zoom" style="font-size:0.9rem;">↺</button>
+</div>
+
+<div class="max-w-6xl mx-auto px-4 py-6" id="zoomTarget">
+
+  <header class="text-center pt-20 pb-6">
+    <div class="inline-block bg-gradient-to-br from-amber-400 to-amber-600 text-amber-950 font-bold px-5 py-2 rounded-full text-sm mb-4 shadow-lg">
+      <span class="ar-only">⭐ درس التجويد · رسم المصحف</span>
+      <span class="en-only">⭐ Tajweed Lesson · Quranic Script</span>
+    </div>
+
+    <h1 class="text-4xl sm:text-5xl font-black bg-gradient-to-br from-white to-amber-300 bg-clip-text text-transparent mb-3 leading-tight">
+      <span class="ar-only">اليَاءُ المَدِّيَّةُ الصَّغِيرَةُ</span>
+      <span class="en-only">Small Madd Yaa</span>
+    </h1>
+
+    <p class="text-slate-300 max-w-2xl mx-auto mb-4">
+      <span class="ar-only">دليل مبسّط للياء المدية الصغيرة في رسم المصحف: ما هي، ولماذا تُكتب، وكيف تُنطق (مدّ طبيعي بمقدار حركتين) مع أمثلة قرآنية.</span>
+      <span class="en-only">A simplified guide to the Small Madd Yaa in Quranic script: what it is, why it is written, and how it is pronounced (natural Madd of two counts) with Quranic examples.</span>
+    </p>
+
+    <div class="inline-flex items-center gap-2 bg-white/5 border border-amber-300/25 px-4 py-2 rounded-full text-sm">
+      <span class="w-2.5 h-2.5 bg-teal-400 rounded-full pulse-dot"></span>
+      <span class="ar-only">إعداد وتوثيق: المعلمة سارة أحمد 👩‍🏫</span>
+      <span class="en-only">Prepared by: Teacher Sarah Ahmed 👩‍🏫</span>
+    </div>
+
+    <div class="mt-6">
+      <a href="../tajweed-lessons.html" class="back-home-btn">
+        <span class="en-only">← Back to home</span>
+        <span class="ar-only">العودة للرئيسية →</span>
+      </a>
+    </div>
+  </header>
+
+  <div class="text-center text-7xl my-4 float">📖</div>
+
+  <section class="my-12">
+    <h2 class="flex items-center gap-3 text-2xl font-bold text-amber-200 mb-6">
+      <span class="w-1.5 h-8 bg-gradient-to-b from-amber-400 to-teal-400 rounded"></span>
+      <span class="ar-only">الخطوة الأولى: ما هي الياء المدية الصغيرة؟</span>
+      <span class="en-only">Step 1: What is the Small Madd Yaa?</span>
+    </h2>
+
+    <div class="relative overflow-hidden bg-white/5 border border-amber-300/25 rounded-3xl p-8 backdrop-blur shadow-xl">
+      <div class="absolute top-0 left-0 rtl:left-auto rtl:right-0 font-ar text-[12rem] text-amber-400 opacity-[0.07] leading-none select-none pointer-events-none">ي</div>
+
+      <p class="text-lg leading-loose text-white border-s-4 border-amber-400 ps-5 mb-6 relative z-10">
+        <span class="ar-only">
+          <strong>اليَاءُ المَدِّيَّةُ الصَّغِيرَةُ</strong> هي ياءٌ صغيرةٌ تُرسم في المصحف للدلالة على
+          <strong>ياءٍ محذوفةٍ في الرسم، منطوقةٍ في التلاوة</strong>.
+          وهي من علامات ضبط الرسم العثماني، وتُكتب صغيرةً فوق الحرف أو بعده، و<strong>شكلها في الرسم هو هكذا: ۦ</strong>.
+          وتُسمَّى <strong>ياء المد الصغيرة</strong>،
+          وحكمها <strong>مدّ طبيعي بمقدار حركتين</strong>.
+        </span>
+        <span class="en-only">
+          <strong>The Small Madd Yaa</strong> is a small Yaa written in the Mushaf to indicate a
+          <strong>Yaa omitted in writing but pronounced in recitation</strong>.
+          It is one of the Uthmanic script's diacritical marks, written small above or after the letter, and <strong>its shape in the script is like this: ۦ</strong>.
+          It is called the <strong>Small Yaa of Madd</strong>,
+          and its rule is a <strong>natural Madd of two counts</strong>.
+        </span>
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 relative z-10">
+        <div class="bg-emerald-400/10 border border-emerald-400/25 rounded-2xl p-4 text-center">
+          <div class="text-3xl mb-1">✍️</div>
+          <span class="font-bold block text-emerald-300">
+            <span class="ar-only">الرسم</span>
+            <span class="en-only">Script</span>
+          </span>
+          <p class="text-sm mt-1 text-slate-300">
+            <span class="ar-only">ياء صغيرة (ۦ) فوق/بعد الحرف</span>
+            <span class="en-only">Small Yaa (ۦ) above/after the letter</span>
+          </p>
+        </div>
+        <div class="bg-teal-400/10 border border-teal-400/25 rounded-2xl p-4 text-center">
+          <div class="text-3xl mb-1">🔊</div>
+          <span class="font-bold block text-teal-300">
+            <span class="ar-only">النطق</span>
+            <span class="en-only">Pronunciation</span>
+          </span>
+          <p class="text-sm mt-1 text-slate-300">
+            <span class="ar-only">تُنطق ياءً مدّية</span>
+            <span class="en-only">Pronounced as a Madd Yaa</span>
+          </p>
+        </div>
+        <div class="bg-amber-400/10 border border-amber-400/25 rounded-2xl p-4 text-center">
+          <div class="text-3xl mb-1">📏</div>
+          <span class="font-bold block text-amber-300">
+            <span class="ar-only">المقدار</span>
+            <span class="en-only">Length</span>
+          </span>
+          <p class="text-sm mt-1 text-slate-300">
+            <span class="ar-only">حركتان</span>
+            <span class="en-only">Two counts</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="my-12">
+    <h2 class="flex items-center gap-3 text-2xl font-bold text-amber-200 mb-6">
+      <span class="w-1.5 h-8 bg-gradient-to-b from-amber-400 to-teal-400 rounded"></span>
+      <span class="ar-only">الخطوة الثانية: لماذا تُكتب الياء المدية الصغيرة؟</span>
+      <span class="en-only">Step 2: Why is the Small Madd Yaa Written?</span>
+    </h2>
+
+    <div class="rule-detail-card bg-gradient-to-br from-sky-400/10 to-white/5 border-2 border-sky-400/40 rounded-3xl p-8 shadow-xl">
+      <div class="mb-6">
+        <h3 class="text-sky-300 font-bold text-lg mb-3 flex items-center gap-2">
+          <span>📜</span>
+          <span class="ar-only">السبب الرئيسي: الحفاظ على الرسم العثماني</span>
+          <span class="en-only">Main Reason: Preserving the Uthmanic Script</span>
+        </h3>
+        <p class="leading-loose text-slate-100">
+          <span class="ar-only">
+            كُتب المصحف بالرسم العثماني الذي يحذف الياء في بعض الكلمات، وأوضح مثالٍ كلمة
+            <strong class="font-ar text-amber-200 text-xl">بِيَمِينِهِِۦ</strong>؛
+            رُسمت بياءٍ واحدة ظاهرة بعد الميم، مع أن أصلها بياءين (ياء مدّية وياء ضمير).
+            فحُذفت الياء المدّية في الرسم، فوضع العلماء <strong>ياءً صغيرة (ۦ)</strong> للدلالة على أنها <strong>تُنطق مدًّا</strong> وإن لم تُرسم.
+            وهكذا يحفظ الرسمُ هيئته، ويحفظ الضبطُ النطقَ الصحيح.
+          </span>
+          <span class="en-only">
+            The Mushaf was written in the Uthmanic script, which omits the Yaa in some words — the clearest
+            example being
+            <strong class="font-ar text-amber-200 text-xl">بِيَمِينِهِۦ</strong> (Bi-yamīnīh),
+            written with one visible Yaa after the Meem, though originally it had two (a Madd Yaa and a pronoun Yaa).
+            The Madd Yaa was omitted in writing, so scholars placed a
+            <strong>small Yaa (ۦ)</strong> to show it is <strong>pronounced as Madd</strong> even though it is not written.
+            Thus the script keeps its form, and the diacritics keep the correct pronunciation.
+          </span>
+        </p>
+      </div>
+
+      <div class="bg-sky-900/20 border border-sky-400/30 rounded-2xl p-5">
+        <h3 class="text-sky-200 font-bold text-lg mb-3 flex items-center gap-2">
+          <span>🔤</span>
+          <span class="ar-only">أشكال الياء المدية الصغيرة</span>
+          <span class="en-only">Forms of the Small Madd Yaa</span>
+        </h3>
+        <ul class="space-y-3 text-slate-100 list-disc list-inside">
+          <li>
+            <span class="ar-only">
+              <strong>ياء صغيرة بعد الحرف (ياء الضمير)</strong> — تدل على ياء محذوفة في الرسم، مثل:
+              <strong class="font-ar text-amber-200 text-xl">بِيَمِينِهِۦ</strong>
+              — تُنطق بياء مدّية بمقدار حركتين.
+            </span>
+            <span class="en-only">
+              <strong>Small Yaa after the letter (Pronoun Yaa)</strong> — indicates an omitted Yaa in writing, e.g.
+              <strong class="font-ar text-amber-200 text-xl">بِيَمِينِهِۦ</strong>
+              — pronounced with a Madd Yaa of two counts.
+            </span>
+          </li>
+          <li>
+            <span class="ar-only">
+              <strong>ياء صغيرة فوق الحرف أو على السطر</strong> — تدل على المدّ، وقد تدل على ياء محذوفة في وسط الكلمة، مثل:
+              <strong class="font-ar text-amber-200 text-xl">وَقِيلِهِۦ</strong>
+              — تُنطق بياء مدّية بمقدار حركتين.
+            </span>
+            <span class="en-only">
+              <strong>Small Yaa above the letter or on the line</strong> — indicates Madd, and may indicate an omitted Yaa in the middle of a word, e.g.
+              <strong class="font-ar text-amber-200 text-xl">وَقِيلِهِۦ</strong>
+              — pronounced with a Madd Yaa of two counts.
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="my-12">
+    <h2 class="flex items-center gap-3 text-2xl font-bold text-amber-200 mb-6">
+      <span class="w-1.5 h-8 bg-gradient-to-b from-amber-400 to-teal-400 rounded"></span>
+      <span class="ar-only">الخطوة الثالثة: أمثلة قرآنية على الياء المدية الصغيرة</span>
+      <span class="en-only">Step 3: Quranic Examples of Small Madd Yaa</span>
+    </h2>
+
+    <p class="text-slate-300 mb-6">
+      <span class="ar-only">اضغط على أي بطاقة لعرضها في مختبر النطق بالأسفل مع بيان حكمها.</span>
+      <span class="en-only">Click any card to display it in the Pronunciation Lab below with its rule.</span>
+    </p>
+
+    <div id="smallYaaExamples" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3"></div>
+  </section>
+
+  <section class="my-12">
+    <h2 class="flex items-center gap-3 text-2xl font-bold text-amber-200 mb-6">
+      <span class="w-1.5 h-8 bg-gradient-to-b from-amber-400 to-teal-400 rounded"></span>
+      <span class="ar-only">مختبر النطق 🎧</span>
+      <span class="en-only">Pronunciation Lab 🎧</span>
+    </h2>
+
+    <div class="bg-white/5 border border-amber-300/25 rounded-3xl p-8 text-center shadow-xl">
+      <div id="audioWord" dir="rtl" class="font-ar text-6xl text-amber-300 mb-2 drop-shadow-[0_0_25px_rgba(245,197,66,0.4)]">
+        <span style="color: #1a56db;">بِيَمِينِهِ</span><span class="small-yaa-inline" style="color:#dc2626;">ۦ</span>
+      </div>
+      <div id="audioTranslit" class="italic text-slate-300 mb-2">Bi-yamīnīh</div>
+      <div id="audioMeaning" class="text-slate-400 mb-6">
+        <span class="ar-only">بِيَمِينِهِۦ — ياء صغيرة للضمير، تُنطق ياءً مدّية بمقدار حركتين</span>
+        <span class="en-only">Bi-yamīnīh — Small pronoun Yaa, pronounced as a long Yaa for two counts</span>
+      </div>
+      <p class="text-xs text-slate-500 italic">
+        <span class="ar-only">استمع للنطق الصحيح من معلمك المختص.</span>
+        <span class="en-only">Listen to the correct pronunciation from your qualified teacher.</span>
+      </p>
+    </div>
+  </section>
+
+  <section class="my-12">
+    <h2 class="flex items-center gap-3 text-2xl font-bold text-amber-200 mb-6">
+      <span class="w-1.5 h-8 bg-gradient-to-b from-amber-400 to-teal-400 rounded"></span>
+      <span class="ar-only">تدريب سريع 🎯</span>
+      <span class="en-only">Quick Practice 🎯</span>
+    </h2>
+
+    <div class="bg-white/5 border border-amber-300/25 rounded-3xl p-8 shadow-xl">
+      <div class="flex justify-between items-center flex-wrap gap-3 mb-6 text-sm">
+        <span>
+          <span class="ar-only">السؤال <span id="quizQNumAr">1</span> من 5</span>
+          <span class="en-only">Question <span id="quizQNum">1</span> of 5</span>
+        </span>
+        <span class="bg-amber-400/15 border border-amber-400 px-4 py-1.5 rounded-full font-bold text-amber-300">
+          <span class="ar-only">صحيح: <span id="quizScoreAr">0</span></span>
+          <span class="en-only">Correct: <span id="quizScore">0</span></span>
+        </span>
+      </div>
+
+      <div id="quizQuestion" class="text-center font-bold text-lg mb-6">...</div>
+      <div id="quizOptions" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
+      <div id="quizFeedback" class="text-center mt-5 font-bold min-h-[1.5rem]"></div>
+
+      <div class="text-center mt-8 hidden" id="quizNextWrap">
+        <button onclick="nextQuizQuestion()" class="bg-gradient-to-br from-teal-400 to-teal-600 text-teal-950 font-bold px-8 py-3 rounded-full shadow-lg hover:scale-105 transition-all">
+          <span class="ar-only">التالي ➡️</span>
+          <span class="en-only">Next ➡️</span>
+        </button>
+      </div>
+
+      <div class="text-center mt-8 hidden" id="quizRestartWrap">
+        <button onclick="restartQuiz()" class="bg-gradient-to-br from-teal-400 to-teal-600 text-teal-950 font-bold px-8 py-3 rounded-full shadow-lg hover:scale-105 transition-all">
+          <span class="ar-only">🔄 أعد التدريب</span>
+          <span class="en-only">🔄 Practice Again</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer class="text-center py-10 text-slate-400 text-sm border-t border-white/5 mt-16">
+  <p>© <span id="year"></span> — <span class="ar-only">المعلمة <strong class="text-amber-300">سارة أحمد</strong></span><span class="en-only">Teacher <strong class="text-amber-300">Sarah Ahmed</strong></span></p>
+  <p class="mt-2">Quran • Tajweed • Arabic Language</p>
+</footer>
+
+<script>
+/* ============================================================
+   ZOOM
+   ============================================================ */
+const ZOOM_MIN = 0.5, ZOOM_MAX = 2.0, ZOOM_STEP = 0.1;
+let currentZoom = 1.0;
+
+function applyZoom(level) {
+  currentZoom = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, level));
+  const target = document.getElementById("zoomTarget");
+  if (target) target.style.transform = `scale(${currentZoom})`;
+  const badge = document.getElementById("zoomLevelBadge");
+  if (badge) {
+    badge.textContent = Math.round(currentZoom * 100) + "%";
+    badge.classList.toggle("zoom-active", Math.abs(currentZoom - 1.0) > 0.01);
+  }
+  document.getElementById("zoomInBtn").disabled = currentZoom >= ZOOM_MAX - 0.001;
+  document.getElementById("zoomOutBtn").disabled = currentZoom <= ZOOM_MIN + 0.001;
+  try { localStorage.setItem("smallYaaZoom", currentZoom); } catch (e) {}
+}
+function zoomIn() { applyZoom(currentZoom + ZOOM_STEP); }
+function zoomOut() { applyZoom(currentZoom - ZOOM_STEP); }
+function resetZoom() { applyZoom(1.0); }
+
+try {
+  const savedZoom = parseFloat(localStorage.getItem("smallYaaZoom"));
+  if (!isNaN(savedZoom) && savedZoom >= ZOOM_MIN && savedZoom <= ZOOM_MAX) currentZoom = savedZoom;
+} catch (e) {}
+
+document.addEventListener("DOMContentLoaded", () => applyZoom(currentZoom));
+
+/* ============================================================
+   LANGUAGE
+   ============================================================ */
+let currentLang = "ar";
+
+function setLang(lang) {
+  currentLang = lang;
+  const html = document.getElementById("htmlRoot");
+  html.lang = lang;
+  html.dir = lang === "ar" ? "rtl" : "ltr";
+
+  document.getElementById("btnAr").classList.toggle("bg-amber-400", lang === "ar");
+  document.getElementById("btnAr").classList.toggle("text-amber-950", lang === "ar");
+  document.getElementById("btnAr").classList.toggle("text-slate-300", lang !== "ar");
+  document.getElementById("btnEn").classList.toggle("bg-amber-400", lang === "en");
+  document.getElementById("btnEn").classList.toggle("text-amber-950", lang === "en");
+  document.getElementById("btnEn").classList.toggle("text-slate-300", lang !== "en");
+
+  renderSmallYaaExamples();
+  renderQuizQuestion();
+  updateAudioDisplayForLang();
+
+  try { localStorage.setItem("preferredLangSmallYaa", lang); } catch (e) {}
+}
+
+function colorizeSmallYaa(html) {
+  return html.replace(/[\u06E6\u06E7]/g, '<span class="small-yaa-inline" style="color: #dc2626;">ۦ</span>');
+}
+
+/* ============================================================
+   EXAMPLES
+   ============================================================ */
+const smallYaaExamples = [
+  {
+    word: '<span style="color: #1a56db;">بِيَمِينِه</span><span class="small-yaa-inline" style="color: #dc2626;">ۦ</span>',
+    ttsText: "بِيَمِينِهِ",
+    translit: "Bi-yamīnīh",
+    meaningAr: "بِيَمِينِهِۦ — ياء صغيرة للضمير بعد الهاء، تُنطق ياءً مدّية بمقدار حركتين",
+    meaningEn: "Bi-yamīnīh — Small pronoun Yaa after the Ha, pronounced as a long Yaa for two counts",
+    isImageStyle: true
+  },
+  {
+    word: '<span style="color: #1a56db;">وَقِيلِهِ</span><span class="small-yaa-inline" style="color: #dc2626;">ۦ</span>',
+    ttsText: "وَقِيلِهِ",
+    translit: "Wa-qīlīh",
+    meaningAr: "وَقِيلِهِۦ — ياء صغيرة للضمير بعد الهاء",
+    meaningEn: "Wa-qīlīh — Small pronoun Yaa after the Ha",
+    isImageStyle: true
+  },
+  {
+    word: '<span style="color: #1a56db;">شِيعَتِهِ</span><span class="small-yaa-inline" style="color: #dc2626;">ۦ</span>',
+    ttsText: "شِيعَتِهِ",
+    translit: "Shīʿatīh",
+    meaningAr: "شِيعَتِهِۦ — ياء صغيرة للضمير بعد الهاء",
+    meaningEn: "Shīʿatīh — Small pronoun Yaa after the Ha",
+    isImageStyle: true
+  },
+  {
+    word: '<span style="color: #1a56db;">لَصَاحِبِهِ</span><span class="small-yaa-inline" style="color: #dc2626;">ۦ</span>',
+    ttsText: "لَصَاحِبِهِ",
+    translit: "La-ṣāḥibīh",
+    meaningAr: "لَصَاحِبِهِۦ — ياء صغيرة للضمير بعد الهاء",
+    meaningEn: "La-ṣāḥibīh — Small pronoun Yaa after the Ha",
+    isImageStyle: true
+  },
+  {
+    word: '<span style="color: #1a56db;">هَٰذِهِ</span><span class="small-yaa-inline" style="color: #dc2626;">ۦ</span> <span style="color: #1a56db;">نَاقَةُ</span>',
+    ttsText: "هَٰذِهِ نَاقَةُ",
+    translit: "Hādhīh nāqatu",
+    meaningAr: "هَٰذِهِۦ نَاقَةُ — ياء صغيرة بعد الهاء في اسم الإشارة",
+    meaningEn: "Hādhīh nāqatu — Small Yaa after the Ha in the demonstrative pronoun",
+    isImageStyle: true
+  },
+  {
+    word: '<span style="color: #1a56db;">عَمَلَهِ</span><span class="small-yaa-inline" style="color: #dc2626;">ۦ</span> <span style="color: #1a56db;">فَرَءَاهُ</span>',
+    ttsText: "عَمَلَهُ فَرَءَاهُ",
+    translit: "ʿAmalahū fa-ra'āhu",
+    meaningAr: "عَمَلَهُۥ فَرَءَاهُ — ياء صغيرة للضمير بعد الهاء",
+    meaningEn: "ʿAmalahū fa-ra'āhu — Small pronoun Yaa after the Ha",
+    isImageStyle: true
+  },
+  {
+    word: '<span style="color: #1a56db;">وَصَحْبَتِهِ</span><span class="small-yaa-inline" style="color: #dc2626;">ۦ</span> <span style="color: #1a56db;">وَبَنِيهِ</span>',
+    ttsText: "وَصَحْبَتِهِ وَبَنِيهِ",
+    translit: "Wa-ṣaḥbatīh wa-banīhi",
+    meaningAr: "وَصَحْبَتِهِۦ وَبَنِيهِ — ياء صغيرة للضمير بعد الهاء",
+    meaningEn: "Wa-ṣaḥbatīh wa-banīhi — Small pronoun Yaa after the Ha",
+    isImageStyle: true
+  },
+  {
+    word: '<span style="color: #1a56db;">وَكُتُبِهِ</span><span class="small-yaa-inline" style="color: #dc2626;">ۦ</span> <span style="color: #1a56db;">وَرُسُلِهِ</span><span class="small-yaa-inline" style="color: #dc2626;">ۦ</span>',
+    ttsText: "وَكُتُبِهِ وَرُسُلِهِ",
+    translit: "Wa-kutubīh wa-rusulīh",
+    meaningAr: "وَكُتُبِهِۦ وَرُسُلِهِۦ — ياء صغيرة للضمير بعد الهاء",
+    meaningEn: "Wa-kutubīh wa-rusulīh — Small pronoun Yaa after the Ha",
+    isImageStyle: true
+  },
+];
+
+let currentExample = smallYaaExamples[0];
+
+function renderSmallYaaExamples() {
+  const container = document.getElementById("smallYaaExamples");
+  if (!container) return;
+  container.innerHTML = "";
+
+  smallYaaExamples.forEach((item) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "example-card group bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-4 text-center transition-all hover:-translate-y-0.5 hover:shadow-md active:scale-95 flex flex-col justify-center min-h-[120px]";
+
+    const wordContent = item.isImageStyle ? item.word : colorizeSmallYaa(item.word);
+    const wordHtml = item.isImageStyle
+      ? `<div class="font-ar text-3xl sm:text-4xl font-bold mb-2 leading-relaxed tracking-widest" dir="rtl">${wordContent}</div>`
+      : `<div class="font-ar text-2xl sm:text-3xl font-bold mb-2 leading-relaxed">${wordContent}</div>`;
+
+    btn.innerHTML = `
+      ${wordHtml}
+      <div class="text-xs font-bold">${item.translit}</div>
+    `;
+
+    btn.addEventListener("click", () => {
+      btn.classList.add("pop");
+      setTimeout(() => btn.classList.remove("pop"), 400);
+
+      document.getElementById("audioWord").innerHTML = item.isImageStyle
+        ? item.word
+        : colorizeSmallYaa(item.word);
+      document.getElementById("audioTranslit").textContent = item.translit;
+      setAudioMeaning({ word: item.word, ar: item.meaningAr, en: item.meaningEn });
+
+      currentExample = item;
+    });
+    container.appendChild(btn);
+  });
+}
+
+function setAudioMeaning(item) {
+  document.getElementById("audioMeaning").innerHTML =
+    currentLang === "ar" ? (item.ar || item.word) : (item.en || item.word);
+}
+
+function updateAudioDisplayForLang() {
+  if (!currentExample) return;
+  setAudioMeaning({ word: currentExample.word, ar: currentExample.meaningAr, en: currentExample.meaningEn });
+}
+
+/* ============================================================
+   QUIZ
+   ============================================================ */
+const quizQuestions = {
+  ar: [
+    { q: "ما هي الياء المدية الصغيرة في رسم المصحف؟", options: ["ياء محذوفة في الرسم ولكنها منطوقة", "ياء زائدة تُحذف من النطق", "حرف تنوين", "علامة وقف"], correct: 0 },
+    { q: "كم مقدار مد الياء المدية الصغيرة عند النطق؟", options: ["حركتان", "أربع حركات", "ست حركات", "حركة واحدة"], correct: 0 },
+    { q: "في كلمة «بِيَمِينِهِۦ» أين توجد الياء الصغيرة؟", options: ["بعد الهاء (ياء الضمير)", "فوق الباء", "بعد الميم", "قبل النون"], correct: 0 },
+    { q: "ما وظيفة الياء المدية الصغيرة في رسم المصحف؟", options: ["تدل على ياء محذوفة في الرسم ومنطوقة", "تدل على ياء زائدة تُحذف", "تدل على وقف", "تدل على إدغام"], correct: 0 },
+    { q: "أي مثال فيه ياء مدية صغيرة؟", options: ["بِيَمِينِهِۦ", "قَالَ", "كَانَ", "بَابٌ"], correct: 0 }
+  ],
+  en: [
+    { q: "What is the Small Madd Yaa in Quranic script?", options: ["A Yaa omitted in writing but pronounced", "An extra Yaa that is dropped in pronunciation", "A Tanween mark", "A stop sign"], correct: 0 },
+    { q: "How long is the Small Madd Yaa prolonged in recitation?", options: ["Two counts", "Four counts", "Six counts", "One count"], correct: 0 },
+    { q: "In «بِيَمِينِهِۦ» (Bi-yamīnīh), where is the Small Yaa?", options: ["After the Ha (pronoun Yaa)", "Above the Ba", "After the Meem", "Before the Noon"], correct: 0 },
+    { q: "What is the function of the Small Madd Yaa in Quranic script?", options: ["It indicates an omitted Yaa that is pronounced", "It indicates an extra Yaa that is dropped", "It indicates a stop", "It indicates Idgham"], correct: 0 },
+    { q: "Which example contains a Small Madd Yaa?", options: ["بِيَمِينِهِۦ (Bi-yamīnīh)", "قَالَ (Qāla)", "كَانَ (Kāna)", "بَابٌ (Bābun)"], correct: 0 }
+  ]
+};
+
+let quizIndex = 0, quizScore = 0, quizLocked = false;
+
+function renderQuizQuestion() {
+  quizLocked = false;
+  const list = quizQuestions[currentLang];
+  const q = list[quizIndex];
+  document.getElementById("quizQNumAr").textContent = quizIndex + 1;
+  document.getElementById("quizQNum").textContent = quizIndex + 1;
+  document.getElementById("quizQuestion").textContent = q.q;
+  document.getElementById("quizFeedback").textContent = "";
+  document.getElementById("quizNextWrap").classList.add("hidden");
+  document.getElementById("quizRestartWrap").classList.add("hidden");
+
+  const optWrap = document.getElementById("quizOptions");
+  optWrap.innerHTML = "";
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement("button");
+    btn.className = "bg-white/5 border border-amber-300/25 text-white text-lg p-4 rounded-2xl hover:bg-amber-400/10 hover:border-amber-400 transition-all";
+    btn.textContent = opt;
+    btn.onclick = () => checkQuizAnswer(i, btn);
+    optWrap.appendChild(btn);
+  });
+}
+
+function checkQuizAnswer(i, btn) {
+  if (quizLocked) return;
+  quizLocked = true;
+  const q = quizQuestions[currentLang][quizIndex];
+  const buttons = document.querySelectorAll("#quizOptions button");
+  const feedback = document.getElementById("quizFeedback");
+
+  if (i === q.correct) {
+    btn.classList.add("bg-teal-400/25", "border-teal-400", "pop");
+    quizScore++;
+    document.getElementById("quizScoreAr").textContent = quizScore;
+    document.getElementById("quizScore").textContent = quizScore;
+    feedback.style.color = "#2dd4bf";
+    feedback.textContent = currentLang === "ar" ? "أحسنت! ⭐" : "Excellent! ⭐";
+  } else {
+    btn.classList.add("bg-red-400/25", "border-red-400");
+    buttons[q.correct].classList.add("bg-teal-400/25", "border-teal-400");
+    feedback.style.color = "#ef4444";
+    feedback.textContent = currentLang === "ar" ? "راجع الإجابة ✅" : "Review ✅";
+  }
+  buttons.forEach(b => (b.disabled = true));
+
+  if (quizIndex < quizQuestions[currentLang].length - 1) {
+    document.getElementById("quizNextWrap").classList.remove("hidden");
+  } else {
+    document.getElementById("quizRestartWrap").classList.remove("hidden");
+    const lastWasCorrect = (i === q.correct);
+    const praise = lastWasCorrect
+      ? (currentLang === "ar" ? "أحسنت! ⭐" : "Excellent! ⭐")
+      : (currentLang === "ar" ? "راجع الإجابة ✅" : "Review ✅");
+    feedback.textContent = praise + ` — ${currentLang === "ar" ? "النتيجة" : "Final"}: ${quizScore}/5`;
+  }
+}
+
+function nextQuizQuestion() { quizIndex++; renderQuizQuestion(); }
+function restartQuiz() {
+  quizIndex = 0; quizScore = 0;
+  document.getElementById("quizScoreAr").textContent = "0";
+  document.getElementById("quizScore").textContent = "0";
+  renderQuizQuestion();
+}
+
+/* ============================================================
+   PROGRESS BAR
+   ============================================================ */
+window.addEventListener("scroll", () => {
+  const h = document.documentElement;
+  const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+  document.getElementById("readingProgress").style.width = scrolled + "%";
+});
+
+/* ============================================================
+   INIT
+   ============================================================ */
+try {
+  const saved = localStorage.getItem("preferredLangSmallYaa");
+  setLang(saved === "en" ? "en" : "ar");
+} catch (e) { setLang("ar"); }
+
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>

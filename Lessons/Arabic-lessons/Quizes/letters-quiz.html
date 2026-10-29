@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arabic Letter Quiz for Kids</title>
+    <link rel="icon" type="image/png" href="../../../images/quran.png">
+    <link rel="apple-touch-icon" href="images/quran.png">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial Rounded', sans-serif;
+            background: linear-gradient(145deg, #ffe6b0 0%, #ffc3a0 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+            overflow: auto;
+        }
+
+        .zoom-bg {
+            position: fixed;
+            inset: -10%;
+            background: radial-gradient(circle at 30% 30%, #fff2c9 0%, transparent 45%),
+                radial-gradient(circle at 75% 70%, #ffd9a8 0%, transparent 45%),
+                linear-gradient(145deg, #ffe6b0 0%, #ffc3a0 100%);
+            z-index: -1;
+            animation: zoomLoop 6s ease-in-out infinite;
+        }
+
+        body.zoom-paused .zoom-bg {
+            animation-play-state: paused;
+        }
+
+        @keyframes zoomLoop {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.08);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .zoom-wrapper {
+            width: 100%;
+            max-width: 900px;
+            transform-origin: center center;
+            transition: transform 0.25s ease;
+        }
+
+        .quiz-container {
+            width: 100%;
+            background: #fff9e6;
+            border-radius: 80px 20px 80px 20px;
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2),
+                inset 0 0 0 10px #ffdcb5,
+                inset 0 0 0 15px #ffb882;
+            padding: 40px 30px 50px;
+            text-align: center;
+            border: 5px solid #f7a86b;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            color: #4a2c1b;
+            text-shadow: 4px 4px 0 #ffb882;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        h1 span.emoji {
+            background: #fdfdfd;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 6px 0 #b04e1a;
+            border: 3px solid #ffb882;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+
+        .lang-toggle {
+            display: flex;
+            gap: 10px;
+        }
+
+        .lang-btn {
+            background: #ffeedb;
+            border: 3px solid #f7a86b;
+            border-radius: 30px;
+            padding: 8px 22px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            font-family: inherit;
+            color: #6b3e1c;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #b06030;
+            transition: transform 0.08s, box-shadow 0.08s;
+        }
+
+        .lang-btn:active {
+            box-shadow: 0 2px 0 #b06030;
+            transform: translateY(3px);
+        }
+
+        .lang-btn.active {
+            background: #ffb882;
+            color: #fff9e6;
+        }
+
+        .zoom-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #e3f2fd;
+            border: 3px solid #64b5f6;
+            border-radius: 30px;
+            padding: 4px 8px;
+        }
+
+        .zoom-step-btn {
+            background: #bbdefb;
+            border: 2px solid #42a5f5;
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            font-family: inherit;
+            color: #0d47a1;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #1976d2;
+            transition: transform 0.08s, box-shadow 0.08s, background 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            padding: 0;
+        }
+
+        .zoom-step-btn:active {
+            box-shadow: 0 1px 0 #1976d2;
+            transform: translateY(3px);
+        }
+
+        .zoom-step-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .zoom-level-label {
+            font-size: 0.95rem;
+            font-weight: bold;
+            color: #0d47a1;
+            min-width: 48px;
+            text-align: center;
+            font-family: inherit;
+        }
+
+        .pulse-btn {
+            background: #c8e6c9;
+            border: 3px solid #66bb6a;
+            border-radius: 30px;
+            padding: 8px 18px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            font-family: inherit;
+            color: #2e7d32;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #388e3c;
+            transition: transform 0.08s, box-shadow 0.08s, background 0.2s;
+        }
+
+        .pulse-btn:active {
+            box-shadow: 0 2px 0 #388e3c;
+            transform: translateY(3px);
+        }
+
+        .pulse-btn.off {
+            background: #ffcdd2;
+            border-color: #e57373;
+            color: #b71c1c;
+            box-shadow: 0 5px 0 #c62828;
+        }
+
+        .question-box {
+            background: #ffeedb;
+            border-radius: 60px 30px 60px 30px;
+            padding: 25px 20px;
+            margin: 15px 0 25px;
+            border: 5px dashed #f7a86b;
+        }
+
+        .question-text {
+            font-size: 1.7rem;
+            color: #532e1b;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .big-letter {
+            font-size: 7rem;
+            color: #c44b1e;
+            text-shadow: 5px 5px 0 #ffb882;
+            background: #fff7e6;
+            display: inline-block;
+            padding: 10px 40px;
+            border-radius: 60px 20px 60px 20px;
+            border: 5px solid #f7a86b;
+            box-shadow: 0 12px 0 #b05a2c;
+        }
+
+        .big-letter.pop {
+            animation: letterPop 0.5s ease;
+        }
+
+        @keyframes letterPop {
+            0% {
+                transform: scale(1) rotate(0deg);
+            }
+
+            50% {
+                transform: scale(1.12) rotate(-4deg);
+            }
+
+            100% {
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+            margin: 25px 0 15px;
+        }
+
+        .option-btn {
+            background: #fef9d7;
+            border: 4px solid #ffaa5e;
+            border-radius: 30px 12px 30px 12px;
+            padding: 22px 10px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #6b2e00;
+            cursor: pointer;
+            box-shadow: 0 10px 0 #b06030;
+            transition: transform 0.08s, box-shadow 0.08s, background 0.2s;
+            font-family: inherit;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background: #ffe29c;
+        }
+
+        .option-btn:active:not(:disabled) {
+            box-shadow: 0 4px 0 #b06030;
+            transform: translateY(6px);
+        }
+
+        .option-btn.correct {
+            background: #b1e6b1 !important;
+            border-color: #2e8b57 !important;
+            box-shadow: 0 6px 0 #1e6b3b;
+            color: #1d4d1d;
+            animation: popCorrect 0.3s ease;
+        }
+
+        .option-btn.wrong {
+            background: #f9acac !important;
+            border-color: #c0392b !important;
+            box-shadow: 0 6px 0 #8b2b1f;
+            color: #5e1d15;
+            animation: shakeWrong 0.3s ease;
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+        }
+
+        @keyframes popCorrect {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.12);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes shakeWrong {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-6px);
+            }
+
+            75% {
+                transform: translateX(6px);
+            }
+        }
+
+        .feedback {
+            font-size: 1.5rem;
+            min-height: 2.5rem;
+            margin: 12px 0;
+            font-weight: bold;
+            color: #6b3e1c;
+        }
+
+        .score-counter {
+            background: #bd6b38;
+            display: inline-block;
+            padding: 10px 26px;
+            border-radius: 40px;
+            color: #fff3d1;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 12px 0 18px;
+            box-shadow: 0 6px 0 #6b3a1b;
+            border: 2px solid #ffe0a3;
+        }
+
+        .next-btn {
+            background: #ff8a3c;
+            border: none;
+            border-radius: 40px 15px 40px 15px;
+            padding: 16px 40px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #3b1e0b;
+            box-shadow: 0 10px 0 #a64b1a;
+            cursor: pointer;
+            font-family: inherit;
+            border: 3px solid #ffe7b3;
+            transition: transform 0.08s, box-shadow 0.08s;
+        }
+
+        .next-btn:active:not(:disabled) {
+            box-shadow: 0 4px 0 #a64b1a;
+            transform: translateY(6px);
+        }
+
+        .next-btn:disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .reset-btn {
+            background: #e0b080;
+            border: none;
+            border-radius: 30px;
+            padding: 10px 24px;
+            font-size: 1.3rem;
+            font-family: inherit;
+            color: #3d2a1b;
+            font-weight: bold;
+            box-shadow: 0 5px 0 #8b5a2b;
+            cursor: pointer;
+            margin-top: 18px;
+            border: 2px solid #fff0d0;
+            transition: transform 0.08s, box-shadow 0.08s;
+        }
+
+        .reset-btn:active {
+            box-shadow: 0 2px 0 #8b5a2b;
+            transform: translateY(3px);
+        }
+
+        @media (max-width: 550px) {
+            .quiz-container {
+                padding: 25px 15px 35px;
+            }
+
+            h1 {
+                font-size: 1.7rem;
+            }
+
+            h1 span.emoji {
+                width: 48px;
+                height: 48px;
+                font-size: 1.5rem;
+            }
+
+            .big-letter {
+                font-size: 4.5rem;
+                padding: 8px 24px;
+            }
+
+            .options-grid {
+                gap: 12px;
+            }
+
+            .option-btn {
+                font-size: 1.4rem;
+                padding: 16px 5px;
+            }
+
+            .question-text {
+                font-size: 1.3rem;
+            }
+
+            .feedback {
+                font-size: 1.2rem;
+            }
+
+            .score-counter {
+                font-size: 1.2rem;
+            }
+
+            .next-btn {
+                font-size: 1.5rem;
+                padding: 12px 26px;
+            }
+
+            .lang-btn,
+            .pulse-btn {
+                font-size: 1rem;
+                padding: 6px 14px;
+            }
+
+            .zoom-step-btn {
+                width: 34px;
+                height: 34px;
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="zoom-bg"></div>
+
+    <div class="zoom-wrapper" id="zoomWrapper">
+        <div class="quiz-container">
+            <h1>
+                <span class="emoji">🐼</span>
+                <span id="titleText">Arabic Letters</span>
+                <span class="emoji">🐨</span>
+            </h1>
+
+            <div class="controls">
+                <div class="lang-toggle">
+                    <button class="lang-btn active" id="langEnBtn">English</button>
+                    <button class="lang-btn" id="langArBtn">العربية</button>
+                </div>
+
+                <div class="zoom-controls">
+                    <button class="zoom-step-btn" id="zoomOutBtn" title="Zoom out">−</button>
+                    <span class="zoom-level-label" id="zoomLevelLabel">100%</span>
+                    <button class="zoom-step-btn" id="zoomInBtn" title="Zoom in">+</button>
+                </div>
+
+                <button class="pulse-btn" id="pulseToggleBtn" title="Toggle background pulse">✨ Pulse: On</button>
+            </div>
+
+            <div class="question-box">
+                <div class="question-text" id="questionText">What is the name of this letter?</div>
+                <div class="big-letter" id="letterDisplay">أ</div>
+            </div>
+
+            <div class="options-grid" id="optionsContainer"></div>
+
+            <div class="feedback" id="feedbackMessage">✨ Pick an answer! ✨</div>
+
+            <div class="score-counter" id="scoreDisplay">⭐ Score: 0 / 0</div>
+
+            <button class="next-btn" id="nextButton" disabled>➡️ Next</button>
+            <br>
+            <button class="reset-btn" id="resetButton">🔄 Play Again</button>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            /* ---------- Data ---------- */
+            const letters = [
+                { letter: 'أ', en: 'Alif', ar: 'أَلِف' },
+                { letter: 'ب', en: 'Baa', ar: 'بَاء' },
+                { letter: 'ت', en: 'Taa', ar: 'تَاء' },
+                { letter: 'ث', en: 'Thaa', ar: 'ثَاء' },
+                { letter: 'ج', en: 'Jeem', ar: 'جِيم' },
+                { letter: 'ح', en: 'Haa', ar: 'حَاء' },
+                { letter: 'خ', en: 'Khaa', ar: 'خَاء' },
+                { letter: 'د', en: 'Dal', ar: 'دَال' },
+                { letter: 'ذ', en: 'Dhal', ar: 'ذَال' },
+                { letter: 'ر', en: 'Raa', ar: 'رَاء' },
+                { letter: 'ز', en: 'Zay', ar: 'زَاي' },
+                { letter: 'س', en: 'Seen', ar: 'سِين' },
+                { letter: 'ش', en: 'Sheen', ar: 'شِين' },
+                { letter: 'ص', en: 'Saad', ar: 'صَاد' },
+                { letter: 'ض', en: 'Daad', ar: 'ضَاد' },
+                { letter: 'ط', en: 'Taa', ar: 'طَاء' },
+                { letter: 'ظ', en: 'Dhaa', ar: 'ظَاء' },
+                { letter: 'ع', en: 'Ayn', ar: 'عَيْن' },
+                { letter: 'غ', en: 'Ghayn', ar: 'غَيْن' },
+                { letter: 'ف', en: 'Faa', ar: 'فَاء' },
+                { letter: 'ق', en: 'Qaf', ar: 'قَاف' },
+                { letter: 'ك', en: 'Kaf', ar: 'كَاف' },
+                { letter: 'ل', en: 'Lam', ar: 'لَام' },
+                { letter: 'م', en: 'Meem', ar: 'مِيم' },
+                { letter: 'ن', en: 'Noon', ar: 'نُون' },
+                { letter: 'ه', en: 'Haa', ar: 'هَاء' },
+                { letter: 'و', en: 'Waw', ar: 'وَاو' },
+                { letter: 'ي', en: 'Yaa', ar: 'يَاء' }
+            ];
+
+            /* ---------- State ---------- */
+            let lang = 'en';
+            let current = null;
+            let correctName = '';
+            let options = [];
+            let correctIndex = -1;
+            let score = 0;
+            let total = 0;
+            let answered = false;
+
+            const ZOOM_MIN = 0.5;
+            const ZOOM_MAX = 2.0;
+            const ZOOM_STEP = 0.1;
+            let zoomLevel = 1.0;
+            let pulseOn = true;
+
+            /* ---------- DOM ---------- */
+            const zoomWrapper = document.getElementById('zoomWrapper');
+            const zoomInBtn = document.getElementById('zoomInBtn');
+            const zoomOutBtn = document.getElementById('zoomOutBtn');
+            const zoomLevelLabel = document.getElementById('zoomLevelLabel');
+            const pulseToggleBtn = document.getElementById('pulseToggleBtn');
+            const letterDisplay = document.getElementById('letterDisplay');
+            const optionsContainer = document.getElementById('optionsContainer');
+            const feedbackMessage = document.getElementById('feedbackMessage');
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            const nextButton = document.getElementById('nextButton');
+            const resetButton = document.getElementById('resetButton');
+            const titleText = document.getElementById('titleText');
+            const questionText = document.getElementById('questionText');
+            const langEnBtn = document.getElementById('langEnBtn');
+            const langArBtn = document.getElementById('langArBtn');
+
+            /* ---------- Helpers ---------- */
+            function shuffle(arr) {
+                for (let i = arr.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [arr[i], arr[j]] = [arr[j], arr[i]];
+                }
+                return arr;
+            }
+
+            /* ---------- Audio (cheerful!) ---------- */
+            let audioCtx = null;
+            function getCtx() {
+                if (!audioCtx) {
+                    const AC = window.AudioContext || window.webkitAudioContext;
+                    if (!AC) return null;
+                    audioCtx = new AC();
+                }
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                return audioCtx;
+            }
+
+            /* Sparkle chime – a bright, happy "ta-da!" */
+            function playCheerfulChime() {
+                const ctx = getCtx();
+                if (!ctx) return;
+                const now = ctx.currentTime;
+
+                // Master gain for the whole cheer
+                const master = ctx.createGain();
+                master.gain.value = 0.35;
+                master.connect(ctx.destination);
+
+                // 1) Quick "ding" sparkle arpeggio: C5 → E5 → G5 → C6
+                const sparkleNotes = [523.25, 659.25, 783.99, 1046.50];
+                sparkleNotes.forEach((freq, i) => {
+                    const t = now + i * 0.06;
+                    const osc = ctx.createOscillator();
+                    const g = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.value = freq;
+
+                    // Bouncy vibrato for toon feel
+                    const lfo = ctx.createOscillator();
+                    const lfoGain = ctx.createGain();
+                    lfo.frequency.value = 7;
+                    lfoGain.gain.value = 10;
+                    lfo.connect(lfoGain);
+                    lfoGain.connect(osc.frequency);
+                    lfo.start(t);
+                    lfo.stop(t + 0.35);
+
+                    g.gain.setValueAtTime(0.0001, t);
+                    g.gain.exponentialRampToValueAtTime(0.25, t + 0.015);
+                    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.32);
+
+                    osc.connect(g);
+                    g.connect(master);
+                    osc.start(t);
+                    osc.stop(t + 0.35);
+                });
+
+                // 2) A happy "ta-da" burst at the end (E6 + G6 together, then C7)
+                const taDaStart = now + 0.26;
+                const taDaNotes = [
+                    { freq: 1318.51, delay: 0 },      // E6
+                    { freq: 1567.98, delay: 0 },      // G6
+                    { freq: 2093.00, delay: 0.09 }    // C7
+                ];
+                taDaNotes.forEach(n => {
+                    const t = taDaStart + n.delay;
+                    const osc = ctx.createOscillator();
+                    const g = ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.value = n.freq;
+                    g.gain.setValueAtTime(0.0001, t);
+                    g.gain.exponentialRampToValueAtTime(0.22, t + 0.02);
+                    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.45);
+                    osc.connect(g);
+                    g.connect(master);
+                    osc.start(t);
+                    osc.stop(t + 0.5);
+                });
+
+                // 3) A soft sparkle noise shimmer
+                const bufferSize = ctx.sampleRate * 0.25;
+                const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) {
+                    data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / bufferSize, 3);
+                }
+                const noise = ctx.createBufferSource();
+                noise.buffer = buffer;
+                const noiseGain = ctx.createGain();
+                noiseGain.gain.setValueAtTime(0.08, now);
+                noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.3);
+                noise.connect(noiseGain);
+                noiseGain.connect(master);
+                noise.start(now);
+            }
+
+            function playWrongSound() {
+                const ctx = getCtx();
+                if (!ctx) return;
+                const now = ctx.currentTime;
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(320, now);
+                osc.frequency.linearRampToValueAtTime(200, now + 0.25);
+                gain.gain.setValueAtTime(0.0001, now);
+                gain.gain.exponentialRampToValueAtTime(0.12, now + 0.02);
+                gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.3);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.35);
+            }
+
+            /* ---------- Speech ---------- */
+            function pickFemaleVoice(language) {
+                if (!('speechSynthesis' in window)) return null;
+                const voices = window.speechSynthesis.getVoices();
+                if (!voices.length) return null;
+                const target = language === 'ar' ? 'ar' : 'en';
+                const inLang = voices.filter(v => v.lang && v.lang.toLowerCase().startsWith(target));
+                const femaleHints = ['female', 'zira', 'samantha', 'victoria', 'karen',
+                    'moira', 'tessa', 'fiona', 'susan', 'linda', 'hazel',
+                    'salma', 'laila', 'hoda', 'zeina', 'amina', 'maryam'];
+                const female = inLang.find(v =>
+                    femaleHints.some(h => v.name.toLowerCase().includes(h))
+                );
+                return female || inLang[0] || null;
+            }
+
+            function speakGoodJob() {
+                if (!('speechSynthesis' in window)) return;
+                try {
+                    window.speechSynthesis.cancel();
+                    const text = lang === 'ar' ? 'أحسنت' : 'Good job';
+                    const utter = new SpeechSynthesisUtterance(text);
+                    utter.rate = 0.95;
+                    utter.pitch = 1.5;
+                    utter.lang = lang === 'ar' ? 'ar-SA' : 'en-US';
+                    const v = pickFemaleVoice(lang);
+                    if (v) utter.voice = v;
+                    window.speechSynthesis.speak(utter);
+                } catch (e) { /* ignore */ }
+            }
+
+            /* ---------- Zoom controls ---------- */
+            function applyZoom() {
+                zoomWrapper.style.transform = `scale(${zoomLevel})`;
+                zoomLevelLabel.textContent = Math.round(zoomLevel * 100) + '%';
+                zoomInBtn.disabled = zoomLevel >= ZOOM_MAX - 0.001;
+                zoomOutBtn.disabled = zoomLevel <= ZOOM_MIN + 0.001;
+            }
+
+            function zoomIn() {
+                zoomLevel = Math.min(ZOOM_MAX, +(zoomLevel + ZOOM_STEP).toFixed(2));
+                applyZoom();
+            }
+
+            function zoomOut() {
+                zoomLevel = Math.max(ZOOM_MIN, +(zoomLevel - ZOOM_STEP).toFixed(2));
+                applyZoom();
+            }
+
+            /* ---------- Pulse toggle ---------- */
+            function updatePulseUI() {
+                if (pulseOn) {
+                    document.body.classList.remove('zoom-paused');
+                    pulseToggleBtn.textContent = '✨ Pulse: On';
+                    pulseToggleBtn.classList.remove('off');
+                } else {
+                    document.body.classList.add('zoom-paused');
+                    pulseToggleBtn.textContent = '✨ Pulse: Off';
+                    pulseToggleBtn.classList.add('off');
+                }
+            }
+
+            function togglePulse() {
+                pulseOn = !pulseOn;
+                updatePulseUI();
+            }
+
+            /* ---------- UI ---------- */
+            function applyLanguageUI() {
+                if (lang === 'en') {
+                    document.documentElement.dir = 'ltr';
+                    document.documentElement.lang = 'en';
+                    titleText.textContent = 'Arabic Letters';
+                    questionText.textContent = 'What is the name of this letter?';
+                    feedbackMessage.textContent = '✨ Pick an answer! ✨';
+                    nextButton.textContent = '➡️ Next';
+                    resetButton.textContent = '🔄 Play Again';
+                    scoreDisplay.textContent = `⭐ Score: ${score} / ${total}`;
+                    langEnBtn.classList.add('active');
+                    langArBtn.classList.remove('active');
+                } else {
+                    document.documentElement.dir = 'rtl';
+                    document.documentElement.lang = 'ar';
+                    titleText.textContent = 'الحروف العربية';
+                    questionText.textContent = 'ما اسم هذا الحرف؟';
+                    feedbackMessage.textContent = '✨ اختر إجابة! ✨';
+                    nextButton.textContent = '➡️ التالي';
+                    resetButton.textContent = '🔄 العب مرة أخرى';
+                    scoreDisplay.textContent = `⭐ النتيجة: ${score} / ${total}`;
+                    langArBtn.classList.add('active');
+                    langEnBtn.classList.remove('active');
+                }
+            }
+
+            function updateScore() {
+                scoreDisplay.textContent = lang === 'en'
+                    ? `⭐ Score: ${score} / ${total}`
+                    : `⭐ النتيجة: ${score} / ${total}`;
+            }
+
+            /* ---------- Question ---------- */
+            function newQuestion() {
+                current = letters[Math.floor(Math.random() * letters.length)];
+                letterDisplay.textContent = current.letter;
+
+                letterDisplay.classList.remove('pop');
+                void letterDisplay.offsetWidth;
+                letterDisplay.classList.add('pop');
+
+                correctName = lang === 'en' ? current.en : current.ar;
+
+                const pool = new Set([correctName]);
+                while (pool.size < 4) {
+                    const r = letters[Math.floor(Math.random() * letters.length)];
+                    pool.add(lang === 'en' ? r.en : r.ar);
+                }
+
+                options = shuffle(Array.from(pool));
+                correctIndex = options.indexOf(correctName);
+                answered = false;
+
+                feedbackMessage.textContent = lang === 'en'
+                    ? '✨ Pick an answer! ✨'
+                    : '✨ اختر إجابة! ✨';
+                nextButton.disabled = true;
+
+                renderOptions();
+            }
+
+            function renderOptions() {
+                optionsContainer.innerHTML = '';
+                options.forEach((text, i) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'option-btn';
+                    btn.textContent = text;
+                    btn.addEventListener('click', () => chooseAnswer(i));
+                    optionsContainer.appendChild(btn);
+                });
+            }
+
+            function chooseAnswer(index) {
+                if (answered) return;
+                answered = true;
+
+                const btns = optionsContainer.querySelectorAll('.option-btn');
+                const isCorrect = index === correctIndex;
+
+                total++;
+                if (isCorrect) score++;
+                updateScore();
+
+                btns.forEach((b, i) => {
+                    b.disabled = true;
+                    if (i === correctIndex) b.classList.add('correct');
+                    else if (i === index && !isCorrect) b.classList.add('wrong');
+                });
+
+                if (isCorrect) {
+                    feedbackMessage.textContent = lang === 'en'
+                        ? '✅ Great job! 🎉'
+                        : '✅ أحسنت! 🎉';
+                    playCheerfulChime();
+                    speakGoodJob();
+                } else {
+                    feedbackMessage.textContent = lang === 'en'
+                        ? `❌ Oops! "${current.letter}" is "${correctName}". 🌟`
+                        : `❌ عذراً! "${current.letter}" هو "${correctName}". 🌟`;
+                    playWrongSound();
+                }
+
+                nextButton.disabled = false;
+            }
+
+            function resetGame() {
+                score = 0;
+                total = 0;
+                answered = false;
+                updateScore();
+                feedbackMessage.textContent = lang === 'en'
+                    ? '✨ Pick an answer! ✨'
+                    : '✨ اختر إجابة! ✨';
+                nextButton.disabled = true;
+                newQuestion();
+            }
+
+            function switchLanguage(newLang) {
+                if (lang === newLang) return;
+                lang = newLang;
+                applyLanguageUI();
+                resetGame();
+            }
+
+            /* ---------- Events ---------- */
+            nextButton.addEventListener('click', newQuestion);
+            resetButton.addEventListener('click', resetGame);
+            langEnBtn.addEventListener('click', () => switchLanguage('en'));
+            langArBtn.addEventListener('click', () => switchLanguage('ar'));
+            zoomInBtn.addEventListener('click', zoomIn);
+            zoomOutBtn.addEventListener('click', zoomOut);
+            pulseToggleBtn.addEventListener('click', togglePulse);
+
+            document.addEventListener('click', () => {
+                getCtx();
+                if ('speechSynthesis' in window) window.speechSynthesis.getVoices();
+            }, { once: true });
+
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+            }
+
+            /* ---------- Start ---------- */
+            applyLanguageUI();
+            applyZoom();
+            updatePulseUI();
+            resetGame();
+        })();
+    </script>
+</body>
+
+</html>
