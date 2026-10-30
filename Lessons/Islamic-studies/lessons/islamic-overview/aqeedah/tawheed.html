@@ -1,1515 +1,1704 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="درس التوحيد للأطفال — الله واحد، أسماء الله الحسنى، آية الكرسي، لعبة تفاعلية، وفيديو تعليمي.">
-<title>التوحيد للأطفال | Tawheed for Kids 🕌</title>
-
-<link rel="icon" type="image/png" href="../../../../../images/quran.png">
-<link rel="apple-touch-icon" href="images/quran.png">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Nunito+Sans:wght@400;600;700;800;900&family=Baloo+Bhaijaan+2:wght@400;600;700;800&display=swap" rel="stylesheet">
-
-<style>
-  :root {
-    --cream: #fdf8f0;
-    --warm-white: #fffaf3;
-    --sage: #8ba888;
-    --sage-dark: #5c7a58;
-    --gold: #d4a24c;
-    --gold-dark: #a87d2c;
-    --peach: #e8b48c;
-    --lilac: #b8a5d1;
-    --sky: #a8cfe0;
-    --rose: #e8a0a8;
-    --text: #2d2416;
-    --text-soft: #5c5040;
-    --border: #e8dcc8;
-    --shadow: 0 4px 24px rgba(90, 70, 40, 0.08);
-    --shadow-lg: 0 12px 40px rgba(90, 70, 40, 0.12);
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  html, body {
-    width: 100%;
-    overflow-x: hidden;
-  }
-
-  body {
-    font-family: 'Baloo Bhaijaan 2', 'Nunito Sans', sans-serif;
-    background: var(--cream);
-    color: var(--text);
-    line-height: 1.9;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transition: font-family 0.2s;
-  }
-
-  html[lang="en"] body {
-    font-family: 'Nunito Sans', sans-serif;
-  }
-
-  .ar-quran {
-    font-family: 'Amiri', serif;
-    direction: rtl;
-  }
-
-  /* ============ LANGUAGE TOGGLE ============ */
-  .lang-toggle-wrap {
-    position: fixed;
-    top: 18px;
-    left: 18px;
-    z-index: 100;
-  }
-
-  .lang-toggle {
-    display: flex;
-    background: var(--warm-white);
-    border: 1px solid var(--border);
-    border-radius: 50px;
-    padding: 4px;
-    box-shadow: var(--shadow);
-  }
-
-  .lang-toggle button {
-    border: none;
-    background: transparent;
-    color: var(--text-soft);
-    font-family: 'Nunito Sans', sans-serif;
-    font-weight: 700;
-    font-size: 0.85rem;
-    padding: 8px 16px;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: all 0.3s;
-  }
-
-  .lang-toggle button.active {
-    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-    color: #fff;
-    box-shadow: 0 4px 12px rgba(212, 162, 76, 0.35);
-  }
-
-  html[lang="ar"] .en-only { display: none !important; }
-  html[lang="en"] .ar-only { display: none !important; }
-
-  html[lang="en"] .lesson-section .quran-verse {
-    direction: rtl;
-  }
-
-  /* ============ STICKY TOP BAR ============ */
-  .topbar {
-    position: sticky;
-    top: 0;
-    z-index: 90;
-    width: 100%;
-    background: rgba(255, 250, 243, 0.95);
-    backdrop-filter: blur(10px);
-    border-bottom: 2px solid var(--border);
-    padding: 10px 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-  }
-
-  .topbar-inner {
-    width: 100%;
-    max-width: 860px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-  }
-
-  .topbar .home-link {
-    text-decoration: none;
-    color: var(--sage-dark);
-    font-weight: 800;
-    font-size: 1rem;
-    background: var(--warm-white);
-    border: 2px solid var(--border);
-    padding: 8px 16px;
-    border-radius: 50px;
-    transition: all 0.25s;
-  }
-  .topbar .home-link:hover {
-    border-color: var(--sage);
-    transform: translateX(3px);
-  }
-
-  .star-counter {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: linear-gradient(135deg, #fff6e0, #ffe9b8);
-    border: 2px solid var(--gold);
-    padding: 6px 18px;
-    border-radius: 50px;
-    font-weight: 800;
-    font-size: 1.15rem;
-    color: var(--gold-dark);
-    box-shadow: 0 4px 14px rgba(212, 162, 76, 0.3);
-    transition: transform 0.2s;
-  }
-  .star-counter .star-icon {
-    font-size: 1.4rem;
-    display: inline-block;
-    animation: twinkle 2s ease-in-out infinite;
-  }
-  @keyframes twinkle {
-    0%, 100% { transform: scale(1) rotate(0deg); }
-    50% { transform: scale(1.2) rotate(15deg); }
-  }
-
-  /* ============ CONTAINER ============ */
-  .container {
-    width: 100%;
-    max-width: 860px;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 0 20px;
-  }
-
-  /* ============ HERO ============ */
-  .hero {
-    text-align: center;
-    padding: 50px 0 30px;
-    position: relative;
-    width: 100%;
-  }
-
-  .hero .big-moon {
-    font-size: 5rem;
-    line-height: 1;
-    display: inline-block;
-    animation: floaty 4s ease-in-out infinite;
-  }
-  @keyframes floaty {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-12px); }
-  }
-
-  .hero h1 {
-    font-size: clamp(2.4rem, 8vw, 4rem);
-    font-weight: 800;
-    color: var(--gold-dark);
-    line-height: 1.2;
-    margin: 10px 0;
-    text-shadow: 2px 2px 0 #fff, 4px 4px 0 rgba(212,162,76,0.2);
-  }
-
-  .hero .subtitle {
-    font-size: clamp(1.2rem, 4vw, 1.6rem);
-    color: var(--text-soft);
-    font-weight: 600;
-  }
-
-  /* ============ BIG SECTIONS ============ */
-  .lesson-section {
-    background: var(--warm-white);
-    border: 3px solid var(--border);
-    border-radius: 32px;
-    padding: 40px 28px;
-    margin: 34px 0;
-    text-align: center;
-    box-shadow: var(--shadow);
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-  }
-
-  .lesson-section .big-emoji {
-    font-size: 5.5rem;
-    line-height: 1;
-    display: block;
-    margin-bottom: 18px;
-    animation: pop-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-  }
-  @keyframes pop-in {
-    0% { transform: scale(0); }
-    100% { transform: scale(1); }
-  }
-
-  .lesson-section h2 {
-    font-size: clamp(1.8rem, 6vw, 2.6rem);
-    font-weight: 800;
-    color: var(--gold-dark);
-    margin-bottom: 12px;
-    line-height: 1.3;
-  }
-
-  .lesson-section p {
-    font-size: clamp(1.15rem, 4vw, 1.5rem);
-    color: var(--text);
-    font-weight: 600;
-    max-width: 600px;
-    margin: 0 auto;
-  }
-
-  .lesson-section .quran-verse {
-    display: inline-block;
-    margin-top: 20px;
-    background: linear-gradient(135deg, #eef6ec, #dcebda);
-    border: 2px dashed var(--sage);
-    border-radius: 20px;
-    padding: 14px 24px;
-    font-size: clamp(1.3rem, 5vw, 1.8rem);
-    color: var(--sage-dark);
-    font-weight: 700;
-  }
-
-  .section-gold   { border-color: #f0d9a8; background: linear-gradient(180deg, #fffdf7, #fdf4e3); }
-  .section-sage   { border-color: #c7dcc4; background: linear-gradient(180deg, #f9fcf8, #eef6ec); }
-  .section-sky    { border-color: #c2dfea; background: linear-gradient(180deg, #f7fcfe, #e8f4f9); }
-  .section-peach  { border-color: #f3d3b6; background: linear-gradient(180deg, #fffaf5, #fdeede); }
-  .section-lilac  { border-color: #ddd2ea; background: linear-gradient(180deg, #fbf9fd, #f1ebf8); }
-
-  /* ============ TAP-TO-COLLECT STARS ============ */
-  .tap-star {
-    display: inline-block;
-    font-size: 2.8rem;
-    cursor: pointer;
-    margin: 0 6px;
-    transition: transform 0.2s;
-    user-select: none;
-  }
-  .tap-star:hover { transform: scale(1.3) rotate(-10deg); }
-  .tap-star.collected {
-    animation: star-burst 0.6s ease-out forwards;
-    pointer-events: none;
-  }
-  @keyframes star-burst {
-    0% { transform: scale(1); }
-    40% { transform: scale(1.8) rotate(30deg); }
-    100% { transform: scale(0); opacity: 0; }
-  }
-
-  /* ============ VIDEO SECTION ============ */
-  .video-section {
-    background: linear-gradient(135deg, #fffdf7, #fdf4e3);
-    border: 4px solid var(--gold);
-    border-radius: 32px;
-    padding: 30px 22px 24px;
-    margin: 34px 0;
-    box-shadow: var(--shadow-lg);
-    text-align: center;
-    width: 100%;
-  }
-
-  .video-section h2 {
-    font-size: clamp(1.6rem, 5vw, 2.2rem);
-    color: var(--gold-dark);
-    margin-bottom: 6px;
-    font-weight: 800;
-  }
-
-  .video-section .subtitle {
-    font-size: 1.05rem;
-    color: var(--text-soft);
-    font-weight: 600;
-    margin-bottom: 20px;
-  }
-
-  .video-wrap {
-    position: relative;
-    width: 100%;
-    padding-bottom: 56.25%;
-    border-radius: 20px;
-    overflow: hidden;
-    background: #000;
-    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.2);
-    border: 3px solid var(--gold);
-  }
-
-  .video-wrap iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: 0;
-    display: block;
-  }
-
-  .video-note {
-    margin-top: 16px;
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--sage-dark);
-    background: #eef6ec;
-    padding: 10px 16px;
-    border-radius: 14px;
-    display: inline-block;
-  }
-
-  /* ============ 99 NAMES GRID ============ */
-  .names-intro {
-    text-align: center;
-    margin-bottom: 24px;
-  }
-  .names-intro .big-emoji {
-    font-size: 4.5rem;
-    display: block;
-    margin-bottom: 10px;
-    animation: floaty 3s ease-in-out infinite;
-  }
-
-  .names-progress {
-    background: var(--warm-white);
-    border: 3px solid var(--gold);
-    border-radius: 50px;
-    padding: 8px 20px;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 800;
-    font-size: 1.1rem;
-    color: var(--gold-dark);
-    margin: 10px auto 20px;
-    box-shadow: var(--shadow);
-  }
-
-  .names-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 12px;
-    margin-top: 10px;
-    width: 100%;
-  }
-
-  .name-card {
-    background: var(--warm-white);
-    border: 3px solid var(--border);
-    border-radius: 20px;
-    padding: 14px 8px;
-    cursor: pointer;
-    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-    position: relative;
-    text-align: center;
-    user-select: none;
-    overflow: hidden;
-  }
-
-  .name-card .num {
-    font-size: 0.7rem;
-    font-weight: 800;
-    color: var(--gold-dark);
-    opacity: 0.6;
-    line-height: 1;
-  }
-
-  .name-card .arabic-name {
-    font-family: 'Amiri', serif;
-    font-size: 1.7rem;
-    font-weight: 700;
-    color: var(--gold-dark);
-    line-height: 1.4;
-    direction: rtl;
-    margin-top: 2px;
-  }
-
-  .name-card .meaning {
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: var(--text-soft);
-    line-height: 1.4;
-    margin-top: 4px;
-  }
-
-  .name-card:hover {
-    transform: translateY(-5px) scale(1.03);
-    border-color: var(--gold);
-    box-shadow: 0 8px 20px rgba(212, 162, 76, 0.3);
-  }
-
-  .name-card.tapped {
-    background: linear-gradient(135deg, #fff6e0, #ffe9b8);
-    border-color: var(--gold);
-    animation: name-pop 0.5s ease;
-  }
-  .name-card.tapped::after {
-    content: "⭐";
-    position: absolute;
-    top: 4px;
-    left: 6px;
-    font-size: 1.1rem;
-    animation: star-burst 0.6s ease-out forwards;
-  }
-  @keyframes name-pop {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.12); }
-    100% { transform: scale(1); }
-  }
-
-  /* ============ WORDWALL GAME SECTION (LINK BUTTON) ============ */
-  .game-section {
-    background: linear-gradient(135deg, #f7fcfe, #e8f4f9);
-    border: 4px solid var(--sky);
-    border-radius: 32px;
-    padding: 40px 26px 34px;
-    margin: 34px 0;
-    box-shadow: var(--shadow-lg);
-    text-align: center;
-    width: 100%;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .game-section::before {
-    content: "🎮";
-    position: absolute;
-    top: -20px;
-    left: -10px;
-    font-size: 10rem;
-    opacity: 0.08;
-    line-height: 1;
-    pointer-events: none;
-  }
-
-  .game-section h2 {
-    font-size: clamp(1.6rem, 5vw, 2.2rem);
-    color: var(--sage-dark);
-    margin-bottom: 6px;
-    font-weight: 800;
-  }
-
-  .game-section .subtitle {
-    font-size: 1.05rem;
-    color: var(--text-soft);
-    font-weight: 600;
-    margin-bottom: 26px;
-  }
-
-  .game-link-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    text-decoration: none;
-    background: linear-gradient(135deg, var(--sage), var(--sage-dark));
-    color: #fff;
-    font-weight: 800;
-    font-size: clamp(1.15rem, 4vw, 1.4rem);
-    padding: 20px 40px;
-    border-radius: 50px;
-    box-shadow: 0 8px 0 var(--sage-dark), 0 14px 28px rgba(92, 122, 88, 0.4);
-    transition: all 0.2s ease;
-    margin: 6px auto;
-    min-width: 240px;
-    position: relative;
-    z-index: 2;
-  }
-
-  .game-link-btn:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 0 var(--sage-dark), 0 18px 34px rgba(92, 122, 88, 0.5);
-  }
-
-  .game-link-btn:active {
-    transform: translateY(4px);
-    box-shadow: 0 4px 0 var(--sage-dark), 0 8px 18px rgba(92, 122, 88, 0.4);
-  }
-
-  .game-link-btn .btn-icon {
-    font-size: 1.6rem;
-    display: inline-block;
-    animation: floaty 2.5s ease-in-out infinite;
-  }
-
-  .game-link-btn .btn-arrow {
-    font-size: 1.4rem;
-    display: inline-block;
-    transition: transform 0.25s;
-  }
-  .game-link-btn:hover .btn-arrow {
-    transform: translateX(5px);
-  }
-
-  .game-note {
-    margin-top: 20px;
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--sage-dark);
-    background: #eef6ec;
-    padding: 10px 16px;
-    border-radius: 14px;
-    display: inline-block;
-  }
-
-  /* ============ AYAT AL-KURSI ============ */
-  .kursi-box {
-    background: linear-gradient(135deg, #fffdf7, #fdf4e3);
-    border: 4px solid var(--gold);
-    border-radius: 32px;
-    padding: 36px 26px;
-    margin: 34px 0;
-    box-shadow: var(--shadow-lg);
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-  }
-
-  .kursi-box::before {
-    content: "۞";
-    position: absolute;
-    top: -20px;
-    right: -20px;
-    font-size: 10rem;
-    font-family: 'Amiri', serif;
-    color: var(--gold);
-    opacity: 0.08;
-    line-height: 1;
-  }
-
-  .kursi-box h2 {
-    text-align: center;
-    font-size: clamp(1.8rem, 6vw, 2.6rem);
-    color: var(--gold-dark);
-    margin-bottom: 6px;
-  }
-
-  .kursi-box .subtitle {
-    text-align: center;
-    font-size: 1.15rem;
-    color: var(--text-soft);
-    font-weight: 600;
-    margin-bottom: 24px;
-  }
-
-  .kursi-text {
-    font-family: 'Amiri', serif;
-    direction: rtl;
-    font-size: clamp(1.35rem, 4.5vw, 1.8rem);
-    line-height: 2.2;
-    color: var(--text);
-    text-align: center;
-    padding: 22px;
-    background: var(--warm-white);
-    border: 2px dashed var(--gold);
-    border-radius: 24px;
-    font-weight: 700;
-  }
-
-  .kursi-text .bismillah {
-    display: block;
-    color: var(--sage-dark);
-    font-size: 1.1em;
-    margin-bottom: 14px;
-    padding-bottom: 14px;
-    border-bottom: 2px dotted var(--border);
-  }
-
-  /* ============ SOUNDCLOUD AUDIO ============ */
-  .audio-block {
-    margin-top: 26px;
-    padding: 18px;
-    background: var(--warm-white);
-    border: 3px dashed var(--sage);
-    border-radius: 24px;
-    text-align: center;
-  }
-
-  .audio-block .audio-label {
-    font-size: 1.1rem;
-    font-weight: 800;
-    color: var(--sage-dark);
-    margin-bottom: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-  }
-
-  .audio-block iframe {
-    width: 100%;
-    height: 166px;
-    border: 0;
-    border-radius: 16px;
-    display: block;
-    background: var(--cream);
-  }
-
-  .audio-fallback {
-    margin-top: 14px;
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--text-soft);
-  }
-
-  .audio-fallback a {
-    color: var(--gold-dark);
-    text-decoration: none;
-    border-bottom: 2px dotted var(--gold);
-    font-weight: 800;
-  }
-  .audio-fallback a:hover { color: var(--sage-dark); }
-
-  .kursi-note {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--sage-dark);
-    background: #eef6ec;
-    padding: 12px 18px;
-    border-radius: 16px;
-  }
-
-  /* ============ INTERACTIVE QUIZ ============ */
-  .quiz-box {
-    background: var(--warm-white);
-    border: 3px solid var(--gold);
-    border-radius: 28px;
-    padding: 34px 26px;
-    margin: 34px 0;
-    text-align: center;
-    box-shadow: var(--shadow-lg);
-    width: 100%;
-  }
-
-  .quiz-box h3 {
-    font-size: clamp(1.5rem, 5vw, 2rem);
-    color: var(--gold-dark);
-    margin-bottom: 22px;
-    font-weight: 800;
-  }
-
-  .quiz-options {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 16px;
-    margin-top: 10px;
-  }
-
-  .quiz-btn {
-    font-family: inherit;
-    font-size: clamp(1.2rem, 4vw, 1.6rem);
-    font-weight: 800;
-    padding: 18px 30px;
-    border-radius: 24px;
-    border: 3px solid var(--border);
-    background: var(--warm-white);
-    color: var(--text);
-    cursor: pointer;
-    transition: all 0.2s;
-    min-width: 150px;
-    box-shadow: 0 5px 0 var(--border);
-  }
-  .quiz-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 0 var(--border); }
-  .quiz-btn:active { transform: translateY(2px); box-shadow: 0 3px 0 var(--border); }
-  .quiz-btn.correct {
-    background: linear-gradient(135deg, #b6e3a8, #8bcf7a);
-    border-color: #5c9e4d;
-    color: #1e4a13;
-    box-shadow: 0 5px 0 #5c9e4d;
-    animation: celebrate-pop 0.5s ease;
-  }
-  .quiz-btn.wrong {
-    background: linear-gradient(135deg, #f4b8b8, #ec8f8f);
-    border-color: #c75d5d;
-    color: #6b1616;
-    box-shadow: 0 5px 0 #c75d5d;
-    animation: shake 0.4s ease;
-  }
-  @keyframes celebrate-pop {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.12); }
-    100% { transform: scale(1); }
-  }
-  @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-8px); }
-    75% { transform: translateX(8px); }
-  }
-
-  .quiz-feedback {
-    font-size: clamp(1.3rem, 4.5vw, 1.7rem);
-    font-weight: 800;
-    margin-top: 20px;
-    min-height: 2em;
-    color: var(--sage-dark);
-  }
-
-  /* ============ FINAL REWARD ============ */
-  .reward-box {
-    display: none;
-    background: linear-gradient(135deg, #fff6e0, #ffe9b8);
-    border: 4px dashed var(--gold);
-    border-radius: 32px;
-    padding: 40px 28px;
-    margin: 40px 0;
-    text-align: center;
-    animation: reward-in 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
-    width: 100%;
-  }
-  .reward-box.show { display: block; }
-  @keyframes reward-in {
-    0% { transform: scale(0.5) rotate(-10deg); opacity: 0; }
-    100% { transform: scale(1) rotate(0deg); opacity: 1; }
-  }
-  .reward-box .trophy {
-    font-size: 6rem;
-    line-height: 1;
-    display: block;
-    animation: floaty 3s ease-in-out infinite;
-  }
-  .reward-box h2 {
-    font-size: clamp(2rem, 6vw, 3rem);
-    color: var(--gold-dark);
-    margin: 14px 0;
-  }
-  .reward-box p {
-    font-size: clamp(1.2rem, 4vw, 1.5rem);
-    color: var(--text-soft);
-    font-weight: 700;
-  }
-
-  /* ============ CONFETTI ============ */
-  .confetti {
-    position: fixed;
-    top: -20px;
-    font-size: 1.6rem;
-    pointer-events: none;
-    z-index: 200;
-    animation: confetti-fall linear forwards;
-  }
-  @keyframes confetti-fall {
-    0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(105vh) rotate(720deg); opacity: 0.3; }
-  }
-
-  /* ============ SECTION TOGGLES ============ */
-  .section-tab {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-bottom: 20px;
-  }
-  .section-tab button {
-    font-family: inherit;
-    font-weight: 800;
-    font-size: 1rem;
-    padding: 10px 20px;
-    border-radius: 50px;
-    border: 2px solid var(--border);
-    background: var(--warm-white);
-    color: var(--text-soft);
-    cursor: pointer;
-    transition: all 0.25s;
-  }
-  .section-tab button.active {
-    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-    color: #fff;
-    border-color: var(--gold-dark);
-    box-shadow: 0 4px 12px rgba(212, 162, 76, 0.35);
-  }
-
-  /* ============ RESPONSIVE ============ */
-  @media (max-width: 600px) {
-    .lesson-section { padding: 30px 18px; margin: 24px 0; border-radius: 26px; }
-    .lesson-section .big-emoji { font-size: 4.2rem; }
-    .hero { padding: 34px 0 18px; }
-    .quiz-btn { min-width: 120px; padding: 15px 22px; }
-    .star-counter { font-size: 1rem; padding: 5px 14px; }
-    .names-grid { grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); gap: 8px; }
-    .name-card .arabic-name { font-size: 1.4rem; }
-    .name-card .meaning { font-size: 0.75rem; }
-    .kursi-text { font-size: 1.25rem; padding: 16px; }
-    .video-section, .game-section { padding: 26px 16px 22px; }
-    .topbar-inner { gap: 8px; }
-    .topbar .home-link { font-size: 0.9rem; padding: 6px 12px; }
-    .audio-block iframe { height: 200px; }
-    .lang-toggle-wrap { top: 62px; left: 12px; }
-    .lang-toggle button { font-size: 0.75rem; padding: 6px 12px; }
-    .game-link-btn { padding: 18px 26px; min-width: 200px; font-size: 1.05rem; }
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="درس التوحيد للأطفال — الله واحد، أسماء الله الحسنى، آية الكرسي، لعبة تفاعلية، وفيديو تعليمي.">
+  <title>التوحيد للأطفال | Tawheed for Kids 🕌</title>
+
+  <link rel="icon" type="image/png" href="../../../../../images/quran.png">
+  <link rel="apple-touch-icon" href="images/quran.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Nunito+Sans:wght@400;600;700;800;900&family=Baloo+Bhaijaan+2:wght@400;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <style>
+    :root {
+      --cream: #fdf8f0;
+      --warm-white: #fffaf3;
+      --sage: #8ba888;
+      --sage-dark: #5c7a58;
+      --gold: #d4a24c;
+      --gold-dark: #a87d2c;
+      --peach: #e8b48c;
+      --lilac: #b8a5d1;
+      --sky: #a8cfe0;
+      --rose: #e8a0a8;
+      --text: #2d2416;
+      --text-soft: #5c5040;
+      --border: #e8dcc8;
+      --shadow: 0 4px 24px rgba(90, 70, 40, 0.08);
+      --shadow-lg: 0 12px 40px rgba(90, 70, 40, 0.12);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: 'Baloo Bhaijaan 2', 'Nunito Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      line-height: 1.9;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: font-family 0.2s;
+    }
+
+    html[lang="en"] body {
+      font-family: 'Nunito Sans', sans-serif;
+    }
+
+    .ar-quran {
+      font-family: 'Amiri', serif;
+      direction: rtl;
+    }
+
+    /* ============ LANGUAGE TOGGLE ============ */
+    .lang-toggle-wrap {
+      position: fixed;
+      top: 18px;
+      left: 18px;
+      z-index: 100;
+    }
+
+    .lang-toggle {
+      display: flex;
+      background: var(--warm-white);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      padding: 4px;
+      box-shadow: var(--shadow);
+    }
+
+    .lang-toggle button {
+      border: none;
+      background: transparent;
+      color: var(--text-soft);
+      font-family: 'Nunito Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 8px 16px;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .lang-toggle button.active {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(212, 162, 76, 0.35);
+    }
+
+    html[lang="ar"] .en-only {
+      display: none !important;
+    }
+
+    html[lang="en"] .ar-only {
+      display: none !important;
+    }
+
+    html[lang="en"] .lesson-section .quran-verse {
+      direction: rtl;
+    }
+
+    /* ============ STICKY TOP BAR ============ */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 90;
+      width: 100%;
+      background: rgba(255, 250, 243, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 2px solid var(--border);
+      padding: 10px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .topbar-inner {
+      width: 100%;
+      max-width: 860px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .topbar .home-link {
+      text-decoration: none;
+      color: var(--sage-dark);
+      font-weight: 800;
+      font-size: 1rem;
+      background: var(--warm-white);
+      border: 2px solid var(--border);
+      padding: 8px 16px;
+      border-radius: 50px;
+      transition: all 0.25s;
+    }
+
+    .topbar .home-link:hover {
+      border-color: var(--sage);
+      transform: translateX(3px);
+    }
+
+    .star-counter {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #fff6e0, #ffe9b8);
+      border: 2px solid var(--gold);
+      padding: 6px 18px;
+      border-radius: 50px;
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: var(--gold-dark);
+      box-shadow: 0 4px 14px rgba(212, 162, 76, 0.3);
+      transition: transform 0.2s;
+    }
+
+    .star-counter .star-icon {
+      font-size: 1.4rem;
+      display: inline-block;
+      animation: twinkle 2s ease-in-out infinite;
+    }
+
+    @keyframes twinkle {
+
+      0%,
+      100% {
+        transform: scale(1) rotate(0deg);
+      }
+
+      50% {
+        transform: scale(1.2) rotate(15deg);
+      }
+    }
+
+    /* ============ CONTAINER ============ */
+    .container {
+      width: 100%;
+      max-width: 860px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 0 20px;
+    }
+
+    /* ============ HERO ============ */
+    .hero {
+      text-align: center;
+      padding: 50px 0 30px;
+      position: relative;
+      width: 100%;
+    }
+
+    .hero .big-moon {
+      font-size: 5rem;
+      line-height: 1;
+      display: inline-block;
+      animation: floaty 4s ease-in-out infinite;
+    }
+
+    @keyframes floaty {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-12px);
+      }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 8vw, 4rem);
+      font-weight: 800;
+      color: var(--gold-dark);
+      line-height: 1.2;
+      margin: 10px 0;
+      text-shadow: 2px 2px 0 #fff, 4px 4px 0 rgba(212, 162, 76, 0.2);
+    }
+
+    .hero .subtitle {
+      font-size: clamp(1.2rem, 4vw, 1.6rem);
+      color: var(--text-soft);
+      font-weight: 600;
+    }
+
+    /* ============ BIG SECTIONS ============ */
+    .lesson-section {
+      background: var(--warm-white);
+      border: 3px solid var(--border);
+      border-radius: 32px;
+      padding: 40px 28px;
+      margin: 34px 0;
+      text-align: center;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .lesson-section .big-emoji {
+      font-size: 5.5rem;
+      line-height: 1;
+      display: block;
+      margin-bottom: 18px;
+      animation: pop-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    @keyframes pop-in {
+      0% {
+        transform: scale(0);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .lesson-section h2 {
+      font-size: clamp(1.8rem, 6vw, 2.6rem);
+      font-weight: 800;
+      color: var(--gold-dark);
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+
+    .lesson-section p {
+      font-size: clamp(1.15rem, 4vw, 1.5rem);
+      color: var(--text);
+      font-weight: 600;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .lesson-section .quran-verse {
+      display: inline-block;
+      margin-top: 20px;
+      background: linear-gradient(135deg, #eef6ec, #dcebda);
+      border: 2px dashed var(--sage);
+      border-radius: 20px;
+      padding: 14px 24px;
+      font-size: clamp(1.3rem, 5vw, 1.8rem);
+      color: var(--sage-dark);
+      font-weight: 700;
+    }
+
+    .section-gold {
+      border-color: #f0d9a8;
+      background: linear-gradient(180deg, #fffdf7, #fdf4e3);
+    }
+
+    .section-sage {
+      border-color: #c7dcc4;
+      background: linear-gradient(180deg, #f9fcf8, #eef6ec);
+    }
+
+    .section-sky {
+      border-color: #c2dfea;
+      background: linear-gradient(180deg, #f7fcfe, #e8f4f9);
+    }
+
+    .section-peach {
+      border-color: #f3d3b6;
+      background: linear-gradient(180deg, #fffaf5, #fdeede);
+    }
+
+    .section-lilac {
+      border-color: #ddd2ea;
+      background: linear-gradient(180deg, #fbf9fd, #f1ebf8);
+    }
+
+    /* ============ TAP-TO-COLLECT STARS ============ */
+    .tap-star {
+      display: inline-block;
+      font-size: 2.8rem;
+      cursor: pointer;
+      margin: 0 6px;
+      transition: transform 0.2s;
+      user-select: none;
+    }
+
+    .tap-star:hover {
+      transform: scale(1.3) rotate(-10deg);
+    }
+
+    .tap-star.collected {
+      animation: star-burst 0.6s ease-out forwards;
+      pointer-events: none;
+    }
+
+    @keyframes star-burst {
+      0% {
+        transform: scale(1);
+      }
+
+      40% {
+        transform: scale(1.8) rotate(30deg);
+      }
+
+      100% {
+        transform: scale(0);
+        opacity: 0;
+      }
+    }
+
+    /* ============ VIDEO SECTION ============ */
+    .video-section {
+      background: linear-gradient(135deg, #fffdf7, #fdf4e3);
+      border: 4px solid var(--gold);
+      border-radius: 32px;
+      padding: 30px 22px 24px;
+      margin: 34px 0;
+      box-shadow: var(--shadow-lg);
+      text-align: center;
+      width: 100%;
+    }
+
+    .video-section h2 {
+      font-size: clamp(1.6rem, 5vw, 2.2rem);
+      color: var(--gold-dark);
+      margin-bottom: 6px;
+      font-weight: 800;
+    }
+
+    .video-section .subtitle {
+      font-size: 1.05rem;
+      color: var(--text-soft);
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .video-wrap {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%;
+      border-radius: 20px;
+      overflow: hidden;
+      background: #000;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.2);
+      border: 3px solid var(--gold);
+    }
+
+    .video-wrap iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+
+    .video-note {
+      margin-top: 16px;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--sage-dark);
+      background: #eef6ec;
+      padding: 10px 16px;
+      border-radius: 14px;
+      display: inline-block;
+    }
+
+    /* ============ 99 NAMES GRID ============ */
+    .names-intro {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .names-intro .big-emoji {
+      font-size: 4.5rem;
+      display: block;
+      margin-bottom: 10px;
+      animation: floaty 3s ease-in-out infinite;
+    }
+
+    .names-progress {
+      background: var(--warm-white);
+      border: 3px solid var(--gold);
+      border-radius: 50px;
+      padding: 8px 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--gold-dark);
+      margin: 10px auto 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .names-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    .name-card {
+      background: var(--warm-white);
+      border: 3px solid var(--border);
+      border-radius: 20px;
+      padding: 14px 8px;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      text-align: center;
+      user-select: none;
+      overflow: hidden;
+    }
+
+    .name-card .num {
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: var(--gold-dark);
+      opacity: 0.6;
+      line-height: 1;
+    }
+
+    .name-card .arabic-name {
+      font-family: 'Amiri', serif;
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: var(--gold-dark);
+      line-height: 1.4;
+      direction: rtl;
+      margin-top: 2px;
+    }
+
+    .name-card .meaning {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-soft);
+      line-height: 1.4;
+      margin-top: 4px;
+    }
+
+    .name-card:hover {
+      transform: translateY(-5px) scale(1.03);
+      border-color: var(--gold);
+      box-shadow: 0 8px 20px rgba(212, 162, 76, 0.3);
+    }
+
+    .name-card.tapped {
+      background: linear-gradient(135deg, #fff6e0, #ffe9b8);
+      border-color: var(--gold);
+      animation: name-pop 0.5s ease;
+    }
+
+    .name-card.tapped::after {
+      content: "⭐";
+      position: absolute;
+      top: 4px;
+      left: 6px;
+      font-size: 1.1rem;
+      animation: star-burst 0.6s ease-out forwards;
+    }
+
+    @keyframes name-pop {
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.12);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    /* ============ WORDWALL GAME SECTION (LINK BUTTON) ============ */
+    .game-section {
+      background: linear-gradient(135deg, #f7fcfe, #e8f4f9);
+      border: 4px solid var(--sky);
+      border-radius: 32px;
+      padding: 40px 26px 34px;
+      margin: 34px 0;
+      box-shadow: var(--shadow-lg);
+      text-align: center;
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .game-section::before {
+      content: "🎮";
+      position: absolute;
+      top: -20px;
+      left: -10px;
+      font-size: 10rem;
+      opacity: 0.08;
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .game-section h2 {
+      font-size: clamp(1.6rem, 5vw, 2.2rem);
+      color: var(--sage-dark);
+      margin-bottom: 6px;
+      font-weight: 800;
+    }
+
+    .game-section .subtitle {
+      font-size: 1.05rem;
+      color: var(--text-soft);
+      font-weight: 600;
+      margin-bottom: 26px;
+    }
+
+    .game-link-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      text-decoration: none;
+      background: linear-gradient(135deg, var(--sage), var(--sage-dark));
+      color: #fff;
+      font-weight: 800;
+      font-size: clamp(1.15rem, 4vw, 1.4rem);
+      padding: 20px 40px;
+      border-radius: 50px;
+      box-shadow: 0 8px 0 var(--sage-dark), 0 14px 28px rgba(92, 122, 88, 0.4);
+      transition: all 0.2s ease;
+      margin: 6px auto;
+      min-width: 240px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .game-link-btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 0 var(--sage-dark), 0 18px 34px rgba(92, 122, 88, 0.5);
+    }
+
+    .game-link-btn:active {
+      transform: translateY(4px);
+      box-shadow: 0 4px 0 var(--sage-dark), 0 8px 18px rgba(92, 122, 88, 0.4);
+    }
+
+    .game-link-btn .btn-icon {
+      font-size: 1.6rem;
+      display: inline-block;
+      animation: floaty 2.5s ease-in-out infinite;
+    }
+
+    .game-link-btn .btn-arrow {
+      font-size: 1.4rem;
+      display: inline-block;
+      transition: transform 0.25s;
+    }
+
+    .game-link-btn:hover .btn-arrow {
+      transform: translateX(5px);
+    }
+
+    .game-note {
+      margin-top: 20px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--sage-dark);
+      background: #eef6ec;
+      padding: 10px 16px;
+      border-radius: 14px;
+      display: inline-block;
+    }
+
+    /* ============ AYAT AL-KURSI ============ */
+    .kursi-box {
+      background: linear-gradient(135deg, #fffdf7, #fdf4e3);
+      border: 4px solid var(--gold);
+      border-radius: 32px;
+      padding: 36px 26px;
+      margin: 34px 0;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .kursi-box::before {
+      content: "۞";
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      font-size: 10rem;
+      font-family: 'Amiri', serif;
+      color: var(--gold);
+      opacity: 0.08;
+      line-height: 1;
+    }
+
+    .kursi-box h2 {
+      text-align: center;
+      font-size: clamp(1.8rem, 6vw, 2.6rem);
+      color: var(--gold-dark);
+      margin-bottom: 6px;
+    }
+
+    .kursi-box .subtitle {
+      text-align: center;
+      font-size: 1.15rem;
+      color: var(--text-soft);
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+
+    .kursi-text {
+      font-family: 'Amiri', serif;
+      direction: rtl;
+      font-size: clamp(1.35rem, 4.5vw, 1.8rem);
+      line-height: 2.2;
+      color: var(--text);
+      text-align: center;
+      padding: 22px;
+      background: var(--warm-white);
+      border: 2px dashed var(--gold);
+      border-radius: 24px;
+      font-weight: 700;
+    }
+
+    .kursi-text .bismillah {
+      display: block;
+      color: var(--sage-dark);
+      font-size: 1.1em;
+      margin-bottom: 14px;
+      padding-bottom: 14px;
+      border-bottom: 2px dotted var(--border);
+    }
+
+    /* ============ SOUNDCLOUD AUDIO ============ */
+    .audio-block {
+      margin-top: 26px;
+      padding: 18px;
+      background: var(--warm-white);
+      border: 3px dashed var(--sage);
+      border-radius: 24px;
+      text-align: center;
+    }
+
+    .audio-block .audio-label {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--sage-dark);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .audio-block iframe {
+      width: 100%;
+      height: 166px;
+      border: 0;
+      border-radius: 16px;
+      display: block;
+      background: var(--cream);
+    }
+
+    .audio-fallback {
+      margin-top: 14px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-soft);
+    }
+
+    .audio-fallback a {
+      color: var(--gold-dark);
+      text-decoration: none;
+      border-bottom: 2px dotted var(--gold);
+      font-weight: 800;
+    }
+
+    .audio-fallback a:hover {
+      color: var(--sage-dark);
+    }
+
+    .kursi-note {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--sage-dark);
+      background: #eef6ec;
+      padding: 12px 18px;
+      border-radius: 16px;
+    }
+
+    /* ============ INTERACTIVE QUIZ ============ */
+    .quiz-box {
+      background: var(--warm-white);
+      border: 3px solid var(--gold);
+      border-radius: 28px;
+      padding: 34px 26px;
+      margin: 34px 0;
+      text-align: center;
+      box-shadow: var(--shadow-lg);
+      width: 100%;
+    }
+
+    .quiz-box h3 {
+      font-size: clamp(1.5rem, 5vw, 2rem);
+      color: var(--gold-dark);
+      margin-bottom: 22px;
+      font-weight: 800;
+    }
+
+    .quiz-options {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 10px;
+    }
+
+    .quiz-btn {
+      font-family: inherit;
+      font-size: clamp(1.2rem, 4vw, 1.6rem);
+      font-weight: 800;
+      padding: 18px 30px;
+      border-radius: 24px;
+      border: 3px solid var(--border);
+      background: var(--warm-white);
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.2s;
+      min-width: 150px;
+      box-shadow: 0 5px 0 var(--border);
+    }
+
+    .quiz-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 0 var(--border);
+    }
+
+    .quiz-btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 3px 0 var(--border);
+    }
+
+    .quiz-btn.correct {
+      background: linear-gradient(135deg, #b6e3a8, #8bcf7a);
+      border-color: #5c9e4d;
+      color: #1e4a13;
+      box-shadow: 0 5px 0 #5c9e4d;
+      animation: celebrate-pop 0.5s ease;
+    }
+
+    .quiz-btn.wrong {
+      background: linear-gradient(135deg, #f4b8b8, #ec8f8f);
+      border-color: #c75d5d;
+      color: #6b1616;
+      box-shadow: 0 5px 0 #c75d5d;
+      animation: shake 0.4s ease;
+    }
+
+    @keyframes celebrate-pop {
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.12);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    @keyframes shake {
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      25% {
+        transform: translateX(-8px);
+      }
+
+      75% {
+        transform: translateX(8px);
+      }
+    }
+
+    .quiz-feedback {
+      font-size: clamp(1.3rem, 4.5vw, 1.7rem);
+      font-weight: 800;
+      margin-top: 20px;
+      min-height: 2em;
+      color: var(--sage-dark);
+    }
+
+    /* ============ FINAL REWARD ============ */
+    .reward-box {
+      display: none;
+      background: linear-gradient(135deg, #fff6e0, #ffe9b8);
+      border: 4px dashed var(--gold);
+      border-radius: 32px;
+      padding: 40px 28px;
+      margin: 40px 0;
+      text-align: center;
+      animation: reward-in 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+      width: 100%;
+    }
+
+    .reward-box.show {
+      display: block;
+    }
+
+    @keyframes reward-in {
+      0% {
+        transform: scale(0.5) rotate(-10deg);
+        opacity: 0;
+      }
+
+      100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+      }
+    }
+
+    .reward-box .trophy {
+      font-size: 6rem;
+      line-height: 1;
+      display: block;
+      animation: floaty 3s ease-in-out infinite;
+    }
+
+    .reward-box h2 {
+      font-size: clamp(2rem, 6vw, 3rem);
+      color: var(--gold-dark);
+      margin: 14px 0;
+    }
+
+    .reward-box p {
+      font-size: clamp(1.2rem, 4vw, 1.5rem);
+      color: var(--text-soft);
+      font-weight: 700;
+    }
+
+    /* ============ CONFETTI ============ */
+    .confetti {
+      position: fixed;
+      top: -20px;
+      font-size: 1.6rem;
+      pointer-events: none;
+      z-index: 200;
+      animation: confetti-fall linear forwards;
+    }
+
+    @keyframes confetti-fall {
+      0% {
+        transform: translateY(-20px) rotate(0deg);
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(105vh) rotate(720deg);
+        opacity: 0.3;
+      }
+    }
+
+    /* ============ SECTION TOGGLES ============ */
+    .section-tab {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .section-tab button {
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 1rem;
+      padding: 10px 20px;
+      border-radius: 50px;
+      border: 2px solid var(--border);
+      background: var(--warm-white);
+      color: var(--text-soft);
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+
+    .section-tab button.active {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: #fff;
+      border-color: var(--gold-dark);
+      box-shadow: 0 4px 12px rgba(212, 162, 76, 0.35);
+    }
+
+    /* ============ RESPONSIVE ============ */
+    @media (max-width: 600px) {
+      .lesson-section {
+        padding: 30px 18px;
+        margin: 24px 0;
+        border-radius: 26px;
+      }
+
+      .lesson-section .big-emoji {
+        font-size: 4.2rem;
+      }
+
+      .hero {
+        padding: 34px 0 18px;
+      }
+
+      .quiz-btn {
+        min-width: 120px;
+        padding: 15px 22px;
+      }
+
+      .star-counter {
+        font-size: 1rem;
+        padding: 5px 14px;
+      }
+
+      .names-grid {
+        grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
+        gap: 8px;
+      }
+
+      .name-card .arabic-name {
+        font-size: 1.4rem;
+      }
+
+      .name-card .meaning {
+        font-size: 0.75rem;
+      }
+
+      .kursi-text {
+        font-size: 1.25rem;
+        padding: 16px;
+      }
+
+      .video-section,
+      .game-section {
+        padding: 26px 16px 22px;
+      }
+
+      .topbar-inner {
+        gap: 8px;
+      }
+
+      .topbar .home-link {
+        font-size: 0.9rem;
+        padding: 6px 12px;
+      }
+
+      .audio-block iframe {
+        height: 200px;
+      }
+
+      .lang-toggle-wrap {
+        top: 62px;
+        left: 12px;
+      }
+
+      .lang-toggle button {
+        font-size: 0.75rem;
+        padding: 6px 12px;
+      }
+
+      .game-link-btn {
+        padding: 18px 26px;
+        min-width: 200px;
+        font-size: 1.05rem;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- ============ LANGUAGE TOGGLE ============ -->
-<div class="lang-toggle-wrap">
-  <div class="lang-toggle">
-    <button id="btnEn" onclick="setLang('en')">🇬🇧 English</button>
-    <button id="btnAr" class="active" onclick="setLang('ar')">🇪🇬 العربية</button>
-  </div>
-</div>
-
-<!-- ============ TOP BAR ============ -->
-<div class="topbar">
-  <div class="topbar-inner">
-    <a class="home-link" href="./aqeedah.html">
-      <span class="ar-only">← الدروس</span>
-      <span class="en-only">← Lessons</span>
-    </a>
-    <div class="star-counter" aria-live="polite">
-      <span class="star-icon">⭐</span>
-      <span id="starCount">0</span>
+  <!-- ============ LANGUAGE TOGGLE ============ -->
+  <div class="lang-toggle-wrap">
+    <div class="lang-toggle">
+      <button id="btnEn" onclick="setLang('en')">🇬🇧 English</button>
+      <button id="btnAr" class="active" onclick="setLang('ar')">🇪🇬 العربية</button>
     </div>
   </div>
-</div>
 
-<!-- ============ HERO ============ -->
-<section class="hero container">
-  <span class="big-moon">🌙</span>
-  <h1>
-    <span class="ar-only">اللهُ وَاحِد</span>
-    <span class="en-only">Allah is One</span>
-  </h1>
-  <p class="subtitle">
-    <span class="ar-only">درسُ التَّوحيدِ لِلصِّغار 🧡</span>
-    <span class="en-only">A Tawheed lesson for little ones 🧡</span>
-  </p>
-</section>
-
-<!-- ============ SECTION 1 ============ -->
-<section class="lesson-section section-gold container">
-  <span class="big-emoji">☝️</span>
-  <h2>
-    <span class="ar-only">اللهُ وَاحِدٌ لَا شَرِيكَ لَه</span>
-    <span class="en-only">Allah is One, with no partner</span>
-  </h2>
-  <p>
-    <span class="ar-only">اللهُ هوَ رَبُّنَا، خَلَقَنَا وَخَلَقَ كُلَّ شَيء. هوَ وَاحِد، وَلَا مِثْلَ لَه.</span>
-    <span class="en-only">Allah is our Lord. He created us and everything. He is One, and nothing is like Him.</span>
-  </p>
-  <div class="quran-verse ar-quran">قُلْ هُوَ اللَّهُ أَحَدٌ</div>
-  <div style="margin-top: 24px;">
-    <span class="tap-star" data-star="1">⭐</span>
-    <span class="tap-star" data-star="2">⭐</span>
-    <span class="tap-star" data-star="3">⭐</span>
-  </div>
-</section>
-
-<!-- ============ SECTION 2 ============ -->
-<section class="lesson-section section-sky container">
-  <span class="big-emoji">🌍</span>
-  <h2>
-    <span class="ar-only">اللهُ خَالِقُ كُلِّ شَيء</span>
-    <span class="en-only">Allah created everything</span>
-  </h2>
-  <p>
-    <span class="ar-only">خَلَقَ السَّمَاءَ وَالأَرْضَ وَالشَّمْسَ وَالقَمَرَ وَالنُّجُوم. خَلَقَ الطُّيُورَ وَالزُّهُورَ وَأَنْتَ أَيْضًا! 🐦🌸</span>
-    <span class="en-only">He made the sky, the earth, the sun, the moon, and the stars. He made the birds, the flowers — and you too! 🐦🌸</span>
-  </p>
-  <div style="margin-top: 24px;">
-    <span class="tap-star" data-star="4">⭐</span>
-    <span class="tap-star" data-star="5">⭐</span>
-    <span class="tap-star" data-star="6">⭐</span>
-  </div>
-</section>
-
-<!-- ============ SECTION 3 ============ -->
-<section class="lesson-section section-peach container">
-  <span class="big-emoji">💛</span>
-  <h2>
-    <span class="ar-only">اللهُ يُحِبُّنَا وَنَحْنُ نُحِبُّهُ</span>
-    <span class="en-only">Allah loves us, and we love Him</span>
-  </h2>
-  <p>
-    <span class="ar-only">اللهُ يَرَانَا وَيَسْمَعُنَا فِي كُلِّ وَقْت. يَفْرَحُ إِذَا فَعَلْنَا الخَيْر، وَنَحْنُ نَقُولُ: <strong>أَحَبَّكَ الله</strong> 🤍</span>
-    <span class="en-only">Allah sees us and hears us all the time. He is happy when we do good, and we say: <strong>"May Allah love you"</strong> 🤍</span>
-  </p>
-  <div style="margin-top: 24px;">
-    <span class="tap-star" data-star="7">⭐</span>
-    <span class="tap-star" data-star="8">⭐</span>
-    <span class="tap-star" data-star="9">⭐</span>
-  </div>
-</section>
-
-<!-- ============ SECTION 4 ============ -->
-<section class="lesson-section section-sage container">
-  <span class="big-emoji">🤲</span>
-  <h2>
-    <span class="ar-only">نَشْكُرُ اللهَ دَائِمًا</span>
-    <span class="en-only">We always thank Allah</span>
-  </h2>
-  <p>
-    <span class="ar-only">نَقُولُ: <strong>الحَمْدُ لِلَّه</strong> عَلَى كُلِّ شَيء — عَلَى الطَّعَام، وَالمَاء، وَالعَائِلَة، وَالحُبّ. 🍎💧👨‍👩‍👧</span>
-    <span class="en-only">We say: <strong>"Alhamdulillah"</strong> for everything — for food, water, family, and love. 🍎💧👨‍👩‍👧</span>
-  </p>
-  <div style="margin-top: 24px;">
-    <span class="tap-star" data-star="10">⭐</span>
-    <span class="tap-star" data-star="11">⭐</span>
-    <span class="tap-star" data-star="12">⭐</span>
-  </div>
-</section>
-
-<!-- ============ VIDEO (language-specific) ============ -->
-<section class="video-section container">
-  <h2>
-    <span class="ar-only">🎬 فِيدْيُو التَّوْحِيد</span>
-    <span class="en-only">🎬 Tawheed Video</span>
-  </h2>
-  <p class="subtitle">
-    <span class="ar-only">شَاهِدْ وَتَعَلَّمْ مَعَنَا — اللهُ وَاحِد 🌙</span>
-    <span class="en-only">Watch and learn with us — Allah is One 🌙</span>
-  </p>
-
-  <!-- Arabic video -->
-  <div class="video-wrap ar-only">
-    <iframe
-      src="https://www.youtube.com/embed/ZAO4nVCCRCg?rel=0&modestbranding=1"
-      title="فيديو التوحيد للأطفال"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      referrerpolicy="strict-origin-when-cross-origin"
-      allowfullscreen
-      loading="lazy">
-    </iframe>
+  <!-- ============ TOP BAR ============ -->
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a class="home-link" href="./aqeedah.html">
+        <span class="ar-only">← الدروس</span>
+        <span class="en-only">← Lessons</span>
+      </a>
+      <div class="star-counter" aria-live="polite">
+        <span class="star-icon">⭐</span>
+        <span id="starCount">0</span>
+      </div>
+    </div>
   </div>
 
-  <div class="video-wrap ar-only">
-    <iframe
-      src="https://www.youtube.com/embed/m6AjcpkdPUc"
-      title="فيديو التوحيد للأطفال"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      referrerpolicy="strict-origin-when-cross-origin"
-      allowfullscreen
-      loading="lazy">
-    </iframe>
-  </div>
+  <!-- ============ HERO ============ -->
+  <section class="hero container">
+    <span class="big-moon">🌙</span>
+    <h1>
+      <span class="ar-only">اللهُ وَاحِد</span>
+      <span class="en-only">Allah is One</span>
+    </h1>
+    <p class="subtitle">
+      <span class="ar-only">درسُ التَّوحيدِ لِلصِّغار 🧡</span>
+      <span class="en-only">A Tawheed lesson for little ones 🧡</span>
+    </p>
+  </section>
 
-  <!-- English video -->
-  <div class="video-wrap en-only">
-    <iframe
-      src="https://www.youtube.com/embed/mQEsEd5e9vE?rel=0&modestbranding=1"
-      title="Tawheed video for kids"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      referrerpolicy="strict-origin-when-cross-origin"
-      allowfullscreen
-      loading="lazy">
-    </iframe>
-  </div>
+  <!-- ============ SECTION 1 ============ -->
+  <section class="lesson-section section-gold container">
+    <span class="big-emoji">☝️</span>
+    <h2>
+      <span class="ar-only">اللهُ وَاحِدٌ لَا شَرِيكَ لَه</span>
+      <span class="en-only">Allah is One, with no partner</span>
+    </h2>
+    <p>
+      <span class="ar-only">اللهُ هوَ رَبُّنَا، خَلَقَنَا وَخَلَقَ كُلَّ شَيء. هوَ وَاحِد، وَلَا مِثْلَ لَه.</span>
+      <span class="en-only">Allah is our Lord. He created us and everything. He is One, and nothing is like Him.</span>
+    </p>
+    <div class="quran-verse ar-quran">قُلْ هُوَ اللَّهُ أَحَدٌ</div>
+    <div style="margin-top: 24px;">
+      <span class="tap-star" data-star="1">⭐</span>
+      <span class="tap-star" data-star="2">⭐</span>
+      <span class="tap-star" data-star="3">⭐</span>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 2 ============ -->
+  <section class="lesson-section section-sky container">
+    <span class="big-emoji">🌍</span>
+    <h2>
+      <span class="ar-only">اللهُ خَالِقُ كُلِّ شَيء</span>
+      <span class="en-only">Allah created everything</span>
+    </h2>
+    <p>
+      <span class="ar-only">خَلَقَ السَّمَاءَ وَالأَرْضَ وَالشَّمْسَ وَالقَمَرَ وَالنُّجُوم. خَلَقَ الطُّيُورَ
+        وَالزُّهُورَ وَأَنْتَ أَيْضًا! 🐦🌸</span>
+      <span class="en-only">He made the sky, the earth, the sun, the moon, and the stars. He made the birds, the flowers
+        — and you too! 🐦🌸</span>
+    </p>
+    <div style="margin-top: 24px;">
+      <span class="tap-star" data-star="4">⭐</span>
+      <span class="tap-star" data-star="5">⭐</span>
+      <span class="tap-star" data-star="6">⭐</span>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 3 ============ -->
+  <section class="lesson-section section-peach container">
+    <span class="big-emoji">💛</span>
+    <h2>
+      <span class="ar-only">اللهُ يُحِبُّنَا وَنَحْنُ نُحِبُّهُ</span>
+      <span class="en-only">Allah loves us, and we love Him</span>
+    </h2>
+    <p>
+      <span class="ar-only">اللهُ يَرَانَا وَيَسْمَعُنَا فِي كُلِّ وَقْت. يَفْرَحُ إِذَا فَعَلْنَا الخَيْر، وَنَحْنُ
+        نَقُولُ: <strong>أَحَبَّكَ الله</strong> 🤍</span>
+      <span class="en-only">Allah sees us and hears us all the time. He is happy when we do good, and we say:
+        <strong>"May Allah love you"</strong> 🤍</span>
+    </p>
+    <div style="margin-top: 24px;">
+      <span class="tap-star" data-star="7">⭐</span>
+      <span class="tap-star" data-star="8">⭐</span>
+      <span class="tap-star" data-star="9">⭐</span>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 4 ============ -->
+  <section class="lesson-section section-sage container">
+    <span class="big-emoji">🤲</span>
+    <h2>
+      <span class="ar-only">نَشْكُرُ اللهَ دَائِمًا</span>
+      <span class="en-only">We always thank Allah</span>
+    </h2>
+    <p>
+      <span class="ar-only">نَقُولُ: <strong>الحَمْدُ لِلَّه</strong> عَلَى كُلِّ شَيء — عَلَى الطَّعَام، وَالمَاء،
+        وَالعَائِلَة، وَالحُبّ. 🍎💧👨‍👩‍👧</span>
+      <span class="en-only">We say: <strong>"Alhamdulillah"</strong> for everything — for food, water, family, and love.
+        🍎💧👨‍👩‍👧</span>
+    </p>
+    <div style="margin-top: 24px;">
+      <span class="tap-star" data-star="10">⭐</span>
+      <span class="tap-star" data-star="11">⭐</span>
+      <span class="tap-star" data-star="12">⭐</span>
+    </div>
+  </section>
+
+  <!-- ============ VIDEO (language-specific) ============ -->
+  <section class="video-section container">
+    <h2>
+      <span class="ar-only">🎬 فِيدْيُو التَّوْحِيد</span>
+      <span class="en-only">🎬 Tawheed Video</span>
+    </h2>
+    <p class="subtitle">
+      <span class="ar-only">شَاهِدْ وَتَعَلَّمْ مَعَنَا — اللهُ وَاحِد 🌙</span>
+      <span class="en-only">Watch and learn with us — Allah is One 🌙</span>
+    </p>
+
+    <!-- Arabic video -->
+    <div class="video-wrap ar-only">
+      <iframe src="https://www.youtube.com/embed/ZAO4nVCCRCg?rel=0&modestbranding=1" title="فيديو التوحيد للأطفال"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy">
+      </iframe>
+    </div>
+
+    <div class="video-wrap ar-only">
+      <iframe src="https://www.youtube.com/embed/m6AjcpkdPUc" title="فيديو التوحيد للأطفال"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy">
+      </iframe>
+    </div>
+
+    <!-- English video -->
+    <div class="video-wrap en-only">
+      <iframe src="https://www.youtube.com/embed/mQEsEd5e9vE?rel=0&modestbranding=1" title="Tawheed video for kids"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy">
+      </iframe>
+    </div>
 
     <div class="video-wrap en-only">
-    <iframe
-      src="https://www.youtube.com/embed/MvlEy-_22kg"
-      title="Tawheed video for kids"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      referrerpolicy="strict-origin-when-cross-origin"
-      allowfullscreen
-      loading="lazy">
-    </iframe>
-  </div>
+      <iframe src="https://www.youtube.com/embed/MvlEy-_22kg" title="Tawheed video for kids"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy">
+      </iframe>
+    </div>
 
-  <div class="video-note">
-    <span class="ar-only">👆 شَاهِدِ الفِيدْيُو بَعْدَ قِرَاءَةِ الدَّرْس</span>
-    <span class="en-only">👆 Watch the video after reading the lesson</span>
-  </div>
-</section>
+    <div class="video-note">
+      <span class="ar-only">👆 شَاهِدِ الفِيدْيُو بَعْدَ قِرَاءَةِ الدَّرْس</span>
+      <span class="en-only">👆 Watch the video after reading the lesson</span>
+    </div>
+  </section>
 
-<!-- ============ 99 NAMES ============ -->
-<section class="lesson-section section-lilac container" id="namesSection">
-  <div class="names-intro">
-    <span class="big-emoji">✨</span>
+  <!-- ============ 99 NAMES ============ -->
+  <section class="lesson-section section-lilac container" id="namesSection">
+    <div class="names-intro">
+      <span class="big-emoji">✨</span>
+      <h2>
+        <span class="ar-only">أَسْمَاءُ اللهِ الحُسْنَى</span>
+        <span class="en-only">The 99 Names of Allah</span>
+      </h2>
+      <p style="font-size: 1.15rem;">
+        <span class="ar-only">لِلهِ تِسْعَةٌ وَتِسْعُونَ اسْمًا، مَنْ حَفِظَهَا دَخَلَ الجَنَّة 🤍</span>
+        <span class="en-only">Allah has 99 names — whoever memorizes them enters Paradise 🤍</span>
+      </p>
+      <div class="names-progress">
+        <span>⭐</span>
+        <span id="namesProgress">0 / 99</span>
+        <span class="ar-only">اِسْمًا</span>
+        <span class="en-only">names</span>
+      </div>
+    </div>
+
+    <div class="section-tab" id="namesTabs">
+      <button class="active" data-filter="all">
+        <span class="ar-only">الكل (99)</span>
+        <span class="en-only">All (99)</span>
+      </button>
+      <button data-filter="1-33">
+        <span class="ar-only">١–٣٣</span>
+        <span class="en-only">1–33</span>
+      </button>
+      <button data-filter="34-66">
+        <span class="ar-only">٣٤–٦٦</span>
+        <span class="en-only">34–66</span>
+      </button>
+      <button data-filter="67-99">
+        <span class="ar-only">٦٧–٩٩</span>
+        <span class="en-only">67–99</span>
+      </button>
+    </div>
+
+    <div class="names-grid" id="namesGrid"></div>
+
+    <p style="margin-top: 24px; font-size: 1.05rem; color: var(--sage-dark); font-weight: 700;">
+      <span class="ar-only">👆 اِضْغَطْ عَلَى كُلِّ اسْمٍ لِتَجْمَعَ نَجْمَة ⭐</span>
+      <span class="en-only">👆 Tap each name to collect a star ⭐</span>
+    </p>
+  </section>
+
+  <!-- ============ WORDWALL GAME (LINK ONLY) ============ -->
+  <section class="game-section container" id="gameSection">
     <h2>
-      <span class="ar-only">أَسْمَاءُ اللهِ الحُسْنَى</span>
-      <span class="en-only">The 99 Names of Allah</span>
+      <span class="ar-only">🎮 لُعْبَةُ الإِيمَانِ بِاللهِ تَعَالَى</span>
+      <span class="en-only">🎮 Faith in Allah — Game</span>
     </h2>
-    <p style="font-size: 1.15rem;">
-      <span class="ar-only">لِلهِ تِسْعَةٌ وَتِسْعُونَ اسْمًا، مَنْ حَفِظَهَا دَخَلَ الجَنَّة 🤍</span>
-      <span class="en-only">Allah has 99 names — whoever memorizes them enters Paradise 🤍</span>
+    <p class="subtitle">
+      <span class="ar-only">اِلْعَبْ وَتَعَلَّمْ — الإِيمَانُ بِاللهِ تَعَالَى 🕌</span>
+      <span class="en-only">Play and learn — Faith in Allah Almighty 🕌</span>
     </p>
-    <div class="names-progress">
-      <span>⭐</span>
-      <span id="namesProgress">0 / 99</span>
-      <span class="ar-only">اِسْمًا</span>
-      <span class="en-only">names</span>
+
+    <a class="game-link-btn"
+      href="https://wordwall.net/resource/23476200/%D8%A7%D9%84%D8%A7%D9%8A%D9%85%D8%A7%D9%86-%D8%A8%D8%A7%D9%84%D9%84%D9%87-%D8%AA%D8%B9%D8%A7%D9%84%D9%89"
+      target="_blank" rel="noopener">
+      <span class="btn-icon">🕹️</span>
+      <span class="ar-only">اِلْعَبِ الآن</span>
+      <span class="en-only">Play Now</span>
+      <span class="btn-arrow">↗</span>
+    </a>
+
+    <div class="game-note">
+      <span class="ar-only">🎈 تَفْتَحُ اللُّعْبَةُ فِي نَافِذَةٍ جَدِيدَة</span>
+      <span class="en-only">🎈 The game opens in a new tab</span>
     </div>
-  </div>
+  </section>
 
-  <div class="section-tab" id="namesTabs">
-    <button class="active" data-filter="all">
-      <span class="ar-only">الكل (99)</span>
-      <span class="en-only">All (99)</span>
-    </button>
-    <button data-filter="1-33">
-      <span class="ar-only">١–٣٣</span>
-      <span class="en-only">1–33</span>
-    </button>
-    <button data-filter="34-66">
-      <span class="ar-only">٣٤–٦٦</span>
-      <span class="en-only">34–66</span>
-    </button>
-    <button data-filter="67-99">
-      <span class="ar-only">٦٧–٩٩</span>
-      <span class="en-only">67–99</span>
-    </button>
-  </div>
+  <!-- ============ AYAT AL-KURSI + SOUNDCLOUD ============ -->
+  <section class="kursi-box container" id="kursiSection">
+    <h2>
+      <span class="ar-only">☪️ آيَةُ الكُرْسِيّ</span>
+      <span class="en-only">☪️ Ayat al-Kursi</span>
+    </h2>
+    <p class="subtitle">
+      <span class="ar-only">أَعْظَمُ آيَةٍ فِي القُرْآنِ الكَرِيم — سُورَةُ البَقَرَة، الآيَة ٢٥٥</span>
+      <span class="en-only">The greatest verse in the Quran — Surah Al-Baqarah, verse 255</span>
+    </p>
 
-  <div class="names-grid" id="namesGrid"></div>
-
-  <p style="margin-top: 24px; font-size: 1.05rem; color: var(--sage-dark); font-weight: 700;">
-    <span class="ar-only">👆 اِضْغَطْ عَلَى كُلِّ اسْمٍ لِتَجْمَعَ نَجْمَة ⭐</span>
-    <span class="en-only">👆 Tap each name to collect a star ⭐</span>
-  </p>
-</section>
-
-<!-- ============ WORDWALL GAME (LINK ONLY) ============ -->
-<section class="game-section container" id="gameSection">
-  <h2>
-    <span class="ar-only">🎮 لُعْبَةُ الإِيمَانِ بِاللهِ تَعَالَى</span>
-    <span class="en-only">🎮 Faith in Allah — Game</span>
-  </h2>
-  <p class="subtitle">
-    <span class="ar-only">اِلْعَبْ وَتَعَلَّمْ — الإِيمَانُ بِاللهِ تَعَالَى 🕌</span>
-    <span class="en-only">Play and learn — Faith in Allah Almighty 🕌</span>
-  </p>
-
-  <a class="game-link-btn"
-     href="https://wordwall.net/resource/23476200/%D8%A7%D9%84%D8%A7%D9%8A%D9%85%D8%A7%D9%86-%D8%A8%D8%A7%D9%84%D9%84%D9%87-%D8%AA%D8%B9%D8%A7%D9%84%D9%89"
-     target="_blank"
-     rel="noopener">
-    <span class="btn-icon">🕹️</span>
-    <span class="ar-only">اِلْعَبِ الآن</span>
-    <span class="en-only">Play Now</span>
-    <span class="btn-arrow">↗</span>
-  </a>
-
-  <div class="game-note">
-    <span class="ar-only">🎈 تَفْتَحُ اللُّعْبَةُ فِي نَافِذَةٍ جَدِيدَة</span>
-    <span class="en-only">🎈 The game opens in a new tab</span>
-  </div>
-</section>
-
-<!-- ============ AYAT AL-KURSI + SOUNDCLOUD ============ -->
-<section class="kursi-box container" id="kursiSection">
-  <h2>
-    <span class="ar-only">☪️ آيَةُ الكُرْسِيّ</span>
-    <span class="en-only">☪️ Ayat al-Kursi</span>
-  </h2>
-  <p class="subtitle">
-    <span class="ar-only">أَعْظَمُ آيَةٍ فِي القُرْآنِ الكَرِيم — سُورَةُ البَقَرَة، الآيَة ٢٥٥</span>
-    <span class="en-only">The greatest verse in the Quran — Surah Al-Baqarah, verse 255</span>
-  </p>
-
-  <div class="kursi-text ar-quran">
-    <span class="bismillah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</span>
-    اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ
-  </div>
-
-  <div class="audio-block">
-    <div class="audio-label">
-      <span class="ar-only">🎧 اِسْتَمِعْ إِلَى آيَةِ الكُرْسِيّ بِصَوْتٍ جَمِيل</span>
-      <span class="en-only">🎧 Listen to Ayat al-Kursi in a beautiful voice</span>
+    <div class="kursi-text ar-quran">
+      <span class="bismillah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</span>
+      اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَهُ مَا فِي
+      السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ
+      أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ
+      السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ
     </div>
 
-    <iframe
-      width="100%"
-      height="166"
-      scrolling="no"
-      frameborder="no"
-      allow="autoplay"
-      src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/hesham-sediq/islamic-quran-mp3&color=%23d4a24c&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=false">
-    </iframe>
+    <div class="audio-block">
+      <div class="audio-label">
+        <span class="ar-only">🎧 اِسْتَمِعْ إِلَى آيَةِ الكُرْسِيّ بِصَوْتٍ جَمِيل</span>
+        <span class="en-only">🎧 Listen to Ayat al-Kursi in a beautiful voice</span>
+      </div>
 
-    <p class="audio-fallback">
-      <span class="ar-only">لا يَعْمَلُ المُشَغِّل؟ </span>
-      <span class="en-only">Player not working? </span>
-      <a href="https://soundcloud.com/hesham-sediq/islamic-quran-mp3" target="_blank" rel="noopener">
-        <span class="ar-only">اِفْتَحْهُ فِي سَاوند كلاود ↗</span>
-        <span class="en-only">Open on SoundCloud ↗</span>
-      </a>
+      <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
+        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/hesham-sediq/islamic-quran-mp3&color=%23d4a24c&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=false">
+      </iframe>
+
+      <p class="audio-fallback">
+        <span class="ar-only">لا يَعْمَلُ المُشَغِّل؟ </span>
+        <span class="en-only">Player not working? </span>
+        <a href="https://soundcloud.com/hesham-sediq/islamic-quran-mp3" target="_blank" rel="noopener">
+          <span class="ar-only">اِفْتَحْهُ فِي سَاوند كلاود ↗</span>
+          <span class="en-only">Open on SoundCloud ↗</span>
+        </a>
+      </p>
+    </div>
+
+    <div class="kursi-note">
+      <span class="ar-only">🌙 مَنْ قَرَأَهَا حِينَ يَنَامُ، يَكُونُ لَهُ حَافِظٌ مِنَ اللهِ حَتَّى الصَّبَاح</span>
+      <span class="en-only">🌙 Whoever recites it at bedtime has a protector from Allah until morning</span>
+    </div>
+  </section>
+
+  <!-- ============ QUIZ ============ -->
+  <section class="quiz-box container" id="quizSection">
+    <h3>
+      <span class="ar-only">🤔 سُؤَالَانِ صَغِيرَان</span>
+      <span class="en-only">🤔 Two little questions</span>
+    </h3>
+
+    <p style="font-size: 1.3rem; font-weight: 700; margin-bottom: 10px;">
+      <span class="ar-only">١. كَمْ عَدَدُ الآلِهَة؟</span>
+      <span class="en-only">1. How many gods are there?</span>
+    </p>
+    <div class="quiz-options" data-quiz="1">
+      <button class="quiz-btn" data-answer="wrong">
+        <span class="ar-only">٢ (اثنان)</span>
+        <span class="en-only">2 (two)</span>
+      </button>
+      <button class="quiz-btn" data-answer="correct">
+        <span class="ar-only">١ (واحد)</span>
+        <span class="en-only">1 (one)</span>
+      </button>
+      <button class="quiz-btn" data-answer="wrong">
+        <span class="ar-only">٣ (ثلاثة)</span>
+        <span class="en-only">3 (three)</span>
+      </button>
+    </div>
+    <div class="quiz-feedback" id="quizFeedback1"></div>
+
+    <p style="font-size: 1.3rem; font-weight: 700; margin: 30px 0 10px;">
+      <span class="ar-only">٢. كَمْ اسْمًا لِلهِ الحُسْنَى؟</span>
+      <span class="en-only">2. How many beautiful names does Allah have?</span>
+    </p>
+    <div class="quiz-options" data-quiz="2">
+      <button class="quiz-btn" data-answer="wrong">
+        <span class="ar-only">١٠ (عشرة)</span>
+        <span class="en-only">10 (ten)</span>
+      </button>
+      <button class="quiz-btn" data-answer="correct">
+        <span class="ar-only">٩٩ (تسعة وتسعون)</span>
+        <span class="en-only">99 (ninety-nine)</span>
+      </button>
+      <button class="quiz-btn" data-answer="wrong">
+        <span class="ar-only">٥ (خمسة)</span>
+        <span class="en-only">5 (five)</span>
+      </button>
+    </div>
+    <div class="quiz-feedback" id="quizFeedback2"></div>
+  </section>
+
+  <!-- ============ REWARD ============ -->
+  <div class="reward-box container" id="rewardBox">
+    <span class="trophy">🏆</span>
+    <h2>
+      <span class="ar-only">مَا شَاءَ الله! 🎉</span>
+      <span class="en-only">Masha'Allah! 🎉</span>
+    </h2>
+    <p>
+      <span class="ar-only">أَنْتَ بَطَلُ التَّوحِيد! اللهُ وَاحِد، وَهُوَ يُحِبُّك 🤍</span>
+      <span class="en-only">You are a Tawheed champion! Allah is One, and He loves you 🤍</span>
+    </p>
+    <p style="margin-top: 10px; font-size: 1.1rem;">
+      <span class="ar-only">جَمَعْتَ <strong id="finalStars">0</strong> نُجُوم ⭐</span>
+      <span class="en-only">You collected <strong id="finalStarsEn">0</strong> stars ⭐</span>
     </p>
   </div>
 
-  <div class="kursi-note">
-    <span class="ar-only">🌙 مَنْ قَرَأَهَا حِينَ يَنَامُ، يَكُونُ لَهُ حَافِظٌ مِنَ اللهِ حَتَّى الصَّبَاح</span>
-    <span class="en-only">🌙 Whoever recites it at bedtime has a protector from Allah until morning</span>
-  </div>
-</section>
+  <!-- ============ FOOTER ============ -->
+  <footer
+    style="text-align:center; padding: 40px 20px; color: var(--text-soft); font-size: 0.95rem; border-top: 2px solid var(--border); margin-top: 40px; width: 100%;">
+    <p>© <span id="year"></span> — <strong style="color: var(--gold-dark);">
+        <span class="ar-only">سارة للتعلّم</span>
+        <span class="en-only">Learning with Sarah</span>
+      </strong></p>
+    <p style="margin-top: 6px;">
+      <span class="ar-only">التوحيد • أسماء الله الحسنى • آية الكرسي • القرآن</span>
+      <span class="en-only">Tawheed • 99 Names • Ayat al-Kursi • Quran</span>
+    </p>
+  </footer>
 
-<!-- ============ QUIZ ============ -->
-<section class="quiz-box container" id="quizSection">
-  <h3>
-    <span class="ar-only">🤔 سُؤَالَانِ صَغِيرَان</span>
-    <span class="en-only">🤔 Two little questions</span>
-  </h3>
+  <script>
+    /* ============================================================
+       LANGUAGE TOGGLE
+       ============================================================ */
+    let currentLang = "ar";
 
-  <p style="font-size: 1.3rem; font-weight: 700; margin-bottom: 10px;">
-    <span class="ar-only">١. كَمْ عَدَدُ الآلِهَة؟</span>
-    <span class="en-only">1. How many gods are there?</span>
-  </p>
-  <div class="quiz-options" data-quiz="1">
-    <button class="quiz-btn" data-answer="wrong">
-      <span class="ar-only">٢ (اثنان)</span>
-      <span class="en-only">2 (two)</span>
-    </button>
-    <button class="quiz-btn" data-answer="correct">
-      <span class="ar-only">١ (واحد)</span>
-      <span class="en-only">1 (one)</span>
-    </button>
-    <button class="quiz-btn" data-answer="wrong">
-      <span class="ar-only">٣ (ثلاثة)</span>
-      <span class="en-only">3 (three)</span>
-    </button>
-  </div>
-  <div class="quiz-feedback" id="quizFeedback1"></div>
+    function setLang(lang) {
+      currentLang = lang;
+      const html = document.documentElement;
+      html.lang = lang;
+      html.dir = lang === "ar" ? "rtl" : "ltr";
 
-  <p style="font-size: 1.3rem; font-weight: 700; margin: 30px 0 10px;">
-    <span class="ar-only">٢. كَمْ اسْمًا لِلهِ الحُسْنَى؟</span>
-    <span class="en-only">2. How many beautiful names does Allah have?</span>
-  </p>
-  <div class="quiz-options" data-quiz="2">
-    <button class="quiz-btn" data-answer="wrong">
-      <span class="ar-only">١٠ (عشرة)</span>
-      <span class="en-only">10 (ten)</span>
-    </button>
-    <button class="quiz-btn" data-answer="correct">
-      <span class="ar-only">٩٩ (تسعة وتسعون)</span>
-      <span class="en-only">99 (ninety-nine)</span>
-    </button>
-    <button class="quiz-btn" data-answer="wrong">
-      <span class="ar-only">٥ (خمسة)</span>
-      <span class="en-only">5 (five)</span>
-    </button>
-  </div>
-  <div class="quiz-feedback" id="quizFeedback2"></div>
-</section>
+      document.getElementById("btnEn").classList.toggle("active", lang === "en");
+      document.getElementById("btnAr").classList.toggle("active", lang === "ar");
 
-<!-- ============ REWARD ============ -->
-<div class="reward-box container" id="rewardBox">
-  <span class="trophy">🏆</span>
-  <h2>
-    <span class="ar-only">مَا شَاءَ الله! 🎉</span>
-    <span class="en-only">Masha'Allah! 🎉</span>
-  </h2>
-  <p>
-    <span class="ar-only">أَنْتَ بَطَلُ التَّوحِيد! اللهُ وَاحِد، وَهُوَ يُحِبُّك 🤍</span>
-    <span class="en-only">You are a Tawheed champion! Allah is One, and He loves you 🤍</span>
-  </p>
-  <p style="margin-top: 10px; font-size: 1.1rem;">
-    <span class="ar-only">جَمَعْتَ <strong id="finalStars">0</strong> نُجُوم ⭐</span>
-    <span class="en-only">You collected <strong id="finalStarsEn">0</strong> stars ⭐</span>
-  </p>
-</div>
+      const finalStarsEn = document.getElementById("finalStarsEn");
+      if (finalStarsEn) finalStarsEn.textContent = stars;
 
-<!-- ============ FOOTER ============ -->
-<footer style="text-align:center; padding: 40px 20px; color: var(--text-soft); font-size: 0.95rem; border-top: 2px solid var(--border); margin-top: 40px; width: 100%;">
-  <p>© <span id="year"></span> — <strong style="color: var(--gold-dark);">
-    <span class="ar-only">سارة للتعلّم</span>
-    <span class="en-only">Learning with Sarah</span>
-  </strong></p>
-  <p style="margin-top: 6px;">
-    <span class="ar-only">التوحيد • أسماء الله الحسنى • آية الكرسي • القرآن</span>
-    <span class="en-only">Tawheed • 99 Names • Ayat al-Kursi • Quran</span>
-  </p>
-</footer>
+      try { localStorage.setItem("preferredLangTawheed", lang); } catch (e) { }
+    }
 
-<script>
-/* ============================================================
-   LANGUAGE TOGGLE
-   ============================================================ */
-let currentLang = "ar";
+    try {
+      const saved = localStorage.getItem("preferredLangTawheed");
+      if (saved === "en") setLang("en");
+      else if (saved === "ar") setLang("ar");
+    } catch (e) { }
 
-function setLang(lang) {
-  currentLang = lang;
-  const html = document.documentElement;
-  html.lang = lang;
-  html.dir = lang === "ar" ? "rtl" : "ltr";
+    /* ============================================================
+       THE 99 NAMES OF ALLAH
+       ============================================================ */
+    const NAMES_OF_ALLAH = [
+      { ar: "الرَّحْمَن", en: "The Most Compassionate" },
+      { ar: "الرَّحِيم", en: "The Most Merciful" },
+      { ar: "الْمَلِك", en: "The King" },
+      { ar: "الْقُدُّوس", en: "The Most Holy" },
+      { ar: "السَّلَام", en: "The Source of Peace" },
+      { ar: "الْمُؤْمِن", en: "The Giver of Faith" },
+      { ar: "الْمُهَيْمِن", en: "The Protector" },
+      { ar: "الْعَزِيز", en: "The Almighty" },
+      { ar: "الْجَبَّار", en: "The Compeller" },
+      { ar: "الْمُتَكَبِّر", en: "The Majestic" },
+      { ar: "الْخَالِق", en: "The Creator" },
+      { ar: "الْبَارِئ", en: "The Originator" },
+      { ar: "الْمُصَوِّر", en: "The Fashioner" },
+      { ar: "الْغَفَّار", en: "The Forgiving" },
+      { ar: "الْقَهَّار", en: "The Subduer" },
+      { ar: "الْوَهَّاب", en: "The Bestower" },
+      { ar: "الرَّزَّاق", en: "The Provider" },
+      { ar: "الْفَتَّاح", en: "The Opener" },
+      { ar: "الْعَلِيم", en: "The All-Knowing" },
+      { ar: "الْقَابِض", en: "The Withholder" },
+      { ar: "الْبَاسِط", en: "The Extender" },
+      { ar: "الْخَافِض", en: "The Abaser" },
+      { ar: "الرَّافِع", en: "The Exalter" },
+      { ar: "الْمُعِزّ", en: "The Honourer" },
+      { ar: "الْمُذِلّ", en: "The Dishonourer" },
+      { ar: "السَّمِيع", en: "The All-Hearing" },
+      { ar: "الْبَصِير", en: "The All-Seeing" },
+      { ar: "الْحَكَم", en: "The Judge" },
+      { ar: "الْعَدْل", en: "The Just" },
+      { ar: "اللَّطِيف", en: "The Subtle & Kind" },
+      { ar: "الْخَبِير", en: "The All-Aware" },
+      { ar: "الْحَلِيم", en: "The Forbearing" },
+      { ar: "الْعَظِيم", en: "The Magnificent" },
+      { ar: "الْغَفُور", en: "The All-Forgiving" },
+      { ar: "الشَّكُور", en: "The Appreciative" },
+      { ar: "الْعَلِيّ", en: "The Most High" },
+      { ar: "الْكَبِير", en: "The Most Great" },
+      { ar: "الْحَفِيظ", en: "The Preserver" },
+      { ar: "الْمُقِيت", en: "The Sustainer" },
+      { ar: "الْحَسِيب", en: "The Reckoner" },
+      { ar: "الْجَلِيل", en: "The Majestic" },
+      { ar: "الْكَرِيم", en: "The Generous" },
+      { ar: "الرَّقِيب", en: "The Watchful" },
+      { ar: "الْمُجِيب", en: "The Responsive" },
+      { ar: "الْوَاسِع", en: "The All-Encompassing" },
+      { ar: "الْحَكِيم", en: "The All-Wise" },
+      { ar: "الْوَدُود", en: "The Most Loving" },
+      { ar: "الْمَجِيد", en: "The Glorious" },
+      { ar: "الْبَاعِث", en: "The Resurrector" },
+      { ar: "الشَّهِيد", en: "The Witness" },
+      { ar: "الْحَقّ", en: "The Absolute Truth" },
+      { ar: "الْوَكِيل", en: "The Trustee" },
+      { ar: "الْقَوِيّ", en: "The All-Strong" },
+      { ar: "الْمَتِين", en: "The Firm" },
+      { ar: "الْوَلِيّ", en: "The Protecting Friend" },
+      { ar: "الْحَمِيد", en: "The Praiseworthy" },
+      { ar: "الْمُحْصِي", en: "The Counter" },
+      { ar: "الْمُبْدِئ", en: "The Initiator" },
+      { ar: "الْمُعِيد", en: "The Restorer" },
+      { ar: "الْمُحْيِي", en: "The Giver of Life" },
+      { ar: "الْمُمِيت", en: "The Bringer of Death" },
+      { ar: "الْحَيّ", en: "The Ever-Living" },
+      { ar: "الْقَيُّوم", en: "The Self-Subsisting" },
+      { ar: "الْوَاجِد", en: "The Finder" },
+      { ar: "الْمَاجِد", en: "The Noble" },
+      { ar: "الْوَاحِد", en: "The One" },
+      { ar: "الْأَحَد", en: "The Unique" },
+      { ar: "الصَّمَد", en: "The Eternal Refuge" },
+      { ar: "الْقَادِر", en: "The Able" },
+      { ar: "الْمُقْتَدِر", en: "The Powerful" },
+      { ar: "الْمُقَدِّم", en: "The Advancer" },
+      { ar: "الْمُؤَخِّر", en: "The Delayer" },
+      { ar: "الْأَوَّل", en: "The First" },
+      { ar: "الْآخِر", en: "The Last" },
+      { ar: "الظَّاهِر", en: "The Manifest" },
+      { ar: "الْبَاطِن", en: "The Hidden" },
+      { ar: "الْوَالِي", en: "The Governor" },
+      { ar: "الْمُتَعَالِي", en: "The Most Exalted" },
+      { ar: "الْبَرّ", en: "The Source of Goodness" },
+      { ar: "التَّوَّاب", en: "The Acceptor of Repentance" },
+      { ar: "الْمُنْتَقِم", en: "The Avenger" },
+      { ar: "الْعَفُوّ", en: "The Pardoner" },
+      { ar: "الرَّءُوف", en: "The Most Kind" },
+      { ar: "مَالِكُ الْمُلْك", en: "Master of the Kingdom" },
+      { ar: "ذُو الْجَلَالِ وَالْإِكْرَام", en: "Lord of Majesty & Bounty" },
+      { ar: "الْمُقْسِط", en: "The Equitable" },
+      { ar: "الْجَامِع", en: "The Gatherer" },
+      { ar: "الْغَنِيّ", en: "The Self-Sufficient" },
+      { ar: "الْمُغْنِي", en: "The Enricher" },
+      { ar: "الْمَانِع", en: "The Preventer" },
+      { ar: "الضَّارّ", en: "The Distresser" },
+      { ar: "النَّافِع", en: "The Benefactor" },
+      { ar: "النُّور", en: "The Light" },
+      { ar: "الْهَادِي", en: "The Guide" },
+      { ar: "الْبَدِيع", en: "The Incomparable Originator" },
+      { ar: "الْبَاقِي", en: "The Everlasting" },
+      { ar: "الْوَارِث", en: "The Inheritor" },
+      { ar: "الرَّشِيد", en: "The Guide to the Right Path" },
+      { ar: "الصَّبُور", en: "The Most Patient" }
+    ];
 
-  document.getElementById("btnEn").classList.toggle("active", lang === "en");
-  document.getElementById("btnAr").classList.toggle("active", lang === "ar");
+    /* ============================================================
+       RENDER NAMES GRID
+       ============================================================ */
+    const namesGrid = document.getElementById('namesGrid');
+    const namesProgress = document.getElementById('namesProgress');
+    let tappedNames = new Set();
 
-  const finalStarsEn = document.getElementById("finalStarsEn");
-  if (finalStarsEn) finalStarsEn.textContent = stars;
+    function renderNames(filter = 'all') {
+      namesGrid.innerHTML = '';
+      NAMES_OF_ALLAH.forEach((name, i) => {
+        const num = i + 1;
+        if (filter === '1-33' && (num < 1 || num > 33)) return;
+        if (filter === '34-66' && (num < 34 || num > 66)) return;
+        if (filter === '67-99' && (num < 67 || num > 99)) return;
 
-  try { localStorage.setItem("preferredLangTawheed", lang); } catch (e) {}
-}
+        const card = document.createElement('div');
+        card.className = 'name-card';
+        card.dataset.num = num;
+        if (tappedNames.has(num)) card.classList.add('tapped');
 
-try {
-  const saved = localStorage.getItem("preferredLangTawheed");
-  if (saved === "en") setLang("en");
-  else if (saved === "ar") setLang("ar");
-} catch (e) {}
-
-/* ============================================================
-   THE 99 NAMES OF ALLAH
-   ============================================================ */
-const NAMES_OF_ALLAH = [
-  { ar: "الرَّحْمَن",   en: "The Most Compassionate" },
-  { ar: "الرَّحِيم",    en: "The Most Merciful" },
-  { ar: "الْمَلِك",     en: "The King" },
-  { ar: "الْقُدُّوس",   en: "The Most Holy" },
-  { ar: "السَّلَام",    en: "The Source of Peace" },
-  { ar: "الْمُؤْمِن",   en: "The Giver of Faith" },
-  { ar: "الْمُهَيْمِن", en: "The Protector" },
-  { ar: "الْعَزِيز",    en: "The Almighty" },
-  { ar: "الْجَبَّار",   en: "The Compeller" },
-  { ar: "الْمُتَكَبِّر", en: "The Majestic" },
-  { ar: "الْخَالِق",    en: "The Creator" },
-  { ar: "الْبَارِئ",    en: "The Originator" },
-  { ar: "الْمُصَوِّر",  en: "The Fashioner" },
-  { ar: "الْغَفَّار",   en: "The Forgiving" },
-  { ar: "الْقَهَّار",   en: "The Subduer" },
-  { ar: "الْوَهَّاب",   en: "The Bestower" },
-  { ar: "الرَّزَّاق",   en: "The Provider" },
-  { ar: "الْفَتَّاح",   en: "The Opener" },
-  { ar: "الْعَلِيم",    en: "The All-Knowing" },
-  { ar: "الْقَابِض",    en: "The Withholder" },
-  { ar: "الْبَاسِط",    en: "The Extender" },
-  { ar: "الْخَافِض",    en: "The Abaser" },
-  { ar: "الرَّافِع",    en: "The Exalter" },
-  { ar: "الْمُعِزّ",    en: "The Honourer" },
-  { ar: "الْمُذِلّ",    en: "The Dishonourer" },
-  { ar: "السَّمِيع",    en: "The All-Hearing" },
-  { ar: "الْبَصِير",    en: "The All-Seeing" },
-  { ar: "الْحَكَم",     en: "The Judge" },
-  { ar: "الْعَدْل",     en: "The Just" },
-  { ar: "اللَّطِيف",    en: "The Subtle & Kind" },
-  { ar: "الْخَبِير",    en: "The All-Aware" },
-  { ar: "الْحَلِيم",    en: "The Forbearing" },
-  { ar: "الْعَظِيم",    en: "The Magnificent" },
-  { ar: "الْغَفُور",    en: "The All-Forgiving" },
-  { ar: "الشَّكُور",    en: "The Appreciative" },
-  { ar: "الْعَلِيّ",    en: "The Most High" },
-  { ar: "الْكَبِير",    en: "The Most Great" },
-  { ar: "الْحَفِيظ",    en: "The Preserver" },
-  { ar: "الْمُقِيت",    en: "The Sustainer" },
-  { ar: "الْحَسِيب",    en: "The Reckoner" },
-  { ar: "الْجَلِيل",    en: "The Majestic" },
-  { ar: "الْكَرِيم",    en: "The Generous" },
-  { ar: "الرَّقِيب",    en: "The Watchful" },
-  { ar: "الْمُجِيب",    en: "The Responsive" },
-  { ar: "الْوَاسِع",    en: "The All-Encompassing" },
-  { ar: "الْحَكِيم",    en: "The All-Wise" },
-  { ar: "الْوَدُود",    en: "The Most Loving" },
-  { ar: "الْمَجِيد",    en: "The Glorious" },
-  { ar: "الْبَاعِث",    en: "The Resurrector" },
-  { ar: "الشَّهِيد",    en: "The Witness" },
-  { ar: "الْحَقّ",      en: "The Absolute Truth" },
-  { ar: "الْوَكِيل",    en: "The Trustee" },
-  { ar: "الْقَوِيّ",    en: "The All-Strong" },
-  { ar: "الْمَتِين",    en: "The Firm" },
-  { ar: "الْوَلِيّ",    en: "The Protecting Friend" },
-  { ar: "الْحَمِيد",    en: "The Praiseworthy" },
-  { ar: "الْمُحْصِي",   en: "The Counter" },
-  { ar: "الْمُبْدِئ",   en: "The Initiator" },
-  { ar: "الْمُعِيد",    en: "The Restorer" },
-  { ar: "الْمُحْيِي",   en: "The Giver of Life" },
-  { ar: "الْمُمِيت",    en: "The Bringer of Death" },
-  { ar: "الْحَيّ",      en: "The Ever-Living" },
-  { ar: "الْقَيُّوم",   en: "The Self-Subsisting" },
-  { ar: "الْوَاجِد",    en: "The Finder" },
-  { ar: "الْمَاجِد",    en: "The Noble" },
-  { ar: "الْوَاحِد",    en: "The One" },
-  { ar: "الْأَحَد",     en: "The Unique" },
-  { ar: "الصَّمَد",     en: "The Eternal Refuge" },
-  { ar: "الْقَادِر",    en: "The Able" },
-  { ar: "الْمُقْتَدِر", en: "The Powerful" },
-  { ar: "الْمُقَدِّم",  en: "The Advancer" },
-  { ar: "الْمُؤَخِّر",  en: "The Delayer" },
-  { ar: "الْأَوَّل",    en: "The First" },
-  { ar: "الْآخِر",     en: "The Last" },
-  { ar: "الظَّاهِر",    en: "The Manifest" },
-  { ar: "الْبَاطِن",    en: "The Hidden" },
-  { ar: "الْوَالِي",    en: "The Governor" },
-  { ar: "الْمُتَعَالِي", en: "The Most Exalted" },
-  { ar: "الْبَرّ",      en: "The Source of Goodness" },
-  { ar: "التَّوَّاب",   en: "The Acceptor of Repentance" },
-  { ar: "الْمُنْتَقِم", en: "The Avenger" },
-  { ar: "الْعَفُوّ",    en: "The Pardoner" },
-  { ar: "الرَّءُوف",    en: "The Most Kind" },
-  { ar: "مَالِكُ الْمُلْك", en: "Master of the Kingdom" },
-  { ar: "ذُو الْجَلَالِ وَالْإِكْرَام", en: "Lord of Majesty & Bounty" },
-  { ar: "الْمُقْسِط",   en: "The Equitable" },
-  { ar: "الْجَامِع",    en: "The Gatherer" },
-  { ar: "الْغَنِيّ",    en: "The Self-Sufficient" },
-  { ar: "الْمُغْنِي",   en: "The Enricher" },
-  { ar: "الْمَانِع",    en: "The Preventer" },
-  { ar: "الضَّارّ",     en: "The Distresser" },
-  { ar: "النَّافِع",    en: "The Benefactor" },
-  { ar: "النُّور",      en: "The Light" },
-  { ar: "الْهَادِي",    en: "The Guide" },
-  { ar: "الْبَدِيع",    en: "The Incomparable Originator" },
-  { ar: "الْبَاقِي",    en: "The Everlasting" },
-  { ar: "الْوَارِث",    en: "The Inheritor" },
-  { ar: "الرَّشِيد",    en: "The Guide to the Right Path" },
-  { ar: "الصَّبُور",    en: "The Most Patient" }
-];
-
-/* ============================================================
-   RENDER NAMES GRID
-   ============================================================ */
-const namesGrid = document.getElementById('namesGrid');
-const namesProgress = document.getElementById('namesProgress');
-let tappedNames = new Set();
-
-function renderNames(filter = 'all') {
-  namesGrid.innerHTML = '';
-  NAMES_OF_ALLAH.forEach((name, i) => {
-    const num = i + 1;
-    if (filter === '1-33' && (num < 1 || num > 33)) return;
-    if (filter === '34-66' && (num < 34 || num > 66)) return;
-    if (filter === '67-99' && (num < 67 || num > 99)) return;
-
-    const card = document.createElement('div');
-    card.className = 'name-card';
-    card.dataset.num = num;
-    if (tappedNames.has(num)) card.classList.add('tapped');
-
-    card.innerHTML = `
+        card.innerHTML = `
       <div class="num">${num}</div>
       <div class="arabic-name">${name.ar}</div>
       <div class="meaning">${name.en}</div>
     `;
 
-    card.addEventListener('click', () => {
-      if (!tappedNames.has(num)) {
-        tappedNames.add(num);
-        card.classList.add('tapped');
+        card.addEventListener('click', () => {
+          if (!tappedNames.has(num)) {
+            tappedNames.add(num);
+            card.classList.add('tapped');
+            addStar();
+            spawnConfetti(card.getBoundingClientRect());
+            updateNamesProgress();
+          }
+        });
+
+        namesGrid.appendChild(card);
+      });
+    }
+
+    function updateNamesProgress() {
+      namesProgress.textContent = `${tappedNames.size} / 99`;
+    }
+
+    document.querySelectorAll('#namesTabs button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#namesTabs button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderNames(btn.dataset.filter);
+      });
+    });
+
+    renderNames();
+    updateNamesProgress();
+
+    /* ============================================================
+       STAR COLLECTION
+       ============================================================ */
+    let stars = 0;
+    const starEl = document.getElementById('starCount');
+    const finalStarsEl = document.getElementById('finalStars');
+    const finalStarsEnEl = document.getElementById('finalStarsEn');
+
+    function addStar() {
+      stars++;
+      starEl.textContent = stars;
+      if (finalStarsEl) finalStarsEl.textContent = stars;
+      if (finalStarsEnEl) finalStarsEnEl.textContent = stars;
+      starEl.parentElement.style.transform = 'scale(1.15)';
+      setTimeout(() => { starEl.parentElement.style.transform = 'scale(1)'; }, 180);
+    }
+
+    document.querySelectorAll('.tap-star').forEach(star => {
+      star.addEventListener('click', () => {
+        star.classList.add('collected');
         addStar();
-        spawnConfetti(card.getBoundingClientRect());
-        updateNamesProgress();
-      }
+        spawnConfetti(star.getBoundingClientRect());
+      });
     });
 
-    namesGrid.appendChild(card);
-  });
-}
+    /* ============================================================
+       QUIZ
+       ============================================================ */
+    function setupQuiz(quizNum) {
+      const container = document.querySelector(`[data-quiz="${quizNum}"]`);
+      const feedback = document.getElementById(`quizFeedback${quizNum}`);
+      const buttons = container.querySelectorAll('.quiz-btn');
 
-function updateNamesProgress() {
-  namesProgress.textContent = `${tappedNames.size} / 99`;
-}
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (btn.disabled) return;
+          if (btn.dataset.answer === 'correct') {
+            btn.classList.add('correct');
+            const isAr = document.documentElement.lang === 'ar';
+            feedback.textContent = quizNum === 1
+              ? (isAr ? '✅ صَحِيح! اللهُ وَاحِد 🎉' : '✅ Correct! Allah is One 🎉')
+              : (isAr ? '✅ صَحِيح! ٩٩ اسْمًا 🌟' : '✅ Correct! 99 names 🌟');
+            feedback.style.color = '#5c7a58';
+            buttons.forEach(b => { if (b !== btn) b.disabled = true; });
+            spawnConfetti(btn.getBoundingClientRect());
+            checkAllQuizzes();
+          } else {
+            btn.classList.add('wrong');
+            const isAr = document.documentElement.lang === 'ar';
+            feedback.textContent = isAr ? '❌ حَاوِلْ مَرَّةً أُخْرَى 😊' : '❌ Try again 😊';
+            feedback.style.color = '#c75d5d';
+            setTimeout(() => btn.classList.remove('wrong'), 500);
+          }
+        });
+      });
+    }
+    setupQuiz(1);
+    setupQuiz(2);
 
-document.querySelectorAll('#namesTabs button').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('#namesTabs button').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    renderNames(btn.dataset.filter);
-  });
-});
+    let quiz1Done = false, quiz2Done = false;
+    function checkAllQuizzes() {
+      if (!quiz1Done && document.querySelector('[data-quiz="1"] .correct')) quiz1Done = true;
+      if (!quiz2Done && document.querySelector('[data-quiz="2"] .correct')) quiz2Done = true;
 
-renderNames();
-updateNamesProgress();
-
-/* ============================================================
-   STAR COLLECTION
-   ============================================================ */
-let stars = 0;
-const starEl = document.getElementById('starCount');
-const finalStarsEl = document.getElementById('finalStars');
-const finalStarsEnEl = document.getElementById('finalStarsEn');
-
-function addStar() {
-  stars++;
-  starEl.textContent = stars;
-  if (finalStarsEl) finalStarsEl.textContent = stars;
-  if (finalStarsEnEl) finalStarsEnEl.textContent = stars;
-  starEl.parentElement.style.transform = 'scale(1.15)';
-  setTimeout(() => { starEl.parentElement.style.transform = 'scale(1)'; }, 180);
-}
-
-document.querySelectorAll('.tap-star').forEach(star => {
-  star.addEventListener('click', () => {
-    star.classList.add('collected');
-    addStar();
-    spawnConfetti(star.getBoundingClientRect());
-  });
-});
-
-/* ============================================================
-   QUIZ
-   ============================================================ */
-function setupQuiz(quizNum) {
-  const container = document.querySelector(`[data-quiz="${quizNum}"]`);
-  const feedback = document.getElementById(`quizFeedback${quizNum}`);
-  const buttons = container.querySelectorAll('.quiz-btn');
-
-  buttons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      if (btn.disabled) return;
-      if (btn.dataset.answer === 'correct') {
-        btn.classList.add('correct');
-        const isAr = document.documentElement.lang === 'ar';
-        feedback.textContent = quizNum === 1
-          ? (isAr ? '✅ صَحِيح! اللهُ وَاحِد 🎉' : '✅ Correct! Allah is One 🎉')
-          : (isAr ? '✅ صَحِيح! ٩٩ اسْمًا 🌟' : '✅ Correct! 99 names 🌟');
-        feedback.style.color = '#5c7a58';
-        buttons.forEach(b => { if (b !== btn) b.disabled = true; });
-        spawnConfetti(btn.getBoundingClientRect());
-        checkAllQuizzes();
-      } else {
-        btn.classList.add('wrong');
-        const isAr = document.documentElement.lang === 'ar';
-        feedback.textContent = isAr ? '❌ حَاوِلْ مَرَّةً أُخْرَى 😊' : '❌ Try again 😊';
-        feedback.style.color = '#c75d5d';
-        setTimeout(() => btn.classList.remove('wrong'), 500);
-      }
-    });
-  });
-}
-setupQuiz(1);
-setupQuiz(2);
-
-let quiz1Done = false, quiz2Done = false;
-function checkAllQuizzes() {
-  if (!quiz1Done && document.querySelector('[data-quiz="1"] .correct')) quiz1Done = true;
-  if (!quiz2Done && document.querySelector('[data-quiz="2"] .correct')) quiz2Done = true;
-
-  if (quiz1Done && quiz2Done) {
-    const baseTapStars = document.querySelectorAll('.tap-star').length;
-    const needed = baseTapStars - stars;
-    if (needed > 0) {
-      for (let i = 0; i < needed; i++) {
-        setTimeout(() => {
-          stars++;
-          starEl.textContent = stars;
-          if (finalStarsEl) finalStarsEl.textContent = stars;
-          if (finalStarsEnEl) finalStarsEnEl.textContent = stars;
-        }, i * 100);
+      if (quiz1Done && quiz2Done) {
+        const baseTapStars = document.querySelectorAll('.tap-star').length;
+        const needed = baseTapStars - stars;
+        if (needed > 0) {
+          for (let i = 0; i < needed; i++) {
+            setTimeout(() => {
+              stars++;
+              starEl.textContent = stars;
+              if (finalStarsEl) finalStarsEl.textContent = stars;
+              if (finalStarsEnEl) finalStarsEnEl.textContent = stars;
+            }, i * 100);
+          }
+        }
+        setTimeout(showReward, 600);
       }
     }
-    setTimeout(showReward, 600);
-  }
-}
 
-/* ============================================================
-   REWARD
-   ============================================================ */
-let rewardShown = false;
-function showReward() {
-  if (rewardShown) return;
-  rewardShown = true;
-  const box = document.getElementById('rewardBox');
-  if (finalStarsEl) finalStarsEl.textContent = stars;
-  if (finalStarsEnEl) finalStarsEnEl.textContent = stars;
-  box.classList.add('show');
-  box.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  for (let i = 0; i < 40; i++) {
-    setTimeout(() => spawnConfetti(), i * 60);
-  }
-}
+    /* ============================================================
+       REWARD
+       ============================================================ */
+    let rewardShown = false;
+    function showReward() {
+      if (rewardShown) return;
+      rewardShown = true;
+      const box = document.getElementById('rewardBox');
+      if (finalStarsEl) finalStarsEl.textContent = stars;
+      if (finalStarsEnEl) finalStarsEnEl.textContent = stars;
+      box.classList.add('show');
+      box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      for (let i = 0; i < 40; i++) {
+        setTimeout(() => spawnConfetti(), i * 60);
+      }
+    }
 
-/* ============================================================
-   CONFETTI
-   ============================================================ */
-const confettiEmojis = ['⭐', '🌟', '✨', '🎉', '💛', '🤍', '🕌', '🌙', '🎊'];
-function spawnConfetti(fromRect) {
-  const el = document.createElement('div');
-  el.className = 'confetti';
-  el.textContent = confettiEmojis[Math.floor(Math.random() * confettiEmojis.length)];
-  const startX = fromRect ? fromRect.left + fromRect.width / 2 : Math.random() * window.innerWidth;
-  el.style.left = (startX + (Math.random() * 100 - 50)) + 'px';
-  el.style.animationDuration = (2 + Math.random() * 2) + 's';
-  document.body.appendChild(el);
-  setTimeout(() => el.remove(), 4500);
-}
+    /* ============================================================
+       CONFETTI
+       ============================================================ */
+    const confettiEmojis = ['⭐', '🌟', '✨', '🎉', '💛', '🤍', '🕌', '🌙', '🎊'];
+    function spawnConfetti(fromRect) {
+      const el = document.createElement('div');
+      el.className = 'confetti';
+      el.textContent = confettiEmojis[Math.floor(Math.random() * confettiEmojis.length)];
+      const startX = fromRect ? fromRect.left + fromRect.width / 2 : Math.random() * window.innerWidth;
+      el.style.left = (startX + (Math.random() * 100 - 50)) + 'px';
+      el.style.animationDuration = (2 + Math.random() * 2) + 's';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 4500);
+    }
 
-/* ============================================================
-   YEAR
-   ============================================================ */
-document.getElementById('year').textContent = new Date().getFullYear();
-</script>
+    /* ============================================================
+       YEAR
+       ============================================================ */
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 
 </body>
+
 </html>
