@@ -35,9 +35,15 @@
     }
 
     /* ---------- Global polish ---------- */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-    html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
       font-family: 'Nunito Sans', 'Tajawal', sans-serif;
@@ -67,16 +73,45 @@
       line-height: 5;
     }
 
-    main, header, footer, .topbar { position: relative; z-index: 1; }
+    main,
+    header,
+    footer,
+    .topbar {
+      position: relative;
+      z-index: 1;
+    }
 
     /* ---------- Language toggle logic ---------- */
-    [lang="ar"] .en-only, [lang="ar"] .en-only * { display: none !important; }
-    [lang="ar"] .ar-only { display: inline !important; }
-    [lang="ar"] .ar-only.block { display: block !important; }
-    .ar-only { display: none; }
-    [lang="ar"] body { direction: rtl; text-align: right; }
-    [lang="ar"] .hero-actions, [lang="ar"] .header-actions { flex-direction: row-reverse; }
-    [lang="ar"] .resource-row .arrow { transform: scaleX(-1); }
+    [lang="ar"] .en-only,
+    [lang="ar"] .en-only * {
+      display: none !important;
+    }
+
+    [lang="ar"] .ar-only {
+      display: inline !important;
+    }
+
+    [lang="ar"] .ar-only.block {
+      display: block !important;
+    }
+
+    .ar-only {
+      display: none;
+    }
+
+    [lang="ar"] body {
+      direction: rtl;
+      text-align: right;
+    }
+
+    [lang="ar"] .hero-actions,
+    [lang="ar"] .header-actions {
+      flex-direction: row-reverse;
+    }
+
+    [lang="ar"] .resource-row .arrow {
+      transform: scaleX(-1);
+    }
 
     /* ---------- Top bar ---------- */
     .topbar {
@@ -86,7 +121,7 @@
       font-weight: 800;
       text-align: center;
       padding: 0.6rem 1rem;
-      border-bottom: 2px solid rgba(255,255,255,0.3);
+      border-bottom: 2px solid rgba(255, 255, 255, 0.3);
       font-size: 0.9rem;
     }
 
@@ -127,12 +162,28 @@
       transition: transform 0.4s ease;
       flex-shrink: 0;
     }
-    .brand:hover .brand-mark { transform: rotate(-10deg) scale(1.1); }
 
-    .brand strong { display: block; font-size: 1.2rem; line-height: 1.2; }
-    .brand small { font-size: 0.75rem; color: var(--text-mid); font-weight: 600; }
+    .brand:hover .brand-mark {
+      transform: rotate(-10deg) scale(1.1);
+    }
 
-    .header-actions { display: flex; align-items: center; gap: 1rem; }
+    .brand strong {
+      display: block;
+      font-size: 1.2rem;
+      line-height: 1.2;
+    }
+
+    .brand small {
+      font-size: 0.75rem;
+      color: var(--text-mid);
+      font-weight: 600;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
 
     .language-toggle {
       padding: 0.5rem 1.2rem;
@@ -146,6 +197,7 @@
       font-weight: 800;
       font-family: inherit;
     }
+
     .language-toggle:hover {
       background: linear-gradient(135deg, #ec4899, #a855f7);
       color: #fff;
@@ -181,6 +233,7 @@
       transition: color 0.2s;
       position: relative;
     }
+
     nav a::after {
       content: "";
       position: absolute;
@@ -191,8 +244,14 @@
       background: var(--pink-deep);
       transition: width 0.25s;
     }
-    nav a:hover { color: var(--pink-deep); }
-    nav a:hover::after { width: 100%; }
+
+    nav a:hover {
+      color: var(--pink-deep);
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
 
     /* ---------- Hero ---------- */
     .hero {
@@ -206,6 +265,7 @@
       gap: 3rem;
       flex-wrap: wrap;
     }
+
     .hero::before {
       content: "";
       position: absolute;
@@ -216,9 +276,15 @@
       pointer-events: none;
       z-index: 0;
     }
-    .hero > * { position: relative; z-index: 1; }
 
-    .hero-copy { flex: 1 1 500px; }
+    .hero>* {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-copy {
+      flex: 1 1 500px;
+    }
 
     .eyebrow {
       letter-spacing: 0.18em;
@@ -240,6 +306,7 @@
       font-size: clamp(2.2rem, 5vw, 3.4rem);
       margin-bottom: 1.2rem;
     }
+
     .hero h1 em {
       font-family: 'Amiri', serif;
       color: var(--pink-deep);
@@ -254,7 +321,12 @@
       max-width: 600px;
     }
 
-    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.8rem; }
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.8rem;
+    }
 
     .button {
       display: inline-flex;
@@ -275,6 +347,7 @@
       border: 2px solid #fff;
       font-size: 1rem;
     }
+
     .button-primary:hover {
       transform: translateY(-3px) scale(1.03);
       box-shadow: 0 14px 30px rgba(236, 72, 153, 0.5);
@@ -288,6 +361,7 @@
       padding: 12px 28px;
       font-size: 1rem;
     }
+
     .button-quiet:hover {
       background: #f3e8ff;
       transform: translateY(-3px);
@@ -306,10 +380,19 @@
       box-shadow: 0 4px 12px rgba(236, 72, 153, 0.1);
       font-size: 0.9rem;
     }
-    .note-icon { color: var(--purple-mid); font-size: 1.2rem; }
+
+    .note-icon {
+      color: var(--purple-mid);
+      font-size: 1.2rem;
+    }
 
     /* Portrait frame */
-    .hero-art { flex: 0 1 380px; display: flex; justify-content: center; position: relative; }
+    .hero-art {
+      flex: 0 1 380px;
+      display: flex;
+      justify-content: center;
+      position: relative;
+    }
 
     .portrait-frame {
       position: relative;
@@ -322,7 +405,10 @@
       max-width: 360px;
       width: 100%;
     }
-    .portrait-frame:hover { transform: translateY(-6px) scale(1.01); }
+
+    .portrait-frame:hover {
+      transform: translateY(-6px) scale(1.01);
+    }
 
     .teacher-portrait {
       width: 100%;
@@ -348,7 +434,7 @@
     }
 
     .portrait-caption {
-      background: linear-gradient(90deg, rgba(255,255,255,0.95), rgba(255,255,255,0.85));
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
       border-top: 2px solid var(--pink-mid);
       padding: 1rem;
       color: var(--text-dark);
@@ -357,9 +443,22 @@
       gap: 0.6rem;
       backdrop-filter: blur(6px);
     }
-    .portrait-caption-mark { color: var(--pink-deep); font-size: 1.2rem; }
-    .portrait-caption strong { display: block; font-size: 0.9rem; color: var(--purple-deep); }
-    .portrait-caption small { font-size: 0.75rem; color: var(--text-mid); }
+
+    .portrait-caption-mark {
+      color: var(--pink-deep);
+      font-size: 1.2rem;
+    }
+
+    .portrait-caption strong {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--purple-deep);
+    }
+
+    .portrait-caption small {
+      font-size: 0.75rem;
+      color: var(--text-mid);
+    }
 
     .portrait-decoration {
       position: absolute;
@@ -369,12 +468,29 @@
       pointer-events: none;
       z-index: 2;
     }
-    .portrait-decoration-one { top: -18px; right: -18px; }
-    .portrait-decoration-two { bottom: -18px; left: -18px; animation-delay: 1s; color: var(--purple-mid); }
+
+    .portrait-decoration-one {
+      top: -18px;
+      right: -18px;
+    }
+
+    .portrait-decoration-two {
+      bottom: -18px;
+      left: -18px;
+      animation-delay: 1s;
+      color: var(--purple-mid);
+    }
 
     @keyframes floatY {
-      0%, 100% { transform: translateY(0) rotate(0deg); }
-      50%      { transform: translateY(-12px) rotate(12deg); }
+
+      0%,
+      100% {
+        transform: translateY(0) rotate(0deg);
+      }
+
+      50% {
+        transform: translateY(-12px) rotate(12deg);
+      }
     }
 
     /* ---------- Sections ---------- */
@@ -384,7 +500,9 @@
       margin: 0 auto;
     }
 
-    .section-heading { margin-bottom: 2.5rem; }
+    .section-heading {
+      margin-bottom: 2.5rem;
+    }
 
     .section h2 {
       color: var(--purple-deep);
@@ -394,6 +512,7 @@
       font-size: clamp(1.6rem, 3vw, 2.2rem);
       margin-bottom: 1rem;
     }
+
     .section h2::after {
       content: "";
       position: absolute;
@@ -405,7 +524,11 @@
       background: linear-gradient(90deg, #ec4899, #a855f7);
       opacity: 0.8;
     }
-    [lang="ar"] .section h2::after { left: auto; right: 0; }
+
+    [lang="ar"] .section h2::after {
+      left: auto;
+      right: 0;
+    }
 
     .section-heading p {
       color: var(--text-mid);
@@ -428,14 +551,20 @@
       text-decoration: none;
       white-space: nowrap;
     }
-    .text-link:hover { text-decoration: underline; }
+
+    .text-link:hover {
+      text-decoration: underline;
+    }
 
     /* ---------- Subject cards ---------- */
     .card-grid {
       display: grid;
       gap: 2rem;
     }
-    .card-grid.three { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+
+    .card-grid.three {
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
 
     .subject-card {
       position: relative;
@@ -451,6 +580,7 @@
       background: #fff;
       box-shadow: 0 10px 30px rgba(124, 58, 237, 0.08);
     }
+
     .subject-card:hover {
       transform: translateY(-8px) scale(1.02);
       box-shadow: 0 20px 50px rgba(124, 58, 237, 0.18);
@@ -460,6 +590,7 @@
       background: linear-gradient(160deg, #fdf2f8, #fce7f3);
       border-color: #f9a8d4;
     }
+
     .sage-card .card-icon {
       background: linear-gradient(135deg, #ec4899, #db2777);
       -webkit-background-clip: text;
@@ -471,6 +602,7 @@
       background: linear-gradient(160deg, #eff6ff, #dbeafe);
       border-color: #93c5fd;
     }
+
     .peach-card .card-icon {
       background: linear-gradient(135deg, #3b82f6, #2563eb);
       -webkit-background-clip: text;
@@ -482,6 +614,7 @@
       background: linear-gradient(160deg, #faf5ff, #f3e8ff);
       border-color: #c084fc;
     }
+
     .lilac-card .card-icon {
       background: linear-gradient(135deg, #a855f7, #7e22ce);
       -webkit-background-clip: text;
@@ -495,6 +628,7 @@
       font-weight: 900;
       line-height: 1;
     }
+
     .card-kicker {
       font-size: 0.75rem;
       font-weight: 900;
@@ -503,12 +637,14 @@
       margin-bottom: 0.5rem;
       text-transform: uppercase;
     }
+
     .subject-card h3 {
       color: var(--purple-deep);
       font-size: 1.5rem;
       font-weight: 900;
       margin-bottom: 0.75rem;
     }
+
     .subject-card p {
       color: var(--text-mid);
       line-height: 1.7;
@@ -516,6 +652,7 @@
       font-size: 0.95rem;
       flex-grow: 1;
     }
+
     .subject-card a {
       display: inline-flex;
       align-items: center;
@@ -526,7 +663,10 @@
       transition: gap 0.3s;
       font-size: 0.95rem;
     }
-    .subject-card a:hover { gap: 0.9rem; }
+
+    .subject-card a:hover {
+      gap: 0.9rem;
+    }
 
     /* ---------- About card ---------- */
     .teacher-profile-card {
@@ -541,9 +681,14 @@
       align-items: center;
     }
 
-    .teacher-profile-content { flex: 1 1 400px; }
+    .teacher-profile-content {
+      flex: 1 1 400px;
+    }
 
-    .teacher-profile-content h2 { margin-top: 0.8rem; margin-bottom: 1rem; }
+    .teacher-profile-content h2 {
+      margin-top: 0.8rem;
+      margin-bottom: 1rem;
+    }
 
     .teacher-profile-content p {
       color: var(--text-mid);
@@ -552,7 +697,9 @@
       line-height: 1.7;
     }
 
-    .teacher-profile-actions { margin-top: 1.5rem; }
+    .teacher-profile-actions {
+      margin-top: 1.5rem;
+    }
 
     /* ---------- Video cards ---------- */
     .resource-card {
@@ -564,6 +711,7 @@
       display: flex;
       flex-direction: column;
     }
+
     .resource-card:hover {
       transform: translateY(-6px);
       box-shadow: 0 16px 40px rgba(236, 72, 153, 0.15);
@@ -583,16 +731,31 @@
       align-items: center;
       gap: 0.5rem;
     }
+
     .video-placeholder .play {
       font-size: 2.5rem;
       line-height: 1;
       opacity: 0.9;
     }
-    .video-placeholder.green { background: linear-gradient(135deg, #10b981, #059669); }
-    .video-placeholder.gold { background: linear-gradient(135deg, #f59e0b, #d97706); }
-    .video-placeholder.rose { background: linear-gradient(135deg, #ec4899, #be185d); }
 
-    .resource-content { padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; }
+    .video-placeholder.green {
+      background: linear-gradient(135deg, #10b981, #059669);
+    }
+
+    .video-placeholder.gold {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+    }
+
+    .video-placeholder.rose {
+      background: linear-gradient(135deg, #ec4899, #be185d);
+    }
+
+    .resource-content {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
 
     .tag {
       background: var(--pink-soft);
@@ -613,19 +776,24 @@
       font-weight: 800;
       margin-bottom: 0.5rem;
     }
+
     .resource-content p {
       color: var(--text-mid);
       font-size: 0.9rem;
       margin-bottom: 1.2rem;
       flex-grow: 1;
     }
+
     .resource-content a {
       color: var(--pink-deep);
       font-weight: 800;
       text-decoration: none;
       font-size: 0.9rem;
     }
-    .resource-content a:hover { text-decoration: underline; }
+
+    .resource-content a:hover {
+      text-decoration: underline;
+    }
 
     .edit-hint {
       margin-top: 1.5rem;
@@ -638,7 +806,11 @@
     }
 
     /* ---------- Resource rows ---------- */
-    .resource-list { display: flex; flex-direction: column; gap: 0.8rem; }
+    .resource-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
 
     .resource-row {
       background: #fff;
@@ -652,21 +824,39 @@
       transition: all 0.25s ease;
       color: var(--text-dark);
     }
+
     .resource-row:hover {
       background: #fdf2f8;
       transform: translateX(4px);
       border-color: var(--pink-deep);
     }
-    [lang="ar"] .resource-row:hover { transform: translateX(-4px); }
+
+    [lang="ar"] .resource-row:hover {
+      transform: translateX(-4px);
+    }
 
     .resource-symbol {
       font-size: 1.5rem;
       color: var(--pink-deep);
       flex-shrink: 0;
     }
-    .resource-text { flex-grow: 1; }
-    .resource-text strong { display: block; color: var(--purple-deep); font-weight: 800; font-size: 0.95rem; }
-    .resource-text small { color: var(--text-mid); font-size: 0.8rem; }
+
+    .resource-text {
+      flex-grow: 1;
+    }
+
+    .resource-text strong {
+      display: block;
+      color: var(--purple-deep);
+      font-weight: 800;
+      font-size: 0.95rem;
+    }
+
+    .resource-text small {
+      color: var(--text-mid);
+      font-size: 0.8rem;
+    }
+
     .resource-type {
       background: var(--pink-deep);
       color: #fff;
@@ -676,10 +866,20 @@
       font-weight: 800;
       flex-shrink: 0;
     }
-    .resource-row .arrow { color: var(--pink-deep); font-weight: 900; flex-shrink: 0; }
+
+    .resource-row .arrow {
+      color: var(--pink-deep);
+      font-weight: 900;
+      flex-shrink: 0;
+    }
 
     /* ---------- Arcade ---------- */
-    .arcade-gateway { display: flex; justify-content: center; margin-top: 2rem; }
+    .arcade-gateway {
+      display: flex;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+
     .arcade-card {
       position: relative;
       background: linear-gradient(160deg, #fff, #fce7f3, #f3e8ff);
@@ -692,18 +892,31 @@
       border: 3px solid var(--pink-mid);
       transition: transform 0.3s, box-shadow 0.3s;
     }
+
     .arcade-card:hover {
       transform: translateY(-8px) scale(1.02);
       box-shadow: 0 30px 80px rgba(236, 72, 153, 0.3);
     }
-    .arcade-icon { font-size: 5rem; margin-bottom: 1rem; line-height: 1; }
+
+    .arcade-icon {
+      font-size: 5rem;
+      margin-bottom: 1rem;
+      line-height: 1;
+    }
+
     .arcade-card h3 {
       font-size: 2rem;
       color: var(--purple-deep);
       font-weight: 900;
       margin-bottom: 1rem;
     }
-    .arcade-card p { color: var(--text-mid); margin-bottom: 2rem; font-size: 1.05rem; }
+
+    .arcade-card p {
+      color: var(--text-mid);
+      margin-bottom: 2rem;
+      font-size: 1.05rem;
+    }
+
     .arcade-btn {
       background: linear-gradient(135deg, #ec4899, #a855f7);
       color: #fff;
@@ -718,6 +931,7 @@
       transition: all 0.3s;
       border: 2px solid #fff;
     }
+
     .arcade-btn:hover {
       transform: scale(1.05) translateY(-2px);
       box-shadow: 0 14px 30px rgba(236, 72, 153, 0.6);
@@ -736,8 +950,17 @@
       justify-content: space-between;
       gap: 2rem;
     }
-    .booking-card h2 { color: var(--purple-deep); margin-bottom: 0.5rem; margin-top: 0.8rem; }
-    .booking-card p { color: var(--text-mid); max-width: 550px; }
+
+    .booking-card h2 {
+      color: var(--purple-deep);
+      margin-bottom: 0.5rem;
+      margin-top: 0.8rem;
+    }
+
+    .booking-card p {
+      color: var(--text-mid);
+      max-width: 550px;
+    }
 
     /* ---------- Homework ---------- */
     .homework-panel {
@@ -747,9 +970,26 @@
       padding: 2.5rem;
       box-shadow: 0 10px 30px rgba(124, 58, 237, 0.06);
     }
-    .homework-top { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem; }
-    .homework-top h3 { color: var(--purple-deep); font-weight: 900; margin-bottom: 0.3rem; }
-    .homework-top p { color: var(--text-mid); font-size: 0.9rem; }
+
+    .homework-top {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .homework-top h3 {
+      color: var(--purple-deep);
+      font-weight: 900;
+      margin-bottom: 0.3rem;
+    }
+
+    .homework-top p {
+      color: var(--text-mid);
+      font-size: 0.9rem;
+    }
+
     .week-badge {
       background: var(--pink-deep);
       color: #fff;
@@ -760,6 +1000,7 @@
       align-self: flex-start;
       white-space: nowrap;
     }
+
     .progress-track {
       height: 14px;
       background: #fce7f3;
@@ -767,6 +1008,7 @@
       overflow: hidden;
       margin-bottom: 0.5rem;
     }
+
     .progress-fill {
       height: 100%;
       width: 0%;
@@ -774,8 +1016,20 @@
       border-radius: 999px;
       transition: width 0.6s ease;
     }
-    .progress-label { color: var(--pink-deep); font-weight: 700; font-size: 0.9rem; margin-bottom: 1.5rem; }
-    .task-list { display: flex; flex-direction: column; gap: 0.75rem; }
+
+    .progress-label {
+      color: var(--pink-deep);
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .task-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
     .task {
       background: #fdf2f8;
       border: 2px solid var(--pink-mid);
@@ -787,15 +1041,30 @@
       cursor: pointer;
       transition: all 0.2s;
     }
-    .task:hover { background: #fce7f3; }
+
+    .task:hover {
+      background: #fce7f3;
+    }
+
     .task input[type="checkbox"] {
       accent-color: var(--pink-deep);
       transform: scale(1.2);
       cursor: pointer;
       flex-shrink: 0;
     }
-    .task strong { color: var(--purple-deep); display: block; font-weight: 800; font-size: 0.9rem; }
-    .task small { color: var(--text-mid); font-size: 0.8rem; }
+
+    .task strong {
+      color: var(--purple-deep);
+      display: block;
+      font-weight: 800;
+      font-size: 0.9rem;
+    }
+
+    .task small {
+      color: var(--text-mid);
+      font-size: 0.8rem;
+    }
+
     .reset-button {
       margin-top: 1.5rem;
       background: #fff;
@@ -809,7 +1078,11 @@
       font-family: inherit;
       font-size: 0.9rem;
     }
-    .reset-button:hover { background: var(--pink-deep); color: #fff; }
+
+    .reset-button:hover {
+      background: var(--pink-deep);
+      color: #fff;
+    }
 
     /* ---------- Closing CTA ---------- */
     .closing-cta {
@@ -826,10 +1099,32 @@
       text-align: center;
       color: #fff;
     }
-    .closing-cta h2 { color: #fff; font-weight: 900; font-size: 1.8rem; margin: 1rem 0; }
-    .closing-cta p { color: rgba(255,255,255,0.95); margin-bottom: 2rem; font-size: 1.05rem; }
-    .closing-cta .eyebrow { background: rgba(255,255,255,0.2); color: #fff; border-color: rgba(255,255,255,0.3); }
-    .closing-cta .cta-star { font-size: 3rem; display: block; margin-bottom: 1rem; }
+
+    .closing-cta h2 {
+      color: #fff;
+      font-weight: 900;
+      font-size: 1.8rem;
+      margin: 1rem 0;
+    }
+
+    .closing-cta p {
+      color: rgba(255, 255, 255, 0.95);
+      margin-bottom: 2rem;
+      font-size: 1.05rem;
+    }
+
+    .closing-cta .eyebrow {
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .closing-cta .cta-star {
+      font-size: 3rem;
+      display: block;
+      margin-bottom: 1rem;
+    }
+
     .button-light {
       background: #fff;
       color: var(--purple-deep);
@@ -838,15 +1133,24 @@
       font-weight: 900;
       text-decoration: none;
       display: inline-block;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
       transition: all 0.3s;
       font-size: 1rem;
     }
-    .button-light:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.25); }
+
+    .button-light:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+    }
 
     @keyframes gradientMove {
-      0% { background-position: 0% 50%; }
-      100% { background-position: 300% 50%; }
+      0% {
+        background-position: 0% 50%;
+      }
+
+      100% {
+        background-position: 300% 50%;
+      }
     }
 
     /* ---------- Footer ---------- */
@@ -857,20 +1161,39 @@
       padding: 3rem 1rem;
       color: var(--text-mid);
     }
+
     .footer-brand {
       color: var(--purple-deep);
       font-weight: 900;
       font-size: 1.2rem;
       text-decoration: none;
     }
-    .site-footer p { margin-top: 0.5rem; font-size: 0.95rem; }
-    .site-footer .copyright { margin-top: 1.5rem; font-size: 0.85rem; color: #9d7bc0; }
+
+    .site-footer p {
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    .site-footer .copyright {
+      margin-top: 1.5rem;
+      font-size: 0.85rem;
+      color: #9d7bc0;
+    }
 
     /* ---------- Responsive ---------- */
     @media (max-width: 900px) {
-      nav { display: none; }
-      .menu-toggle { display: block; }
-      .site-header { position: relative; }
+      nav {
+        display: none;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      .site-header {
+        position: relative;
+      }
+
       nav.open {
         display: flex;
         flex-direction: column;
@@ -882,40 +1205,103 @@
         margin-top: 0.5rem;
         gap: 1rem;
       }
-      .hero { flex-direction: column; text-align: center; }
-      .hero p { margin-inline: auto; }
-      .hero-actions { justify-content: center; }
-      [lang="ar"] .hero-actions { justify-content: center; }
-      .portrait-frame { max-width: 280px; }
-      .booking-card { padding: 2rem 1.5rem; flex-direction: column; text-align: center; }
-      .closing-cta { border-radius: 26px; padding: 3rem 1.5rem; margin-inline: 1rem; }
-      .homework-panel { padding: 1.5rem; }
-      .teacher-profile-card { padding: 1.5rem; }
-      .split-heading { flex-direction: column; align-items: flex-start; }
+
+      .hero {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .hero p {
+        margin-inline: auto;
+      }
+
+      .hero-actions {
+        justify-content: center;
+      }
+
+      [lang="ar"] .hero-actions {
+        justify-content: center;
+      }
+
+      .portrait-frame {
+        max-width: 280px;
+      }
+
+      .booking-card {
+        padding: 2rem 1.5rem;
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .closing-cta {
+        border-radius: 26px;
+        padding: 3rem 1.5rem;
+        margin-inline: 1rem;
+      }
+
+      .homework-panel {
+        padding: 1.5rem;
+      }
+
+      .teacher-profile-card {
+        padding: 1.5rem;
+      }
+
+      .split-heading {
+        flex-direction: column;
+        align-items: flex-start;
+      }
     }
 
     @media (max-width: 600px) {
-      .site-header { padding: 0.8rem 1rem; }
-      .brand strong { font-size: 1rem; }
-      .brand small { font-size: 0.65rem; }
-      .brand-mark { width: 40px; height: 40px; font-size: 1.4rem; }
-      .topbar { font-size: 0.75rem; }
-      .section { padding: 3rem 1rem; }
-      .hero { padding: 3rem 1rem 4rem; }
+      .site-header {
+        padding: 0.8rem 1rem;
+      }
+
+      .brand strong {
+        font-size: 1rem;
+      }
+
+      .brand small {
+        font-size: 0.65rem;
+      }
+
+      .brand-mark {
+        width: 40px;
+        height: 40px;
+        font-size: 1.4rem;
+      }
+
+      .topbar {
+        font-size: 0.75rem;
+      }
+
+      .section {
+        padding: 3rem 1rem;
+      }
+
+      .hero {
+        padding: 3rem 1rem 4rem;
+      }
     }
 
     /* ---- Custom scroll & selection ---- */
-    ::selection { background: var(--pink-mid); color: var(--purple-deep); }
+    ::selection {
+      background: var(--pink-mid);
+      color: var(--purple-deep);
+    }
 
     /* ---- Video card interactive styles ---- */
     .video-card {
       cursor: pointer;
       user-select: none;
     }
+
     .video-card:focus-visible {
       outline: 3px solid var(--pink-deep);
       outline-offset: 3px;
     }
+
     .resource-content-link {
       color: var(--pink-deep);
       font-weight: 800;
@@ -925,7 +1311,10 @@
       gap: 0.4rem;
       transition: gap 0.3s;
     }
-    .video-card:hover .resource-content-link { gap: 0.9rem; }
+
+    .video-card:hover .resource-content-link {
+      gap: 0.9rem;
+    }
 
     /* ---- Modal overlay ---- */
     .modal-overlay {
@@ -942,6 +1331,7 @@
       visibility: hidden;
       transition: opacity 0.3s ease, visibility 0.3s ease;
     }
+
     .modal-overlay.active {
       opacity: 1;
       visibility: visible;
@@ -959,6 +1349,7 @@
       transform: translateY(20px) scale(0.96);
       transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
     }
+
     .modal-overlay.active .modal-box {
       transform: translateY(0) scale(1);
     }
@@ -969,10 +1360,21 @@
       margin-bottom: 1rem;
       animation: bounceWiggle 1.6s ease-in-out infinite;
     }
+
     @keyframes bounceWiggle {
-      0%, 100% { transform: translateY(0) rotate(0deg); }
-      25%      { transform: translateY(-8px) rotate(-6deg); }
-      75%      { transform: translateY(-4px) rotate(6deg); }
+
+      0%,
+      100% {
+        transform: translateY(0) rotate(0deg);
+      }
+
+      25% {
+        transform: translateY(-8px) rotate(-6deg);
+      }
+
+      75% {
+        transform: translateY(-4px) rotate(6deg);
+      }
     }
 
     .modal-box h3 {
@@ -981,12 +1383,14 @@
       font-size: 1.6rem;
       margin-bottom: 0.8rem;
     }
+
     .modal-box p {
       color: var(--text-mid);
       font-size: 1rem;
       line-height: 1.7;
       margin-bottom: 1.8rem;
     }
+
     .modal-close {
       background: linear-gradient(135deg, #ec4899, #a855f7);
       color: #fff;
@@ -1000,11 +1404,15 @@
       box-shadow: 0 8px 20px rgba(236, 72, 153, 0.4);
       transition: all 0.25s ease;
     }
+
     .modal-close:hover {
       transform: translateY(-2px) scale(1.04);
       box-shadow: 0 12px 28px rgba(236, 72, 153, 0.55);
     }
-    .modal-close:active { transform: scale(0.97); }
+
+    .modal-close:active {
+      transform: scale(0.97);
+    }
   </style>
 
   <!-- ============ SAVE LANGUAGE BEFORE PAGE RENDERS (avoids flicker) ============ -->
@@ -1075,8 +1483,10 @@
           <span class="ar-only">تعلّم بهدف.<br><em>وانمُ بالمعرفة.</em></span>
         </h1>
         <p>
-          <span class="en-only">A warm, welcoming place to learn Quran and Tajweed, develop Arabic skills, and explore the beauty of Islamic values—one step at a time.</span>
-          <span class="ar-only">مساحة تعليمية ودودة لتعلّم القرآن والتجويد، وتنمية مهارات اللغة العربية، واكتشاف القيم الإسلامية الجميلة خطوةً بخطوة.</span>
+          <span class="en-only">A warm, welcoming place to learn Quran and Tajweed, develop Arabic skills, and explore
+            the beauty of Islamic values—one step at a time.</span>
+          <span class="ar-only">مساحة تعليمية ودودة لتعلّم القرآن والتجويد، وتنمية مهارات اللغة العربية، واكتشاف القيم
+            الإسلامية الجميلة خطوةً بخطوة.</span>
         </p>
         <div class="hero-actions">
           <a class="button button-primary" href="#subjects">
@@ -1096,8 +1506,9 @@
       </div>
       <div class="hero-art teacher-portrait-wrap">
         <div class="portrait-frame">
-          <img class="teacher-portrait" src="images/teacher-sarah.png" alt="Teacher of Quran, Arabic and Islamic Studies"
-               onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(145deg, #fce7f3, #ede9fe)'; this.parentElement.style.minHeight='320px'; this.parentElement.innerHTML+='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;font-size:4rem;padding:2rem;color:rgba(236,72,153,0.3)\'>🌸</div>'">
+          <img class="teacher-portrait" src="images/teacher-sarah.png"
+            alt="Teacher of Quran, Arabic and Islamic Studies"
+            onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(145deg, #fce7f3, #ede9fe)'; this.parentElement.style.minHeight='320px'; this.parentElement.innerHTML+='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;font-size:4rem;padding:2rem;color:rgba(236,72,153,0.3)\'>🌸</div>'">
           <div class="portrait-caption">
             <span class="portrait-caption-mark">✦</span>
             <span>
@@ -1130,12 +1541,18 @@
             <span class="ar-only">تعلَّمْ مَعَ سَارَة</span>
           </h2>
           <p>
-            <span class="en-only">I'm a dedicated Quran and Arabic teacher passionate about helping students learn Quran recitation, understand Tajweed rules, and develop their Arabic skills in a friendly and supportive environment.</span>
-            <span class="ar-only">أنا مُعَلِّمَة قرآن وعربية مُتَفَانِيَة، أُحِبُّ مُسَاعَدَة الطُّلَّابِ عَلَى تَعَلُّمِ تِلَاوَةِ الْقُرْآن، وَفَهْمِ أَحْكَامِ التَّجْوِيد، وَتَطْوِيرِ مَهَارَاتِهِمُ الْعَرَبِيَّةِ فِي بِيئَةٍ وَدُودَةٍ وَدَاعِمَة.</span>
+            <span class="en-only">I'm a dedicated Quran and Arabic teacher passionate about helping students learn Quran
+              recitation, understand Tajweed rules, and develop their Arabic skills in a friendly and supportive
+              environment.</span>
+            <span class="ar-only">أنا مُعَلِّمَة قرآن وعربية مُتَفَانِيَة، أُحِبُّ مُسَاعَدَة الطُّلَّابِ عَلَى
+              تَعَلُّمِ تِلَاوَةِ الْقُرْآن، وَفَهْمِ أَحْكَامِ التَّجْوِيد، وَتَطْوِيرِ مَهَارَاتِهِمُ الْعَرَبِيَّةِ
+              فِي بِيئَةٍ وَدُودَةٍ وَدَاعِمَة.</span>
           </p>
           <p>
-            <span class="en-only">Explore my CV to learn more about my teaching skills, qualifications, and educational background.</span>
-            <span class="ar-only">اطَّلِعْ عَلَى سِيرَتِي الذَّاتِيَّة لِمَعْرِفَةِ مَهَارَاتِي التَّعْلِيمِيَّة وَمُؤَهِّلَاتِي وَخَلْفِيَّتِي التَّعْلِيمِيَّة.</span>
+            <span class="en-only">Explore my CV to learn more about my teaching skills, qualifications, and educational
+              background.</span>
+            <span class="ar-only">اطَّلِعْ عَلَى سِيرَتِي الذَّاتِيَّة لِمَعْرِفَةِ مَهَارَاتِي التَّعْلِيمِيَّة
+              وَمُؤَهِّلَاتِي وَخَلْفِيَّتِي التَّعْلِيمِيَّة.</span>
           </p>
           <div class="teacher-profile-actions">
             <a class="button button-primary" href="./personal/Teacher_sarah.pdf" target="_blank" rel="noopener">
@@ -1175,7 +1592,8 @@
             <span class="ar-only">القرآن والتجويد</span>
           </h3>
           <p>
-            <span class="en-only">Practice Arabic letters, vowel marks, recitation, and the essential rules of Tajweed.</span>
+            <span class="en-only">Practice Arabic letters, vowel marks, recitation, and the essential rules of
+              Tajweed.</span>
             <span class="ar-only">تدريب على الحروف العربية والحركات والتلاوة وأحكام التجويد الأساسية.</span>
           </p>
           <a href="Lessons/Tajweed-lessons/tajweed-lessons.html">
@@ -1194,7 +1612,8 @@
             <span class="ar-only">اللغة العربية</span>
           </h3>
           <p>
-            <span class="en-only">Build confidence in reading, writing, pronunciation, vocabulary, and everyday phrases.</span>
+            <span class="en-only">Build confidence in reading, writing, pronunciation, vocabulary, and everyday
+              phrases.</span>
             <span class="ar-only">بناء الثقة في القراءة والكتابة والنطق والمفردات والعبارات اليومية.</span>
           </p>
           <a href="Lessons/Arabic-lessons/arabic-lessons.html">
@@ -1213,7 +1632,8 @@
             <span class="ar-only">الدراسات الإسلامية</span>
           </h3>
           <p>
-            <span class="en-only">Learn about duas, Prophets' stories, Islamic manners, Salah, and everyday practices.</span>
+            <span class="en-only">Learn about duas, Prophets' stories, Islamic manners, Salah, and everyday
+              practices.</span>
             <span class="ar-only">تعلَّم الأدعية وقصص الأنبياء والآداب الإسلامية والصلاة والممارسات اليومية.</span>
           </p>
           <a href="Lessons/Islamic-studies/islamic-lessons.html">
@@ -1248,7 +1668,8 @@
       </div>
       <div class="card-grid three">
         <!-- Video Card 1 -->
-        <article class="resource-card video-card" role="button" tabindex="0" aria-label="Open video: Introduction to Tajweed">
+        <article class="resource-card video-card" role="button" tabindex="0"
+          aria-label="Open video: Introduction to Tajweed">
           <div class="video-placeholder green"><span class="play">▶</span><span>QURAN &amp; TAJWEED</span></div>
           <div class="resource-content">
             <span class="tag">
@@ -1271,7 +1692,8 @@
         </article>
 
         <!-- Video Card 2 -->
-        <article class="resource-card video-card" role="button" tabindex="0" aria-label="Open video: Arabic letters and sounds">
+        <article class="resource-card video-card" role="button" tabindex="0"
+          aria-label="Open video: Arabic letters and sounds">
           <div class="video-placeholder gold"><span class="play">▶</span><span>ARABIC BASICS</span></div>
           <div class="resource-content">
             <span class="tag">
@@ -1294,7 +1716,8 @@
         </article>
 
         <!-- Video Card 3 -->
-        <article class="resource-card video-card" role="button" tabindex="0" aria-label="Open video: Learning a daily dua">
+        <article class="resource-card video-card" role="button" tabindex="0"
+          aria-label="Open video: Learning a daily dua">
           <div class="video-placeholder rose"><span class="play">▶</span><span>ISLAMIC STUDIES</span></div>
           <div class="resource-content">
             <span class="tag">
@@ -1402,8 +1825,10 @@
           <span class="ar-only">أركيد تعلّم العربية</span>
         </h2>
         <p>
-          <span class="en-only">Jump into our interactive arcade filled with 10 different games to practice letters, words, and vocabulary!</span>
-          <span class="ar-only">انطلق إلى الأركيد التفاعلي المليء بعشر ألعاب مختلفة للتدرب على الحروف والكلمات والمفردات!</span>
+          <span class="en-only">Jump into our interactive arcade filled with 10 different games to practice letters,
+            words, and vocabulary!</span>
+          <span class="ar-only">انطلق إلى الأركيد التفاعلي المليء بعشر ألعاب مختلفة للتدرب على الحروف والكلمات
+            والمفردات!</span>
         </p>
       </div>
 
@@ -1415,8 +1840,10 @@
             <span class="ar-only">الأركيد الكبير</span>
           </h3>
           <p>
-            <span class="en-only">10 exciting games: Vocab Match, Memory, Spelling, Speed Tap, and more! Perfect for testing your knowledge.</span>
-            <span class="ar-only">10 ألعاب ممتعة: مطابقة المفردات، الذاكرة، التهجئة، النقر السريع، والمزيد! مثالية لاختبار معلوماتك.</span>
+            <span class="en-only">10 exciting games: Vocab Match, Memory, Spelling, Speed Tap, and more! Perfect for
+              testing your knowledge.</span>
+            <span class="ar-only">10 ألعاب ممتعة: مطابقة المفردات، الذاكرة، التهجئة، النقر السريع، والمزيد! مثالية
+              لاختبار معلوماتك.</span>
           </p>
           <a href="games2.html" class="button button-primary arcade-btn">
             <span class="en-only">Play Now 🚀</span>
@@ -1439,8 +1866,10 @@
             <span class="ar-only">هل أنت مستعد للبدء؟</span>
           </h2>
           <p>
-            <span class="en-only">Interested in Quran, Tajweed, Arabic, or Islamic Studies lessons? Send a message to ask about availability and learning goals.</span>
-            <span class="ar-only">مهتم بدروس القرآن أو التجويد أو العربية أو الدراسات الإسلامية؟ أرسل رسالة للاستفسار عن المواعيد والأهداف التعليمية.</span>
+            <span class="en-only">Interested in Quran, Tajweed, Arabic, or Islamic Studies lessons? Send a message to
+              ask about availability and learning goals.</span>
+            <span class="ar-only">مهتم بدروس القرآن أو التجويد أو العربية أو الدراسات الإسلامية؟ أرسل رسالة للاستفسار عن
+              المواعيد والأهداف التعليمية.</span>
           </p>
         </div>
         <a class="button button-primary" href="https://wa.link/6372rm">
@@ -1495,28 +1924,33 @@
             <input type="checkbox">
             <span>
               <strong><span class="en-only">Quran</span><span class="ar-only">القرآن</span></strong>
-              <small><span class="en-only">Revise the assigned verses for 10 minutes.</span><span class="ar-only">راجع الآيات المحددة لمدة 10 دقائق.</span></small>
+              <small><span class="en-only">Revise the assigned verses for 10 minutes.</span><span class="ar-only">راجع
+                  الآيات المحددة لمدة 10 دقائق.</span></small>
             </span>
           </label>
           <label class="task">
             <input type="checkbox">
             <span>
               <strong><span class="en-only">Tajweed</span><span class="ar-only">التجويد</span></strong>
-              <small><span class="en-only">Review one rule and find two examples.</span><span class="ar-only">راجع قاعدة واحدة وابحث عن مثالين.</span></small>
+              <small><span class="en-only">Review one rule and find two examples.</span><span class="ar-only">راجع قاعدة
+                  واحدة وابحث عن مثالين.</span></small>
             </span>
           </label>
           <label class="task">
             <input type="checkbox">
             <span>
               <strong><span class="en-only">Arabic</span><span class="ar-only">العربية</span></strong>
-              <small><span class="en-only">Practise reading the letters or words from class.</span><span class="ar-only">تدرَّبْ على قراءة الحروف أو الكلمات من الدرس.</span></small>
+              <small><span class="en-only">Practise reading the letters or words from class.</span><span
+                  class="ar-only">تدرَّبْ على قراءة الحروف أو الكلمات من الدرس.</span></small>
             </span>
           </label>
           <label class="task">
             <input type="checkbox">
             <span>
-              <strong><span class="en-only">Islamic Studies</span><span class="ar-only">الدراسات الإسلامية</span></strong>
-              <small><span class="en-only">Revise this week's dua or lesson.</span><span class="ar-only">راجع دعاء أو درس هذا الأسبوع.</span></small>
+              <strong><span class="en-only">Islamic Studies</span><span class="ar-only">الدراسات
+                  الإسلامية</span></strong>
+              <small><span class="en-only">Revise this week's dua or lesson.</span><span class="ar-only">راجع دعاء أو
+                  درس هذا الأسبوع.</span></small>
             </span>
           </label>
         </div>
@@ -1567,7 +2001,8 @@
   </footer>
 
   <!-- ============ UNDER CONSTRUCTION MODAL ============ -->
-  <div class="modal-overlay" id="constructionModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-overlay" id="constructionModal" aria-hidden="true" role="dialog" aria-modal="true"
+    aria-labelledby="modalTitle">
     <div class="modal-box">
       <div class="modal-icon">🚧</div>
       <h3 id="modalTitle">
@@ -1660,7 +2095,7 @@
     updateProgress();
 
     // ---- Under Construction Modal ----
-    (function() {
+    (function () {
       const modal = document.getElementById('constructionModal');
       const closeBtn = document.getElementById('closeModal');
       const videoCards = document.querySelectorAll('.video-card');

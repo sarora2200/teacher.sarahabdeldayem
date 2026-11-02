@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎨 Colorful Canvas · 50 images coloring game</title>
+     <link rel="icon" type="image/png" href="../images/quran.png">
+  <link rel="apple-touch-icon" href="images/quran.png">
+    <style>
+        * {
+            box-sizing: border-box;
+            user-select: none;
+        }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(145deg, #fde9e0 0%, #f8d5c2 100%);
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .game-wrapper {
+            max-width: 1200px;
+            width: 100%;
+            background: #fff8f3;
+            box-shadow: 0 20px 35px rgba(140, 80, 60, 0.2), 0 8px 12px rgba(0,0,0,0.08);
+            border-radius: 48px;
+            padding: 28px 32px 32px;
+            border: 2px solid #ffe6db;
+        }
+        h1 {
+            text-align: center;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+            font-size: 2.5rem;
+            letter-spacing: -0.5px;
+            color: #8b5a42;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            text-shadow: 2px 2px 0 #ffe0d4;
+        }
+        h1 span {
+            font-size: 2.8rem;
+            transform: rotate(5deg);
+            display: inline-block;
+        }
+        .subhead {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #b27a62;
+            margin-top: -6px;
+            margin-bottom: 24px;
+            font-weight: 400;
+            border-bottom: 2px dashed #f0cbbc;
+            padding-bottom: 16px;
+        }
+        .main-panel {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 28px;
+            justify-content: center;
+        }
+        /* canvas + image selector */
+        .canvas-area {
+            flex: 2 1 560px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+        .canvas-container {
+            background: #fefaf7;
+            padding: 12px;
+            border-radius: 40px;
+            box-shadow: inset 0 0 0 2px #fff, 0 12px 25px rgba(160, 100, 70, 0.2);
+        }
+        canvas {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-width: 560px;
+            background: #ffffff;
+            border-radius: 28px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            cursor: crosshair;
+            touch-action: none;
+        }
+        .image-picker-wrapper {
+            width: 100%;
+            background: #fdf2eb;
+            border-radius: 30px;
+            padding: 14px 16px;
+            box-shadow: inset 0 0 0 2px #fff9f6;
+        }
+        .image-picker-label {
+            font-weight: 600;
+            color: #7f523b;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.05rem;
+        }
+        .image-picker {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+            gap: 8px;
+            max-height: 190px;
+            overflow-y: auto;
+            padding-right: 6px;
+            scrollbar-width: thin;
+            scrollbar-color: #dbb6a2 #f7e5db;
+        }
+        .image-picker::-webkit-scrollbar {
+            width: 8px;
+        }
+        .image-picker::-webkit-scrollbar-track {
+            background: #f7e5db;
+            border-radius: 20px;
+        }
+        .image-picker::-webkit-scrollbar-thumb {
+            background: #dbb6a2;
+            border-radius: 20px;
+        }
+        .img-btn {
+            background: #fff3ec;
+            border: 3px solid #e8cbb8;
+            border-radius: 20px;
+            padding: 6px 4px;
+            font-weight: 600;
+            font-size: 0.78rem;
+            color: #7a4e38;
+            cursor: pointer;
+            transition: all 0.12s ease;
+            box-shadow: 0 3px 0 #c9a68e;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            line-height: 1.1;
+        }
+        .img-btn:hover {
+            background: #ffece2;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 0 #b48d73;
+        }
+        .img-btn.active {
+            background: #ffd9c8;
+            border-color: #b87d5c;
+            box-shadow: 0 0 0 3px #fadbcb, 0 3px 0 #a76f50;
+            transform: translateY(-1px);
+            color: #4a2e1f;
+        }
+        .img-btn .emoji {
+            font-size: 1.6rem;
+        }
+
+        /* right side: palette */
+        .palette-area {
+            flex: 1 1 280px;
+            display: flex;
+            flex-direction: column;
+            background: #fdf2eb;
+            border-radius: 36px;
+            padding: 22px 20px;
+            box-shadow: inset 0 0 0 2px #fff9f6, 0 8px 18px rgba(150, 90, 60, 0.1);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+        .palette-title {
+            font-weight: 600;
+            font-size: 1.5rem;
+            color: #7f523b;
+            margin: 0 0 16px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 2px solid #e5cbbc;
+            padding-bottom: 12px;
+        }
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-bottom: 22px;
+        }
+        .color-swatch {
+            aspect-ratio: 1 / 1;
+            border-radius: 16px;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.08s ease;
+            border: 2px solid white;
+        }
+        .color-swatch:hover {
+            transform: scale(1.08);
+            border-color: #f5d9c8;
+        }
+        .color-swatch.active {
+            outline: 4px solid #ffb08e;
+            outline-offset: 2px;
+            transform: scale(1.02);
+            border-color: #ffdac9;
+            box-shadow: 0 0 0 2px #b35f38;
+        }
+        .custom-color-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 6px;
+            background: #fff8f4;
+            padding: 12px 14px;
+            border-radius: 80px;
+            border: 1px solid #edd9ce;
+        }
+        .custom-color-area label {
+            font-weight: 500;
+            color: #7b5b48;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        input[type="color"] {
+            width: 50px;
+            height: 50px;
+            border: 3px solid #fff;
+            border-radius: 50%;
+            cursor: pointer;
+            background: none;
+            padding: 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        input[type="color"]::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+        input[type="color"]::-webkit-color-swatch {
+            border: none;
+            border-radius: 50%;
+        }
+        .current-color-badge {
+            display: inline-block;
+            width: 34px;
+            height: 34px;
+            border-radius: 12px;
+            margin-left: 6px;
+            border: 3px solid white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            vertical-align: middle;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 26px;
+            justify-content: center;
+        }
+        .clear-btn {
+            background: #f7d9cd;
+            border: none;
+            border-radius: 40px;
+            padding: 14px 20px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #653e2a;
+            cursor: pointer;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 5px 0 #c49c85;
+            transition: all 0.1s ease;
+            border: 2px solid #ffece1;
+        }
+        .clear-btn:hover {
+            background: #f2cdbc;
+            transform: translateY(-2px);
+            box-shadow: 0 7px 0 #b58b73;
+        }
+        .clear-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 1px 0 #b58b73;
+        }
+        .footer-note {
+            text-align: center;
+            color: #ab8b79;
+            font-size: 0.9rem;
+            margin-top: 20px;
+            font-style: italic;
+        }
+        .counter-badge {
+            background: #ffd9c8;
+            padding: 2px 12px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            color: #6d3e28;
+            margin-left: 8px;
+            font-weight: 600;
+        }
+        @media (max-width: 700px) {
+            .game-wrapper { padding: 18px; }
+            h1 { font-size: 1.8rem; }
+            .palette-area { position: static; }
+        }
+    </style>
+</head>
+<body>
+<div class="game-wrapper">
+    <h1>
+        <span>🖍️</span> Color Splash <span>🎨</span>
+    </h1>
+    <div class="subhead">50 pictures to color · pick a color · paint the picture</div>
+
+    <div class="main-panel">
+        <!-- left: canvas + image chooser -->
+        <div class="canvas-area">
+            <div class="canvas-container">
+                <canvas id="coloringCanvas" width="600" height="600"></canvas>
+            </div>
+            <div class="image-picker-wrapper">
+                <div class="image-picker-label">
+                    <span>🖼️</span> Choose a picture <span class="counter-badge" id="imageCounter">50 images</span>
+                </div>
+                <div class="image-picker" id="imagePicker">
+                    <!-- 50 image buttons injected by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- right: palette & tools -->
+        <div class="palette-area">
+            <div class="palette-title">
+                <span>🌈</span> Color palette
+            </div>
+            <div class="color-grid" id="colorGrid">
+                <!-- 20 colors generated by js -->
+            </div>
+            <div class="custom-color-area">
+                <label>
+                    <span>🎨</span> Custom
+                    <input type="color" id="customColorInput" value="#ff8a5c">
+                </label>
+                <span class="current-color-badge" id="currentColorBadge" style="background: #ff8a5c;"></span>
+            </div>
+            <div class="action-buttons">
+                <button class="clear-btn" id="clearBtn">
+                    <span>🧽</span> Reset canvas
+                </button>
+            </div>
+            <div class="footer-note">
+                Click on the canvas to fill any area!
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function() {
+        const canvas = document.getElementById('coloringCanvas');
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+        const colorGrid = document.getElementById('colorGrid');
+        const customColorInput = document.getElementById('customColorInput');
+        const currentColorBadge = document.getElementById('currentColorBadge');
+        const clearBtn = document.getElementById('clearBtn');
+        const imagePicker = document.getElementById('imagePicker');
+
+        // ----- palette colors -----
+        const paletteColors = [
+            '#FF6B6B', '#FFB347', '#FFD966', '#A8E6CF', '#7EC8E3',
+            '#B983FF', '#FF8DA1', '#F9C74F', '#90BE6D', '#F9844A',
+            '#577590', '#F94144', '#F3722C', '#F8961E', '#F9C74F',
+            '#90BE6D', '#43AA8B', '#4D908E', '#577590', '#277DA1'
+        ];
+
+        let currentColor = paletteColors[0];
+        let currentImageKey = 'cat';
+
+        // ---------- RENDER PALETTE ----------
+        function renderPalette() {
+            colorGrid.innerHTML = '';
+            paletteColors.forEach((hex) => {
+                const swatch = document.createElement('div');
+                swatch.className = 'color-swatch';
+                if (hex === currentColor) swatch.classList.add('active');
+                swatch.style.backgroundColor = hex;
+                swatch.dataset.color = hex;
+                swatch.title = hex;
+                swatch.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    setCurrentColor(hex);
+                });
+                colorGrid.appendChild(swatch);
+            });
+        }
+
+        function setCurrentColor(hex) {
+            currentColor = hex;
+            document.querySelectorAll('.color-swatch').forEach(sw => {
+                sw.classList.toggle('active', sw.dataset.color === hex);
+            });
+            currentColorBadge.style.backgroundColor = hex;
+        }
+
+        // ---------- FLOOD FILL ----------
+        function floodFill(startX, startY, fillColorHex) {
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+            const width = canvas.width;
+            const height = canvas.height;
+
+            const fillRGB = hexToRgb(fillColorHex);
+            if (!fillRGB) return;
+
+            const startPos = (startY * width + startX) * 4;
+            const startR = data[startPos];
+            const startG = data[startPos + 1];
+            const startB = data[startPos + 2];
+
+            if (colorDistance(startR, startG, startB, fillRGB.r, fillRGB.g, fillRGB.b) < 5) return;
+
+            const tolerance = 45;
+            const queue = [[startX, startY]];
+            const visited = new Uint8Array(width * height);
+            const startIndex = startY * width + startX;
+            visited[startIndex] = 1;
+
+            while (queue.length > 0) {
+                const [x, y] = queue.shift();
+                const pos = (y * width + x) * 4;
+
+                data[pos] = fillRGB.r;
+                data[pos + 1] = fillRGB.g;
+                data[pos + 2] = fillRGB.b;
+                data[pos + 3] = 255;
+
+                const neighbors = [
+                    [x - 1, y], [x + 1, y], [x, y - 1], [x, y + 1]
+                ];
+
+                for (const [nx, ny] of neighbors) {
+                    if (nx < 0 || nx >= width || ny < 0 || ny >= height) continue;
+                    const nIndex = ny * width + nx;
+                    if (visited[nIndex]) continue;
+
+                    const nPos = nIndex * 4;
+                    const nr = data[nPos];
+                    const ng = data[nPos + 1];
+                    const nb = data[nPos + 2];
+
+                    if (colorDistance(nr, ng, nb, startR, startG, startB) <= tolerance) {
+                        visited[nIndex] = 1;
+                        queue.push([nx, ny]);
+                    }
+                }
+            }
+            ctx.putImageData(imageData, 0, 0);
+        }
+
+        function colorDistance(r1, g1, b1, r2, g2, b2) {
+            return Math.sqrt((r1 - r2) ** 2 + (g1 - g2) ** 2 + (b1 - b2) ** 2);
+        }
+
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+
+        // ---------- IMAGE DRAWING HELPERS ----------
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.lineWidth = 5;
+            ctx.strokeStyle = '#222222';
+            ctx.lineJoin = 'round';
+            ctx.lineCap = 'round';
+        }
+
+        function fillShape(drawFn, fillColor = '#ffffff') {
+            ctx.beginPath();
+            drawFn();
+            ctx.fillStyle = fillColor;
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        function strokeShape(drawFn) {
+            ctx.beginPath();
+            drawFn();
+            ctx.stroke();
+        }
+
+        function filledEllipse(x, y, rx, ry, rotation = 0, fillColor = '#ffffff') {
+            ctx.beginPath();
+            ctx.ellipse(x, y, rx, ry, rotation, 0, Math.PI * 2);
+            ctx.fillStyle = fillColor;
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        function filledCircle(x, y, r, fillColor = '#ffffff') {
+            ctx.beginPath();
+            ctx.arc(x, y, r, 0, Math.PI * 2);
+            ctx.fillStyle = fillColor;
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        function filledRect(x, y, w, h, radius = 0, fillColor = '#ffffff') {
+            ctx.beginPath();
+            if (radius === 0) {
+                ctx.rect(x, y, w, h);
+            } else {
+                ctx.roundRect(x, y, w, h, radius);
+            }
+            ctx.fillStyle = fillColor;
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        function filledStar(cx, cy, outerR, innerR, points = 5, fillColor = '#ffffff') {
+            ctx.beginPath();
+            for (let i = 0; i < points * 2; i++) {
+                const radius = i % 2 === 0 ? outerR : innerR;
+                const angle = (i * Math.PI) / points - Math.PI / 2;
+                const x = cx + Math.cos(angle) * radius;
+                const y = cy + Math.sin(angle) * radius;
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.closePath();
+            ctx.fillStyle = fillColor;
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        function line(x1, y1, x2, y2) {
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.stroke();
+        }
+
+        // NEW: draw a thick line as a CLOSED filled capsule so flood fill
+        // cannot leak out of its ends or sides.
+        function thickLine(x1, y1, x2, y2, thickness, fillColor = '#ffffff') {
+            const dx = x2 - x1;
+            const dy = y2 - y1;
+            const len = Math.hypot(dx, dy);
+            if (len === 0) return;
+            const nx = -dy / len * thickness / 2;
+            const ny = dx / len * thickness / 2;
+            const startAngle = Math.atan2(ny, nx);
+            const endAngle = Math.atan2(-ny, -nx);
+
+            ctx.beginPath();
+            ctx.moveTo(x1 + nx, y1 + ny);
+            ctx.lineTo(x2 + nx, y2 + ny);
+            ctx.arc(x2, y2, thickness / 2, startAngle, endAngle, false);
+            ctx.lineTo(x1 - nx, y1 - ny);
+            ctx.arc(x1, y1, thickness / 2, endAngle, startAngle, false);
+            ctx.closePath();
+            ctx.fillStyle = fillColor;
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        // NEW: draw a curved thick stroke (quadratic) as a closed filled shape.
+        // We approximate by sampling points along the curve and building a polygon.
+        function thickCurve(p0, cp, p1, thickness, fillColor = '#ffffff') {
+            const steps = 40;
+            const left = [];
+            const right = [];
+            for (let i = 0; i <= steps; i++) {
+                const t = i / steps;
+                const mt = 1 - t;
+                const x = mt * mt * p0.x + 2 * mt * t * cp.x + t * t * p1.x;
+                const y = mt * mt * p0.y + 2 * mt * t * cp.y + t * t * p1.y;
+                // derivative
+                const dx = 2 * mt * (cp.x - p0.x) + 2 * t * (p1.x - cp.x);
+                const dy = 2 * mt * (cp.y - p0.y) + 2 * t * (p1.y - cp.y);
+                const len = Math.hypot(dx, dy) || 1;
+                const nx = -dy / len * thickness / 2;
+                const ny = dx / len * thickness / 2;
+                left.push([x + nx, y + ny]);
+                right.push([x - nx, y - ny]);
+            }
+            ctx.beginPath();
+            // left side forward
+            ctx.moveTo(left[0][0], left[0][1]);
+            for (let i = 1; i < left.length; i++) ctx.lineTo(left[i][0], left[i][1]);
+            // end cap
+            ctx.arc(p1.x, p1.y, thickness / 2, 0, Math.PI * 2);
+            // right side backward
+            for (let i = right.length - 1; i >= 0; i--) ctx.lineTo(right[i][0], right[i][1]);
+            // start cap
+            ctx.arc(p0.x, p0.y, thickness / 2, 0, Math.PI * 2);
+            ctx.closePath();
+            ctx.fillStyle = fillColor;
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        // ---------- 50 IMAGE DEFINITIONS ----------
+
+        // 1. Cat (tail now a closed filled capsule)
+        function drawCat() {
+            clearCanvas();
+            filledEllipse(300, 380, 160, 190);
+            filledEllipse(300, 210, 130, 120);
+            fillShape(() => { ctx.moveTo(210, 130); ctx.lineTo(160, 50); ctx.lineTo(260, 80); ctx.closePath(); });
+            fillShape(() => { ctx.moveTo(390, 130); ctx.lineTo(440, 50); ctx.lineTo(340, 80); ctx.closePath(); });
+            filledCircle(250, 190, 28);
+            filledCircle(350, 190, 28);
+            ctx.fillStyle = '#222222';
+            ctx.beginPath(); ctx.arc(250, 190, 12, 0, Math.PI * 2); ctx.fill();
+            ctx.beginPath(); ctx.arc(350, 190, 12, 0, Math.PI * 2); ctx.fill();
+            fillShape(() => { ctx.moveTo(300, 250); ctx.lineTo(280, 280); ctx.lineTo(320, 280); ctx.closePath(); });
+            line(180, 260, 100, 240);
+            line(180, 280, 100, 290);
+            line(420, 260, 500, 240);
+            line(420, 280, 500, 290);
+            strokeShape(() => { ctx.moveTo(300, 280); ctx.quadraticCurveTo(280, 310, 260, 300); });
+            strokeShape(() => { ctx.moveTo(300, 280); ctx.quadraticCurveTo(320, 310, 340, 300); });
+            // tail as closed capsule curve
+            thickCurve({x:460, y:380}, {x:540, y:300}, {x:500, y:200}, 35);
+        }
+
+        // 2. Flower (stem now closed capsule)
+        function drawFlower() {
+            clearCanvas();
+            thickLine(300, 500, 300, 280, 20);
+            filledEllipse(250, 380, 50, 30, -0.4);
+            filledEllipse(350, 430, 50, 30, 0.4);
+            const cx = 300, cy = 200;
+            for (let i = 0; i < 8; i++) {
+                const angle = (i * Math.PI) / 4;
+                const px = cx + Math.cos(angle) * 85;
+                const py = cy + Math.sin(angle) * 85;
+                filledEllipse(px, py, 55, 35, angle);
+            }
+            filledCircle(cx, cy, 55);
+        }
+
+        // 3. Star
+        function drawStar() {
+            clearCanvas();
+            filledStar(300, 280, 200, 80, 5);
+            filledCircle(300, 280, 45);
+        }
+
+        // 4. Butterfly
+        function drawButterfly() {
+            clearCanvas();
+            filledEllipse(300, 300, 30, 120);
+            filledEllipse(190, 220, 100, 130, -0.4);
+            filledEllipse(180, 380, 80, 100, 0.4);
+            filledEllipse(410, 220, 100, 130, 0.4);
+            filledEllipse(420, 380, 80, 100, -0.4);
+            strokeShape(() => { ctx.moveTo(280, 190); ctx.quadraticCurveTo(230, 120, 190, 100); });
+            strokeShape(() => { ctx.moveTo(320, 190); ctx.quadraticCurveTo(370, 120, 410, 100); });
+        }
+
+        // 5. Heart
+        function drawHeart() {
+            clearCanvas();
+            ctx.beginPath();
+            ctx.moveTo(300, 480);
+            ctx.bezierCurveTo(150, 350, 100, 220, 200, 150);
+            ctx.bezierCurveTo(280, 90, 300, 180, 300, 180);
+            ctx.bezierCurveTo(300, 180, 320, 90, 400, 150);
+            ctx.bezierCurveTo(500, 220, 450, 350, 300, 480);
+            ctx.fillStyle = '#ffffff';
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        // 6. Sun
+        function drawSun() {
+            clearCanvas();
+            filledCircle(300, 300, 120);
+            for (let i = 0; i < 12; i++) {
+                const angle = (i * Math.PI) / 6;
+                const x1 = 300 + Math.cos(angle) * 150;
+                const y1 = 300 + Math.sin(angle) * 150;
+                const x2 = 300 + Math.cos(angle) * 220;
+                const y2 = 300 + Math.sin(angle) * 220;
+                line(x1, y1, x2, y2);
+            }
+            filledCircle(260, 270, 18);
+            filledCircle(340, 270, 18);
+            ctx.fillStyle = '#222222';
+            ctx.beginPath(); ctx.arc(260, 270, 8, 0, Math.PI * 2); ctx.fill();
+            ctx.beginPath(); ctx.arc(340, 270, 8, 0, Math.PI * 2); ctx.fill();
+            strokeShape(() => { ctx.arc(300, 310, 40, 0.2, Math.PI - 0.2); });
+        }
+
+        // 7. Tree
+        function drawTree() {
+            clearCanvas();
+            filledRect(270, 350, 60, 200, 10);
+            filledCircle(300, 280, 100);
+            filledCircle(220, 330, 80);
+            filledCircle(380, 330, 80);
+        }
+
+        // 8. House
+        function drawHouse() {
+            clearCanvas();
+            filledRect(200, 300, 200, 200, 0);
+            fillShape(() => { ctx.moveTo(180, 300); ctx.lineTo(300, 180); ctx.lineTo(420, 300); ctx.closePath(); });
+            filledRect(270, 400, 60, 100, 10);
+            filledRect(220, 340, 50, 50, 5);
+            filledRect(330, 340, 50, 50, 5);
+        }
+
+        // 9. Fish
+        function drawFish() {
+            clearCanvas();
+            filledEllipse(300, 300, 150, 90);
+            fillShape(() => { ctx.moveTo(450, 300); ctx.lineTo(550, 230); ctx.lineTo(550, 370); ctx.closePath(); });
+            filledCircle(230, 280, 25);
+            ctx.fillStyle = '#222222';
+            ctx.beginPath(); ctx.arc(230, 280, 10, 0, Math.PI * 2); ctx.fill();
+            strokeShape(() => { ctx.arc(180, 310, 20, 0.2, Math.PI - 0.2); });
+            fillShape(() => { ctx.moveTo(300, 210); ctx.lineTo(340, 140); ctx.lineTo(380, 210); ctx.closePath(); });
+        }
+
+        // 10. Car
+        function drawCar() {
+            clearCanvas();
+            filledRect(150, 350, 300, 100, 20);
+            fillShape(() => { ctx.moveTo(200, 350); ctx.lineTo(250, 260); ctx.lineTo(350, 260); ctx.lineTo(400, 350); ctx.closePath(); });
+            filledCircle(220, 450, 40);
+            filledCircle(380, 450, 40);
+            filledRect(250, 280, 100, 60, 10);
+        }
+
+        // 11. Cloud
+        function drawCloud() {
+            clearCanvas();
+            filledCircle(250, 350, 80);
+            filledCircle(350, 350, 80);
+            filledCircle(300, 280, 100);
+            filledCircle(380, 310, 70);
+            filledCircle(200, 320, 70);
+        }
+
+        // 12. Rainbow — FIXED: each band is a closed annulus segment.
+        function drawRainbow() {
+            clearCanvas();
+            const cx = 300, cy = 400;
+            const bands = 5;
+            const outerR = 200;
+            const bandWidth = 30;
+
+            for (let i = 0; i < bands; i++) {
+                const rOuter = outerR - i * bandWidth;
+                const rInner = rOuter - bandWidth;
+                ctx.beginPath();
+                ctx.arc(cx, cy, rOuter, Math.PI, 2 * Math.PI, false);
+                ctx.arc(cx, cy, rInner, 2 * Math.PI, Math.PI, true);
+                ctx.closePath();
+                ctx.fillStyle = '#ffffff';
+                ctx.fill();
+                ctx.stroke();
+            }
+            // Close the flat ends of the rainbow so fill can't leak sideways
+            const innerR = outerR - bands * bandWidth;
+            line(cx - outerR, cy, cx - innerR, cy);
+            line(cx + innerR, cy, cx + outerR, cy);
+            // Vertical end caps at the two outer edges
+            line(cx - outerR, cy, cx - outerR, cy);
+            // Close each band's ends by drawing radial segments at both sides
+            for (let i = 0; i < bands; i++) {
+                const rO = outerR - i * bandWidth;
+                const rI = rO - bandWidth;
+                line(cx - rO, cy, cx - rI, cy);
+                line(cx + rI, cy, cx + rO, cy);
+            }
+        }
+
+        // 13. Ice Cream
+        function drawIceCream() {
+            clearCanvas();
+            fillShape(() => { ctx.moveTo(250, 400); ctx.lineTo(350, 400); ctx.lineTo(300, 520); ctx.closePath(); });
+            filledCircle(270, 360, 55);
+            filledCircle(330, 360, 55);
+            filledCircle(300, 300, 60);
+        }
+
+        // 14. Pencil
+        function drawPencil() {
+            clearCanvas();
+            filledRect(250, 150, 100, 300, 0);
+            fillShape(() => { ctx.moveTo(250, 150); ctx.lineTo(300, 80); ctx.lineTo(350, 150); ctx.closePath(); });
+            filledRect(280, 450, 40, 40, 5);
+        }
+
+        // 15. Balloon
+        function drawBalloon() {
+            clearCanvas();
+            filledEllipse(300, 250, 100, 130);
+            fillShape(() => { ctx.moveTo(280, 380); ctx.lineTo(320, 380); ctx.lineTo(300, 420); ctx.closePath(); });
+            strokeShape(() => { ctx.moveTo(300, 420); ctx.bezierCurveTo(280, 480, 320, 520, 300, 580); });
+        }
+
+        // 16. Apple
+        function drawApple() {
+            clearCanvas();
+            ctx.beginPath();
+            ctx.arc(250, 320, 80, 0, Math.PI * 2);
+            ctx.arc(350, 320, 80, 0, Math.PI * 2);
+            ctx.fillStyle = '#ffffff';
+            ctx.fill();
+            ctx.stroke();
+            thickLine(300, 240, 300, 180, 8);
+            filledEllipse(330, 200, 40, 20, -0.3);
+        }
+
+        // 17. Moon
+        function drawMoon() {
+            clearCanvas();
+            ctx.beginPath();
+            ctx.arc(300, 300, 150, 0, Math.PI * 2);
+            ctx.fillStyle = '#ffffff';
+            ctx.fill();
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(380, 250, 100, 0, Math.PI * 2);
+            ctx.fillStyle = '#ffffff';
+            ctx.fill();
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(300, 300, 150, 0, Math.PI * 2);
+            ctx.stroke();
+        }
+
+        // 18. Robot
+        function drawRobot() {
+            clearCanvas();
+            filledRect(200, 200, 200, 200, 20);
+            filledRect(230, 250, 60, 60, 5);
+            filledRect(310, 250, 60, 60, 5);
+            filledRect(270, 350, 60, 40, 10);
+            filledCircle(230, 280, 15);
+            filledCircle(310, 280, 15);
+            thickLine(300, 200, 300, 130, 6);
+            filledCircle(300, 120, 20);
+        }
+
+        // 19. Cupcake
+        function drawCupcake() {
+            clearCanvas();
+            fillShape(() => { ctx.moveTo(220, 350); ctx.lineTo(380, 350); ctx.lineTo(350, 500); ctx.lineTo(250, 500); ctx.closePath(); });
+            filledCircle(270, 320, 60);
+            filledCircle(330, 320, 60);
+            filledCircle(300, 260, 70);
+            filledCircle(300, 180, 25);
+        }
+
+        // 20. Rocket
+        function drawRocket() {
+            clearCanvas();
+            filledEllipse(300, 300, 70, 150);
+            fillShape(() => { ctx.moveTo(230, 350); ctx.lineTo(160, 450); ctx.lineTo(230, 420); ctx.closePath(); });
+            fillShape(() => { ctx.moveTo(370, 350); ctx.lineTo(440, 450); ctx.lineTo(370, 420); ctx.closePath(); });
+            filledCircle(300, 260, 30);
+            fillShape(() => { ctx.moveTo(270, 450); ctx.lineTo(300, 550); ctx.lineTo(330, 450); ctx.closePath(); });
+        }
+
+        // 21. Diamond
+        function drawDiamond() {
+            clearCanvas();
+            fillShape(() => { ctx.moveTo(300, 120); ctx.lineTo(450, 300); ctx.lineTo(300, 480); ctx.lineTo(150, 300); ctx.closePath(); });
+            strokeShape(() => { ctx.moveTo(150, 300); ctx.lineTo(450, 300); });
+            strokeShape(() => { ctx.moveTo(300, 120); ctx.lineTo(300, 480); });
+        }
+
+        // 22. Crown
+        function drawCrown() {
+            clearCanvas();
+            fillShape(() => { ctx.moveTo(180, 380); ctx.lineTo(180, 250); ctx.lineTo(240, 320); ctx.lineTo(300, 200); ctx.lineTo(360, 320); ctx.lineTo(420, 250); ctx.lineTo(420, 380); ctx.closePath(); });
+            filledRect(180, 380, 240, 40, 0);
+            filledCircle(220, 300, 15);
+            filledCircle(300, 280, 15);
+            filledCircle(380, 300, 15);
+        }
+
+        // 23. Mushroom
+        function drawMushroom() {
+            clearCanvas();
+            filledRect(260, 350, 80, 150, 10);
+            ctx.beginPath();
+            ctx.ellipse(300, 300, 140, 100, 0, Math.PI, 2 * Math.PI);
+            ctx.fillStyle = '#ffffff';
+            ctx.fill();
+            ctx.stroke();
+            filledCircle(250, 250, 20);
+            filledCircle(340, 230, 25);
+            filledCircle(300, 310, 15);
+        }
+
+        // 24. Key
+        function drawKey() {
+            clearCanvas();
+            filledCircle(200, 300, 80);
+            filledCircle(200, 300, 30);
+            filledRect(280, 280, 200, 40, 10);
+            filledRect(400, 320, 40, 60, 10);
+            filledRect(440, 320, 40, 40, 10);
+        }
+
+        // 25. Envelope
+        function drawEnvelope() {
+            clearCanvas();
+            filledRect(150, 250, 300, 200, 10);
+            strokeShape(() => { ctx.moveTo(150, 250); ctx.lineTo(300, 350); ctx.lineTo(450, 250); });
+            strokeShape(() => { ctx.moveTo(150, 450); ctx.lineTo(250, 350); });
+            strokeShape(() => { ctx.moveTo(450, 450); ctx.lineTo(350, 350); });
+        }
+
+        // 26. Ghost
+        function drawGhost() {
+            clearCanvas();
+            ctx.beginPath();
+            ctx.arc(300, 250, 130, Math.PI, 2 * Math.PI);
+            ctx.lineTo(430, 450);
+            ctx.lineTo(370, 400);
+            ctx.lineTo(310, 450);
+            ctx.lineTo(250, 400);
+            ctx.lineTo(190, 450);
+            ctx.lineTo(170, 450);
+            ctx.closePath();
+            ctx.fillStyle = '#ffffff';
+            ctx.fill();
+            ctx.stroke();
+            filledCircle(260, 230, 20);
+            filledCircle(340, 230, 20);
+            ctx.fillStyle = '#222222';
+            ctx.beginPath(); ctx.arc(260, 230, 8, 0, Math.PI * 2); ctx.fill();
+            ctx.beginPath(); ctx.arc(340, 230, 8, 0, Math.PI * 2); ctx.fill();
+        }
+
+        // 27. Pumpkin
+        function drawPumpkin() {
+            clearCanvas();
+            filledEllipse(300, 350, 150, 120);
+            filledEllipse(250, 350, 80, 110);
+            filledEllipse(350, 350, 80, 110);
+            filledRect(280, 220, 40, 60, 10);
+            filledEllipse(260, 330, 20, 15, 0, '#222222');
+            filledEllipse(340, 330, 20, 15, 0, '#222222');
+            strokeShape(() => { ctx.arc(300, 370, 30, 0.2, Math.PI - 0.2); });
+        }
+
+        // 28. Snowman
+        function drawSnowman() {
+            clearCanvas();
+            filledCircle(300, 450, 80);
+            filledCircle(300, 300, 60);
+            filledCircle(300, 180, 50);
+            ctx.fillStyle = '#222222';
+            ctx.beginPath(); ctx.arc(280, 170, 8, 0, Math.PI * 2); ctx.fill();
+            ctx.beginPath(); ctx.arc(320, 170, 8, 0, Math.PI * 2); ctx.fill();
+            fillShape(() => { ctx.moveTo(300, 180); ctx.lineTo(330, 190); ctx.lineTo(300, 200); ctx.closePath(); });
+            filledCircle(300, 280, 8, '#222222');
+            filledCircle(300, 310, 8, '#222222');
+        }
+
+        // 29. Cat face
+        function drawCatFace() {
+            clearCanvas();
+            filledCircle(300, 300, 150);
+            fillShape(() => { ctx.moveTo(180, 200); ctx.lineTo(150, 100); ctx.lineTo(240, 160); ctx.closePath(); });
+            fillShape(() => { ctx.moveTo(420, 200); ctx.lineTo(450, 100); ctx.lineTo(360, 160); ctx.closePath(); });
+            filledEllipse(240, 270, 30, 40);
+            filledEllipse(360, 270, 30, 40);
+            ctx.fillStyle = '#222222';
+            ctx.beginPath(); ctx.arc(240, 270, 12, 0, Math.PI * 2); ctx.fill();
+            ctx.beginPath(); ctx.arc(360, 270, 12, 0, Math.PI * 2); ctx.fill();
+            fillShape(() => { ctx.moveTo(300, 320); ctx.lineTo(280, 350); ctx.lineTo(320, 350); ctx.closePath(); });
+            line(200, 340, 120, 320);
+            line(200, 360, 120, 370);
+            line(400, 340, 480, 320);
+            line(400, 360, 480, 370);
+        }
+
+        // 30. Rainbow cloud (arcs as closed bands)
+        function drawRainbowCloud() {
+            clearCanvas();
+            filledCircle(250, 400, 70);
+            filledCircle(350, 400, 70);
+            filledCircle(300, 340, 80);
+
+            // rainbow arcs as closed annulus bands
+            const cx = 300, cy = 380;
+            for (let i = 0; i < 3; i++) {
+                const rOuter = 160 - i * 30;
+                const rInner = rOuter - 20;
+                ctx.beginPath();
+                ctx.arc(cx, cy, rOuter, Math.PI, 2 * Math.PI, false);
+                ctx.arc(cx, cy, rInner, 2 * Math.PI, Math.PI, true);
+                ctx.closePath();
+                ctx.fillStyle = '#ffffff';
+                ctx.fill();
+                ctx.stroke();
+            }
+            // close the ends so nothing leaks
+            for (let i = 0; i < 3; i++) {
+                const rO = 160 - i * 30;
+                const rI = rO - 20;
+                line(cx - rO, cy, cx - rI, cy);
+                line(cx + rI, cy, cx + rO, cy);
+            }
+        }
+
+        // 31. Sunflower (stem closed)
+        function drawSunflower() {
+            clearCanvas();
+            thickLine(300, 550, 300, 300, 20);
+            filledEllipse(240, 400, 50, 25, -0.3);
+            filledEllipse(360, 450, 50, 25, 0.3);
+            for (let i = 0; i < 12; i++) {
+                const angle = (i * Math.PI) / 6;
+                const px = 300 + Math.cos(angle) * 100;
+                const py = 250 + Math.sin(angle) * 100;
+                filledEllipse(px, py, 45, 25, angle);
+            }
+            filledCircle(300, 250, 70);
+        }
+
+        // 32. Fishbowl
+        function drawFishbowl() {
+            clearCanvas();
+            ctx.beginPath();
+            ctx.arc(300, 320, 150, 0, Math.PI);
+            ctx.lineTo(450, 300);
+            ctx.lineTo(150, 300);
+            ctx.closePath();
+            ctx.fillStyle = '#ffffff';
+            ctx.fill();
+            ctx.stroke();
+            filledEllipse(300, 350, 60, 30);
+            fillShape(() => { ctx.moveTo(360, 350); ctx.lineTo(410, 330); ctx.lineTo(410, 370); ctx.closePath(); });
+            filledCircle(270, 340, 8);
+            line(160, 300, 440, 300);
+        }
+
+        // 33. Ladybug
+        function drawLadybug() {
+            clearCanvas();
+            filledEllipse(300, 350, 120, 100);
+            filledCircle(300, 230, 60);
+            filledCircle(250, 330, 20, '#222222');
+            filledCircle(350, 330, 20, '#222222');
+            filledCircle(300, 390, 20, '#222222');
+            filledCircle(260, 400, 15, '#222222');
+            filledCircle(340, 400, 15, '#222222');
+            line(280, 180, 250, 130);
+            line(320, 180, 350, 130);
+        }
+
+        // 34. Umbrella
+        function drawUmbrella() {
+            clearCanvas();
+            ctx.beginPath();
+            ctx.arc(300, 300, 150, Math.PI, 2 * Math.PI);
+            ctx.fillStyle = '#ffffff';
+            ctx.fill();
+            ctx.stroke();
+            // close the flat bottom edge of the canopy
+            line(150, 300, 450, 300);
+            thickCurve({x:300, y:300}, {x:300, y:500}, {x:260, y:520}, 8);
+            for (let i = 0; i < 5; i++) {
+                const angle = Math.PI + (i * Math.PI) / 5;
+                line(300, 300, 300 + Math.cos(angle) * 150, 300 + Math.sin(angle) * 150);
+            }
+        }
+
+        // 35. Crown jewel
+        function drawCrownJewel() {
+            clearCanvas();
+            fillShape(() => { ctx.moveTo(200, 400); ctx.lineTo(200, 250); ctx.lineTo(260, 320); ctx.lineTo(300, 200); ctx.lineTo(340, 320); ctx.lineTo(400, 250); ctx.lineTo(400, 400); ctx.closePath(); });
+            filledCircle(300, 350, 40);
+            filledRect(230, 400, 140, 30, 0);
+        }
+
+        // 36. Gift box
+        function drawGiftBox() {
+            clearCanvas();
+            filledRect(200, 300, 200, 150, 10);
+            filledRect(200, 200, 200, 70, 10);
+            filledRect(280, 200, 40, 250, 0);
+            filledRect(200, 280, 200, 30, 0);
+            filledCircle(280, 200, 30);
+            filledCircle(320, 200, 30);
+        }
+
+        // 37. Camera
+        function drawCamera() {
+            clearCanvas();
+            filledRect(180, 250, 240, 150, 20);
+            filledRect(220, 200, 80, 70, 10);
+            filledCircle(300, 325, 60);
+            filledCircle(300, 325, 30);
+            filledRect(380, 220, 30, 30, 5);
+        }
+
+        // 38. Ball
+        function drawBall() {
+            clearCanvas();
+            filledCircle(300, 300, 150);
+            ctx.beginPath();
+            ctx.arc(300, 300, 150, 0.5, 2.5);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(300, 300, 150, Math.PI + 0.5, Math.PI + 2.5);
+            ctx.stroke();
+            strokeShape(() => { ctx.moveTo(150, 300); ctx.quadraticCurveTo(300, 100, 450, 300); });
+        }
+
+        // 39. Bird
+        function drawBird() {
+            clearCanvas();
+            filledEllipse(300, 300, 100, 80);
+            filledCircle(400, 260, 60);
+            fillShape(() => { ctx.moveTo(450, 250); ctx.lineTo(500, 260); ctx.lineTo(450, 280); ctx.closePath(); });
+            ctx.fillStyle = '#222222';
+            ctx.beginPath(); ctx.arc(420, 240, 10, 0, Math.PI * 2); ctx.fill();
+            filledEllipse(260, 280, 70, 50, -0.3);
+            fillShape(() => { ctx.moveTo(200, 300); ctx.lineTo(120, 250); ctx.lineTo(120, 350); ctx.closePath(); });
+        }
+
+        // 40. Tree with apples
+        function drawAppleTree() {
+            clearCanvas();
+            filledRect(270, 350, 60, 200, 10);
+            filledCircle(300, 280, 100);
+            filledCircle(220, 330, 80);
+            filledCircle(380, 330, 80);
+            filledCircle(250, 280, 15, '#ffffff');
+            filledCircle(340, 260, 15, '#ffffff');
+            filledCircle(300, 350, 15, '#ffffff');
+        }
+
+        // 41. Ring (FIXED: annulus closed shape instead of thick stroke)
+        function drawRing() {
+            clearCanvas();
+            const cx = 300, cy = 350, rOuter = 115, rInner = 85;
+            ctx.beginPath();
+            ctx.arc(cx, cy, rOuter, 0, Math.PI * 2, false);
+            ctx.arc(cx, cy, rInner, 0, Math.PI * 2, true);
+            ctx.closePath();
+            ctx.fillStyle = '#ffffff';
+            ctx.fill();
+            ctx.stroke();
+            fillShape(() => { ctx.moveTo(300, 150); ctx.lineTo(350, 220); ctx.lineTo(300, 280); ctx.lineTo(250, 220); ctx.closePath(); });
+        }
+
+        // 42. Notebook
+        function drawNotebook() {
+            clearCanvas();
+            filledRect(200, 200, 200, 250, 10);
+            for (let i = 0; i < 5; i++) {
+                filledCircle(180, 230 + i * 45, 15);
+            }
+            line(230, 250, 380, 250);
+            line(230, 300, 380, 300);
+            line(230, 350, 380, 350);
+            line(230, 400, 380, 400);
+        }
+
+        // 43. Star and moon
+        function drawStarMoon() {
+            clearCanvas();
+            filledStar(200, 250, 80, 30, 5);
+            ctx.beginPath();
+            ctx.arc(380, 250, 80, 0, Math.PI * 2);
+            ctx.fillStyle = '#ffffff';
+            ctx.fill();
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(420, 220, 60, 0, Math.PI * 2);
+            ctx.fillStyle = '#ffffff';
+            ctx.fill();
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(380, 250, 80, 0, Math.PI * 2);
+            ctx.stroke();
+        }
+
+        // 44. Pineapple
+        function drawPineapple() {
+            clearCanvas();
+            filledEllipse(300, 350, 80, 120);
+            for (let i = 0; i < 5; i++) {
+                const angle = -0.8 + i * 0.4;
+                fillShape(() => {
+                    ctx.moveTo(300, 230);
+                    ctx.lineTo(300 + Math.cos(angle) * 100, 150 + Math.sin(angle) * 80);
+                    ctx.lineTo(300 + Math.cos(angle + 0.3) * 60, 200 + Math.sin(angle + 0.3) * 60);
+                    ctx.closePath();
+                });
+            }
+            for (let i = 0; i < 4; i++) {
+                line(250, 320 + i * 40, 350, 320 + i * 40);
+            }
+        }
+
+        // 45. Cow
+        function drawCow() {
+            clearCanvas();
+            filledEllipse(300, 350, 140, 100);
+            filledCircle(400, 280, 60);
+            filledCircle(250, 330, 30, '#ffffff');
+            filledCircle(340, 380, 25, '#ffffff');
+            ctx.fillStyle = '#222222';
+            ctx.beginPath(); ctx.arc(380, 260, 8, 0, Math.PI * 2); ctx.fill();
+            ctx.beginPath(); ctx.arc(420, 260, 8, 0, Math.PI * 2); ctx.fill();
+            line(380, 220, 350, 180);
+            line(420, 220, 450, 180);
+        }
+
+        // 46. Rocket ship
+        function drawRocketShip() {
+            clearCanvas();
+            filledEllipse(300, 280, 60, 120);
+            fillShape(() => { ctx.moveTo(240, 320); ctx.lineTo(180, 420); ctx.lineTo(240, 400); ctx.closePath(); });
+            fillShape(() => { ctx.moveTo(360, 320); ctx.lineTo(420, 420); ctx.lineTo(360, 400); ctx.closePath(); });
+            filledCircle(300, 240, 25);
+            fillShape(() => { ctx.moveTo(270, 400); ctx.lineTo(300, 500); ctx.lineTo(330, 400); ctx.closePath(); });
+        }
+
+        // 47. Flower pot (stem closed)
+        function drawFlowerPot() {
+            clearCanvas();
+            fillShape(() => { ctx.moveTo(220, 380); ctx.lineTo(380, 380); ctx.lineTo(350, 520); ctx.lineTo(250, 520); ctx.closePath(); });
+            thickLine(300, 380, 300, 250, 15);
+            for (let i = 0; i < 6; i++) {
+                const angle = (i * Math.PI) / 3;
+                filledEllipse(300 + Math.cos(angle) * 40, 220 + Math.sin(angle) * 40, 30, 20, angle);
+            }
+            filledCircle(300, 220, 25);
+        }
+
+        // 48. Elephant (trunk closed capsule curve)
+        function drawElephant() {
+            clearCanvas();
+            filledEllipse(320, 350, 150, 110);
+            filledCircle(200, 280, 80);
+            thickCurve({x:140, y:300}, {x:80, y:380}, {x:120, y:450}, 40);
+            filledEllipse(240, 260, 50, 70);
+            ctx.fillStyle = '#222222';
+            ctx.beginPath(); ctx.arc(220, 250, 12, 0, Math.PI * 2); ctx.fill();
+        }
+
+        // 49. Fish tank
+        function drawFishTank() {
+            clearCanvas();
+            filledRect(150, 200, 300, 250, 20);
+            line(160, 260, 440, 260);
+            filledEllipse(250, 350, 50, 30);
+            fillShape(() => { ctx.moveTo(300, 350); ctx.lineTo(340, 330); ctx.lineTo(340, 370); ctx.closePath(); });
+            filledCircle(230, 340, 8);
+        }
+
+        // 50. Smiley
+        function drawSmiley() {
+            clearCanvas();
+            filledCircle(300, 300, 160);
+            filledCircle(250, 260, 30);
+            filledCircle(350, 260, 30);
+            ctx.fillStyle = '#222222';
+            ctx.beginPath(); ctx.arc(250, 260, 12, 0, Math.PI * 2); ctx.fill();
+            ctx.beginPath(); ctx.arc(350, 260, 12, 0, Math.PI * 2); ctx.fill();
+            strokeShape(() => { ctx.arc(300, 340, 70, 0.2, Math.PI - 0.2); });
+        }
+
+        // ---------- IMAGE REGISTRY ----------
+        const imageDrawers = {
+            cat: drawCat,
+            flower: drawFlower,
+            star: drawStar,
+            butterfly: drawButterfly,
+            heart: drawHeart,
+            sun: drawSun,
+            tree: drawTree,
+            house: drawHouse,
+            fish: drawFish,
+            car: drawCar,
+            cloud: drawCloud,
+            rainbow: drawRainbow,
+            icecream: drawIceCream,
+            pencil: drawPencil,
+            balloon: drawBalloon,
+            apple: drawApple,
+            moon: drawMoon,
+            robot: drawRobot,
+            cupcake: drawCupcake,
+            rocket: drawRocket,
+            diamond: drawDiamond,
+            crown: drawCrown,
+            mushroom: drawMushroom,
+            key: drawKey,
+            envelope: drawEnvelope,
+            ghost: drawGhost,
+            pumpkin: drawPumpkin,
+            snowman: drawSnowman,
+            catface: drawCatFace,
+            rainbowcloud: drawRainbowCloud,
+            sunflower: drawSunflower,
+            fishbowl: drawFishbowl,
+            ladybug: drawLadybug,
+            umbrella: drawUmbrella,
+            crownjewel: drawCrownJewel,
+            giftbox: drawGiftBox,
+            camera: drawCamera,
+            ball: drawBall,
+            bird: drawBird,
+            appletree: drawAppleTree,
+            ring: drawRing,
+            notebook: drawNotebook,
+            starmoon: drawStarMoon,
+            pineapple: drawPineapple,
+            cow: drawCow,
+            rocketship: drawRocketShip,
+            flowerpot: drawFlowerPot,
+            elephant: drawElephant,
+            fishtank: drawFishTank,
+            smiley: drawSmiley
+        };
+
+        const imageList = [
+            { key: 'cat', emoji: '🐱', name: 'Kitty' },
+            { key: 'flower', emoji: '🌻', name: 'Flower' },
+            { key: 'star', emoji: '⭐', name: 'Star' },
+            { key: 'butterfly', emoji: '🦋', name: 'Butterfly' },
+            { key: 'heart', emoji: '❤️', name: 'Heart' },
+            { key: 'sun', emoji: '☀️', name: 'Sun' },
+            { key: 'tree', emoji: '🌳', name: 'Tree' },
+            { key: 'house', emoji: '🏠', name: 'House' },
+            { key: 'fish', emoji: '🐟', name: 'Fish' },
+            { key: 'car', emoji: '🚗', name: 'Car' },
+            { key: 'cloud', emoji: '☁️', name: 'Cloud' },
+            { key: 'rainbow', emoji: '🌈', name: 'Rainbow' },
+            { key: 'icecream', emoji: '🍦', name: 'Ice Cream' },
+            { key: 'pencil', emoji: '✏️', name: 'Pencil' },
+            { key: 'balloon', emoji: '🎈', name: 'Balloon' },
+            { key: 'apple', emoji: '🍎', name: 'Apple' },
+            { key: 'moon', emoji: '🌙', name: 'Moon' },
+            { key: 'robot', emoji: '🤖', name: 'Robot' },
+            { key: 'cupcake', emoji: '🧁', name: 'Cupcake' },
+            { key: 'rocket', emoji: '🚀', name: 'Rocket' },
+            { key: 'diamond', emoji: '💎', name: 'Diamond' },
+            { key: 'crown', emoji: '👑', name: 'Crown' },
+            { key: 'mushroom', emoji: '🍄', name: 'Mushroom' },
+            { key: 'key', emoji: '🔑', name: 'Key' },
+            { key: 'envelope', emoji: '✉️', name: 'Envelope' },
+            { key: 'ghost', emoji: '👻', name: 'Ghost' },
+            { key: 'pumpkin', emoji: '🎃', name: 'Pumpkin' },
+            { key: 'snowman', emoji: '⛄', name: 'Snowman' },
+            { key: 'catface', emoji: '🐱', name: 'Cat Face' },
+            { key: 'rainbowcloud', emoji: '🌦️', name: 'Rainbow Cloud' },
+            { key: 'sunflower', emoji: '🌻', name: 'Sunflower' },
+            { key: 'fishbowl', emoji: '🐠', name: 'Fishbowl' },
+            { key: 'ladybug', emoji: '🐞', name: 'Ladybug' },
+            { key: 'umbrella', emoji: '☂️', name: 'Umbrella' },
+            { key: 'crownjewel', emoji: '👑', name: 'Crown Jewel' },
+            { key: 'giftbox', emoji: '🎁', name: 'Gift Box' },
+            { key: 'camera', emoji: '📷', name: 'Camera' },
+            { key: 'ball', emoji: '⚽', name: 'Ball' },
+            { key: 'bird', emoji: '🐦', name: 'Bird' },
+            { key: 'appletree', emoji: '🌳', name: 'Apple Tree' },
+            { key: 'ring', emoji: '💍', name: 'Ring' },
+            { key: 'notebook', emoji: '📓', name: 'Notebook' },
+            { key: 'starmoon', emoji: '🌙', name: 'Star & Moon' },
+            { key: 'pineapple', emoji: '🍍', name: 'Pineapple' },
+            { key: 'cow', emoji: '🐮', name: 'Cow' },
+            { key: 'rocketship', emoji: '🚀', name: 'Rocket Ship' },
+            { key: 'flowerpot', emoji: '🪴', name: 'Flower Pot' },
+            { key: 'elephant', emoji: '🐘', name: 'Elephant' },
+            { key: 'fishtank', emoji: '🐠', name: 'Fish Tank' },
+            { key: 'smiley', emoji: '😊', name: 'Smiley' }
+        ];
+
+        // ---------- INIT IMAGE PICKER ----------
+        function renderImagePicker() {
+            imagePicker.innerHTML = '';
+            imageList.forEach(item => {
+                const btn = document.createElement('button');
+                btn.className = 'img-btn';
+                if (item.key === currentImageKey) btn.classList.add('active');
+                btn.dataset.image = item.key;
+                btn.innerHTML = `<span class="emoji">${item.emoji}</span><span>${item.name}</span>`;
+                btn.addEventListener('click', () => {
+                    loadImage(item.key);
+                });
+                imagePicker.appendChild(btn);
+            });
+        }
+
+        // ---------- LOAD IMAGE ----------
+        function loadImage(key) {
+            if (imageDrawers[key]) {
+                imageDrawers[key]();
+                currentImageKey = key;
+                document.querySelectorAll('.img-btn').forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.image === key);
+                });
+            }
+        }
+
+        // ---------- EVENT LISTENERS ----------
+        canvas.addEventListener('click', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            const canvasX = (e.clientX - rect.left) * scaleX;
+            const canvasY = (e.clientY - rect.top) * scaleY;
+            if (canvasX >= 0 && canvasX < canvas.width && canvasY >= 0 && canvasY < canvas.height) {
+                floodFill(Math.floor(canvasX), Math.floor(canvasY), currentColor);
+            }
+        });
+
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            const canvasX = (touch.clientX - rect.left) * scaleX;
+            const canvasY = (touch.clientY - rect.top) * scaleY;
+            if (canvasX >= 0 && canvasX < canvas.width && canvasY >= 0 && canvasY < canvas.height) {
+                floodFill(Math.floor(canvasX), Math.floor(canvasY), currentColor);
+            }
+        }, { passive: false });
+
+        customColorInput.addEventListener('input', (e) => {
+            const color = e.target.value;
+            setCurrentColor(color);
+            currentColorBadge.style.backgroundColor = color;
+        });
+
+        clearBtn.addEventListener('click', () => {
+            loadImage(currentImageKey);
+        });
+
+        // ---------- INIT ----------
+        renderPalette();
+        renderImagePicker();
+        setCurrentColor(paletteColors[0]);
+        currentColorBadge.style.backgroundColor = paletteColors[0];
+        loadImage('cat');
+
+        document.getElementById('imageCounter').textContent = imageList.length + ' images';
+    })();
+</script>
+</body>
+</html>
