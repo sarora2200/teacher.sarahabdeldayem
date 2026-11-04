@@ -1,0 +1,779 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#291923">
+    <title>رحلتي مع حفظ القرآن</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box
+        }
+
+        :root {
+            --bg: #291923;
+            --panel: #29271b;
+            --cream: #f5f0d9;
+            --yellow: #ffd400;
+            --green: #16a45b;
+            --muted: #b8b09a;
+            --pink: #e2527a;
+            --heart-done: #e83e8c
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--cream);
+            font-family: "Cairo", sans-serif;
+            min-height: 100vh
+        }
+
+        .app {
+            max-width: 1050px;
+            margin: auto;
+            padding: 18px 22px 28px;
+            overflow: hidden
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            margin-bottom: 8px
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #a8d6a3
+        }
+
+        .brand strong {
+            font-family: "Amiri", serif;
+            font-size: 27px;
+            display: block;
+            line-height: 1.2
+        }
+
+        .brand small {
+            font-size: 11px;
+            color: #c9c0ad
+        }
+
+        .brand-mark {
+            width: 54px;
+            height: 54px;
+            border: 2px solid #a9d6c0;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            color: #e9e2c5;
+            font-family: "Amiri";
+            font-size: 30px;
+            background: #315c4a;
+            box-shadow: 0 0 0 4px #ffffff16
+        }
+
+        button,
+        input {
+            font: inherit
+        }
+
+        button {
+            cursor: pointer;
+            color: inherit
+        }
+
+        .follow {
+            border: 2px solid #d8d2c0;
+            border-radius: 15px;
+            background: #1677e9;
+            color: white;
+            padding: 8px 22px;
+            font-weight: 800;
+            font-size: 18px;
+            box-shadow: 0 2px 0 #ffffff55
+        }
+
+        .intro {
+            background: var(--panel);
+            border-radius: 22px;
+            padding: 16px 18px 12px;
+            text-align: center;
+            box-shadow: 0 10px 25px #0002
+        }
+
+        .bismillah {
+            font-family: "Amiri", serif;
+            font-size: 30px;
+            font-weight: bold;
+            margin: 0 0 10px
+        }
+
+        .student-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px
+        }
+
+        .outline-btn,
+        .tool-btn {
+            border: 3px solid var(--cream);
+            background: transparent;
+            border-radius: 19px;
+            color: var(--cream);
+            font-weight: 700
+        }
+
+        .outline-btn {
+            padding: 8px 17px;
+            font-size: 20px
+        }
+
+        .progress-label {
+            font-family: "Amiri", serif;
+            font-size: 24px;
+            white-space: nowrap
+        }
+
+        .progress-label strong {
+            direction: ltr;
+            display: inline-block
+        }
+
+        #studentName {
+            width: min(38%, 260px);
+            min-width: 130px;
+            background: #201d17;
+            color: var(--cream);
+            border: 3px solid var(--cream);
+            border-radius: 19px;
+            padding: 10px 14px;
+            font-size: 19px;
+            text-align: center;
+            outline: none
+        }
+
+        #studentName::placeholder {
+            color: #918b7b
+        }
+
+        .more-wrap {
+            position: relative;
+            margin: 12px auto 8px;
+            width: max-content
+        }
+
+        .more-btn {
+            min-width: 160px
+        }
+
+        .more-menu {
+            position: absolute;
+            z-index: 5;
+            top: calc(100% + 8px);
+            right: 50%;
+            transform: translateX(50%);
+            width: 210px;
+            background: #f5f0d9;
+            color: #29251d;
+            border-radius: 14px;
+            padding: 7px;
+            box-shadow: 0 8px 22px #0007
+        }
+
+        .more-menu button {
+            display: block;
+            width: 100%;
+            padding: 9px;
+            border: 0;
+            border-radius: 8px;
+            background: transparent;
+            color: inherit;
+            text-align: right
+        }
+
+        .more-menu button:hover {
+            background: #e5dfc8
+        }
+
+        .hidden {
+            display: none
+        }
+
+        .progress-track {
+            height: 13px;
+            border: 3px solid var(--cream);
+            border-radius: 20px;
+            margin: 10px 0 12px;
+            overflow: hidden
+        }
+
+        #progressBar {
+            height: 100%;
+            width: .9%;
+            background: var(--yellow);
+            border-radius: 20px;
+            transition: width .25s
+        }
+
+        .congrats {
+            font-size: 19px;
+            font-weight: 800;
+            margin: 0;
+            color: #f5f0d9
+        }
+
+        .game-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 18px 0 0
+        }
+
+        .tool-btn {
+            width: 88px;
+            height: 57px;
+            font-size: 22px;
+            background: #211b19
+        }
+
+        .tool-btn:hover,
+        .outline-btn:hover {
+            background: #ffffff18
+        }
+
+        .add-btn {
+            background: var(--green);
+            border-color: #c8edcf;
+            width: 75px;
+            font-size: 30px
+        }
+
+        .student-count {
+            margin-right: auto;
+            background: var(--yellow);
+            color: #201b10;
+            border: 3px solid #fff1a0;
+            border-radius: 18px;
+            padding: 8px 22px;
+            font-size: 22px;
+            font-weight: 800;
+            white-space: nowrap
+        }
+
+        /* Map & Heart Shapes */
+        .map-area {
+            position: relative;
+            min-height: 580px;
+            padding: 18px 0 4px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start
+        }
+
+        .board-viewport {
+            width: 100%;
+            overflow: auto;
+            display: flex;
+            justify-content: center;
+            padding: 0 4px 22px
+        }
+
+        .honeycomb {
+            --tile: clamp(44px, 6.5vw, 62px);
+            width: max-content;
+            min-width: min-content;
+            transform: scale(1);
+            transform-origin: top center;
+            transition: transform .2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px 0 25px
+        }
+
+        .hex-row {
+            display: flex;
+            justify-content: center;
+            margin-top: calc(var(--tile)*-.12);
+            gap: 4px
+        }
+
+        .hex-row:first-child {
+            margin-top: 0
+        }
+
+        /* Heart Tile Styling */
+        .hex {
+            width: var(--tile);
+            height: calc(var(--tile)*0.95);
+            flex: 0 0 var(--tile);
+            background: #f5f0d9;
+            clip-path: path("M 50 15 C 20 -20, -20 30, 50 95 C 120 30, 80 -20, 50 15 Z");
+            clip-path: polygon(50% 0%, 100% 35%, 82% 100%, 50% 85%, 18% 100%, 0% 35%);
+            display: grid;
+            place-items: center;
+            padding: 6px 2px 10px;
+            color: #2b281e;
+            font-family: "Amiri", serif;
+            font-weight: 700;
+            font-size: clamp(9px, 1.1vw, 13px);
+            text-align: center;
+            line-height: 1.05;
+            position: relative;
+            cursor: pointer;
+            transition: background .15s, transform .15s;
+            border: none;
+            outline: none;
+        }
+
+        .hex::before {
+            content: "";
+            position: absolute;
+            inset: 3px;
+            background: #29271d;
+            clip-path: polygon(50% 0%, 100% 35%, 82% 100%, 50% 85%, 18% 100%, 0% 35%);
+            z-index: 0;
+            transition: background .2s;
+        }
+
+        .hex span {
+            position: relative;
+            z-index: 1;
+            color: #f4efd9;
+            max-width: 92%;
+            overflow-wrap: anywhere;
+            pointer-events: none
+        }
+
+        .hex:hover {
+            transform: scale(1.12);
+            z-index: 3
+        }
+
+        /* Completed / Checked State */
+        .hex.done {
+            background: #ff9ebb
+        }
+
+        .hex.done::before {
+            background: #d81b60
+        }
+
+        .hex.done span {
+            color: #ffffff;
+            font-weight: bold
+        }
+
+        .hex.removed {
+            visibility: hidden
+        }
+
+        .flower {
+            position: absolute;
+            color: #f5e7b8;
+            font-size: 32px;
+            z-index: 1;
+            pointer-events: none;
+            text-shadow: 0 0 12px #fff8
+        }
+
+        .flower-one {
+            right: 8%;
+            top: 20px
+        }
+
+        .flower-two {
+            left: 8%;
+            bottom: 25px;
+            color: #b17b9a
+        }
+
+        .map-hint {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: #c9bdc3;
+            font-size: 14px
+        }
+
+        footer {
+            text-align: center;
+            color: #c5b6bf;
+            font-size: 13px;
+            padding: 12px
+        }
+
+        dialog {
+            background: #29271d;
+            color: var(--cream);
+            border: 2px solid var(--cream);
+            border-radius: 18px;
+            padding: 25px;
+            max-width: 90%;
+            text-align: center
+        }
+
+        dialog::backdrop {
+            background: #100b0dcc
+        }
+
+        @media(max-width:600px) {
+            .app {
+                padding: 12px 10px 22px
+            }
+
+            .brand strong {
+                font-size: 21px
+            }
+
+            .brand-mark {
+                width: 45px;
+                height: 45px
+            }
+
+            .follow {
+                font-size: 15px;
+                padding: 7px 12px
+            }
+
+            .bismillah {
+                font-size: 25px
+            }
+
+            .intro {
+                padding: 13px 10px
+            }
+
+            .student-row {
+                gap: 6px;
+                flex-wrap: wrap
+            }
+
+            .outline-btn {
+                font-size: 15px;
+                padding: 7px 10px;
+                border-width: 2px
+            }
+
+            .progress-label {
+                font-size: 19px;
+                order: 3;
+                width: 100%
+            }
+
+            #studentName {
+                font-size: 15px;
+                min-width: 110px;
+                width: 38%;
+                border-width: 2px
+            }
+
+            .more-btn {
+                font-size: 17px
+            }
+
+            .tool-btn {
+                width: 62px;
+                height: 48px;
+                font-size: 17px;
+                border-width: 2px
+            }
+
+            .add-btn {
+                width: 55px;
+                font-size: 25px
+            }
+
+            .student-count {
+                font-size: 17px;
+                padding: 6px 12px;
+                border-width: 2px
+            }
+
+            .map-area {
+                min-height: 480px
+            }
+
+            .honeycomb {
+                --tile: clamp(32px, 8.5vw, 46px);
+                gap: 0
+            }
+
+            .hex-row {
+                gap: 1px
+            }
+
+            .hex span {
+                font-size: 8px
+            }
+
+            .flower-one {
+                right: 2%;
+                top: 5px
+            }
+
+            .flower-two {
+                left: 2%;
+                bottom: 20px
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="app">
+        <header class="topbar">
+            <div class="brand">
+                <div class="brand-mark"></div>
+                <div><strong>المعلمة سارة أحمد</strong><small>رحلة حفظ القرآن الكريم</small></div>
+            </div>
+            <button class="follow" id="followBtn">Follow 👍</button>
+        </header>
+
+        <section class="intro">
+            <div class="bismillah">بسم الله الرحمن الرحيم</div>
+            <div class="student-row">
+                <button class="outline-btn" id="resetBtn">إعادة البدء</button>
+                <div class="progress-label">حفظ: <strong id="progressText">0 / 114</strong></div>
+                <input id="studentName" aria-label="اسم الطالب" placeholder="اسم الطالب" value="اسم الطالب">
+            </div>
+            <div class="more-wrap">
+                <button class="outline-btn more-btn" id="moreBtn">☰ المزيد</button>
+                <div class="more-menu hidden" id="moreMenu">
+                    <button id="addStudentBtn">＋ إضافة طالب</button>
+                    <button id="showStatsBtn">عرض الإحصائيات</button>
+                    <button id="clearProgressBtn">مسح التقدم</button>
+                </div>
+            </div>
+            <div class="progress-track">
+                <div id="progressBar"></div>
+            </div>
+            <p class="congrats" id="congratsText">🌱 اضغط على أي سورة لتحديدها أو إلغاء تحديدها!</p>
+        </section>
+
+        <section class="game-toolbar" aria-label="أدوات الخريطة">
+            <button class="tool-btn" id="zoomIn" title="تكبير">＋ 🔍</button>
+            <button class="tool-btn" id="zoomOut" title="تصغير">－ 🔍</button>
+            <button class="tool-btn" id="deleteBtn" title="حذف آخر سورة">🗑</button>
+            <button class="tool-btn add-btn" id="addBtn" title="إضافة سورة مخصصة">＋</button>
+            <div class="student-count" id="studentCount">طالب 1</div>
+        </section>
+
+        <section class="map-area">
+            <div class="flower flower-one">✿</div>
+            <div class="flower flower-two">✿</div>
+            <div class="board-viewport">
+                <div class="honeycomb" id="honeycomb" aria-label="خريطة السور"></div>
+            </div>
+            <div class="map-hint" id="mapHint">اضغطي على السور للتعليم عليها أو إلغاء التعليم</div>
+        </section>
+
+        <footer>كل خطوة في الحفظ إنجاز يستحق الاحتفال ✨</footer>
+    </main>
+
+    <dialog id="statsDialog">
+        <h2>إحصائيات الحفظ</h2>
+        <p id="statsText"></p>
+        <button class="outline-btn" id="closeStats">إغلاق</button>
+    </dialog>
+
+    <script>
+        const surahs = [
+            "الفاتحة", "البقرة", "آل عمران", "النساء", "المائدة", "الأنعام", "الأعراف", "الأنفال", "التوبة", "يونس",
+            "هود", "يوسف", "الرعد", "إبراهيم", "الحجر", "النحل", "الإسراء", "الكهف", "مريم", "طه",
+            "الأنبياء", "الحج", "المؤمنون", "النور", "الفرقان", "الشعراء", "النمل", "القصص", "العنكبوت", "الروم",
+            "لقمان", "السجدة", "الأحزاب", "سبأ", "فاطر", "يس", "الصافات", "ص", "الزمر", "غافر",
+            "فصلت", "الشورى", "الزخرف", "الدخان", "الجاثية", "الأحقاف", "محمد", "الفتح", "الحجرات", "ق",
+            "الذاريات", "الطور", "النجم", "القمر", "الرحمن", "الواقعة", "الحديد", "المجادلة", "الحشر", "الممتحنة",
+            "الصف", "الجمعة", "المنافقون", "التغابن", "الطلاق", "التحريم", "الملك", "القلم", "الحاقة", "المعارج",
+            "نوح", "الجن", "المزمل", "المدثر", "القيامة", "الإنسان", "المرسلات", "النبأ", "النازعات", "عبس",
+            "التكوير", "الانفطار", "المطففين", "الانشقاق", "البروج", "الطارق", "الأعلى", "الغاشية", "الفجر", "البلد",
+            "الشمس", "الليل", "الضحى", "الشرح", "التين", "العلق", "القدر", "البينة", "الزلزلة", "العاديات",
+            "القارعة", "التكاثر", "العصر", "الهمزة", "الفيل", "قريش", "الماعون", "الكوثر", "الكافرون", "النصر",
+            "المسد", "الإخلاص", "الفلق", "الناس"
+        ];
+
+        // Heart layout structure that fits 114 tiles perfectly into a heart silhouette
+        const rowSizes = [
+            { count: 4, gap: true },   // Row 1: Two lobes (2 + 2)
+            { count: 8, gap: false },  // Row 2
+            { count: 12, gap: false }, // Row 3
+            { count: 14, gap: false }, // Row 4
+            { count: 14, gap: false }, // Row 5
+            { count: 14, gap: false }, // Row 6
+            { count: 13, gap: false }, // Row 7
+            { count: 11, gap: false }, // Row 8
+            { count: 9, gap: false },  // Row 9
+            { count: 7, gap: false },  // Row 10
+            { count: 5, gap: false },  // Row 11
+            { count: 3, gap: false },  // Row 12
+            { count: 1, gap: false }   // Row 13 (Heart tip)
+        ];
+
+        const board = document.getElementById("honeycomb");
+        const progressText = document.getElementById("progressText");
+        const progressBar = document.getElementById("progressBar");
+        const hint = document.getElementById("mapHint");
+
+        let lastToggled = null, zoom = 1, studentTotal = 1;
+        let completed = new Set(JSON.parse(localStorage.getItem("quranDone") || "[]"));
+        let removed = new Set();
+        let custom = [];
+
+        function render() {
+            board.innerHTML = "";
+            let n = 0;
+            const totalItems = surahs.length + custom.length;
+
+            rowSizes.forEach((rowInfo) => {
+                const row = document.createElement("div");
+                row.className = "hex-row";
+
+                for (let j = 0; j < rowInfo.count && n < totalItems; j++, n++) {
+                    // Insert spacing gap for row 1 to form two heart lobes
+                    if (rowInfo.gap && j === rowInfo.count / 2) {
+                        const gap = document.createElement("div");
+                        gap.style.width = "calc(var(--tile) * 0.8)";
+                        row.appendChild(gap);
+                    }
+
+                    const name = n < surahs.length ? surahs[n] : custom[n - surahs.length];
+                    const cell = document.createElement("button");
+                    cell.className = "hex" + (completed.has(n) ? " done" : "") + (removed.has(n) ? " removed" : "");
+                    cell.type = "button";
+                    cell.setAttribute("aria-label", name);
+                    cell.innerHTML = `<span>${name}</span>`;
+
+                    const tileIdx = n;
+                    cell.addEventListener("click", () => {
+                        // Toggle completed status (Check / Uncheck)
+                        if (completed.has(tileIdx)) {
+                            completed.delete(tileIdx);
+                            hint.textContent = `إلغاء حفظ: سورة ${name}`;
+                        } else {
+                            completed.add(tileIdx);
+                            hint.textContent = `تم تمشير: سورة ${name}`;
+                        }
+                        lastToggled = tileIdx;
+                        save();
+                        render();
+                    });
+
+                    row.appendChild(cell);
+                }
+                board.appendChild(row);
+            });
+
+            updateProgress();
+            board.style.transform = `scale(${zoom})`;
+        }
+
+        function updateProgress() {
+            const total = surahs.length + custom.length;
+            const done = [...completed].filter(i => !removed.has(i)).length;
+            progressText.textContent = `${done} / ${total}`;
+            progressBar.style.width = `${Math.min(100, (done / total) * 100)}%`;
+            document.getElementById("studentCount").textContent = `طالب ${studentTotal}`;
+
+            const congratsText = document.getElementById("congratsText");
+            if (done === total) {
+                congratsText.textContent = "🎉 مبارك! أتممتِ حفظ القرآن الكريم كاملاً! ❤️";
+            } else if (done > 0) {
+                congratsText.textContent = `🌱 أحسنتِ! تم حفظ ${done} سورة حتى الآن.`;
+            } else {
+                congratsText.textContent = "🌱 اضغطي على أي سورة لتحديدها أو إلغاء تحديدها!";
+            }
+        }
+
+        function save() {
+            localStorage.setItem("quranDone", JSON.stringify([...completed]));
+        }
+
+        // Toolbar Controls
+        document.getElementById("zoomIn").onclick = () => { zoom = Math.min(1.5, zoom + .1); board.style.transform = `scale(${zoom})`; };
+        document.getElementById("zoomOut").onclick = () => { zoom = Math.max(.65, zoom - .1); board.style.transform = `scale(${zoom})`; };
+
+        document.getElementById("deleteBtn").onclick = () => {
+            if (lastToggled !== null) {
+                removed.add(lastToggled);
+                hint.textContent = "تم إخفاء الخلية المحددة مؤقتاً";
+                render();
+            } else {
+                alert("انقري على سورة أولاً لإخفائها.");
+            }
+        };
+
+        document.getElementById("addBtn").onclick = () => {
+            const name = prompt("اكتبي اسم السورة أو عنوان الخلية الجديدة:");
+            if (name && name.trim()) {
+                custom.push(name.trim());
+                render();
+                hint.textContent = "تمت إضافة خلية جديدة إلى الخريطة";
+            }
+        };
+
+        document.getElementById("resetBtn").onclick = () => {
+            if (confirm("هل تريدين إعادة بدء التقدم وإلغاء تحديد كل السور؟")) {
+                completed.clear();
+                removed.clear();
+                lastToggled = null;
+                save();
+                render();
+                hint.textContent = "بدأنا رحلة حفظ جديدة، بالتوفيق!";
+            }
+        };
+
+        document.getElementById("moreBtn").onclick = () => document.getElementById("moreMenu").classList.toggle("hidden");
+
+        document.getElementById("addStudentBtn").onclick = () => {
+            studentTotal++;
+            updateProgress();
+            document.getElementById("moreMenu").classList.add("hidden");
+        };
+
+        document.getElementById("showStatsBtn").onclick = () => {
+            const done = [...completed].filter(i => !removed.has(i)).length;
+            const total = surahs.length + custom.length;
+            document.getElementById("statsText").textContent = `أتممتِ ${done} من ${total} سورة. استمري، كل يوم خطوة جديدة!`;
+            document.getElementById("statsDialog").showModal();
+            document.getElementById("moreMenu").classList.add("hidden");
+        };
+
+        document.getElementById("clearProgressBtn").onclick = () => {
+            completed.clear();
+            save();
+            render();
+            document.getElementById("moreMenu").classList.add("hidden");
+        };
+
+        document.getElementById("closeStats").onclick = () => document.getElementById("statsDialog").close();
+
+        document.getElementById("followBtn").onclick = e => {
+            e.currentTarget.textContent = e.currentTarget.textContent.includes("Following") ? "Follow 👍" : "Following ✓";
+        };
+
+        document.getElementById("studentName").addEventListener("change", e => {
+            hint.textContent = `أهلاً ${e.target.value || "بطل القرآن"}، هيا نكمل الحفظ!`;
+        });
+
+        // Initial render
+        render();
+    </script>
+</body>
+
+</html>
