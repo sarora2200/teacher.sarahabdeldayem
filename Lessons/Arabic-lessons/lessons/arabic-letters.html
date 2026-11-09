@@ -212,7 +212,7 @@
             font-size: 1.2rem;
         }
 
-        /* ---- LETTER FORMS MODAL / OVERLAY ---- */
+        /* ---- LETTER FORMS MODAL / OVERLAY (fallback) ---- */
         .forms-overlay {
             display: none;
             position: fixed;
@@ -603,7 +603,7 @@
         </div>
 
         <div class="tap-hint-container">
-            <div class="tap-hint">👆 Tap a letter to see its shapes! &nbsp;🔊 Tap the speaker to hear it!</div>
+            <div class="tap-hint">👆 Tap a letter to open its page! &nbsp;🔊 Tap the speaker to hear it!</div>
         </div>
 
         <div id="alphabetGrid" class="alphabet-grid"></div>
@@ -660,7 +660,7 @@
         </div>
     </div>
 
-    <!-- FORMS POPUP OVERLAY -->
+    <!-- FORMS POPUP OVERLAY (fallback for letters without a page) -->
     <div id="formsOverlay" class="forms-overlay">
         <div class="forms-popup">
             <button class="close-btn" id="closePopup">✕</button>
@@ -683,42 +683,46 @@
         };
 
         /* ============================================================
-           ARABIC LETTER DATA — includes Hamza (ء) as a bonus letter
+           ARABIC LETTER DATA
+           Each letter has a `page` that points to its own page
+           inside the `connecting-letters` folder.
+           ⚠️ Make sure the filenames match exactly what is in your
+           `connecting-letters` folder (case-sensitive).
            ============================================================ */
         const arabicLetters = [
-            { char: 'ء', name: 'Hamza', pron: 'ʾ (glottal stop)' },
-            { char: 'ا', name: 'Alif',  pron: 'a' },
-            { char: 'ب', name: 'Bāʾ',   pron: 'b' },
-            { char: 'ت', name: 'Tāʾ',   pron: 't' },
-            { char: 'ث', name: 'Thāʾ',  pron: 'th' },
-            { char: 'ج', name: 'Jīm',   pron: 'j' },
-            { char: 'ح', name: 'Ḥāʾ',   pron: 'h' },
-            { char: 'خ', name: 'Khāʾ',  pron: 'kh' },
-            { char: 'د', name: 'Dāl',   pron: 'd' },
-            { char: 'ذ', name: 'Dhāl',  pron: 'dh' },
-            { char: 'ر', name: 'Rāʾ',   pron: 'r' },
-            { char: 'ز', name: 'Zāy',   pron: 'z' },
-            { char: 'س', name: 'Sīn',   pron: 's' },
-            { char: 'ش', name: 'Shīn',  pron: 'sh' },
-            { char: 'ص', name: 'Ṣād',   pron: 's (deep)' },
-            { char: 'ض', name: 'Ḍād',   pron: 'd (deep)' },
-            { char: 'ط', name: 'Ṭāʾ',   pron: 't (deep)' },
-            { char: 'ظ', name: 'Ẓāʾ',   pron: 'dh (deep)' },
-            { char: 'ع', name: 'ʿAyn',  pron: 'ʿ (throat)' },
-            { char: 'غ', name: 'Ghayn', pron: 'gh' },
-            { char: 'ف', name: 'Fāʾ',   pron: 'f' },
-            { char: 'ق', name: 'Qāf',   pron: 'q' },
-            { char: 'ك', name: 'Kāf',   pron: 'k' },
-            { char: 'ل', name: 'Lām',   pron: 'l' },
-            { char: 'م', name: 'Mīm',   pron: 'm' },
-            { char: 'ن', name: 'Nūn',   pron: 'n' },
-            { char: 'ه', name: 'Hāʾ',   pron: 'h' },
-            { char: 'و', name: 'Wāw',   pron: 'w' },
-            { char: 'ي', name: 'Yāʾ',   pron: 'y' }
+            { char: 'ء', name: 'Hamza', pron: 'ʾ (glottal stop)', page: 'hamza.html' },
+            { char: 'ا', name: 'Alif',  pron: 'a',  page: 'alif.html' },
+            { char: 'ب', name: 'Bāʾ',   pron: 'b',  page: 'baa.html' },
+            { char: 'ت', name: 'Tāʾ',   pron: 't',  page: 'taa.html' },
+            { char: 'ث', name: 'Thāʾ',  pron: 'th', page: 'thaa.html' },
+            { char: 'ج', name: 'Jīm',   pron: 'j',  page: 'jeem.html' },
+            { char: 'ح', name: 'Ḥāʾ',   pron: 'h',  page: 'haa.html' },
+            { char: 'خ', name: 'Khāʾ',  pron: 'kh', page: 'khaa.html' },
+            { char: 'د', name: 'Dāl',   pron: 'd',  page: 'dal.html' },
+            { char: 'ذ', name: 'Dhāl',  pron: 'dh', page: 'dhal.html' },
+            { char: 'ر', name: 'Rāʾ',   pron: 'r',  page: 'raa.html' },
+            { char: 'ز', name: 'Zāy',   pron: 'z',  page: 'zay.html' },
+            { char: 'س', name: 'Sīn',   pron: 's',  page: 'seen.html' },
+            { char: 'ش', name: 'Shīn',  pron: 'sh', page: 'sheen.html' },
+            { char: 'ص', name: 'Ṣād',   pron: 's (deep)', page: 'saad.html' },
+            { char: 'ض', name: 'Ḍād',   pron: 'd (deep)', page: 'daad.html' },
+            { char: 'ط', name: 'Ṭāʾ',   pron: 't (deep)', page: 'taa2.html' },
+            { char: 'ظ', name: 'Ẓāʾ',   pron: 'dh (deep)', page: 'zaa.html' },
+            { char: 'ع', name: 'ʿAyn',  pron: 'ʿ (throat)', page: 'ain.html' },
+            { char: 'غ', name: 'Ghayn', pron: 'gh', page: 'ghain.html' },
+            { char: 'ف', name: 'Fāʾ',   pron: 'f',  page: 'faa.html' },
+            { char: 'ق', name: 'Qāf',   pron: 'q',  page: 'qaf.html' },
+            { char: 'ك', name: 'Kāf',   pron: 'k',  page: 'kaf.html' },
+            { char: 'ل', name: 'Lām',   pron: 'l',  page: 'lam.html' },
+            { char: 'م', name: 'Mīm',   pron: 'm',  page: 'meem.html' },
+            { char: 'ن', name: 'Nūn',   pron: 'n',  page: 'noon.html' },
+            { char: 'ه', name: 'Hāʾ',   pron: 'h',  page: 'haa2.html' },
+            { char: 'و', name: 'Wāw',   pron: 'w',  page: 'waw.html' },
+            { char: 'ي', name: 'Yāʾ',   pron: 'y',  page: 'yaa.html' }
         ];
 
         /* ============================================================
-           LETTER FORMS — start / middle / end / isolated
+           LETTER FORMS — start / middle / end / isolated (fallback popup)
            ============================================================ */
         const letterForms = {
             'ء': { start: 'ء', middle: 'ء', end: 'ء', isolated: 'ء', note: 'Hamza usually stands alone' },
@@ -754,8 +758,6 @@
 
         /* ============================================================
            WHAT AZURE SHOULD SAY FOR EACH LETTER
-           Full, fully-vowelled Arabic letter names give the clearest
-           neural pronunciation (much better than a bare glyph).
            ============================================================ */
         const letterSpeechText = {
             'ء': 'هَمْزَة',
@@ -792,7 +794,7 @@
         /* ============================================================
            AZURE TTS ENGINE (with in-memory cache)
            ============================================================ */
-        const azureAudioCache = new Map();   // char -> objectURL
+        const azureAudioCache = new Map();
         let currentAudio = null;
 
         function isAzureConfigured() {
@@ -800,7 +802,6 @@
         }
 
         function getAzureVoiceLocale(voiceName) {
-            // Infer locale from voice name, e.g. "ar-SA-HamedNeural" -> "ar-SA"
             const parts = (voiceName || '').split('-');
             if (parts.length >= 2) return `${parts[0]}-${parts[1]}`;
             return 'ar-SA';
@@ -837,7 +838,6 @@
             return res.blob();
         }
 
-        /* Browser speechSynthesis fallback (used only if Azure fails) */
         function browserSpeak(letterChar) {
             if (!window.speechSynthesis) return;
             window.speechSynthesis.cancel();
@@ -847,16 +847,13 @@
             window.speechSynthesis.speak(u);
         }
 
-        /* Main entry point used by all sound buttons */
         async function playLetterSound(letterChar, sourceBtn) {
-            // Stop any previous playback
             if (currentAudio) {
                 try { currentAudio.pause(); } catch (_) {}
                 currentAudio = null;
             }
             if (window.speechSynthesis) window.speechSynthesis.cancel();
 
-            // Fallback if Azure is not configured
             if (!isAzureConfigured()) {
                 console.warn('Azure TTS not configured — falling back to browser speechSynthesis.');
                 browserSpeak(letterChar);
@@ -881,7 +878,7 @@
                 await audio.play();
             } catch (err) {
                 console.error('Azure TTS error:', err);
-                browserSpeak(letterChar); // last-resort fallback
+                browserSpeak(letterChar);
             } finally {
                 if (sourceBtn && previousClass !== null && !currentAudio) {
                     sourceBtn.className = previousClass;
@@ -925,7 +922,7 @@
             soundBtn.innerHTML = '<span class="speaker-icon">🔊</span> Hear';
             soundBtn.setAttribute('aria-label', `Hear pronunciation of ${letter.name}`);
             soundBtn.addEventListener('click', (e) => {
-                e.stopPropagation(); // prevent card click (popup)
+                e.stopPropagation();
                 playLetterSound(letter.char, soundBtn);
             });
 
@@ -934,19 +931,24 @@
             card.appendChild(pronDiv);
             card.appendChild(soundBtn);
 
-            // Click handler: show forms popup
+            // ---- Click handler: navigate to the letter's own page ----
             card.addEventListener('click', () => {
-                if (activeCard) activeCard.classList.remove('active');
-                card.classList.add('active');
-                activeCard = card;
-                showForms(letter);
+                if (letter.page) {
+                    window.location.href = 'connecting-letters/' + letter.page;
+                } else {
+                    // Fallback: show the popup if no page is defined
+                    if (activeCard) activeCard.classList.remove('active');
+                    card.classList.add('active');
+                    activeCard = card;
+                    showForms(letter);
+                }
             });
 
             grid.appendChild(card);
         });
 
         /* ============================================================
-           LETTER FORMS POPUP
+           LETTER FORMS POPUP (fallback)
            ============================================================ */
         function showForms(letter) {
             const forms = letterForms[letter.char];
@@ -992,7 +994,7 @@
                 popupRows.appendChild(buildRow('Isolated', forms.isolated));
             }
 
-            // Sound button inside popup too
+            // Sound button inside popup
             const popupSoundBtn = document.createElement('button');
             popupSoundBtn.className = 'sound-btn';
             popupSoundBtn.style.marginTop = '1rem';
