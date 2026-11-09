@@ -437,7 +437,7 @@
             referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
           <!-- English Video -->
-          <iframe id="video-en" class="en-only" src="https://www.youtube.com/embed/#" title="Alif Madd Explanation"
+          <iframe id="video-en" class="en-only" src="https://www.youtube.com/embed/MV4zNBraK_w" title="Alif Madd Explanation"
             frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
@@ -462,8 +462,8 @@
               <span class="en-only">The Alif Madd does not carry a Hamza.</span>
             </li>
             <li>
-              <span class="ar-only">أمثلة: بَا، تَا، كَا، مَا، نَا.</span>
-              <span class="en-only">Examples: بَا، تَا، كَا، مَا، نَا.</span>
+              <span class="ar-only">أمثلة: بَاب، مَاء، قَالَ، نَامَ، كَانَ.</span>
+              <span class="en-only">Examples: بَاب، مَاء، قَالَ، نَامَ، كَانَ.</span>
             </li>
           </ul>
 
@@ -477,17 +477,17 @@
       </div>
     </section>
 
-    <!-- ============ STEP 2: LETTER CARDS ============ -->
+    <!-- ============ STEP 2: WORD CARDS ============ -->
     <section class="my-12">
       <h2 class="flex items-center gap-3 text-2xl font-bold text-amber-200 mb-6">
         <span class="w-1.5 h-8 bg-gradient-to-b from-amber-400 to-teal-400 rounded"></span>
-        <span class="ar-only">بطاقات الحروف الممدودة 🔤</span>
-        <span class="en-only">Alif Madd Letter Cards 🔤</span>
+        <span class="ar-only">كلمات فيها أَلِف المَدّ 🔤</span>
+        <span class="en-only">Words with Alif Madd 🔤</span>
       </h2>
 
       <p class="text-slate-300 mb-6">
-        <span class="ar-only">اضغط على كل بطاقة لتستمع لنطق الحرف بالمد.</span>
-        <span class="en-only">Click each card to hear the letter pronounced with Madd.</span>
+        <span class="ar-only">اضغط على كل بطاقة لتستمع لكلمة تحتوي على أَلِف المَدّ.</span>
+        <span class="en-only">Click each card to hear a real word containing Alif Madd.</span>
       </p>
 
       <div id="cardsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4"></div>
@@ -498,7 +498,7 @@
             <span class="ar-only">تقدّمك</span>
             <span class="en-only">Your progress</span>
           </span>
-          <span><span id="visitedCount">0</span> / 14</span>
+          <span><span id="visitedCount">0</span> / <span id="totalCards">14</span></span>
         </div>
         <div class="bg-white/10 h-3 rounded-full overflow-hidden">
           <div id="cardsProgress" class="h-full rounded-full progress-fill" style="width:0%"></div>
@@ -515,12 +515,12 @@
       </h2>
 
       <div class="bg-white/5 border border-amber-300/25 rounded-3xl p-8 text-center shadow-xl">
-        <div id="audioWord" class="font-ar text-6xl text-amber-300 mb-2 drop-shadow-[0_0_25px_rgba(245,197,66,0.4)]">بَا
+        <div id="audioWord" class="font-ar text-6xl text-amber-300 mb-2 drop-shadow-[0_0_25px_rgba(245,197,66,0.4)]">بَاب
         </div>
-        <div id="audioTranslit" class="italic text-slate-300 mb-2">Baa</div>
+        <div id="audioTranslit" class="italic text-slate-300 mb-2">Baab</div>
         <div id="audioMeaning" class="text-slate-400 mb-6">
-          <span class="ar-only">حَرْفُ الْبَاءِ مَعَ أَلِف المَدّ</span>
-          <span class="en-only">The letter Ba with Alif Madd</span>
+          <span class="ar-only">بَاب (مَدْخَل)</span>
+          <span class="en-only">Door</span>
         </div>
 
         <button onclick="playCurrentAudio()" id="listenBtn"
@@ -738,23 +738,23 @@
     }
 
     /* ============================================================
-       LETTER DATA
+       MADD ALIF WORDS DATA (real words containing Alif Madd)
        ============================================================ */
-    const letters = [
-      { letter: "بَا", word: "بَا", ttsText: "بَا", translit: "Baa", emoji: "🏠", en: "Baa (with Alif Madd)", ar: "بَاء مَمْدُودَة", color: "amber" },
-      { letter: "تَا", word: "تَا", ttsText: "تَا", translit: "Taa", emoji: "🍎", en: "Taa (with Alif Madd)", ar: "تَاء مَمْدُودَة", color: "sky" },
-      { letter: "ثَا", word: "ثَا", ttsText: "ثَا", translit: "Thaa", emoji: "🦊", en: "Thaa (with Alif Madd)", ar: "ثَاء مَمْدُودَة", color: "emerald" },
-      { letter: "جَا", word: "جَا", ttsText: "جَا", translit: "Jaa", emoji: "🐪", en: "Jaa (with Alif Madd)", ar: "جِيم مَمْدُودَة", color: "rose" },
-      { letter: "حَا", word: "حَا", ttsText: "حَا", translit: "Haa", emoji: "🐳", en: "Haa (with Alif Madd)", ar: "حَاء مَمْدُودَة", color: "violet" },
-      { letter: "خَا", word: "خَا", ttsText: "خَا", translit: "Khaa", emoji: "🌴", en: "Khaa (with Alif Madd)", ar: "خَاء مَمْدُودَة", color: "amber" },
-      { letter: "دَا", word: "دَا", ttsText: "دَا", translit: "Daa", emoji: "🐻", en: "Daa (with Alif Madd)", ar: "دَال مَمْدُودَة", color: "sky" },
-      { letter: "ذَا", word: "ذَا", ttsText: "ذَا", translit: "Dhaa", emoji: "🌽", en: "Dhaa (with Alif Madd)", ar: "ذَال مَمْدُودَة", color: "emerald" },
-      { letter: "رَا", word: "رَا", ttsText: "رَا", translit: "Raa", emoji: "🌹", en: "Raa (with Alif Madd)", ar: "رَاء مَمْدُودَة", color: "rose" },
-      { letter: "زَا", word: "زَا", ttsText: "زَا", translit: "Zaa", emoji: "🦓", en: "Zaa (with Alif Madd)", ar: "زَاي مَمْدُودَة", color: "violet" },
-      { letter: "سَا", word: "سَا", ttsText: "سَا", translit: "Saa", emoji: "🌊", en: "Saa (with Alif Madd)", ar: "سِين مَمْدُودَة", color: "amber" },
-      { letter: "شَا", word: "شَا", ttsText: "شَا", translit: "Shaa", emoji: "☀️", en: "Shaa (with Alif Madd)", ar: "شِين مَمْدُودَة", color: "sky" },
-      { letter: "صَا", word: "صَا", ttsText: "صَا", translit: "Saa (emphatic)", emoji: "🦅", en: "Saa (emphatic)", ar: "صَاد مَمْدُودَة", color: "emerald" },
-      { letter: "ضَا", word: "ضَا", ttsText: "ضَا", translit: "Daa (emphatic)", emoji: "🌙", en: "Daa (emphatic)", ar: "ضَاد مَمْدُودَة", color: "rose" }
+    const words = [
+      { word: "بَاب",  ttsText: "بَاب",  translit: "Baab",   meaningAr: "بَاب (مَدْخَل)",   meaningEn: "Door",        emoji: "🚪", color: "amber"   },
+      { word: "مَاء",  ttsText: "مَاء",  translit: "Maa'",   meaningAr: "مَاء (سَائِل)",    meaningEn: "Water",       emoji: "💧", color: "sky"     },
+      { word: "قَالَ", ttsText: "قَالَ", translit: "Qaala",  meaningAr: "قَالَ (تَكَلَّمَ)", meaningEn: "He said",     emoji: "💬", color: "emerald" },
+      { word: "نَامَ", ttsText: "نَامَ", translit: "Naama",  meaningAr: "نَامَ (رَقَدَ)",   meaningEn: "He slept",    emoji: "😴", color: "rose"    },
+      { word: "كَانَ", ttsText: "كَانَ", translit: "Kaana",  meaningAr: "كَانَ (وُجِدَ)",   meaningEn: "He was",      emoji: "⏳", color: "violet"  },
+      { word: "شَارَ", ttsText: "شَارَ", translit: "Shaara", meaningAr: "شَارَ (أَشَارَ)",  meaningEn: "He pointed",  emoji: "👉", color: "amber"   },
+      { word: "سَارَ", ttsText: "سَارَ", translit: "Saara",  meaningAr: "سَارَ (مَشَى)",    meaningEn: "He walked",   emoji: "🚶", color: "sky"     },
+      { word: "طَارَ", ttsText: "طَارَ", translit: "Taara",  meaningAr: "طَارَ (حَلَّقَ)",   meaningEn: "He flew",     emoji: "🕊️", color: "emerald" },
+      { word: "جَاءَ", ttsText: "جَاءَ", translit: "Jaa'a",  meaningAr: "جَاءَ (أَتَى)",    meaningEn: "He came",     emoji: "🏃", color: "rose"    },
+      { word: "رَاحَ", ttsText: "رَاحَ", translit: "Raaha",  meaningAr: "رَاحَ (ذَهَبَ)",   meaningEn: "He went",     emoji: "🚗", color: "violet"  },
+      { word: "دَارَ", ttsText: "دَارَ", translit: "Daara",  meaningAr: "دَارَ (لَفَّ)",    meaningEn: "He turned",   emoji: "🔄", color: "amber"   },
+      { word: "فَازَ", ttsText: "فَازَ", translit: "Faaza",  meaningAr: "فَازَ (نَجَحَ)",   meaningEn: "He won",      emoji: "🏆", color: "sky"     },
+      { word: "عَادَ", ttsText: "عَادَ", translit: "'Aada",  meaningAr: "عَادَ (رَجَعَ)",   meaningEn: "He returned", emoji: "↩️", color: "emerald" },
+      { word: "حَالَ", ttsText: "حَالَ", translit: "Haala",  meaningAr: "حَالَ (تَغَيَّرَ)", meaningEn: "He changed",  emoji: "🔀", color: "rose"    }
     ];
 
     const colorMap = {
@@ -770,19 +770,22 @@
 
     function renderCards() {
       cardsGrid.innerHTML = "";
-      letters.forEach((item, i) => {
+      words.forEach((item, i) => {
         const c = colorMap[item.color];
         const card = document.createElement("button");
         card.type = "button";
         card.className = `group relative p-3 sm:p-4 rounded-3xl border-2 transition-all transform hover:-translate-y-1 active:scale-95 text-center flex flex-col justify-between cursor-pointer ${c.bg} ${c.border} ${c.text} hover:shadow-md ${visitedSet.has(i) ? "ring-2 ring-teal-400" : ""}`;
         card.innerHTML = `
       <div class="my-1">
-        <span class="text-4xl sm:text-5xl font-black font-kid block group-hover:scale-110 transition-transform">${item.letter}</span>
+        <span class="text-3xl sm:text-4xl font-black font-ar block group-hover:scale-110 transition-transform">${item.word}</span>
         <span class="text-xs font-bold text-slate-500 block mt-0.5">${item.translit}</span>
       </div>
       <div class="mt-2 pt-2 border-t border-slate-200/60 flex flex-col items-center">
         <span class="text-2xl mb-1">${item.emoji}</span>
-        <span class="text-sm sm:text-base font-bold text-slate-900 block font-kid">${item.word}</span>
+        <span class="text-xs sm:text-sm font-bold text-slate-700 block text-center leading-tight">
+          <span class="ar-only">${item.meaningAr}</span>
+          <span class="en-only">${item.meaningEn}</span>
+        </span>
       </div>
       <div class="mt-2 flex items-center justify-center">
         <span class="p-1 rounded-full bg-white/80 ${c.accent} text-[10px] font-bold flex items-center gap-1 shadow-sm ${c.hover} transition-colors">
@@ -817,26 +820,27 @@
 
     function setAudioMeaning(item) {
       document.getElementById("audioMeaning").innerHTML =
-        currentLang === "ar" ? item.ar : item.en;
+        currentLang === "ar" ? item.meaningAr : item.meaningEn;
     }
 
     function updateAudioDisplayForLang() {
       const wordEl = document.getElementById("audioWord").textContent;
-      const found = letters.find(l => l.word === wordEl);
+      const found = words.find(w => w.word === wordEl);
       if (found) setAudioMeaning(found);
     }
 
     function updateCardsProgress() {
       const count = visitedSet.size;
       document.getElementById("visitedCount").textContent = count;
+      document.getElementById("totalCards").textContent = words.length;
       document.getElementById("cardsProgress").style.width =
-        ((count / letters.length) * 100) + "%";
+        ((count / words.length) * 100) + "%";
     }
 
     /* ============================================================
        AZURE NEURAL TTS ENGINE
        ============================================================ */
-    let currentTtsText = "بَا";
+    let currentTtsText = "بَاب";
 
     async function speakWithAzure(text) {
       currentTtsText = text;
@@ -922,15 +926,15 @@
       ar: [
         { q: "أَلِفُ المَدِّ تَأْتِي بَعْدَ:", options: ["فَتْحَة", "ضَمَّة", "كَسْرَة", "سُكُون"], correct: 0 },
         { q: "أَلِفُ المَدِّ تُمَدُّ بِمِقْدَارِ:", options: ["حَرَكَة وَاحِدَة", "حَرَكَتَيْن", "ثَلَاث حَرَكَات", "أَرْبَع حَرَكَات"], correct: 1 },
-        { q: "أَيُّ كَلِمَةٍ فِيهَا أَلِف مَدّ؟", options: ["كَتَبَ", "بَا", "كِتَاب", "قَلَم"], correct: 1 },
-        { q: "فِي كَلِمَة «بَا» كَمْ حَرْف؟", options: ["١", "٢", "٣", "٤"], correct: 1 },
+        { q: "أَيُّ كَلِمَةٍ فِيهَا أَلِف مَدّ؟", options: ["كَتَبَ", "بَاب", "كِتَاب", "قَلَم"], correct: 1 },
+        { q: "فِي كَلِمَة «بَاب» كَمْ حَرْف؟", options: ["١", "٢", "٣", "٤"], correct: 2 },
         { q: "أَلِفُ المَدِّ:", options: ["تَحْمِلُ هَمْزَة", "لَا تَحْمِلُ هَمْزَة", "تَحْمِلُ شَدَّة", "تَحْمِلُ سُكُون"], correct: 1 }
       ],
       en: [
         { q: "Alif Madd comes after:", options: ["Fatha", "Damma", "Kasra", "Sukoon"], correct: 0 },
         { q: "Alif Madd is stretched for:", options: ["1 count", "2 counts", "3 counts", "4 counts"], correct: 1 },
-        { q: "Which word has an Alif Madd?", options: ["Kataba (كَتَبَ)", "Baa (بَا)", "Kitab (كِتَاب)", "Qalam (قَلَم)"], correct: 1 },
-        { q: "In the word «بَا», how many letters?", options: ["1", "2", "3", "4"], correct: 1 },
+        { q: "Which word has an Alif Madd?", options: ["Kataba (كَتَبَ)", "Baab (بَاب)", "Kitab (كِتَاب)", "Qalam (قَلَم)"], correct: 1 },
+        { q: "In the word «بَاب» (Baab), how many letters?", options: ["1", "2", "3", "4"], correct: 2 },
         { q: "The Alif Madd:", options: ["Carries a Hamza", "Does NOT carry a Hamza", "Carries a Shaddah", "Carries a Sukoon"], correct: 1 }
       ]
     };
@@ -942,25 +946,25 @@
       ar: [
         { q: "أَلِفُ المَدِّ مِنْ عَلَامَات:", options: ["الْوَقْف", "التَّجْوِيد وَالضَّبْط", "التَّنْوِين", "الْمَدّ"], correct: 3 },
         { q: "أَلِفُ المَدِّ تَأْتِي بَعْدَ:", options: ["فَتْحَة", "ضَمَّة", "كَسْرَة", "سُكُون"], correct: 0 },
-        { q: "فِي كَلِمَة «مَا» أَلِفُ المَدِّ:", options: ["تَحْمِلُ هَمْزَة", "لَا تَحْمِلُ هَمْزَة", "تَحْمِلُ شَدَّة", "تَحْمِلُ سُكُون"], correct: 1 },
+        { q: "فِي كَلِمَة «مَاء» أَلِفُ المَدِّ:", options: ["تَحْمِلُ هَمْزَة", "لَا تَحْمِلُ هَمْزَة", "تَحْمِلُ شَدَّة", "تَحْمِلُ سُكُون"], correct: 1 },
         { q: "أَلِفُ المَدِّ تُمَدُّ بِمِقْدَارِ:", options: ["حَرَكَة وَاحِدَة", "حَرَكَتَيْن", "ثَلَاث حَرَكَات", "أَرْبَع حَرَكَات"], correct: 1 },
-        { q: "أَيُّ كَلِمَةٍ لَيْسَ فِيهَا أَلِف مَدّ؟", options: ["بَا", "تَا", "كَتَبَ", "نَا"], correct: 2 },
+        { q: "أَيُّ كَلِمَةٍ لَيْسَ فِيهَا أَلِف مَدّ؟", options: ["بَاب", "نَامَ", "كَتَبَ", "قَالَ"], correct: 2 },
         { q: "أَلِفُ المَدِّ تُوضَعُ:", options: ["بَعْدَ الْفَتْحَة", "قَبْلَ الْفَتْحَة", "بَعْدَ الضَّمَّة", "بَعْدَ الْكَسْرَة"], correct: 0 },
-        { q: "فِي «كَا» أَلِفُ المَدِّ بَعْدَ:", options: ["ك", "ت", "ب", "م"], correct: 0 },
+        { q: "فِي «كَانَ» أَلِفُ المَدِّ بَعْدَ:", options: ["ك", "ت", "ب", "م"], correct: 0 },
         { q: "أَلِفُ المَدِّ تُطَوِّلُ:", options: ["الصَّوْت", "الْكِتَابَة", "الْحَرْف", "النُّقْطَة"], correct: 0 },
-        { q: "أَيُّ كَلِمَةٍ تَبْدَأُ بِأَلِف مَدّ؟", options: ["الْحَمْد", "بَا", "الْكِتَاب", "الْقَلَم"], correct: 1 },
+        { q: "أَيُّ كَلِمَةٍ تَحْتَوِي عَلَى أَلِف مَدّ؟", options: ["الْحَمْد", "طَارَ", "الْكِتَاب", "الْقَلَم"], correct: 1 },
         { q: "أَلِفُ المَدِّ تُشْبِهُ:", options: ["الْفَتْحَة", "الضَّمَّة", "الْكَسْرَة", "حَرْفَ الْأَلِف الْمَمْدُود"], correct: 3 }
       ],
       en: [
         { q: "Alif Madd is one of the marks of:", options: ["Pausing (Waqf)", "Tajweed & Vowelization", "Tanween", "Madd (elongation)"], correct: 3 },
         { q: "Alif Madd comes after:", options: ["Fatha", "Damma", "Kasra", "Sukoon"], correct: 0 },
-        { q: "In the word «مَا» (Maa), the Alif Madd:", options: ["Carries a Hamza", "Does NOT carry a Hamza", "Carries a Shaddah", "Carries a Sukoon"], correct: 1 },
+        { q: "In the word «مَاء» (Maa'), the Alif Madd:", options: ["Carries a Hamza", "Does NOT carry a Hamza", "Carries a Shaddah", "Carries a Sukoon"], correct: 1 },
         { q: "Alif Madd is stretched for:", options: ["1 count", "2 counts", "3 counts", "4 counts"], correct: 1 },
-        { q: "Which word does NOT have an Alif Madd?", options: ["Baa (بَا)", "Taa (تَا)", "Kataba (كَتَبَ)", "Naa (نَا)"], correct: 2 },
+        { q: "Which word does NOT have an Alif Madd?", options: ["Baab (بَاب)", "Naama (نَامَ)", "Kataba (كَتَبَ)", "Qaala (قَالَ)"], correct: 2 },
         { q: "Alif Madd is placed:", options: ["After a Fatha", "Before a Fatha", "After a Damma", "After a Kasra"], correct: 0 },
-        { q: "In «كَا» (Kaa), the Alif Madd comes after:", options: ["Kaf", "Ta", "Ba", "Meem"], correct: 0 },
+        { q: "In «كَانَ» (Kaana), the Alif Madd comes after:", options: ["Kaf", "Ta", "Ba", "Meem"], correct: 0 },
         { q: "Alif Madd elongates:", options: ["The sound", "The writing", "The letter", "The dot"], correct: 0 },
-        { q: "Which word starts with an Alif Madd?", options: ["Al-Hamd (الْحَمْد)", "Baa (بَا)", "Al-Kitab (الْكِتَاب)", "Al-Qalam (الْقَلَم)"], correct: 1 },
+        { q: "Which word contains an Alif Madd?", options: ["Al-Hamd (الْحَمْد)", "Taara (طَارَ)", "Al-Kitab (الْكِتَاب)", "Al-Qalam (الْقَلَم)"], correct: 1 },
         { q: "Alif Madd looks like:", options: ["Fatha", "Damma", "Kasra", "A stretched Alif"], correct: 3 }
       ]
     };
