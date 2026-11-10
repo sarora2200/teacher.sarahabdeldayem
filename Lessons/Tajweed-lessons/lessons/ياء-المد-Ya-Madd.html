@@ -391,8 +391,8 @@
             referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
           <!-- English Video -->
-          <iframe id="video-en" class="en-only" src="https://www.youtube.com/embed/uxQWdKP1IE0" title="Ya Madd Explanation"
-            frameborder="0"
+          <iframe id="video-en" class="en-only" src="https://www.youtube.com/embed/uxQWdKP1IE0"
+            title="Ya Madd Explanation" frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </div>
@@ -431,17 +431,17 @@
       </div>
     </section>
 
-    <!-- ============ STEP 2: LETTER CARDS ============ -->
+    <!-- ============ STEP 2: WORD CARDS ============ -->
     <section class="my-12">
       <h2 class="flex items-center gap-3 text-2xl font-bold text-amber-200 mb-6">
         <span class="w-1.5 h-8 bg-gradient-to-b from-amber-400 to-teal-400 rounded"></span>
-        <span class="ar-only">بطاقات الحروف الممدودة بالياء 🔤</span>
-        <span class="en-only">Ya Madd Letter Cards 🔤</span>
+        <span class="ar-only">كلمات فيها يَاء المَدّ 🔤</span>
+        <span class="en-only">Words with Ya Madd 🔤</span>
       </h2>
 
       <p class="text-slate-300 mb-6">
-        <span class="ar-only">اضغط على كل بطاقة لتستمع لنطق الحرف بالياء الممدودة.</span>
-        <span class="en-only">Click each card to hear the letter pronounced with Ya Madd.</span>
+        <span class="ar-only">اضغط على كل بطاقة لتستمع لنطق الكلمة التي تحتوي على ياء المد.</span>
+        <span class="en-only">Click each card to hear a real word that contains Ya Madd.</span>
       </p>
 
       <div id="cardsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4"></div>
@@ -469,12 +469,12 @@
       </h2>
 
       <div class="bg-white/5 border border-amber-300/25 rounded-3xl p-8 text-center shadow-xl">
-        <div id="audioWord" class="font-ar text-6xl text-amber-300 mb-2 drop-shadow-[0_0_25px_rgba(245,197,66,0.4)]">بِي
+        <div id="audioWord" class="font-ar text-6xl text-amber-300 mb-2 drop-shadow-[0_0_25px_rgba(245,197,66,0.4)]">دِين
         </div>
-        <div id="audioTranslit" class="italic text-slate-300 mb-2">Bee</div>
+        <div id="audioTranslit" class="italic text-slate-300 mb-2">Deen</div>
         <div id="audioMeaning" class="text-slate-400 mb-6">
-          <span class="ar-only">حَرْفُ الْبَاءِ مَعَ يَاء المَدّ</span>
-          <span class="en-only">The letter Ba with Ya Madd</span>
+          <span class="ar-only">دِين (بِمَعْنَى: الدِّين)</span>
+          <span class="en-only">Deen — 'religion'</span>
         </div>
 
         <button onclick="playCurrentAudio()" id="listenBtn"
@@ -675,23 +675,23 @@
     }
 
     /* ============================================================
-       LETTER DATA
+       WORD DATA — all words > 2 letters, all contain Ya Madd
        ============================================================ */
     const letters = [
-      { letter: "بِي", word: "بِي", ttsText: "بِي", translit: "Bee", emoji: "🏠", en: "Bee (with Ya Madd)", ar: "بَاء مَمْدُودَة بِالْيَاء", color: "amber" },
-      { letter: "تِي", word: "تِي", ttsText: "تِي", translit: "Tee", emoji: "🍎", en: "Tee (with Ya Madd)", ar: "تَاء مَمْدُودَة بِالْيَاء", color: "sky" },
-      { letter: "ثِي", word: "ثِي", ttsText: "ثِي", translit: "Thee", emoji: "🦊", en: "Thee (with Ya Madd)", ar: "ثَاء مَمْدُودَة بِالْيَاء", color: "emerald" },
-      { letter: "جِي", word: "جِي", ttsText: "جِي", translit: "Jee", emoji: "🐪", en: "Jee (with Ya Madd)", ar: "جِيم مَمْدُودَة بِالْيَاء", color: "rose" },
-      { letter: "حِي", word: "حِي", ttsText: "حِي", translit: "Hee", emoji: "🐳", en: "Hee (with Ya Madd)", ar: "حَاء مَمْدُودَة بِالْيَاء", color: "violet" },
-      { letter: "خِي", word: "خِي", ttsText: "خِي", translit: "Khee", emoji: "🌴", en: "Khee (with Ya Madd)", ar: "خَاء مَمْدُودَة بِالْيَاء", color: "amber" },
-      { letter: "دِي", word: "دِي", ttsText: "دِي", translit: "Dee", emoji: "🐻", en: "Dee (with Ya Madd)", ar: "دَال مَمْدُودَة بِالْيَاء", color: "sky" },
-      { letter: "ذِي", word: "ذِي", ttsText: "ذِي", translit: "Dhee", emoji: "🌽", en: "Dhee (with Ya Madd)", ar: "ذَال مَمْدُودَة بِالْيَاء", color: "emerald" },
-      { letter: "رِي", word: "رِي", ttsText: "رِي", translit: "Ree", emoji: "🌹", en: "Ree (with Ya Madd)", ar: "رَاء مَمْدُودَة بِالْيَاء", color: "rose" },
-      { letter: "زِي", word: "زِي", ttsText: "زِي", translit: "Zee", emoji: "🦓", en: "Zee (with Ya Madd)", ar: "زَاي مَمْدُودَة بِالْيَاء", color: "violet" },
-      { letter: "سِي", word: "سِي", ttsText: "سِي", translit: "See", emoji: "🌊", en: "See (with Ya Madd)", ar: "سِين مَمْدُودَة بِالْيَاء", color: "amber" },
-      { letter: "شِي", word: "شِي", ttsText: "شِي", translit: "Shee", emoji: "☀️", en: "Shee (with Ya Madd)", ar: "شِين مَمْدُودَة بِالْيَاء", color: "sky" },
-      { letter: "صِي", word: "صِي", ttsText: "صِي", translit: "See (emphatic)", emoji: "🦅", en: "See (emphatic)", ar: "صَاد مَمْدُودَة بِالْيَاء", color: "emerald" },
-      { letter: "ضِي", word: "ضِي", ttsText: "ضِي", translit: "Dee (emphatic)", emoji: "🌙", en: "Dee (emphatic)", ar: "ضَاد مَمْدُودَة بِالْيَاء", color: "rose" }
+      { letter: "دِين", word: "دِين", ttsText: "دِين", translit: "Deen", emoji: "🕌", en: "Deen — 'religion'", ar: "دِين (بِمَعْنَى: الدِّين)", color: "amber" },
+      { letter: "رَحِيم", word: "رَحِيم", ttsText: "رَحِيم", translit: "Raheem", emoji: "💚", en: "Raheem — 'Merciful'", ar: "رَحِيم (بِمَعْنَى: الرَّحِيم)", color: "sky" },
+      { letter: "عَلِيم", word: "عَلِيم", ttsText: "عَلِيم", translit: "Aleem", emoji: "📚", en: "Aleem — 'All-Knowing'", ar: "عَلِيم (بِمَعْنَى: الْعَلِيم)", color: "emerald" },
+      { letter: "كَرِيم", word: "كَرِيم", ttsText: "كَرِيم", translit: "Kareem", emoji: "🎁", en: "Kareem — 'Generous'", ar: "كَرِيم (بِمَعْنَى: الْكَرِيم)", color: "rose" },
+      { letter: "حَكِيم", word: "حَكِيم", ttsText: "حَكِيم", translit: "Hakeem", emoji: "🦉", en: "Hakeem — 'Wise'", ar: "حَكِيم (بِمَعْنَى: الْحَكِيم)", color: "violet" },
+      { letter: "نَعِيم", word: "نَعِيم", ttsText: "نَعِيم", translit: "Na'eem", emoji: "🌸", en: "Na'eem — 'Bliss'", ar: "نَعِيم (بِمَعْنَى: النَّعِيم)", color: "amber" },
+      { letter: "مُبِين", word: "مُبِين", ttsText: "مُبِين", translit: "Mubeen", emoji: "💡", en: "Mubeen — 'Clear'", ar: "مُبِين (بِمَعْنَى: الْمُبِين)", color: "sky" },
+      { letter: "يَقِين", word: "يَقِين", ttsText: "يَقِين", translit: "Yaqeen", emoji: "✅", en: "Yaqeen — 'Certainty'", ar: "يَقِين (بِمَعْنَى: الْيَقِين)", color: "emerald" },
+      { letter: "مُسْلِمِين", word: "مُسْلِمِين", ttsText: "مُسْلِمِين", translit: "Muslimeen", emoji: "🧕", en: "Muslimeen — 'Muslims'", ar: "مُسْلِمِين (جَمْع: مُسْلِم)", color: "rose" },
+      { letter: "الْعَالَمِين", word: "الْعَالَمِين", ttsText: "الْعَالَمِين", translit: "Al-'Aalameen", emoji: "🌍", en: "Al-'Aalameen — 'the worlds'", ar: "الْعَالَمِين (بِمَعْنَى: الْعَالَمِين)", color: "violet" },
+      { letter: "الْمُسْتَقِيم", word: "الْمُسْتَقِيم", ttsText: "الْمُسْتَقِيم", translit: "Al-Mustaqeem", emoji: "🛤️", en: "Al-Mustaqeem — 'the straight'", ar: "الْمُسْتَقِيم (بِمَعْنَى: الْمُسْتَقِيم)", color: "amber" },
+      { letter: "الرَّحِيم", word: "الرَّحِيم", ttsText: "الرَّحِيم", translit: "Ar-Raheem", emoji: "🌟", en: "Ar-Raheem — 'the Most Merciful'", ar: "الرَّحِيم (بِمَعْنَى: الرَّحِيم)", color: "sky" },
+      { letter: "الْكَرِيم", word: "الْكَرِيم", ttsText: "الْكَرِيم", translit: "Al-Kareem", emoji: "👑", en: "Al-Kareem — 'the Generous'", ar: "الْكَرِيم (بِمَعْنَى: الْكَرِيم)", color: "emerald" },
+      { letter: "الْعَلِيم", word: "الْعَلِيم", ttsText: "الْعَلِيم", translit: "Al-Aleem", emoji: "🧠", en: "Al-Aleem — 'the All-Knowing'", ar: "الْعَلِيم (بِمَعْنَى: الْعَلِيم)", color: "rose" }
     ];
 
     const colorMap = {
@@ -714,12 +714,12 @@
         card.className = `group relative p-3 sm:p-4 rounded-3xl border-2 transition-all transform hover:-translate-y-1 active:scale-95 text-center flex flex-col justify-between cursor-pointer ${c.bg} ${c.border} ${c.text} hover:shadow-md ${visitedSet.has(i) ? "ring-2 ring-teal-400" : ""}`;
         card.innerHTML = `
       <div class="my-1">
-        <span class="text-4xl sm:text-5xl font-black font-kid block group-hover:scale-110 transition-transform">${item.letter}</span>
+        <span class="text-2xl sm:text-3xl font-black font-kid block group-hover:scale-110 transition-transform">${item.letter}</span>
         <span class="text-xs font-bold text-slate-500 block mt-0.5">${item.translit}</span>
       </div>
       <div class="mt-2 pt-2 border-t border-slate-200/60 flex flex-col items-center">
         <span class="text-2xl mb-1">${item.emoji}</span>
-        <span class="text-sm sm:text-base font-bold text-slate-900 block font-kid">${item.word}</span>
+        <span class="text-xs sm:text-sm font-bold text-slate-900 block font-kid">${currentLang === "ar" ? item.ar : item.en}</span>
       </div>
       <div class="mt-2 flex items-center justify-center">
         <span class="p-1 rounded-full bg-white/80 ${c.accent} text-[10px] font-bold flex items-center gap-1 shadow-sm ${c.hover} transition-colors">
@@ -773,7 +773,7 @@
     /* ============================================================
        AZURE NEURAL TTS ENGINE
        ============================================================ */
-    let currentTtsText = "بِي";
+    let currentTtsText = "دِين";
 
     async function speakWithAzure(text) {
       currentTtsText = text;
@@ -859,15 +859,15 @@
       ar: [
         { q: "يَاءُ المَدِّ تَأْتِي بَعْدَ:", options: ["فَتْحَة", "ضَمَّة", "كَسْرَة", "سُكُون"], correct: 2 },
         { q: "يَاءُ المَدِّ تُمَدُّ بِمِقْدَارِ:", options: ["حَرَكَة وَاحِدَة", "حَرَكَتَيْن", "ثَلَاث حَرَكَات", "أَرْبَع حَرَكَات"], correct: 1 },
-        { q: "أَيُّ كَلِمَةٍ فِيهَا يَاء مَدّ؟", options: ["كَتَبَ", "بِي", "كِتَاب", "قَلَم"], correct: 1 },
-        { q: "فِي كَلِمَة «بِي» كَمْ حَرْف؟", options: ["١", "٢", "٣", "٤"], correct: 1 },
+        { q: "أَيُّ كَلِمَةٍ فِيهَا يَاء مَدّ؟", options: ["كَتَبَ", "دِين", "كِتَاب", "قَلَم"], correct: 1 },
+        { q: "فِي كَلِمَة «دِين» كَمْ حَرْف؟", options: ["١", "٢", "٣", "٤"], correct: 2 },
         { q: "يَاءُ المَدِّ:", options: ["مُتَحَرِّكَة", "سَاكِنَة دَائِمًا", "مُشَدَّدَة", "مَحْذُوفَة"], correct: 1 }
       ],
       en: [
         { q: "Ya Madd comes after:", options: ["Fatha", "Damma", "Kasra", "Sukoon"], correct: 2 },
         { q: "Ya Madd is stretched for:", options: ["1 count", "2 counts", "3 counts", "4 counts"], correct: 1 },
-        { q: "Which word has a Ya Madd?", options: ["Kataba (كَتَبَ)", "Bee (بِي)", "Kitab (كِتَاب)", "Qalam (قَلَم)"], correct: 1 },
-        { q: "In the word «بِي», how many letters?", options: ["1", "2", "3", "4"], correct: 1 },
+        { q: "Which word has a Ya Madd?", options: ["Kataba (كَتَبَ)", "Deen (دِين)", "Kitab (كِتَاب)", "Qalam (قَلَم)"], correct: 1 },
+        { q: "In the word «دِين» (Deen), how many letters?", options: ["1", "2", "3", "4"], correct: 2 },
         { q: "The Ya Madd is:", options: ["Moving", "Always silent", "Doubled", "Deleted"], correct: 1 }
       ]
     };
@@ -879,25 +879,25 @@
       ar: [
         { q: "يَاءُ المَدِّ مِنْ عَلَامَات:", options: ["الْوَقْف", "التَّجْوِيد وَالضَّبْط", "التَّنْوِين", "الْمَدّ"], correct: 3 },
         { q: "يَاءُ المَدِّ تَأْتِي بَعْدَ:", options: ["فَتْحَة", "ضَمَّة", "كَسْرَة", "سُكُون"], correct: 2 },
-        { q: "فِي كَلِمَة «نِي» يَاءُ المَدِّ:", options: ["مُتَحَرِّكَة", "سَاكِنَة", "مُشَدَّدَة", "مَحْذُوفَة"], correct: 1 },
+        { q: "فِي كَلِمَة «نَعِيم» يَاءُ المَدِّ:", options: ["مُتَحَرِّكَة", "سَاكِنَة", "مُشَدَّدَة", "مَحْذُوفَة"], correct: 1 },
         { q: "يَاءُ المَدِّ تُمَدُّ بِمِقْدَارِ:", options: ["حَرَكَة وَاحِدَة", "حَرَكَتَيْن", "ثَلَاث حَرَكَات", "أَرْبَع حَرَكَات"], correct: 1 },
-        { q: "أَيُّ كَلِمَةٍ لَيْسَ فِيهَا يَاء مَدّ؟", options: ["بِي", "تِي", "كَتَبَ", "نِي"], correct: 2 },
+        { q: "أَيُّ كَلِمَةٍ لَيْسَ فِيهَا يَاء مَدّ؟", options: ["دِين", "رَحِيم", "كَتَبَ", "كَرِيم"], correct: 2 },
         { q: "يَاءُ المَدِّ تُوضَعُ:", options: ["بَعْدَ الْكَسْرَة", "قَبْلَ الْكَسْرَة", "بَعْدَ الْفَتْحَة", "بَعْدَ الضَّمَّة"], correct: 0 },
-        { q: "فِي «كِي» يَاءُ المَدِّ بَعْدَ:", options: ["ك", "ت", "ب", "م"], correct: 0 },
+        { q: "فِي «عَلِيم» يَاءُ المَدِّ بَعْدَ:", options: ["ل", "ت", "ب", "م"], correct: 0 },
         { q: "يَاءُ المَدِّ تُطَوِّلُ:", options: ["الصَّوْت", "الْكِتَابَة", "الْحَرْف", "النُّقْطَة"], correct: 0 },
-        { q: "أَيُّ كَلِمَةٍ تَبْدَأُ بِيَاء مَدّ؟", options: ["الْحَمْد", "بِي", "الْكِتَاب", "الْقَلَم"], correct: 1 },
+        { q: "أَيُّ كَلِمَةٍ فِيهَا يَاء مَدّ؟", options: ["الْحَمْد", "حَكِيم", "الْكِتَاب", "الْقَلَم"], correct: 1 },
         { q: "يَاءُ المَدِّ تُشْبِهُ:", options: ["الْفَتْحَة", "الضَّمَّة", "الْكَسْرَة", "حَرْفَ الْيَاء السَّاكِن"], correct: 3 }
       ],
       en: [
         { q: "Ya Madd is one of the marks of:", options: ["Pausing (Waqf)", "Tajweed & Vowelization", "Tanween", "Madd (elongation)"], correct: 3 },
         { q: "Ya Madd comes after:", options: ["Fatha", "Damma", "Kasra", "Sukoon"], correct: 2 },
-        { q: "In the word «نِي» (Nee), the Ya Madd is:", options: ["Moving", "Silent", "Doubled", "Deleted"], correct: 1 },
+        { q: "In the word «نَعِيم» (Na'eem), the Ya Madd is:", options: ["Moving", "Silent", "Doubled", "Deleted"], correct: 1 },
         { q: "Ya Madd is stretched for:", options: ["1 count", "2 counts", "3 counts", "4 counts"], correct: 1 },
-        { q: "Which word does NOT have a Ya Madd?", options: ["Bee (بِي)", "Tee (تِي)", "Kataba (كَتَبَ)", "Nee (نِي)"], correct: 2 },
+        { q: "Which word does NOT have a Ya Madd?", options: ["Deen (دِين)", "Raheem (رَحِيم)", "Kataba (كَتَبَ)", "Kareem (كَرِيم)"], correct: 2 },
         { q: "Ya Madd is placed:", options: ["After a Kasra", "Before a Kasra", "After a Fatha", "After a Damma"], correct: 0 },
-        { q: "In «كِي» (Kee), the Ya Madd comes after:", options: ["Kaf", "Ta", "Ba", "Meem"], correct: 0 },
+        { q: "In «عَلِيم» (Aleem), the Ya Madd comes after:", options: ["Lam", "Ta", "Ba", "Meem"], correct: 0 },
         { q: "Ya Madd elongates:", options: ["The sound", "The writing", "The letter", "The dot"], correct: 0 },
-        { q: "Which word starts with a Ya Madd?", options: ["Al-Hamd (الْحَمْد)", "Bee (بِي)", "Al-Kitab (الْكِتَاب)", "Al-Qalam (الْقَلَم)"], correct: 1 },
+        { q: "Which word has a Ya Madd?", options: ["Al-Hamd (الْحَمْد)", "Hakeem (حَكِيم)", "Al-Kitab (الْكِتَاب)", "Al-Qalam (الْقَلَم)"], correct: 1 },
         { q: "Ya Madd looks like:", options: ["Fatha", "Damma", "Kasra", "A silent Ya"], correct: 3 }
       ]
     };

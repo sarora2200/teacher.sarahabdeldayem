@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>ع letter Ain - Fun Learning for Kids</title>
+    <link rel="icon" type="image/png" href="../../../../images/quran.png">
+    <link rel="apple-touch-icon" href="images/quran.png">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Comic Sans MS', 'Chalkboard SE', 'Segoe UI', cursive, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #fde8b3 0%, #fccf8b 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        /* ===== CIRCULAR ZOOM CONTROLS ===== */
+        .zoom-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 999;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 5px;
+            border-radius: 50px;
+            border: 3px solid #f9b83a;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            backdrop-filter: blur(5px);
+        }
+
+        .zoom-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #e0b060;
+            background: #ffe0a3;
+            cursor: pointer;
+            font-weight: bold;
+            color: #6b3e0e;
+            font-size: 1.3rem;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            line-height: 1;
+            box-shadow: 0 3px 0 #b86b00;
+        }
+
+        .zoom-btn:hover {
+            background: #ffd080;
+            transform: scale(1.05);
+        }
+
+        .zoom-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #b86b00;
+        }
+
+        /* ===== CIRCULAR LANGUAGE TOGGLE ===== */
+        .lang-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 999;
+            display: flex;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 5px;
+            border-radius: 50px;
+            border: 3px solid #f9b83a;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            backdrop-filter: blur(5px);
+        }
+
+        .lang-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #e0b060;
+            background: #ffe0a3;
+            cursor: pointer;
+            font-weight: bold;
+            color: #6b3e0e;
+            font-size: 0.9rem;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            line-height: 1;
+        }
+
+        .lang-btn:hover {
+            background: #ffd080;
+            transform: scale(1.05);
+        }
+
+        .lang-btn.active {
+            background: #ff9f1c;
+            color: white;
+            border-color: #b86b00;
+            box-shadow: 0 3px 0 #b86b00;
+            transform: scale(1.05);
+        }
+
+        /* main container */
+        .page {
+            max-width: 1300px;
+            width: 100%;
+            background: #fff9e6;
+            border-radius: 80px 80px 40px 40px;
+            padding: 25px 30px 40px;
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.2), inset 0 0 0 8px #ffe9b5;
+            border: 8px solid #f9b83a;
+            transition: transform 0.2s;
+            transform-origin: center;
+        }
+
+        h1 {
+            font-size: 4rem;
+            text-align: center;
+            color: #c44b1e;
+            margin: 0 0 5px;
+            text-shadow: 4px 4px 0 #ffd966, 6px 6px 0 rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        h1 span {
+            background: #ffb347;
+            border-radius: 100px;
+            padding: 0 30px;
+            display: inline-block;
+            color: #2d1b0e;
+            font-size: 3rem;
+            border: 5px solid #fff0cc;
+        }
+
+        .subhead {
+            text-align: center;
+            font-size: 1.8rem;
+            color: #7a3e1a;
+            margin: 10px auto 30px;
+            background: #ffefc0;
+            border-radius: 50px;
+            padding: 12px 20px;
+            display: block;
+            width: fit-content;
+            border: 4px dashed #f9b83a;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .section {
+            background: #ffffffd9;
+            border-radius: 60px;
+            padding: 25px 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 0 #e0b060, 0 15px 20px rgba(0, 0, 0, 0.1);
+            border: 5px solid #f3c26b;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: #b14b00;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            background: #ffeab5;
+            padding: 8px 30px;
+            border-radius: 50px;
+            width: fit-content;
+            border: 4px solid #f9b83a;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+            flex-wrap: wrap;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .card {
+            background: #fffaec;
+            border-radius: 50px;
+            padding: 20px;
+            box-shadow: 0 8px 0 #dba959, 0 10px 20px rgba(0, 0, 0, 0.1);
+            border: 4px solid #ffca7a;
+            flex: 1 1 250px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: scale(1.02);
+            background: #fff9e0;
+        }
+
+        .position-label {
+            font-size: 2rem;
+            background: #ffd966;
+            border-radius: 40px;
+            padding: 5px 20px;
+            display: inline-block;
+            margin-bottom: 15px;
+            color: #3b2a0f;
+            border: 3px solid #c49a3b;
+        }
+
+        .arabic-big {
+            font-size: 7rem;
+            line-height: 1.2;
+            color: #a13e00;
+            font-weight: bold;
+            text-shadow: 3px 3px 0 #ffb347;
+            margin: 5px 0;
+        }
+
+        .example-word {
+            font-size: 2.4rem;
+            background: #f8e2b0;
+            border-radius: 50px;
+            padding: 10px 15px;
+            display: inline-block;
+            margin: 10px 0;
+            border: 3px dashed #ce8e3b;
+            color: #4a2a0a;
+        }
+
+        .emoji-pic {
+            font-size: 5rem;
+            margin: 10px 0;
+            filter: drop-shadow(4px 6px 0 rgba(0, 0, 0, 0.15));
+        }
+
+        .english-desc {
+            font-size: 1.6rem;
+            color: #7b4a1e;
+            background: #fff0d1;
+            border-radius: 30px;
+            padding: 6px 15px;
+            display: inline-block;
+        }
+
+        /* Practice section */
+        .practice-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 35px;
+            align-items: center;
+        }
+
+        .trace-box {
+            background: #fff7e0;
+            border-radius: 40px;
+            padding: 25px;
+            border: 6px solid #f9b83a;
+            box-shadow: 0 8px 0 #b47d2e;
+            flex: 1 1 300px;
+        }
+
+        .trace-box p {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #5e3310;
+            text-align: center;
+        }
+
+        .dotted-letter {
+            font-size: 7rem;
+            letter-spacing: 20px;
+            color: #d4a373;
+            text-shadow: 2px 2px 0 #b5835a;
+            opacity: 0.6;
+            -webkit-text-stroke: 3px #b47d2e;
+            line-height: 1.3;
+            background: repeating-linear-gradient(45deg, #fff3d6, #fff3d6 10px, #ffeec2 10px, #ffeec2 20px);
+            border-radius: 30px;
+            padding: 10px 0;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .practice-emoji {
+            font-size: 2.5rem;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Video section */
+        .video-wrapper {
+            display: flex;
+            justify-content: center;
+            border-radius: 50px;
+            overflow: hidden;
+            border: 10px solid #ffbf4d;
+            box-shadow: 0 15px 0 #a5661b, 0 20px 30px rgba(0, 0, 0, 0.2);
+            background: #000;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        iframe {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border: none;
+        }
+
+        /* GAME */
+        .game-container {
+            background: #d9f0f7;
+            border-radius: 70px;
+            padding: 25px;
+            border: 6px solid #5fb3d9;
+            box-shadow: 0 10px 0 #3a7a9c;
+            margin-top: 25px;
+        }
+
+        .game-title {
+            font-size: 2rem;
+            text-align: center;
+            color: #114d6b;
+            background: #ffffffb0;
+            border-radius: 40px;
+            padding: 10px;
+            border: 3px solid #3a7a9c;
+        }
+
+        .game-subtitle {
+            font-size: 1.3rem;
+            text-align: center;
+            color: #114d6b;
+            margin-top: 8px;
+            background: #ffffff80;
+            border-radius: 30px;
+            padding: 6px 15px;
+            display: inline-block;
+            margin-left: auto;
+            margin-right: auto;
+            width: fit-content;
+        }
+
+        .shape-options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .shape-card {
+            background: #fef9e8;
+            border-radius: 50px;
+            padding: 20px 35px;
+            font-size: 4.5rem;
+            cursor: pointer;
+            box-shadow: 0 10px 0 #b3a17b;
+            border: 5px solid #e0c384;
+            transition: all 0.1s ease;
+            line-height: 1.2;
+            color: #5f3f1a;
+            user-select: none;
+            min-width: 180px;
+            text-align: center;
+        }
+
+        .shape-card:hover {
+            transform: scale(1.05);
+            background: #fff8df;
+        }
+
+        .shape-card.correct {
+            background: #b6e5b6 !important;
+            border-color: #2e8b57;
+            box-shadow: 0 10px 0 #1e5e3a;
+        }
+
+        .shape-card.wrong {
+            background: #f8b6b6 !important;
+            border-color: #b33b3b;
+            box-shadow: 0 10px 0 #7a2020;
+            animation: shake 0.3s;
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            50% { transform: translateX(10px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
+        }
+
+        .game-feedback {
+            font-size: 2rem;
+            text-align: center;
+            min-height: 4rem;
+            color: #1b5e3f;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        .reset-game {
+            background: #5fb3d9;
+            border: none;
+            font-size: 1.8rem;
+            padding: 12px 30px;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 7px 0 #2e6b88;
+            border: 3px solid #a3d0e8;
+            font-weight: bold;
+            transition: 0.1s;
+            display: block;
+            margin: 20px auto 0;
+        }
+
+        .reset-game:active {
+            transform: translateY(5px);
+            box-shadow: 0 2px 0 #2e6b88;
+        }
+
+        /* ===================== WHITEBOARD SECTION ===================== */
+        .whiteboard-container {
+            background: #ffffff;
+            border-radius: 40px;
+            padding: 14px;
+            border: 6px solid #f9b83a;
+            box-shadow: 0 10px 0 #b47d2e, inset 0 0 15px rgba(0,0,0,0.05);
+        }
+
+        /* COMPACT ONE-LINE TOOLBAR */
+        .wb-toolbar {
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 6px;
+            background: linear-gradient(135deg, #fff4d6 0%, #ffe8b5 100%);
+            border-radius: 24px;
+            padding: 6px 10px;
+            border: 3px solid #f9b83a;
+            box-shadow: 0 4px 0 #b47d2e;
+            margin-bottom: 10px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .wb-toolbar::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .wb-toolbar::-webkit-scrollbar-thumb {
+            background: #f9b83a;
+            border-radius: 10px;
+        }
+
+        /* Mode icon buttons */
+        .mode-icon-btn {
+            flex: 0 0 auto;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: 2px solid #dba959;
+            background: #fff7e0;
+            font-size: 1.4rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 0 #b47d2e;
+            transition: 0.1s;
+            padding: 0;
+            line-height: 1;
+        }
+
+        .mode-icon-btn:hover {
+            background: #fff3d6;
+            transform: scale(1.05);
+        }
+
+        .mode-icon-btn.active-tool {
+            background: #7ec8e3;
+            border-color: #3a7a9c;
+            box-shadow: 0 3px 0 #3a7a9c;
+        }
+
+        .mode-icon-btn.eraser.active-tool {
+            background: #f4a261;
+            border-color: #b35e1a;
+            box-shadow: 0 3px 0 #b35e1a;
+        }
+
+        .mode-icon-btn.sticker.active-tool {
+            background: #c8a2ff;
+            border-color: #6a3fa0;
+            box-shadow: 0 3px 0 #6a3fa0;
+        }
+
+        /* Separator */
+        .toolbar-sep {
+            flex: 0 0 auto;
+            width: 2px;
+            height: 30px;
+            background: #e0b060;
+            border-radius: 2px;
+            margin: 0 2px;
+        }
+
+        /* Colors one line */
+        .color-palette {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 3px;
+            flex: 0 0 auto;
+        }
+
+        .color-swatch {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 2px 0 rgba(0,0,0,0.2);
+            transition: transform 0.1s;
+            flex: 0 0 auto;
+        }
+
+        .color-swatch:hover {
+            transform: scale(1.2);
+        }
+
+        .color-swatch.selected {
+            border: 3px solid #2a4d6e;
+            box-shadow: 0 0 0 2px #ffd966, 0 2px 0 rgba(0,0,0,0.2);
+            transform: scale(1.15);
+        }
+
+        /* Brush sizes one line */
+        .brush-sizes {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 3px;
+            align-items: center;
+            flex: 0 0 auto;
+        }
+
+        .brush-size-btn {
+            background: #fff7e0;
+            border: 2px solid #dba959;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.1s;
+            box-shadow: 0 2px 0 #b47d2e;
+            width: 30px;
+            height: 30px;
+            padding: 0;
+            flex: 0 0 auto;
+        }
+
+        .brush-size-btn:hover {
+            background: #fff3d6;
+        }
+
+        .brush-size-btn.selected {
+            border-color: #2a4d6e;
+            box-shadow: 0 0 0 2px #ffd966, 0 2px 0 #b47d2e;
+            background: #ffeab5;
+        }
+
+        .brush-size-dot {
+            display: block;
+            background: #2a4d6e;
+            border-radius: 50%;
+        }
+
+        /* Stickers one line */
+        .sticker-palette {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 2px;
+            flex: 0 0 auto;
+        }
+
+        .sticker-item {
+            font-size: 1.15rem;
+            cursor: pointer;
+            text-align: center;
+            padding: 2px 3px;
+            border-radius: 8px;
+            border: 2px solid transparent;
+            transition: 0.1s;
+            background: #fffaf0;
+            user-select: none;
+            line-height: 1.1;
+            flex: 0 0 auto;
+        }
+
+        .sticker-item:hover {
+            background: #ffeab5;
+            transform: scale(1.15);
+        }
+
+        .sticker-item.selected {
+            border: 2px solid #2a4d6e;
+            background: #ffd966;
+        }
+
+        /* Action icon buttons */
+        .action-icon-btn {
+            flex: 0 0 auto;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 2px solid #dba959;
+            background: #9bd1a0;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 0 #4d8a55;
+            transition: 0.1s;
+            padding: 0;
+            line-height: 1;
+        }
+
+        .action-icon-btn:hover {
+            transform: scale(1.05);
+            filter: brightness(1.05);
+        }
+
+        .action-icon-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #4d8a55;
+        }
+
+        .action-icon-btn.clear-btn {
+            background: #f4a261;
+            box-shadow: 0 3px 0 #b35e1a;
+            border-color: #ffd8a8;
+        }
+
+        /* Canvas area — adaptive height */
+        .canvas-area {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 4px dashed #f9b83a;
+            background: #fefef7;
+            width: 100%;
+        }
+
+        #whiteboardCanvas {
+            display: block;
+            width: 100%;
+            height: 60vh;
+            max-height: 520px;
+            min-height: 260px;
+            cursor: crosshair;
+            touch-action: none;
+        }
+
+        .wb-hint {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #7b4a1e;
+            margin-top: 8px;
+        }
+
+        /* Example grid for 20+ words */
+        .example-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .example-item {
+            background: #fffaec;
+            border-radius: 30px;
+            padding: 12px 8px;
+            text-align: center;
+            border: 3px solid #ffca7a;
+            box-shadow: 0 5px 0 #dba959;
+            transition: transform 0.1s;
+        }
+
+        .example-item:hover {
+            transform: scale(1.03);
+            background: #fff3d6;
+        }
+
+        .example-item .arabic-word {
+            font-size: 2rem;
+            color: #a13e00;
+            font-weight: bold;
+            direction: rtl;
+        }
+
+        .example-item .emoji {
+            font-size: 2rem;
+        }
+
+        .example-item .translit {
+            font-size: 1.1rem;
+            color: #7b4a1e;
+            background: #fff0d1;
+            border-radius: 20px;
+            padding: 2px 8px;
+            display: inline-block;
+            margin-top: 4px;
+        }
+
+        /* hide elements based on language */
+        .lang-en .ar-text { display: none; }
+        .lang-ar .en-text { display: none; }
+
+        @media (max-width: 900px) {
+            .wb-toolbar {
+                gap: 4px;
+                padding: 5px 8px;
+            }
+            .color-swatch { width: 22px; height: 22px; }
+            .brush-size-btn { width: 28px; height: 28px; }
+            .sticker-item { font-size: 1rem; padding: 1px 2px; }
+            .mode-icon-btn { width: 38px; height: 38px; font-size: 1.2rem; }
+            .action-icon-btn { width: 34px; height: 34px; font-size: 1.05rem; }
+        }
+
+        @media (max-width: 700px) {
+            h1 { font-size: 3rem; }
+            .section-title { font-size: 1.8rem; }
+            .arabic-big { font-size: 5rem; }
+            .zoom-btn { width: 34px; height: 34px; font-size: 1.1rem; }
+            .lang-btn { width: 34px; height: 34px; font-size: 0.8rem; }
+            .page { padding: 15px; }
+            #whiteboardCanvas { height: 45vh; min-height: 220px; }
+            .shape-card { font-size: 3rem; min-width: 120px; padding: 15px 20px; }
+            .wb-toolbar {
+                gap: 3px;
+                padding: 4px 6px;
+            }
+            .color-swatch { width: 20px; height: 20px; }
+            .brush-size-btn { width: 26px; height: 26px; }
+            .sticker-item { font-size: 0.9rem; padding: 1px 2px; }
+            .mode-icon-btn { width: 34px; height: 34px; font-size: 1.05rem; }
+            .action-icon-btn { width: 30px; height: 30px; font-size: 0.95rem; }
+            .toolbar-sep { height: 24px; }
+        }
+    </style>
+</head>
+<body class="lang-en">
+
+    <!-- CIRCULAR LANGUAGE TOGGLE -->
+    <div class="lang-toggle">
+        <button class="lang-btn active" id="langEnBtn" title="English">EN</button>
+        <button class="lang-btn" id="langArBtn" title="العربية">ع</button>
+    </div>
+
+    <!-- CIRCULAR ZOOM CONTROLS (vertical) -->
+    <div class="zoom-controls">
+        <button class="zoom-btn" id="zoomInBtn" aria-label="Zoom in">+</button>
+        <button class="zoom-btn" id="zoomOutBtn" aria-label="Zoom out">−</button>
+    </div>
+
+    <div class="page" id="zoomPage">
+        <h1>
+            <span>ع</span> 
+            <span style="font-size:2.5rem; background:#ffb347;" class="en-text">Ain</span>
+            <span style="font-size:2.5rem; background:#ffb347;" class="ar-text">عين</span>
+        </h1>
+        <div class="subhead en-text">🎈 Learn the letter Ain with fun! 🎈</div>
+        <div class="subhead ar-text">🎈 تعلم حرف العين مع مرح 🎈</div>
+
+        <!-- BEGIN / MIDDLE / END SECTION -->
+        <div class="section">
+            <div class="section-title">
+                <span class="en-text">✨ Ain in words ✨</span>
+                <span class="ar-text">✨ حرف العين في الكلمات ✨</span>
+            </div>
+            <div class="row">
+                <div class="card">
+                    <div class="position-label en-text">🏁 End</div>
+                    <div class="position-label ar-text">🏁 النهاية</div>
+                    <div class="arabic-big">ـع</div>
+                    <div class="example-word">شَمْع</div>
+                    <div class="emoji-pic">🕯️</div>
+                    <div class="english-desc en-text">Sham' (Candle)</div>
+                    <div class="english-desc ar-text">شَمْع (شمع)</div>
+                </div>
+                <div class="card">
+                    <div class="position-label en-text">⚽ Middle</div>
+                    <div class="position-label ar-text">⚽ الوسط</div>
+                    <div class="arabic-big">ـعـ</div>
+                    <div class="example-word">مَعْلُومَة</div>
+                    <div class="emoji-pic">💡</div>
+                    <div class="english-desc en-text">Ma'looma (Information)</div>
+                    <div class="english-desc ar-text">مَعْلُومَة (معلومة)</div>
+                </div>
+                   <div class="card">
+                    <div class="position-label en-text">🚀 Beginning</div>
+                    <div class="position-label ar-text">🚀 البداية</div>
+                    <div class="arabic-big">عـ</div>
+                    <div class="example-word">عَيْن</div>
+                    <div class="emoji-pic">👁️</div>
+                    <div class="english-desc en-text">Ayn (Eye)</div>
+                    <div class="english-desc ar-text">عَيْن (عين)</div>
+                </div>
+            </div>
+            <div style="text-align:center; margin-top:20px; font-size:1.3rem; color:#7a3e1a; background:#fff3d6; border-radius:30px; padding:10px 20px; border:3px dashed #f9b83a;">
+                <span class="en-text">💡 Ain is a connecting letter — it joins the letter after it. At the <strong>beginning</strong> it looks like <strong>عـ</strong>, in the <strong>middle</strong> like <strong>ـعـ</strong>, and at the <strong>end</strong> like <strong>ـع</strong>.</span>
+                <span class="ar-text">💡 العين حرف متصل بما بعده. في <strong>البداية</strong> يأتي <strong>عـ</strong>، وفي <strong>الوسط</strong> <strong>ـعـ</strong>، وفي <strong>النهاية</strong> <strong>ـع</strong>.</span>
+            </div>
+        </div>
+
+        <!-- 20 EXAMPLES OF AIN (BALANCED: 7 BEGINNING / 7 MIDDLE / 6 END) -->
+        <div class="section">
+            <div class="section-title">
+                <span class="en-text">📚 Examples </span>
+                <span class="ar-text">📚 أمثلة</span>
+            </div>
+            <div class="example-grid" id="exampleGrid"></div>
+        </div>
+
+        <!-- ===================== WHITEBOARD ===================== -->
+        <div class="section">
+            <div class="section-title">
+                <span class="en-text">🖌️ Whiteboard</span>
+                <span class="ar-text">🖌️ لوح أبيض للكتابة</span>
+            </div>
+
+            <div class="whiteboard-container">
+                <!-- COMPACT ONE-LINE TOOLBAR -->
+                <div class="wb-toolbar" id="wbToolbar">
+                    <button class="mode-icon-btn active-tool" id="modeBrushBtn" title="Brush">✏️</button>
+                    <button class="mode-icon-btn eraser" id="modeEraserBtn" title="Eraser">🧽</button>
+                    <button class="mode-icon-btn sticker" id="modeStickerBtn" title="Stickers">⭐</button>
+
+                    <div class="toolbar-sep"></div>
+
+                    <div class="color-palette" id="colorPalette"></div>
+
+                    <div class="toolbar-sep"></div>
+
+                    <div class="brush-sizes" id="brushSizes"></div>
+
+                    <div class="toolbar-sep"></div>
+
+                    <div class="sticker-palette" id="stickerPalette"></div>
+
+                    <div class="toolbar-sep"></div>
+
+                    <button class="action-icon-btn" id="undoToolBtn" title="Undo">↩️</button>
+                    <button class="action-icon-btn clear-btn" id="clearToolBtn" title="Clear all">🗑️</button>
+                </div>
+
+                <!-- CANVAS (adaptive) -->
+                <div class="canvas-area">
+                    <canvas id="whiteboardCanvas" width="1000" height="500"></canvas>
+                </div>
+
+                <p class="wb-hint en-text">✏️ Draw the letter Ain here!</p>
+                <p class="wb-hint ar-text">✏️ ارسم حرف العين هنا!</p>
+            </div>
+        </div>
+
+        <!-- PRACTICE SECTION -->
+        <div class="section">
+            <div class="section-title">
+                <span class="en-text">✏️ Practice</span>
+                <span class="ar-text">✏️ تدريب</span>
+            </div>
+            <div class="practice-grid">
+                <div class="trace-box">
+                    <p class="en-text">🔹 Trace the letter</p>
+                    <p class="ar-text">🔹 تتبع الحرف</p>
+                    <div class="dotted-letter">عـ  ـعـ  ـع</div>
+                    <div class="practice-emoji">
+                        <span>✍️</span> <span>🎨</span>
+                    </div>
+                    <p style="font-size:1.5rem; margin-top:10px;" class="en-text">Use your finger!</p>
+                    <p style="font-size:1.5rem; margin-top:10px;" class="ar-text">استخدم إصبعك!</p>
+                </div>
+                <div class="trace-box" style="background:#ffe6b0;">
+                    <p class="en-text">🔹 Say the letter</p>
+                    <p class="ar-text">🔹 انطق الحرف</p>
+                    <div style="font-size:5rem; display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
+                        <span>عَ</span> <span>عِ</span> <span>عُ</span>
+                    </div>
+                    <div class="practice-emoji" style="font-size:2rem; margin-top:15px;">
+                        <span>🗣️</span> <span>👂</span> <span>🎤</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIDEO -->
+        <div class="section">
+            <div class="section-title">
+                <span class="en-text">🎬 Video</span>
+                <span class="ar-text">🎬 فيديو</span>
+            </div>
+            <div class="video-wrapper">
+                <iframe src="https://www.youtube.com/embed/bZGWOwRRSIE" title="YouTube video about letter Ain" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+
+        <!-- GAME: AIN SHAPES -->
+        <div class="section" style="background: #e2f2fc;">
+            <div class="section-title" style="background: #b8e2f5; border-color: #5fb3d9;">
+                <span class="en-text">🎮 Ain Shapes Game</span>
+                <span class="ar-text">🎮 لعبة أشكال العين</span>
+            </div>
+            <div class="game-container">
+                <div class="game-title" id="gameTitle"></div>
+                <div class="game-subtitle en-text">🔍 Choose the correct Ain shape (beginning, middle, end)</div>
+                <div class="game-subtitle ar-text">🔍 اختر الشكل الصحيح لحرف العين (بداية، وسط، نهاية)</div>
+                <div class="shape-options" id="shapeOptions"></div>
+                <div class="game-feedback" id="gameFeedback"></div>
+                <button class="reset-game" id="resetGameBtn">
+                    <span class="en-text">🔄 Play again</span>
+                    <span class="ar-text">🔄 العب مرة أخرى</span>
+                </button>
+            </div>
+        </div>
+
+        <div style="text-align: center; font-size: 2rem; color: #b75e00; margin-top: 20px;">
+            <span class="en-text">🌟 Great job! 🌟</span>
+            <span class="ar-text">🌟 أحسنت! 🌟</span>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // ---------- LANGUAGE TOGGLE ----------
+            const body = document.body;
+            const langEnBtn = document.getElementById('langEnBtn');
+            const langArBtn = document.getElementById('langArBtn');
+            let currentLang = 'en';
+
+            function setLanguage(lang) {
+                currentLang = lang;
+                if (lang === 'en') {
+                    body.classList.add('lang-en');
+                    body.classList.remove('lang-ar');
+                    langEnBtn.classList.add('active');
+                    langArBtn.classList.remove('active');
+                    document.documentElement.lang = 'en';
+                } else {
+                    body.classList.add('lang-ar');
+                    body.classList.remove('lang-en');
+                    langArBtn.classList.add('active');
+                    langEnBtn.classList.remove('active');
+                    document.documentElement.lang = 'ar';
+                }
+                renderGame();
+            }
+
+            langEnBtn.addEventListener('click', () => setLanguage('en'));
+            langArBtn.addEventListener('click', () => setLanguage('ar'));
+
+            // ---------- ZOOM ----------
+            const page = document.getElementById('zoomPage');
+            let currentScale = 1.0;
+            const ZOOM_STEP = 0.1;
+            const MAX_ZOOM = 2.0;
+            const MIN_ZOOM = 0.6;
+
+            function updateZoom() {
+                page.style.transform = `scale(${currentScale})`;
+            }
+
+            document.getElementById('zoomInBtn').addEventListener('click', () => {
+                if (currentScale < MAX_ZOOM) {
+                    currentScale = Math.min(MAX_ZOOM, currentScale + ZOOM_STEP);
+                    updateZoom();
+                }
+            });
+
+            document.getElementById('zoomOutBtn').addEventListener('click', () => {
+                if (currentScale > MIN_ZOOM) {
+                    currentScale = Math.max(MIN_ZOOM, currentScale - ZOOM_STEP);
+                    updateZoom();
+                }
+            });
+
+            // ---------- 20 EXAMPLE WORDS (7 BEGINNING / 7 MIDDLE / 6 END) ----------
+            const words = [
+                // ── BEGINNING (7 examples) — Ain at start of word ──────
+                { arabic: "عَيْن",     translit: "Ayn",        emoji: "👁️", meaning: "Eye" },
+                { arabic: "عَسَل",     translit: "Asal",       emoji: "🍯", meaning: "Honey" },
+                { arabic: "عُصْفُور",  translit: "Usfoor",     emoji: "🐦", meaning: "Sparrow" },
+                { arabic: "عَلَم",     translit: "Alam",       emoji: "🚩", meaning: "Flag" },
+                { arabic: "عِنَب",     translit: "Inab",       emoji: "🍇", meaning: "Grapes" },
+                { arabic: "عَقْل",     translit: "Aql",        emoji: "🧠", meaning: "Mind" },
+                { arabic: "عُمْلَة",   translit: "Umla",       emoji: "🪙", meaning: "Currency" },
+
+                // ── MIDDLE (7 examples) — Ain in the middle ────────────
+                { arabic: "مَعْلُومَة", translit: "Ma'looma",  emoji: "💡", meaning: "Information" },
+                { arabic: "مَعْرِفَة",  translit: "Ma'rifa",   emoji: "📚", meaning: "Knowledge" },
+                { arabic: "أَعْيَاد",   translit: "A'yaad",    emoji: "🎉", meaning: "Eids" },
+                { arabic: "مِعْطَف",    translit: "Mi'taf",    emoji: "🧥", meaning: "Coat" },
+                { arabic: "بَعِيد",     translit: "Ba'eed",    emoji: "🛣️", meaning: "Far" },
+                { arabic: "سَعِيد",     translit: "Sa'eed",    emoji: "😊", meaning: "Happy" },
+                { arabic: "يَعْمَل",    translit: "Ya'mal",    emoji: "💼", meaning: "Works" },
+
+                // ── END (6 examples) — Ain at the end ──────────────────
+                { arabic: "شَمْع",     translit: "Sham'",      emoji: "🕯️", meaning: "Candle" },
+                { arabic: "جَمْع",     translit: "Jam'",       emoji: "👥", meaning: "Gathering" },
+                { arabic: "مَنْع",     translit: "Man'",       emoji: "🚫", meaning: "Prevention" },
+                { arabic: "بَيْع",     translit: "Bay'",       emoji: "🛍️", meaning: "Selling" },
+                { arabic: "رَبِيع",    translit: "Rabee'",     emoji: "🌸", meaning: "Spring" },
+                { arabic: "جَامِع",    translit: "Jami'",      emoji: "🕌", meaning: "Mosque" }
+            ];
+
+            function renderExampleGrid() {
+                const grid = document.getElementById('exampleGrid');
+                grid.innerHTML = '';
+                words.forEach(w => {
+                    const item = document.createElement('div');
+                    item.className = 'example-item';
+                    item.innerHTML = `
+                        <div class="arabic-word">${w.arabic}</div>
+                        <div class="emoji">${w.emoji}</div>
+                        <div class="translit">${w.translit} (${w.meaning})</div>
+                    `;
+                    grid.appendChild(item);
+                });
+            }
+            renderExampleGrid();
+
+            // ============================================================
+            // ===================== WHITEBOARD APP ======================
+            // ============================================================
+            const canvas = document.getElementById('whiteboardCanvas');
+            const ctx = canvas.getContext('2d');
+
+            let mode = 'brush';
+            let currentColor = '#2a4d6e';
+            let currentSize = 6;
+            let eraserSize = 30;
+            let currentSticker = '⭐';
+
+            const history = [];
+            const MAX_HISTORY = 30;
+
+            let drawing = false;
+            let lastPos = null;
+
+            function setupCanvas() {
+                const rect = canvas.getBoundingClientRect();
+                canvas.width = rect.width * 2;
+                canvas.height = rect.height * 2;
+                ctx.scale(2, 2);
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+                ctx.fillStyle = '#fefef7';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                pushHistory();
+            }
+
+            function pushHistory() {
+                try {
+                    const snapshot = canvas.toDataURL();
+                    history.push(snapshot);
+                    if (history.length > MAX_HISTORY) history.shift();
+                } catch (e) { /* ignore */ }
+            }
+
+            function restoreHistory(index) {
+                if (index < 0 || index >= history.length) return;
+                const img = new Image();
+                img.onload = function() {
+                    ctx.clearRect(0, 0, canvas.width / 2, canvas.height / 2);
+                    ctx.drawImage(img, 0, 0, canvas.width / 2, canvas.height / 2);
+                };
+                img.src = history[index];
+            }
+
+            function undo() {
+                if (history.length > 1) {
+                    history.pop();
+                    restoreHistory(history.length - 1);
+                } else {
+                    ctx.fillStyle = '#fefef7';
+                    ctx.fillRect(0, 0, canvas.width / 2, canvas.height / 2);
+                }
+            }
+
+            function clearAll() {
+                ctx.fillStyle = '#fefef7';
+                ctx.fillRect(0, 0, canvas.width / 2, canvas.height / 2);
+                history.length = 0;
+                pushHistory();
+            }
+
+            function getPos(e) {
+                const rect = canvas.getBoundingClientRect();
+                const scaleX = (canvas.width / 2) / rect.width;
+                const scaleY = (canvas.height / 2) / rect.height;
+                let clientX, clientY;
+                if (e.touches) {
+                    clientX = e.touches[0].clientX;
+                    clientY = e.touches[0].clientY;
+                } else {
+                    clientX = e.clientX;
+                    clientY = e.clientY;
+                }
+                return {
+                    x: (clientX - rect.left) * scaleX,
+                    y: (clientY - rect.top) * scaleY
+                };
+            }
+
+            function startDraw(e) {
+                e.preventDefault();
+                drawing = true;
+                const pos = getPos(e);
+
+                if (mode === 'sticker') {
+                    ctx.font = '44px "Segoe UI Emoji", "Apple Color Emoji", sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(currentSticker, pos.x, pos.y);
+                    pushHistory();
+                    drawing = false;
+                    return;
+                }
+
+                if (mode === 'brush') {
+                    ctx.strokeStyle = currentColor;
+                    ctx.lineWidth = currentSize;
+                    ctx.globalCompositeOperation = 'source-over';
+                } else if (mode === 'eraser') {
+                    ctx.strokeStyle = '#fefef7';
+                    ctx.lineWidth = eraserSize;
+                    ctx.globalCompositeOperation = 'source-over';
+                }
+
+                ctx.beginPath();
+                ctx.moveTo(pos.x, pos.y);
+                lastPos = pos;
+            }
+
+            function drawMove(e) {
+                if (!drawing) return;
+                e.preventDefault();
+                const pos = getPos(e);
+
+                if (mode === 'sticker') return;
+
+                if (mode === 'brush') {
+                    ctx.strokeStyle = currentColor;
+                    ctx.lineWidth = currentSize;
+                } else if (mode === 'eraser') {
+                    ctx.strokeStyle = '#fefef7';
+                    ctx.lineWidth = eraserSize;
+                }
+
+                ctx.lineTo(pos.x, pos.y);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(pos.x, pos.y);
+                lastPos = pos;
+            }
+
+            function endDraw(e) {
+                if (!drawing) return;
+                e.preventDefault();
+                drawing = false;
+                ctx.beginPath();
+                pushHistory();
+            }
+
+            canvas.addEventListener('mousedown', startDraw);
+            canvas.addEventListener('mousemove', drawMove);
+            canvas.addEventListener('mouseup', endDraw);
+            canvas.addEventListener('mouseleave', endDraw);
+
+            canvas.addEventListener('touchstart', startDraw, { passive: false });
+            canvas.addEventListener('touchmove', drawMove, { passive: false });
+            canvas.addEventListener('touchend', endDraw);
+            canvas.addEventListener('touchcancel', endDraw);
+
+            // Mode buttons (icon-only)
+            const modeBrushBtn = document.getElementById('modeBrushBtn');
+            const modeEraserBtn = document.getElementById('modeEraserBtn');
+            const modeStickerBtn = document.getElementById('modeStickerBtn');
+
+            function setMode(newMode) {
+                mode = newMode;
+                modeBrushBtn.classList.toggle('active-tool', mode === 'brush');
+                modeEraserBtn.classList.toggle('active-tool', mode === 'eraser');
+                modeStickerBtn.classList.toggle('active-tool', mode === 'sticker');
+                canvas.style.cursor = mode === 'eraser' ? 'cell' : (mode === 'sticker' ? 'pointer' : 'crosshair');
+            }
+
+            modeBrushBtn.addEventListener('click', () => setMode('brush'));
+            modeEraserBtn.addEventListener('click', () => setMode('eraser'));
+            modeStickerBtn.addEventListener('click', () => setMode('sticker'));
+
+            // Color palette (one row)
+            const colors = [
+                '#2a4d6e', '#e63946', '#2a9d8f', '#e9c46a',
+                '#f4a261', '#9b5de5', '#ff70a6', '#000000',
+                '#8ac926', '#ff9f1c', '#118ab2', '#8338ec'
+            ];
+            const colorPalette = document.getElementById('colorPalette');
+
+            colors.forEach(color => {
+                const swatch = document.createElement('div');
+                swatch.className = 'color-swatch' + (color === currentColor ? ' selected' : '');
+                swatch.style.backgroundColor = color;
+                swatch.addEventListener('click', () => {
+                    currentColor = color;
+                    document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('selected'));
+                    swatch.classList.add('selected');
+                    document.querySelectorAll('.brush-size-dot').forEach(dot => {
+                        dot.style.backgroundColor = color;
+                    });
+                });
+                colorPalette.appendChild(swatch);
+            });
+
+            // Brush sizes (one row)
+            const sizes = [3, 6, 12, 20, 30];
+            const brushSizes = document.getElementById('brushSizes');
+
+            sizes.forEach(size => {
+                const btn = document.createElement('button');
+                btn.className = 'brush-size-btn' + (size === currentSize ? ' selected' : '');
+                const dot = document.createElement('span');
+                dot.className = 'brush-size-dot';
+                const dotPx = Math.max(3, Math.min(18, size));
+                dot.style.width = dotPx + 'px';
+                dot.style.height = dotPx + 'px';
+                dot.style.backgroundColor = currentColor;
+                btn.appendChild(dot);
+                btn.title = size + 'px';
+                btn.addEventListener('click', () => {
+                    currentSize = size;
+                    document.querySelectorAll('.brush-size-btn').forEach(b => b.classList.remove('selected'));
+                    btn.classList.add('selected');
+                });
+                brushSizes.appendChild(btn);
+            });
+
+            // Stickers (one row)
+            const stickerEmojis = ['⭐', '❤️', '😊', '🌈', '🌸', '🦋', '🐱', '🐶', '🍎', '🎈', '🌟', '☀️', '🌙', '🍭', '🎨', '🖍️'];
+            const stickerPalette = document.getElementById('stickerPalette');
+
+            stickerEmojis.forEach(emoji => {
+                const el = document.createElement('div');
+                el.className = 'sticker-item';
+                el.textContent = emoji;
+                el.addEventListener('click', () => {
+                    currentSticker = emoji;
+                    document.querySelectorAll('.sticker-item').forEach(s => s.classList.remove('selected'));
+                    el.classList.add('selected');
+                    setMode('sticker');
+                });
+                stickerPalette.appendChild(el);
+            });
+
+            if (stickerPalette.firstChild) {
+                stickerPalette.firstChild.classList.add('selected');
+                currentSticker = stickerPalette.firstChild.textContent;
+            }
+
+            // Undo / Clear
+            document.getElementById('undoToolBtn').addEventListener('click', undo);
+            document.getElementById('clearToolBtn').addEventListener('click', clearAll);
+
+            // Resize (adaptive canvas)
+            let resizeTimer;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(() => {
+                    const snapshot = canvas.toDataURL();
+                    const rect = canvas.getBoundingClientRect();
+                    canvas.width = rect.width * 2;
+                    canvas.height = rect.height * 2;
+                    ctx.scale(2, 2);
+                    ctx.lineCap = 'round';
+                    ctx.lineJoin = 'round';
+                    const img = new Image();
+                    img.onload = function() {
+                        ctx.fillStyle = '#fefef7';
+                        ctx.fillRect(0, 0, canvas.width / 2, canvas.height / 2);
+                        ctx.drawImage(img, 0, 0, canvas.width / 2, canvas.height / 2);
+                        history.length = 0;
+                        pushHistory();
+                    };
+                    img.src = snapshot;
+                }, 200);
+            });
+
+            setTimeout(() => {
+                setupCanvas();
+                setMode('brush');
+                const firstSwatch = document.querySelector('.color-swatch');
+                if (firstSwatch) firstSwatch.classList.add('selected');
+            }, 150);
+
+            // ============================================================
+            // ===================== GAME (AIN) ===========================
+            // ============================================================
+            const shapeOptions = document.getElementById('shapeOptions');
+            const gameFeedback = document.getElementById('gameFeedback');
+            const gameTitle = document.getElementById('gameTitle');
+            let gameLocked = false;
+
+            const ainShapes = [
+                { char: 'عـ', arLabel: 'بداية', enLabel: 'Beginning' },
+                { char: 'ـعـ', arLabel: 'وسط', enLabel: 'Middle' },
+                { char: 'ـع', arLabel: 'نهاية', enLabel: 'End' }
+            ];
+
+            function shuffleArray(arr) {
+                for (let i = arr.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [arr[i], arr[j]] = [arr[j], arr[i]];
+                }
+                return arr;
+            }
+
+            function renderGame() {
+                shapeOptions.innerHTML = '';
+                gameLocked = false;
+
+                const targetIndex = Math.floor(Math.random() * ainShapes.length);
+                const targetShape = ainShapes[targetIndex];
+
+                if (currentLang === 'en') {
+                    gameTitle.innerHTML = `Which shape is the Ain <span style="color:#c44b1e; font-size:2.6rem;">${targetShape.char}</span>? <br><span style="font-size:1.3rem;">Find the ${targetShape.enLabel} form</span>`;
+                    gameFeedback.innerHTML = `👆 Click the Ain <span style="color:#c44b1e; font-size:2.5rem;">${targetShape.char}</span> <br><span style="font-size:1.3rem;">Find the ${targetShape.enLabel} form</span>`;
+                } else {
+                    gameTitle.innerHTML = `أين حرف العين <span style="color:#c44b1e; font-size:2.6rem;">${targetShape.char}</span>؟ <br><span style="font-size:1.3rem;">ابحث عن شكل ${targetShape.arLabel}</span>`;
+                    gameFeedback.innerHTML = `👆 اضغط على حرف العين <span style="color:#c44b1e; font-size:2.5rem;">${targetShape.char}</span> <br><span style="font-size:1.3rem;">ابحث عن شكل ${targetShape.arLabel}</span>`;
+                }
+
+                const choices = shuffleArray([...ainShapes]);
+
+                choices.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'shape-card';
+                    card.textContent = item.char;
+                    card.dataset.char = item.char;
+                    card.dataset.label = item.enLabel;
+
+                    card.addEventListener('click', function(e) {
+                        if (gameLocked) return;
+
+                        const clickedChar = this.dataset.char;
+                        const clickedLabel = this.dataset.label;
+                        const isCorrect = (clickedChar === targetShape.char) && (clickedLabel === targetShape.enLabel);
+
+                        if (isCorrect) {
+                            this.classList.add('correct');
+                            gameLocked = true;
+                            if (currentLang === 'en') {
+                                gameFeedback.innerHTML = `🎉 Excellent! That's Ain <span style="color:#c44b1e; font-size:2.5rem;">${targetShape.char}</span> (${targetShape.enLabel})!`;
+                            } else {
+                                gameFeedback.innerHTML = `🎉 أحسنت! هذا هو حرف العين <span style="color:#c44b1e; font-size:2.5rem;">${targetShape.char}</span> (${targetShape.arLabel})!`;
+                            }
+                        } else {
+                            this.classList.add('wrong');
+                            if (currentLang === 'en') {
+                                gameFeedback.innerHTML = `❌ Try again! Find <span style="color:#c44b1e; font-size:2.5rem;">${targetShape.char}</span> (${targetShape.enLabel})`;
+                            } else {
+                                gameFeedback.innerHTML = `❌ حاول مرة أخرى! ابحث عن <span style="color:#c44b1e; font-size:2.5rem;">${targetShape.char}</span> (${targetShape.arLabel})`;
+                            }
+                            setTimeout(() => {
+                                this.classList.remove('wrong');
+                            }, 600);
+                        }
+                    });
+
+                    shapeOptions.appendChild(card);
+                });
+            }
+
+            document.getElementById('resetGameBtn').addEventListener('click', function() {
+                renderGame();
+            });
+
+            renderGame();
+        })();
+    </script>
+</body>
+</html>

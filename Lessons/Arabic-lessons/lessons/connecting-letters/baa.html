@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
@@ -37,7 +38,7 @@
             padding: 5px;
             border-radius: 50px;
             border: 3px solid #f9b83a;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             backdrop-filter: blur(5px);
         }
 
@@ -82,7 +83,7 @@
             padding: 5px;
             border-radius: 50px;
             border: 3px solid #f9b83a;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             backdrop-filter: blur(5px);
         }
 
@@ -409,11 +410,25 @@
         }
 
         @keyframes shake {
-            0% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            50% { transform: translateX(10px); }
-            75% { transform: translateX(-5px); }
-            100% { transform: translateX(0); }
+            0% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-10px);
+            }
+
+            50% {
+                transform: translateX(10px);
+            }
+
+            75% {
+                transform: translateX(-5px);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
         }
 
         .game-feedback {
@@ -452,7 +467,7 @@
             border-radius: 40px;
             padding: 14px;
             border: 6px solid #f9b83a;
-            box-shadow: 0 10px 0 #b47d2e, inset 0 0 15px rgba(0,0,0,0.05);
+            box-shadow: 0 10px 0 #b47d2e, inset 0 0 15px rgba(0, 0, 0, 0.05);
         }
 
         /* COMPACT ONE-LINE TOOLBAR */
@@ -548,7 +563,7 @@
             border-radius: 50%;
             cursor: pointer;
             border: 2px solid white;
-            box-shadow: 0 2px 0 rgba(0,0,0,0.2);
+            box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
             transition: transform 0.1s;
             flex: 0 0 auto;
         }
@@ -559,7 +574,7 @@
 
         .color-swatch.selected {
             border: 3px solid #2a4d6e;
-            box-shadow: 0 0 0 2px #ffd966, 0 2px 0 rgba(0,0,0,0.2);
+            box-shadow: 0 0 0 2px #ffd966, 0 2px 0 rgba(0, 0, 0, 0.2);
             transform: scale(1.15);
         }
 
@@ -743,43 +758,127 @@
         }
 
         /* hide elements based on language */
-        .lang-en .ar-text { display: none; }
-        .lang-ar .en-text { display: none; }
+        .lang-en .ar-text {
+            display: none;
+        }
+
+        .lang-ar .en-text {
+            display: none;
+        }
 
         @media (max-width: 900px) {
             .wb-toolbar {
                 gap: 4px;
                 padding: 5px 8px;
             }
-            .color-swatch { width: 22px; height: 22px; }
-            .brush-size-btn { width: 28px; height: 28px; }
-            .sticker-item { font-size: 1rem; padding: 1px 2px; }
-            .mode-icon-btn { width: 38px; height: 38px; font-size: 1.2rem; }
-            .action-icon-btn { width: 34px; height: 34px; font-size: 1.05rem; }
+
+            .color-swatch {
+                width: 22px;
+                height: 22px;
+            }
+
+            .brush-size-btn {
+                width: 28px;
+                height: 28px;
+            }
+
+            .sticker-item {
+                font-size: 1rem;
+                padding: 1px 2px;
+            }
+
+            .mode-icon-btn {
+                width: 38px;
+                height: 38px;
+                font-size: 1.2rem;
+            }
+
+            .action-icon-btn {
+                width: 34px;
+                height: 34px;
+                font-size: 1.05rem;
+            }
         }
 
         @media (max-width: 700px) {
-            h1 { font-size: 3rem; }
-            .section-title { font-size: 1.8rem; }
-            .arabic-big { font-size: 5rem; }
-            .zoom-btn { width: 34px; height: 34px; font-size: 1.1rem; }
-            .lang-btn { width: 34px; height: 34px; font-size: 0.8rem; }
-            .page { padding: 15px; }
-            #whiteboardCanvas { height: 45vh; min-height: 220px; }
-            .shape-card { font-size: 3rem; min-width: 120px; padding: 15px 20px; }
+            h1 {
+                font-size: 3rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .arabic-big {
+                font-size: 5rem;
+            }
+
+            .zoom-btn {
+                width: 34px;
+                height: 34px;
+                font-size: 1.1rem;
+            }
+
+            .lang-btn {
+                width: 34px;
+                height: 34px;
+                font-size: 0.8rem;
+            }
+
+            .page {
+                padding: 15px;
+            }
+
+            #whiteboardCanvas {
+                height: 45vh;
+                min-height: 220px;
+            }
+
+            .shape-card {
+                font-size: 3rem;
+                min-width: 120px;
+                padding: 15px 20px;
+            }
+
             .wb-toolbar {
                 gap: 3px;
                 padding: 4px 6px;
             }
-            .color-swatch { width: 20px; height: 20px; }
-            .brush-size-btn { width: 26px; height: 26px; }
-            .sticker-item { font-size: 0.9rem; padding: 1px 2px; }
-            .mode-icon-btn { width: 34px; height: 34px; font-size: 1.05rem; }
-            .action-icon-btn { width: 30px; height: 30px; font-size: 0.95rem; }
-            .toolbar-sep { height: 24px; }
+
+            .color-swatch {
+                width: 20px;
+                height: 20px;
+            }
+
+            .brush-size-btn {
+                width: 26px;
+                height: 26px;
+            }
+
+            .sticker-item {
+                font-size: 0.9rem;
+                padding: 1px 2px;
+            }
+
+            .mode-icon-btn {
+                width: 34px;
+                height: 34px;
+                font-size: 1.05rem;
+            }
+
+            .action-icon-btn {
+                width: 30px;
+                height: 30px;
+                font-size: 0.95rem;
+            }
+
+            .toolbar-sep {
+                height: 24px;
+            }
         }
     </style>
 </head>
+
 <body class="lang-en">
 
     <!-- CIRCULAR LANGUAGE TOGGLE -->
@@ -796,7 +895,7 @@
 
     <div class="page" id="zoomPage">
         <h1>
-            <span>ب</span> 
+            <span>ب</span>
             <span style="font-size:2.5rem; background:#ffb347;" class="en-text">Ba</span>
             <span style="font-size:2.5rem; background:#ffb347;" class="ar-text">باء</span>
         </h1>
@@ -823,12 +922,12 @@
                     <div class="position-label en-text">⚽ Middle</div>
                     <div class="position-label ar-text">⚽ الوسط</div>
                     <div class="arabic-big">ـبـ</div>
-                    <div class="example-word">كِتَاب</div>
-                    <div class="emoji-pic">📖</div>
-                    <div class="english-desc en-text">Kitab (Book)</div>
-                    <div class="english-desc ar-text">كِتَاب (كتاب)</div>
+                    <div class="example-word">صَبَاح</div>
+                    <div class="emoji-pic">🌅</div>
+                    <div class="english-desc en-text">Sabah (Morning)</div>
+                    <div class="english-desc ar-text">صَبَاح (صباح)</div>
                 </div>
-                 <div class="card">
+                <div class="card">
                     <div class="position-label en-text">🏁 Beginning</div>
                     <div class="position-label ar-text">🏁 البداية</div>
                     <div class="arabic-big">بـ</div>
@@ -901,7 +1000,7 @@
                 <div class="trace-box">
                     <p class="en-text">🔹 Trace the letter</p>
                     <p class="ar-text">🔹 تتبع الحرف</p>
-                    <div class="dotted-letter">ب  ـبـ  ـب</div>
+                    <div class="dotted-letter">ب ـبـ ـب</div>
                     <div class="practice-emoji">
                         <span>✍️</span> <span>🎨</span>
                     </div>
@@ -928,7 +1027,9 @@
                 <span class="ar-text">🎬 فيديو</span>
             </div>
             <div class="video-wrapper">
-                <iframe src="https://www.youtube.com/embed/Qk6GUC-6D3o" title="YouTube video about letter Ba" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/Qk6GUC-6D3o" title="YouTube video about letter Ba"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
             </div>
         </div>
 
@@ -940,7 +1041,8 @@
             </div>
             <div class="game-container">
                 <div class="game-title" id="gameTitle"></div>
-                <div class="game-subtitle en-text">🔍 Choose the correct Ba shape (isolated, beginning, middle, end)</div>
+                <div class="game-subtitle en-text">🔍 Choose the correct Ba shape (isolated, beginning, middle, end)
+                </div>
                 <div class="game-subtitle ar-text">🔍 اختر الشكل الصحيح لحرف الباء (منفصل، بداية، وسط، نهاية)</div>
                 <div class="shape-options" id="shapeOptions"></div>
                 <div class="game-feedback" id="gameFeedback"></div>
@@ -948,6 +1050,29 @@
                     <span class="en-text">🔄 Play again</span>
                     <span class="ar-text">🔄 العب مرة أخرى</span>
                 </button>
+            </div>
+            <div class="game-container">
+                <div class="game-title" id="gameTitle"></div>
+
+                <div class="game-subtitle en-text">
+                    🔍 Choose the correct Ba shape (isolated, beginning, middle, end)
+                </div>
+
+                <div class="game-subtitle ar-text">
+                    🔍 اختر الشكل الصحيح لحرف الباء (منفصل، بداية، وسط، نهاية)
+                </div>
+
+                <div class="shape-options" id="shapeOptions"></div>
+
+                <div class="game-feedback" id="gameFeedback"></div>
+
+                <a href="https://wordwall.net/en-ae/community/letter-baa" class="play" id="playAgainBtn" target="_blank"
+                    rel="noopener noreferrer">
+
+                    <span class="en-text">▶ Play</span>
+                    <span class="ar-text">▶ العب</span>
+
+                </a>
             </div>
         </div>
 
@@ -958,7 +1083,7 @@
     </div>
 
     <script>
-        (function() {
+        (function () {
             // ---------- LANGUAGE TOGGLE ----------
             const body = document.body;
             const langEnBtn = document.getElementById('langEnBtn');
@@ -1014,30 +1139,30 @@
             // ---------- 20 EXAMPLE WORDS (BALANCED: 6 BEGINNING / 7 MIDDLE / 7 END) ----------
             const words = [
                 // ── BEGINNING (6 examples) ──────────────────────────────
-                { arabic: "بَاب",       translit: "Bab",       emoji: "🚪", meaning: "Door" },
-                { arabic: "بَيْت",      translit: "Bayt",      emoji: "🏠", meaning: "House" },
-                { arabic: "بَحْر",      translit: "Bahr",      emoji: "🌊", meaning: "Sea" },
-                { arabic: "بَطَّة",     translit: "Batta",     emoji: "🦆", meaning: "Duck" },
-                { arabic: "بَقَرَة",    translit: "Baqara",    emoji: "🐄", meaning: "Cow" },
-                { arabic: "بُرْتُقَال", translit: "Burtuqal",  emoji: "🍊", meaning: "Orange" },
+                { arabic: "بَاب", translit: "Bab", emoji: "🚪", meaning: "Door" },
+                { arabic: "بَيْت", translit: "Bayt", emoji: "🏠", meaning: "House" },
+                { arabic: "بَحْر", translit: "Bahr", emoji: "🌊", meaning: "Sea" },
+                { arabic: "بَطَّة", translit: "Batta", emoji: "🦆", meaning: "Duck" },
+                { arabic: "بَقَرَة", translit: "Baqara", emoji: "🐄", meaning: "Cow" },
+                { arabic: "بُرْتُقَال", translit: "Burtuqal", emoji: "🍊", meaning: "Orange" },
 
                 // ── MIDDLE (7 examples) ─────────────────────────────────
-                { arabic: "كِتَاب",     translit: "Kitab",     emoji: "📖", meaning: "Book" },
-                { arabic: "أُبْحُر",    translit: "Abhur",     emoji: "🌊", meaning: "Seas" },
-                { arabic: "مَبْنَى",    translit: "Mabna",     emoji: "🏢", meaning: "Building" },
-                { arabic: "مُبَارَك",   translit: "Mubarak",   emoji: "🎉", meaning: "Blessed" },
-                { arabic: "جَبَل",      translit: "Jabal",     emoji: "⛰️", meaning: "Mountain" },
-                { arabic: "حَبِيب",     translit: "Habib",     emoji: "💕", meaning: "Beloved" },
-                { arabic: "صَبَاح",     translit: "Sabah",     emoji: "🌅", meaning: "Morning" },
+                { arabic: "كِتَاب", translit: "Kitab", emoji: "📖", meaning: "Book" },
+                { arabic: "أُبْحُر", translit: "Abhur", emoji: "🌊", meaning: "Seas" },
+                { arabic: "مَبْنَى", translit: "Mabna", emoji: "🏢", meaning: "Building" },
+                { arabic: "مُبَارَك", translit: "Mubarak", emoji: "🎉", meaning: "Blessed" },
+                { arabic: "جَبَل", translit: "Jabal", emoji: "⛰️", meaning: "Mountain" },
+                { arabic: "حَبِيب", translit: "Habib", emoji: "💕", meaning: "Beloved" },
+                { arabic: "صَبَاح", translit: "Sabah", emoji: "🌅", meaning: "Morning" },
 
                 // ── END (7 examples) ────────────────────────────────────
-                { arabic: "قَلْب",      translit: "Qalb",      emoji: "❤️", meaning: "Heart" },
-                { arabic: "كَعْب",      translit: "Ka'b",      emoji: "🦶", meaning: "Ankle" },
-                { arabic: "حَجْب",      translit: "Hajb",      emoji: "🚫", meaning: "Blocking" },
-                { arabic: "وَهْب",      translit: "Wahb",      emoji: "🎁", meaning: "Gift" },
-                { arabic: "طَبْع",      translit: "Tab'",      emoji: "🖨️", meaning: "Printing" },
-                { arabic: "شَعْب",      translit: "Sha'b",     emoji: "👥", meaning: "People" },
-                { arabic: "سَلْب",      translit: "Salb",      emoji: "➖", meaning: "Negation" }
+                { arabic: "قَلْب", translit: "Qalb", emoji: "❤️", meaning: "Heart" },
+                { arabic: "كَعْب", translit: "Ka'b", emoji: "🦶", meaning: "Ankle" },
+                { arabic: "حَجْب", translit: "Hajb", emoji: "🚫", meaning: "Blocking" },
+                { arabic: "وَهْب", translit: "Wahb", emoji: "🎁", meaning: "Gift" },
+                { arabic: "طَبْع", translit: "Tab'", emoji: "🖨️", meaning: "Printing" },
+                { arabic: "شَعْب", translit: "Sha'b", emoji: "👥", meaning: "People" },
+                { arabic: "سَلْب", translit: "Salb", emoji: "➖", meaning: "Negation" }
             ];
 
             function renderExampleGrid() {
@@ -1097,7 +1222,7 @@
             function restoreHistory(index) {
                 if (index < 0 || index >= history.length) return;
                 const img = new Image();
-                img.onload = function() {
+                img.onload = function () {
                     ctx.clearRect(0, 0, canvas.width / 2, canvas.height / 2);
                     ctx.drawImage(img, 0, 0, canvas.width / 2, canvas.height / 2);
                 };
@@ -1311,7 +1436,7 @@
                     ctx.lineCap = 'round';
                     ctx.lineJoin = 'round';
                     const img = new Image();
-                    img.onload = function() {
+                    img.onload = function () {
                         ctx.fillStyle = '#fefef7';
                         ctx.fillRect(0, 0, canvas.width / 2, canvas.height / 2);
                         ctx.drawImage(img, 0, 0, canvas.width / 2, canvas.height / 2);
@@ -1375,7 +1500,7 @@
                     card.textContent = item.char;
                     card.dataset.char = item.char;
 
-                    card.addEventListener('click', function(e) {
+                    card.addEventListener('click', function (e) {
                         if (gameLocked) return;
 
                         const clickedChar = this.dataset.char;
@@ -1406,7 +1531,7 @@
                 });
             }
 
-            document.getElementById('resetGameBtn').addEventListener('click', function() {
+            document.getElementById('resetGameBtn').addEventListener('click', function () {
                 renderGame();
             });
 
@@ -1414,4 +1539,5 @@
         })();
     </script>
 </body>
+
 </html>
