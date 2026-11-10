@@ -563,7 +563,7 @@
     }
 
     .card-grid.three {
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     }
 
     .subject-card {
@@ -622,6 +622,23 @@
       color: transparent;
     }
 
+    /* NEW: green card for Quran Memorization */
+    .green-card {
+      background: linear-gradient(160deg, #f0fdf4, #dcfce7);
+      border-color: #86efac;
+    }
+
+    .green-card .card-icon {
+      background: linear-gradient(135deg, #10b981, #059669);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .green-card a {
+      color: #059669;
+    }
+
     .card-icon {
       font-size: 3rem;
       margin-bottom: 1rem;
@@ -636,6 +653,10 @@
       color: var(--pink-deep);
       margin-bottom: 0.5rem;
       text-transform: uppercase;
+    }
+
+    .green-card .card-kicker {
+      color: #059669;
     }
 
     .subject-card h3 {
@@ -1462,6 +1483,7 @@
     </div>
     <nav id="mainNav">
       <a href="#subjects"><span class="en-only">Subjects</span><span class="ar-only">المواد</span></a>
+      <a href="./Lessons/Quran-lessons/memorize-quran.html"><span class="en-only">Quran Memorization</span><span class="ar-only">تحفيظ القرآن</span></a>
       <a href="#videos"><span class="en-only">Video library</span><span class="ar-only">مكتبة الفيديو</span></a>
       <a href="#resources"><span class="en-only">Resources</span><span class="ar-only">المصادر التعليمية</span></a>
       <a href="#games"><span class="en-only">Learning games</span><span class="ar-only">ألعاب تعليمية</span></a>
@@ -1639,6 +1661,26 @@
           <a href="Lessons/Islamic-studies/islamic-lessons.html">
             <span class="en-only">Start exploring ↗</span>
             <span class="ar-only">ابدأ الاستكشاف ↗</span>
+          </a>
+        </article>
+        <article class="subject-card green-card">
+          <div class="card-icon">📖</div>
+          <span class="card-kicker">
+            <span class="en-only">PATH 04</span>
+            <span class="ar-only">المسار الرابع</span>
+          </span>
+          <h3>
+            <span class="en-only">Quran Memorization</span>
+            <span class="ar-only">تحفيظ القرآن</span>
+          </h3>
+          <p>
+            <span class="en-only">Build a strong connection with the Quran through structured memorization and
+              revision plans.</span>
+            <span class="ar-only">ابنِ علاقة قوية بالقرآن من خلال خطط حفظ ومراجعة منظمة.</span>
+          </p>
+          <a href="./Lessons/Quran-lessons/memorize-quran.html">
+            <span class="en-only">Start memorizing ↗</span>
+            <span class="ar-only">ابدأ الحفظ ↗</span>
           </a>
         </article>
       </div>
