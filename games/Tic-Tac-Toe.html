@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🐶🐱 Tic Tac Toe · Shape Party 🍎🍕</title>
+  <style>
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body { 
+      margin: 0; padding: 0; 
+      width: 100%; height: 100%; 
+      overflow: hidden; /* prevents scrolling */
+    }
+    body {
+      background: linear-gradient(145deg, #ffd0e8 0%, #b0e0ff 50%, #c8f7c5 100%);
+      background-attachment: fixed;
+      font-family: 'Comic Sans MS', 'Chalkboard SE', 'Segoe UI', cursive, sans-serif;
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center;
+      padding: 6px 10px;
+    }
+    h1 {
+      font-size: 1.5rem; color: #6b4e2e;
+      text-shadow: 2px 2px 0 #ffeaa5, 4px 4px 0 #ffb882;
+      letter-spacing: 1px; text-align: center; margin: 0 0 4px 0; padding: 0;
+    }
+    .game-card {
+      background: rgba(255,255,255,0.85); backdrop-filter: blur(4px);
+      padding: 10px 12px 12px; border-radius: 30px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.15), 0 0 0 5px #ffea80, 0 0 0 8px #ffb6c1, 0 0 0 10px #a0d8ff;
+      border: 3px solid white; 
+      display: flex; flex-direction: column; align-items: center;
+      max-width: 96vw; 
+    }
+    .picker-area {
+      display: flex; flex-wrap: wrap; justify-content: center;
+      gap: 10px 20px; margin-bottom: 6px; width: 100%;
+    }
+    .picker-group {
+      display: flex; flex-direction: column; align-items: center;
+      background: rgba(255,245,210,0.8); border-radius: 20px;
+      padding: 4px 8px; border: 2px dashed #ffb882;
+    }
+    .picker-label {
+      font-weight: 800; font-size: 0.8rem; color: #7a4a2a;
+      text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px;
+    }
+    .shape-buttons {
+      display: flex; flex-wrap: wrap; gap: 4px; justify-content: center;
+    }
+    .shape-btn {
+      font-size: 1.2rem; background: #fff6e0; border: 2px solid #ffb882;
+      border-radius: 10px; width: 32px; height: 32px; line-height: 1;
+      cursor: pointer; transition: all 0.1s ease;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 0 #d9a066; font-family: inherit;
+      padding: 0;
+    }
+    .shape-btn:hover { background: #ffe9c7; transform: scale(1.05); }
+    .shape-btn.selected {
+      border: 3px solid #ff6b6b; background: #ffe0b0;
+      box-shadow: 0 0 0 2px #ffb3ba, 0 2px 0 #b37b4b;
+      transform: scale(1.08);
+    }
+    canvas {
+      display: block; 
+      width: 100%; 
+      max-width: 380px; 
+      height: auto;
+      border-radius: 20px;
+      box-shadow: 0 0 0 4px #ffe680, 0 0 0 7px #ffb3ba, 0 0 0 10px #b5e8b0, 0 10px 20px -5px #00000055;
+      cursor: pointer; background: #fef9e7;
+      touch-action: manipulation; user-select: none; -webkit-user-drag: none;
+    }
+    .game-info {
+      text-align: center; font-size: 1.1rem; font-weight: 700; color: #7a5a3a;
+      margin-top: 6px; text-shadow: 1px 1px 0 white; 
+    }
+    .game-btn {
+      background: #ffb882; border: none; border-radius: 30px;
+      padding: 8px 24px; font-weight: 900; font-size: 1rem; color: #4a2e1a;
+      letter-spacing: 0.5px; cursor: pointer;
+      box-shadow: 0 6px 0 #b37b4b, 0 8px 12px -4px black;
+      display: flex; align-items: center; gap: 8px;
+      border: 2px solid white; font-family: inherit; text-transform: uppercase; margin-top: 8px;
+    }
+    .game-btn:hover { background: #ffc99c; }
+    .game-btn:active { box-shadow: 0 3px 0 #b37b4b, 0 5px 8px -3px black; }
+    .footer-note {
+      text-align: center; color: #7a5a3a; font-size: 0.85rem; font-weight: 700;
+      text-shadow: 1px 1px 0 white; background: rgba(255,255,200,0.8);
+      padding: 4px 14px; border-radius: 20px; display: inline-block;
+      border: 2px dashed #ffb882; margin-top: 6px;
+    }
+    /* Very small screens */
+    @media (max-width: 500px) {
+      h1 { font-size: 1.2rem; }
+      .game-card { padding: 6px 8px 8px; }
+      canvas { max-width: 300px; }
+      .shape-btn { width: 26px; height: 26px; font-size: 1rem; }
+      .game-info { font-size: 0.9rem; }
+      .game-btn { padding: 6px 18px; font-size: 0.9rem; }
+    }
+  </style>
+</head>
+<body>
+  <h1>🐶🐱 Tic Tac Toe · Shape Party 🍎🍕</h1>
+  <div class="game-card">
+    <!-- Shape pickers -->
+    <div class="picker-area">
+      <div class="picker-group">
+        <div class="picker-label">🐾 P1</div>
+        <div class="shape-buttons" id="p1Shapes">
+          <button class="shape-btn" data-shape="🐶">🐶</button>
+          <button class="shape-btn" data-shape="🐱">🐱</button>
+          <button class="shape-btn" data-shape="🐼">🐼</button>
+          <button class="shape-btn" data-shape="🦊">🦊</button>
+          <button class="shape-btn" data-shape="🐸">🐸</button>
+          <button class="shape-btn" data-shape="🦁">🦁</button>
+          <button class="shape-btn" data-shape="🐧">🐧</button>
+          <button class="shape-btn" data-shape="🐨">🐨</button>
+        </div>
+      </div>
+      <div class="picker-group">
+        <div class="picker-label">🍎 P2</div>
+        <div class="shape-buttons" id="p2Shapes">
+          <button class="shape-btn" data-shape="🍎">🍎</button>
+          <button class="shape-btn" data-shape="🍕">🍕</button>
+          <button class="shape-btn" data-shape="🍩">🍩</button>
+          <button class="shape-btn" data-shape="🌟">🌟</button>
+          <button class="shape-btn" data-shape="⚽">⚽</button>
+          <button class="shape-btn" data-shape="🚀">🚀</button>
+          <button class="shape-btn" data-shape="🎈">🎈</button>
+          <button class="shape-btn" data-shape="🌈">🌈</button>
+        </div>
+      </div>
+    </div>
+
+    <canvas id="tttCanvas" width="450" height="450"></canvas>
+    <div id="tttInfo" class="game-info">🐶 P1's turn!</div>
+    <button id="tttReset" class="game-btn">🔄 Again!</button>
+  </div>
+  <div class="footer-note">👆 Tap an empty square! 👆</div>
+
+  <script>
+    (function() {
+      const canvas = document.getElementById('tttCanvas');
+      const ctx = canvas.getContext('2d');
+      const info = document.getElementById('tttInfo');
+      const resetBtn = document.getElementById('tttReset');
+      const W = 450, H = 450;
+      const GRID = 3;
+      const CELL = W / GRID;
+
+      let player1Emoji = '🐶';
+      let player2Emoji = '🍎';
+
+      let board = [];
+      let currentPlayer = 1;
+      let gameOver = false;
+      let winner = null;
+
+      const p1Buttons = document.querySelectorAll('#p1Shapes .shape-btn');
+      const p2Buttons = document.querySelectorAll('#p2Shapes .shape-btn');
+
+      function setDefaultSelected() {
+        p1Buttons.forEach(btn => {
+          btn.classList.toggle('selected', btn.dataset.shape === player1Emoji);
+        });
+        p2Buttons.forEach(btn => {
+          btn.classList.toggle('selected', btn.dataset.shape === player2Emoji);
+        });
+      }
+
+      p1Buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          player1Emoji = btn.dataset.shape;
+          p1Buttons.forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+          if (!gameOver && currentPlayer === 1) {
+            info.textContent = `${player1Emoji} P1's turn!`;
+          }
+          draw();
+        });
+      });
+
+      p2Buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          player2Emoji = btn.dataset.shape;
+          p2Buttons.forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+          if (!gameOver && currentPlayer === 2) {
+            info.textContent = `${player2Emoji} P2's turn!`;
+          }
+          draw();
+        });
+      });
+
+      setDefaultSelected();
+
+      function init() {
+        board = Array(9).fill(0);
+        currentPlayer = 1;
+        gameOver = false;
+        winner = null;
+        info.textContent = `${player1Emoji} P1's turn!`;
+        draw();
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+
+        const grad = ctx.createLinearGradient(0, 0, W, H);
+        grad.addColorStop(0, '#fff9e6');
+        grad.addColorStop(0.5, '#ffe6f0');
+        grad.addColorStop(1, '#e6f7ff');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, W, H);
+
+        for (let i = 0; i < 10; i++) {
+          for (let j = 0; j < 10; j++) {
+            ctx.beginPath();
+            ctx.arc(i * 55 + 25, j * 55 + 25, 8, 0, Math.PI * 2);
+            ctx.fillStyle = (i + j) % 2 === 0 ? '#ffb3ba30' : '#b5e8b030';
+            ctx.fill();
+          }
+        }
+
+        ctx.strokeStyle = '#ffb882';
+        ctx.lineWidth = 8;
+        ctx.lineCap = 'round';
+        for (let i = 1; i < GRID; i++) {
+          ctx.beginPath();
+          ctx.moveTo(i * CELL, 24);
+          ctx.lineTo(i * CELL, H - 24);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(24, i * CELL);
+          ctx.lineTo(W - 24, i * CELL);
+          ctx.stroke();
+        }
+
+        for (let i = 0; i < 9; i++) {
+          const row = Math.floor(i / GRID);
+          const col = i % GRID;
+          const cx = col * CELL + CELL / 2;
+          const cy = row * CELL + CELL / 2;
+
+          if (board[i] === 1) {
+            ctx.save();
+            ctx.font = 'bold 100px "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.shadowColor = 'rgba(0,0,0,0.6)';
+            ctx.shadowBlur = 0;
+            ctx.shadowOffsetX = 5;
+            ctx.shadowOffsetY = 5;
+            ctx.fillStyle = '#1a0f0a';
+            ctx.fillText(player1Emoji, cx, cy + 8);
+            ctx.restore();
+          } else if (board[i] === 2) {
+            ctx.save();
+            ctx.font = 'bold 100px "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.shadowColor = 'rgba(0,0,0,0.6)';
+            ctx.shadowBlur = 0;
+            ctx.shadowOffsetX = 5;
+            ctx.shadowOffsetY = 5;
+            ctx.fillStyle = '#1a0f0a';
+            ctx.fillText(player2Emoji, cx, cy + 8);
+            ctx.restore();
+          }
+        }
+
+        if (gameOver && winner && winner !== 'tie') {
+          const line = getWinningLine();
+          if (line) {
+            ctx.strokeStyle = '#ffd700';
+            ctx.lineWidth = 14;
+            ctx.lineCap = 'round';
+            ctx.shadowColor = '#ffd700';
+            ctx.shadowBlur = 20;
+            ctx.beginPath();
+            const [a, b] = line;
+            const ax = (a % GRID) * CELL + CELL / 2;
+            const ay = Math.floor(a / GRID) * CELL + CELL / 2;
+            const bx = (b % GRID) * CELL + CELL / 2;
+            const by = Math.floor(b / GRID) * CELL + CELL / 2;
+            ctx.moveTo(ax, ay);
+            ctx.lineTo(bx, by);
+            ctx.stroke();
+            ctx.shadowColor = 'transparent';
+            ctx.shadowBlur = 0;
+          }
+        }
+      }
+
+      function getWinningLine() {
+        const lines = [
+          [0,1,2],[3,4,5],[6,7,8],
+          [0,3,6],[1,4,7],[2,5,8],
+          [0,4,8],[2,4,6]
+        ];
+        for (const line of lines) {
+          const [a,b,c] = line;
+          if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+            return [a, c];
+          }
+        }
+        return null;
+      }
+
+      function checkWinner() {
+        const lines = [
+          [0,1,2],[3,4,5],[6,7,8],
+          [0,3,6],[1,4,7],[2,5,8],
+          [0,4,8],[2,4,6]
+        ];
+        for (const line of lines) {
+          const [a,b,c] = line;
+          if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+            return board[a];
+          }
+        }
+        return board.includes(0) ? null : 'tie';
+      }
+
+      function handleTap(x, y) {
+        if (gameOver) return;
+        const col = Math.floor(x / CELL);
+        const row = Math.floor(y / CELL);
+        if (col < 0 || col >= GRID || row < 0 || row >= GRID) return;
+        const idx = row * GRID + col;
+        if (board[idx] !== 0) return;
+
+        board[idx] = currentPlayer;
+        const result = checkWinner();
+
+        if (result === 1) {
+          gameOver = true; winner = 1;
+          info.textContent = `🎉 ${player1Emoji} P1 wins! 🎉`;
+        } else if (result === 2) {
+          gameOver = true; winner = 2;
+          info.textContent = `🎉 ${player2Emoji} P2 wins! 🎉`;
+        } else if (result === 'tie') {
+          gameOver = true; winner = 'tie';
+          info.textContent = '🤝 It\'s a tie! 🤝';
+        } else {
+          currentPlayer = currentPlayer === 1 ? 2 : 1;
+          info.textContent = currentPlayer === 1 
+            ? `${player1Emoji} P1's turn!` 
+            : `${player2Emoji} P2's turn!`;
+        }
+        draw();
+      }
+
+      function getPos(e, isTouch) {
+        const rect = canvas.getBoundingClientRect();
+        const clientX = isTouch ? e.touches[0].clientX : e.clientX;
+        const clientY = isTouch ? e.touches[0].clientY : e.clientY;
+        return {
+          x: (clientX - rect.left) * (W / rect.width),
+          y: (clientY - rect.top) * (H / rect.height)
+        };
+      }
+
+      canvas.addEventListener('click', e => { const p = getPos(e, false); handleTap(p.x, p.y); });
+      canvas.addEventListener('touchstart', e => { e.preventDefault(); const p = getPos(e, true); handleTap(p.x, p.y); }, { passive: false });
+      canvas.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
+      resetBtn.addEventListener('click', init);
+
+      init();
+    })();
+  </script>
+</body>
+</html>

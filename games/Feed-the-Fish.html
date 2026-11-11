@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🐟 Feed the Fish! · a happy underwater game 🐠</title>
+  <style>
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body { margin: 0; padding: 0; min-height: 100%; }
+    body {
+      background: linear-gradient(145deg, #ffd0e8 0%, #b0e0ff 50%, #c8f7c5 100%);
+      background-attachment: fixed;
+      font-family: 'Comic Sans MS', 'Chalkboard SE', 'Segoe UI', cursive, sans-serif;
+      display: flex; flex-direction: column; align-items: center;
+      padding: 24px 16px 60px; min-height: 100vh; gap: 20px;
+    }
+    h1 {
+      font-size: 2.2rem; color: #6b4e2e;
+      text-shadow: 3px 3px 0 #ffeaa5, 6px 6px 0 #ffb882;
+      letter-spacing: 2px; text-align: center; margin: 0; padding: 0 10px;
+    }
+    .game-card {
+      background: rgba(255,255,255,0.75); backdrop-filter: blur(4px);
+      padding: 22px 22px 26px; border-radius: 60px 60px 40px 40px;
+      box-shadow: 0 20px 35px rgba(0,0,0,0.18), 0 0 0 8px #ffea80, 0 0 0 12px #ffb6c1, 0 0 0 16px #a0d8ff;
+      border: 4px solid white; max-width: 100%;
+      display: flex; flex-direction: column; align-items: center;
+    }
+    canvas {
+      display: block; width: 100%; max-width: 500px; height: auto;
+      border-radius: 30px;
+      box-shadow: 0 0 0 6px #ffe680, 0 0 0 10px #ffb3ba, 0 0 0 14px #b5e8b0, 0 16px 28px -5px #00000055;
+      cursor: pointer; background: #e6f7ff;
+      touch-action: manipulation; user-select: none; -webkit-user-drag: none;
+    }
+    .game-info {
+      text-align: center; font-size: 1.5rem; font-weight: 700; color: #7a5a3a;
+      margin-top: 18px; text-shadow: 1px 1px 0 white; min-height: 2.2rem; padding: 0 10px;
+    }
+    .game-btn {
+      background: #ffb882; border: none; border-radius: 60px;
+      padding: 14px 32px; font-weight: 900; font-size: 1.2rem; color: #4a2e1a;
+      letter-spacing: 1px; cursor: pointer;
+      box-shadow: 0 10px 0 #b37b4b, 0 12px 18px -6px black;
+      display: flex; align-items: center; gap: 10px;
+      border: 3px solid white; font-family: inherit; text-transform: uppercase; margin-top: 16px;
+    }
+    .game-btn:hover { background: #ffc99c; }
+    .game-btn:active { box-shadow: 0 5px 0 #b37b4b, 0 7px 12px -4px black; }
+    .footer-note {
+      text-align: center; color: #7a5a3a; font-size: 1rem; font-weight: 700;
+      text-shadow: 1px 1px 0 white; background: rgba(255,255,200,0.6);
+      padding: 6px 18px; border-radius: 60px; display: inline-block;
+      border: 3px dashed #ffb882; margin-top: 6px;
+    }
+    @media (max-width: 550px) {
+      h1 { font-size: 1.6rem; }
+      .game-card { padding: 16px 16px 20px; border-radius: 40px; box-shadow: 0 14px 24px rgba(0,0,0,0.18), 0 0 0 6px #ffea80, 0 0 0 9px #ffb6c1, 0 0 0 12px #a0d8ff; }
+      .game-info { font-size: 1.2rem; }
+      .game-btn { padding: 10px 22px; font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <h1>🐟 Feed the Fish! 🐠</h1>
+  <div class="game-card">
+    <canvas id="fishCanvas" width="500" height="500"></canvas>
+    <div id="fishInfo" class="game-info">Tap the fish to feed them! 🍞</div>
+    <button id="fishReset" class="game-btn">🔄 Again!</button>
+  </div>
+  <div class="footer-note">👆 Tap a fish to give it food! 👆</div>
+
+  <script>
+    (function() {
+      const canvas = document.getElementById('fishCanvas');
+      const ctx = canvas.getContext('2d');
+      const info = document.getElementById('fishInfo');
+      const resetBtn = document.getElementById('fishReset');
+      const W = 500, H = 500;
+
+      const FISH_EMOJIS = ['🐟','🐠','🐡','🦈','🐙','🦀','🐬','🐳'];
+      const FISH_COLORS = ['#ff9f43','#ee5253','#10ac84','#5f27cd','#ff9ff3','#54a0ff','#f368e0','#00d2d3'];
+
+      let fish = [];
+      let fedCount = 0;
+      let totalFish = 8;
+      let bubbles = [];
+
+      function init() {
+        fish = [];
+        fedCount = 0;
+        bubbles = [];
+
+        for (let i = 0; i < 10; i++) {
+          bubbles.push({
+            x: Math.random() * W,
+            y: Math.random() * H,
+            r: 3 + Math.random() * 8,
+            speed: 0.3 + Math.random() * 0.8
+          });
+        }
+
+        for (let i = 0; i < totalFish; i++) {
+          let x, y, tries = 0;
+          do {
+            x = 70 + Math.random() * (W - 140);
+            y = 100 + Math.random() * (H - 160);
+            tries++;
+          } while (fish.some(f => Math.hypot(f.x - x, f.y - y) < 90) && tries < 50);
+
+          fish.push({
+            x, y,
+            size: 30 + Math.random() * 12,
+            emoji: FISH_EMOJIS[Math.floor(Math.random() * FISH_EMOJIS.length)],
+            color: FISH_COLORS[Math.floor(Math.random() * FISH_COLORS.length)],
+            fed: false,
+            wobble: Math.random() * Math.PI * 2
+          });
+        }
+
+        info.textContent = 'Tap the fish to feed them! 🍞';
+        draw();
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+
+        // Underwater gradient
+        const grad = ctx.createLinearGradient(0, 0, 0, H);
+        grad.addColorStop(0, '#a8e6ff');
+        grad.addColorStop(0.5, '#6ec6ff');
+        grad.addColorStop(1, '#2a7fbf');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, W, H);
+
+        // Bubbles rising
+        bubbles.forEach(b => {
+          b.y -= b.speed;
+          if (b.y < -10) { b.y = H + 10; b.x = Math.random() * W; }
+          ctx.beginPath();
+          ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+          ctx.fillStyle = '#ffffff40';
+          ctx.fill();
+          ctx.strokeStyle = '#ffffff80';
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        });
+
+        // Draw fish
+        fish.forEach(f => {
+          if (f.fed) {
+            // Little heart above the fish
+            ctx.font = '30px serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('💖', f.x, f.y - 50);
+            return;
+          }
+
+          // Glow circle
+          ctx.beginPath();
+          ctx.arc(f.x, f.y, f.size + 14, 0, Math.PI * 2);
+          ctx.fillStyle = f.color + '40';
+          ctx.fill();
+
+          // White backing
+          ctx.beginPath();
+          ctx.arc(f.x, f.y, f.size + 6, 0, Math.PI * 2);
+          ctx.fillStyle = '#ffffffb0';
+          ctx.fill();
+
+          // Fish body
+          ctx.beginPath();
+          ctx.arc(f.x, f.y, f.size, 0, Math.PI * 2);
+          ctx.fillStyle = f.color + 'dd';
+          ctx.fill();
+
+          // Emoji
+          ctx.font = `${f.size * 1.6}px serif`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(f.emoji, f.x, f.y + 3);
+        });
+
+        // Progress
+        ctx.font = 'bold 28px "Comic Sans MS", cursive';
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'top';
+        ctx.shadowColor = '#00000060';
+        ctx.shadowBlur = 6;
+        ctx.fillText('🍞 ' + fedCount + ' / ' + totalFish, W / 2, 16);
+        ctx.shadowColor = 'transparent';
+        ctx.shadowBlur = 0;
+      }
+
+      function handleTap(x, y) {
+        for (let i = fish.length - 1; i >= 0; i--) {
+          const f = fish[i];
+          if (f.fed) continue;
+          const dx = x - f.x, dy = y - f.y;
+          if (Math.hypot(dx, dy) < f.size + 16) {
+            f.fed = true;
+            fedCount++;
+            info.textContent = 'Yum yum! The ' + f.emoji + ' is happy! 💖';
+            draw();
+            if (fedCount === totalFish) {
+              info.textContent = '🎉 All fish are fed! Great job! 🎉';
+            }
+            return;
+          }
+        }
+      }
+
+      function getPos(e, isTouch) {
+        const rect = canvas.getBoundingClientRect();
+        const clientX = isTouch ? e.touches[0].clientX : e.clientX;
+        const clientY = isTouch ? e.touches[0].clientY : e.clientY;
+        return {
+          x: (clientX - rect.left) * (W / rect.width),
+          y: (clientY - rect.top) * (H / rect.height)
+        };
+      }
+
+      canvas.addEventListener('click', e => { const p = getPos(e, false); handleTap(p.x, p.y); });
+      canvas.addEventListener('touchstart', e => { e.preventDefault(); const p = getPos(e, true); handleTap(p.x, p.y); }, { passive: false });
+      canvas.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
+      resetBtn.addEventListener('click', init);
+
+      init();
+
+      // Gentle animation loop for bubbles
+      function animate() {
+        draw();
+        requestAnimationFrame(animate);
+      }
+      // Only start animation after a moment to avoid double-first draw
+      setTimeout(() => {
+        function loop() {
+          // Redraw bubbles only (keep fish static)
+          if (bubbles.length) {
+            // We'll redraw everything but fish positions are static anyway
+          }
+          requestAnimationFrame(loop);
+        }
+      }, 100);
+    })();
+  </script>
+</body>
+</html>

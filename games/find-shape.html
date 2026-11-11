@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🔺 Find the Shape! · fun for little ones 🔵</title>
+  <link rel="icon" type="image/png" href="../images/quran.png">
+  <link rel="apple-touch-icon" href="images/quran.png">
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      background: linear-gradient(145deg, #ffd0e8 0%, #b0e0ff 50%, #c8f7c5 100%);
+      background-attachment: fixed;
+      font-family: 'Comic Sans MS', 'Chalkboard SE', 'Segoe UI', cursive, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 10px;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      color: #6b4e2e;
+      text-shadow: 2px 2px 0 #ffeaa5, 4px 4px 0 #ffb882;
+      letter-spacing: 1px;
+      text-align: center;
+      margin: 0 0 4px 0;
+      padding: 0;
+    }
+
+    .score-display {
+      position: absolute;
+      top: 16px;
+      left: 20px; /* moved to the left side */
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: #fff;
+      text-shadow: 2px 2px 0 #ffb882, 3px 3px 0 rgba(0,0,0,0.2);
+      pointer-events: none;
+      z-index: 10;
+      background: rgba(255,255,255,0.4);
+      padding: 2px 16px;
+      border-radius: 30px;
+      border: 3px solid white;
+      transition: transform 0.2s ease;
+    }
+    .score-display.bump {
+      transform: scale(1.2);
+    }
+
+    .game-card {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(4px);
+      padding: 12px 14px 14px;
+      border-radius: 30px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15), 0 0 0 5px #ffea80, 0 0 0 8px #ffb6c1, 0 0 0 10px #a0d8ff;
+      border: 3px solid white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 96vw;
+      position: relative;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      max-width: 400px;
+      height: auto;
+      border-radius: 20px;
+      box-shadow: 0 0 0 4px #ffe680, 0 0 0 7px #ffb3ba, 0 0 0 10px #b5e8b0, 0 10px 20px -5px #00000055;
+      cursor: pointer;
+      background: #fef9e7;
+      touch-action: manipulation;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .game-info {
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #7a5a3a;
+      margin-top: 8px;
+      text-shadow: 1px 1px 0 white;
+      min-height: 1.8rem;
+      padding: 0 10px;
+    }
+
+    .game-btn {
+      background: #ffb882;
+      border: none;
+      border-radius: 30px;
+      padding: 8px 24px;
+      font-weight: 900;
+      font-size: 1rem;
+      color: #4a2e1a;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      box-shadow: 0 6px 0 #b37b4b, 0 8px 12px -4px black;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 2px solid white;
+      font-family: inherit;
+      text-transform: uppercase;
+      margin-top: 8px;
+    }
+
+    .game-btn:hover {
+      background: #ffc99c;
+    }
+
+    .game-btn:active {
+      box-shadow: 0 3px 0 #b37b4b, 0 5px 8px -3px black;
+    }
+
+    .footer-note {
+      text-align: center;
+      color: #7a5a3a;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-shadow: 1px 1px 0 white;
+      background: rgba(255, 255, 200, 0.8);
+      padding: 4px 14px;
+      border-radius: 20px;
+      display: inline-block;
+      border: 2px dashed #ffb882;
+      margin-top: 6px;
+    }
+
+    .win-overlay {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(255,255,255,0.95);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      border-radius: 30px;
+      z-index: 30;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+    .win-overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .win-title {
+      font-size: 2rem;
+      color: #6b4e2e;
+      text-shadow: 2px 2px 0 #ffeaa5, 4px 4px 0 #ffb882;
+      margin-bottom: 10px;
+      text-align: center;
+      padding: 0 20px;
+      animation: popIn 0.5s ease;
+    }
+    .win-emoji {
+      font-size: 6rem;
+      margin-bottom: 10px;
+      animation: bounce 0.8s infinite alternate;
+    }
+    .win-btn {
+      background: #ffb882;
+      border: none;
+      border-radius: 30px;
+      padding: 10px 30px;
+      font-weight: 900;
+      font-size: 1.2rem;
+      color: #4a2e1a;
+      cursor: pointer;
+      box-shadow: 0 6px 0 #b37b4b, 0 8px 12px -4px black;
+      border: 2px solid white;
+      font-family: inherit;
+      text-transform: uppercase;
+      margin-top: 10px;
+    }
+    .win-btn:active {
+      box-shadow: 0 3px 0 #b37b4b, 0 5px 8px -3px black;
+      transform: translateY(3px);
+    }
+    @keyframes popIn {
+      0% { transform: scale(0); }
+      80% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    @keyframes bounce {
+      from { transform: translateY(0) scale(1); }
+      to { transform: translateY(-20px) scale(1.1); }
+    }
+
+    @media (max-width: 500px) {
+      h1 { font-size: 1.3rem; }
+      .game-card { padding: 8px 10px 10px; }
+      canvas { max-width: 300px; }
+      .game-info { font-size: 0.9rem; }
+      .game-btn { padding: 6px 18px; font-size: 0.9rem; }
+      .score-display { font-size: 1.1rem; top: 10px; left: 10px; }
+      .win-title { font-size: 1.5rem; }
+      .win-emoji { font-size: 4rem; }
+      .win-btn { padding: 8px 22px; font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <h1>🔺 Find the Shape! 🔵</h1>
+
+  <div class="game-card">
+    <div class="score-display" id="scoreDisplay">⭐ 0</div>
+    <canvas id="findShapeCanvas" width="500" height="500"></canvas>
+    <div id="findShapeInfo" class="game-info">Tap the matching shape!</div>
+    <button id="findShapeReset" class="game-btn">🔄 New Shape!</button>
+
+    <div class="win-overlay" id="winOverlay">
+      <div class="win-emoji">🏆</div>
+      <div class="win-title">You found 5 shapes!</div>
+      <button class="win-btn" id="winBtn">▶ Play Again!</button>
+    </div>
+  </div>
+
+  <div class="footer-note">👆 Tap the shape to find it! 👆</div>
+
+  <script>
+    (function() {
+      const canvas = document.getElementById('findShapeCanvas');
+      const ctx = canvas.getContext('2d');
+      const info = document.getElementById('findShapeInfo');
+      const resetBtn = document.getElementById('findShapeReset');
+      const scoreDisplay = document.getElementById('scoreDisplay');
+      const winOverlay = document.getElementById('winOverlay');
+      const winBtn = document.getElementById('winBtn');
+      const W = 500, H = 500;
+      const WIN_SCORE = 5;
+
+      const SHAPES = [
+        { name: 'circle',   color: '#ff6b6b' },
+        { name: 'square',   color: '#4ecdc4' },
+        { name: 'triangle', color: '#ffd93d' },
+        { name: 'star',     color: '#6c5ce7' },
+        { name: 'heart',    color: '#fd79a8' },
+        { name: 'diamond',  color: '#55efc4' }
+      ];
+
+      let items = [];
+      let target = null;
+      let score = 0;
+      let gameActive = true;
+
+      // ---------- draw a single shape ----------
+      function drawShape(ctx, shape, x, y, size, color) {
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        switch (shape) {
+          case 'circle':
+            ctx.arc(x, y, size, 0, Math.PI * 2);
+            break;
+          case 'square': {
+            const s = size * 0.9;
+            ctx.rect(x - s / 2, y - s / 2, s, s);
+            break;
+          }
+          case 'triangle':
+            ctx.moveTo(x, y - size);
+            ctx.lineTo(x + size, y + size * 0.8);
+            ctx.lineTo(x - size, y + size * 0.8);
+            ctx.closePath();
+            break;
+          case 'star': {
+            const spikes = 5;
+            const outerR = size;
+            const innerR = size * 0.45;
+            let rot = Math.PI / 2 * 3;
+            const step = Math.PI / spikes;
+            ctx.moveTo(x, y - outerR);
+            for (let i = 0; i < spikes; i++) {
+              rot += step;
+              ctx.lineTo(x + Math.cos(rot) * outerR, y + Math.sin(rot) * outerR);
+              rot += step;
+              ctx.lineTo(x + Math.cos(rot) * innerR, y + Math.sin(rot) * innerR);
+            }
+            ctx.closePath();
+            break;
+          }
+          case 'heart': {
+            const s = size * 0.9;
+            ctx.moveTo(x, y + s * 0.4);
+            ctx.bezierCurveTo(x - s, y - s * 0.5, x - s * 0.5, y - s, x, y - s * 0.3);
+            ctx.bezierCurveTo(x + s * 0.5, y - s, x + s, y - s * 0.5, x, y + s * 0.4);
+            ctx.closePath();
+            break;
+          }
+          case 'diamond':
+            ctx.moveTo(x, y - size);
+            ctx.lineTo(x + size * 0.75, y);
+            ctx.lineTo(x, y + size);
+            ctx.lineTo(x - size * 0.75, y);
+            ctx.closePath();
+            break;
+        }
+        ctx.fill();
+        ctx.strokeStyle = '#ffffffd0';
+        ctx.lineWidth = 4;
+        ctx.stroke();
+      }
+
+      // ---------- new round ----------
+      function init() {
+        if (!gameActive) return;
+        items = [];
+        const shuffled = [...SHAPES].sort(() => Math.random() - 0.5);
+        target = shuffled[0];
+
+        const numItems = 6;
+        const chosen = [target];
+        while (chosen.length < numItems) {
+          chosen.push(shuffled[Math.floor(Math.random() * shuffled.length)]);
+        }
+        chosen.sort(() => Math.random() - 0.5);
+
+        const cols = 3;
+        const rows = 2;
+        const cellW = W / cols;
+        const cellH = (H - 110) / rows;
+        const startY = 95;
+
+        chosen.forEach((s, i) => {
+          const col = i % cols;
+          const row = Math.floor(i / cols);
+          items.push({
+            ...s,
+            x: col * cellW + cellW / 2,
+            y: startY + row * cellH + cellH / 2,
+            size: Math.min(cellW, cellH) * 0.30,
+            found: false
+          });
+        });
+
+        info.textContent = 'Find the ' + target.name + '! Tap it! 👆';
+        draw();
+      }
+
+      // ---------- draw the whole board ----------
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+
+        const grad = ctx.createLinearGradient(0, 0, W, H);
+        grad.addColorStop(0, '#fff9e6');
+        grad.addColorStop(0.5, '#ffe6f0');
+        grad.addColorStop(1, '#e6f7ff');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, W, H);
+
+        for (let i = 0; i < 12; i++) {
+          for (let j = 0; j < 10; j++) {
+            ctx.beginPath();
+            ctx.arc(i * 60 + 20, j * 60 + 20, 9, 0, Math.PI * 2);
+            ctx.fillStyle = (i + j) % 2 === 0 ? '#ffb3ba30' : '#b5e8b030';
+            ctx.fill();
+          }
+        }
+
+        ctx.font = 'bold 26px "Comic Sans MS", cursive';
+        ctx.fillStyle = '#6b4e2e';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'top';
+        ctx.fillText('Find the ' + target.name + '!', W / 2, 22);
+
+        drawShape(ctx, target.name, W - 44, 40, 17, target.color);
+
+        items.forEach(item => {
+          if (item.found) return;
+          drawShape(ctx, item.name, item.x, item.y, item.size, item.color);
+          ctx.beginPath();
+          ctx.arc(item.x - item.size * 0.25, item.y - item.size * 0.25, item.size * 0.16, 0, Math.PI * 2);
+          ctx.fillStyle = '#ffffff90';
+          ctx.fill();
+        });
+      }
+
+      function bumpScore() {
+        scoreDisplay.classList.add('bump');
+        setTimeout(() => scoreDisplay.classList.remove('bump'), 200);
+      }
+
+      // ---------- tapping ----------
+      function handleTap(x, y) {
+        if (!gameActive) return;
+        for (let i = items.length - 1; i >= 0; i--) {
+          const item = items[i];
+          if (item.found) continue;
+
+          const dx = x - item.x;
+          const dy = y - item.y;
+          if (Math.hypot(dx, dy) < item.size + 14) {
+            if (item.name === target.name) {
+              item.found = true;
+              score++;
+              scoreDisplay.textContent = '⭐ ' + score;
+              bumpScore();
+              info.textContent = '🎉 Yes! You found the ' + target.name + '! 🎉';
+              draw();
+
+              if (score >= WIN_SCORE) {
+                endGame();
+              } else {
+                setTimeout(() => {
+                  if (gameActive) init();
+                }, 1300);
+              }
+            } else {
+              info.textContent = 'That\'s a ' + item.name + '… try the ' + target.name + '! 😊';
+            }
+            return;
+          }
+        }
+      }
+
+      function endGame() {
+        gameActive = false;
+        setTimeout(() => {
+          winOverlay.classList.add('show');
+        }, 800);
+      }
+
+      function resetGame() {
+        winOverlay.classList.remove('show');
+        score = 0;
+        scoreDisplay.textContent = '⭐ 0';
+        gameActive = true;
+        init();
+      }
+
+      // ---------- pointer helpers ----------
+      function getPos(e, isTouch) {
+        const rect = canvas.getBoundingClientRect();
+        const clientX = isTouch ? e.touches[0].clientX : e.clientX;
+        const clientY = isTouch ? e.touches[0].clientY : e.clientY;
+        return {
+          x: (clientX - rect.left) * (W / rect.width),
+          y: (clientY - rect.top) * (H / rect.height)
+        };
+      }
+
+      canvas.addEventListener('click', e => {
+        const p = getPos(e, false);
+        handleTap(p.x, p.y);
+      });
+
+      canvas.addEventListener('touchstart', e => {
+        e.preventDefault();
+        const p = getPos(e, true);
+        handleTap(p.x, p.y);
+      }, { passive: false });
+
+      canvas.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
+
+      resetBtn.addEventListener('click', () => {
+        if (gameActive) init();
+      });
+
+      winBtn.addEventListener('click', resetGame);
+
+      init();
+    })();
+  </script>
+</body>
+</html>

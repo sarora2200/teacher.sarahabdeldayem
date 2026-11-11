@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🔍 Find the Difference! · Easy & Colorful 🎨</title>
+  <link rel="icon" type="image/png" href="../images/quran.png">
+  <link rel="apple-touch-icon" href="images/quran.png">
+  <style>
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body {
+      margin: 0; padding: 0;
+      width: 100%; height: 100%;
+      overflow: hidden;
+    }
+    body {
+      background: linear-gradient(145deg, #ffd0e8 0%, #b0e0ff 50%, #c8f7c5 100%);
+      background-attachment: fixed;
+      font-family: 'Comic Sans MS', 'Chalkboard SE', 'Segoe UI', cursive, sans-serif;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 6px 10px;
+    }
+    h1 {
+      font-size: 1.5rem; color: #6b4e2e;
+      text-shadow: 2px 2px 0 #ffeaa5, 4px 4px 0 #ffb882;
+      letter-spacing: 1px; text-align: center;
+      margin: 0 0 4px 0; padding: 0;
+    }
+    .game-card {
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(4px);
+      padding: 10px 12px 12px;
+      border-radius: 30px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.15), 0 0 0 5px #ffea80, 0 0 0 8px #ffb6c1, 0 0 0 10px #a0d8ff;
+      border: 3px solid white;
+      display: flex; flex-direction: column;
+      align-items: center;
+      max-width: 96vw;
+      position: relative;
+    }
+    .hud {
+      display: flex; justify-content: space-between;
+      width: 100%; padding: 0 6px; margin-bottom: 4px;
+      font-weight: 800; font-size: 1rem; color: #7a5a3a;
+    }
+    .hud .level { color: #6b4e2e; }
+    .hud .score { color: #d35400; }
+    canvas {
+      display: block;
+      width: 100%;
+      max-width: 460px;
+      height: auto;
+      border-radius: 20px;
+      box-shadow: 0 0 0 4px #ffe680, 0 0 0 7px #ffb3ba, 0 0 0 10px #b5e8b0, 0 10px 20px -5px #00000055;
+      cursor: pointer;
+      background: #fef9e7;
+      touch-action: manipulation;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+    .game-info {
+      text-align: center; font-size: 1.1rem; font-weight: 700; color: #7a5a3a;
+      margin-top: 6px; text-shadow: 1px 1px 0 white;
+      min-height: 1.6rem;
+    }
+    .game-btn {
+      background: #ffb882; border: none; border-radius: 30px;
+      padding: 8px 24px; font-weight: 900; font-size: 1rem; color: #4a2e1a;
+      letter-spacing: 0.5px; cursor: pointer;
+      box-shadow: 0 6px 0 #b37b4b, 0 8px 12px -4px black;
+      display: flex; align-items: center; gap: 8px;
+      border: 2px solid white; font-family: inherit;
+      text-transform: uppercase; margin-top: 6px;
+    }
+    .game-btn:hover { background: #ffc99c; }
+    .game-btn:active { box-shadow: 0 3px 0 #b37b4b, 0 5px 8px -3px black; }
+    .footer-note {
+      text-align: center; color: #7a5a3a; font-size: 0.85rem; font-weight: 700;
+      text-shadow: 1px 1px 0 white; background: rgba(255,255,200,0.8);
+      padding: 4px 14px; border-radius: 20px; display: inline-block;
+      border: 2px dashed #ffb882; margin-top: 6px;
+    }
+    .win-overlay {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(255,255,255,0.96);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      border-radius: 30px;
+      z-index: 30;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+    .win-overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .win-title {
+      font-size: 2rem; color: #6b4e2e;
+      text-shadow: 2px 2px 0 #ffeaa5, 4px 4px 0 #ffb882;
+      margin-bottom: 10px; text-align: center;
+      animation: popIn 0.5s ease;
+    }
+    .win-emoji {
+      font-size: 6rem; margin-bottom: 10px;
+      animation: bounce 0.8s infinite alternate;
+    }
+    .win-btn {
+      background: #ffb882; border: none; border-radius: 30px;
+      padding: 12px 34px; font-weight: 900; font-size: 1.3rem;
+      color: #4a2e1a; cursor: pointer;
+      box-shadow: 0 6px 0 #b37b4b, 0 8px 12px -4px black;
+      border: 2px solid white; font-family: inherit;
+      text-transform: uppercase; margin-top: 10px;
+    }
+    .win-btn:active {
+      box-shadow: 0 3px 0 #b37b4b, 0 5px 8px -3px black;
+      transform: translateY(3px);
+    }
+    @keyframes popIn {
+      0% { transform: scale(0); }
+      80% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    @keyframes bounce {
+      from { transform: translateY(0) scale(1); }
+      to { transform: translateY(-20px) scale(1.1); }
+    }
+    @media (max-width: 500px) {
+      h1 { font-size: 1.2rem; }
+      .game-card { padding: 6px 8px 8px; }
+      canvas { max-width: 340px; }
+      .game-info { font-size: 0.9rem; }
+      .game-btn { padding: 6px 18px; font-size: 0.9rem; }
+      .hud { font-size: 0.85rem; }
+    }
+  </style>
+</head>
+<body>
+  <h1>🔍 Find the Difference! 🎨</h1>
+  <div class="game-card">
+    <div class="hud">
+      <span class="level" id="levelDisplay">Level 1</span>
+      <span class="score" id="scoreDisplay">⭐ 0 / 3</span>
+    </div>
+    <canvas id="diffCanvas" width="460" height="460"></canvas>
+    <div id="diffInfo" class="game-info">Tap the 3 differences!</div>
+    <button id="diffReset" class="game-btn">🔄 New Scene!</button>
+
+    <div class="win-overlay" id="winOverlay">
+      <div class="win-emoji">🏆</div>
+      <div class="win-title">You found them all!</div>
+      <button class="win-btn" id="winBtn">▶ Next Level!</button>
+    </div>
+  </div>
+  <div class="footer-note">👆 Tap a difference in either picture! 👆</div>
+
+  <script>
+    (function() {
+      const canvas = document.getElementById('diffCanvas');
+      const ctx = canvas.getContext('2d');
+      const info = document.getElementById('diffInfo');
+      const resetBtn = document.getElementById('diffReset');
+      const levelDisplay = document.getElementById('levelDisplay');
+      const scoreDisplay = document.getElementById('scoreDisplay');
+      const winOverlay = document.getElementById('winOverlay');
+      const winBtn = document.getElementById('winBtn');
+      const W = 460, H = 460;
+
+      // Very colorful, simple scenes with only 3 differences each
+      const SCENES = [
+        {
+          name: 'Farm',
+          bg: '#fff176',       // bright yellow sky
+          ground: '#66bb6a',   // bright green grass
+          items: [
+            { emoji: '🐄', x: 80, y: 150, size: 55 },
+            { emoji: '🌳', x: 340, y: 140, size: 65 },
+            { emoji: '☀️', x: 400, y: 60, size: 55 },
+            { emoji: '🐔', x: 200, y: 180, size: 45 },
+            { emoji: '🌻', x: 280, y: 200, size: 40 },
+            { emoji: '🚜', x: 120, y: 260, size: 55 },
+            { emoji: '🐖', x: 330, y: 260, size: 50 },
+            { emoji: '☁️', x: 180, y: 70, size: 55 }
+          ],
+          diffs: [0, 2, 5],
+          changes: {
+            0: { emoji: '🐎' },      // cow -> horse
+            2: { emoji: '🌙' },      // sun -> moon
+            5: { emoji: '🚲' }       // tractor -> bike
+          }
+        },
+        {
+          name: 'Beach',
+          bg: '#4fc3f7',       // bright blue sky
+          ground: '#ffe082',   // sandy beach
+          items: [
+            { emoji: '🌊', x: 80, y: 200, size: 60 },
+            { emoji: '⛱️', x: 340, y: 160, size: 60 },
+            { emoji: '🐚', x: 160, y: 280, size: 45 },
+            { emoji: '🦀', x: 280, y: 280, size: 45 },
+            { emoji: '☀️', x: 400, y: 60, size: 55 },
+            { emoji: '⛵', x: 200, y: 120, size: 55 },
+            { emoji: '🐦', x: 300, y: 80, size: 40 },
+            { emoji: '🌴', x: 80, y: 140, size: 65 }
+          ],
+          diffs: [0, 4, 6],
+          changes: {
+            0: { emoji: '🏔️' },      // wave -> mountain
+            4: { emoji: '🌧️' },      // sun -> rain cloud
+            6: { emoji: '🦅' }       // small bird -> eagle
+          }
+        },
+        {
+          name: 'Jungle',
+          bg: '#81c784',       // bright green
+          ground: '#8d6e63',   // brown ground
+          items: [
+            { emoji: '🦁', x: 100, y: 180, size: 60 },
+            { emoji: '🐒', x: 280, y: 150, size: 50 },
+            { emoji: '🌴', x: 380, y: 140, size: 65 },
+            { emoji: '🦜', x: 180, y: 100, size: 45 },
+            { emoji: '🐍', x: 320, y: 270, size: 45 },
+            { emoji: '🌺', x: 80, y: 280, size: 40 },
+            { emoji: '🦋', x: 200, y: 260, size: 40 },
+            { emoji: '☀️', x: 400, y: 50, size: 50 }
+          ],
+          diffs: [0, 3, 6],
+          changes: {
+            0: { emoji: '🐯' },      // lion -> tiger
+            3: { emoji: '🦉' },      // parrot -> owl
+            6: { emoji: '🐝' }       // butterfly -> bee
+          }
+        },
+        {
+          name: 'Space',
+          bg: '#7986cb',       // bright purple-blue
+          ground: '#5e35b1',   // darker purple
+          items: [
+            { emoji: '🚀', x: 100, y: 200, size: 60 },
+            { emoji: '🌕', x: 340, y: 140, size: 55 },
+            { emoji: '🪐', x: 260, y: 220, size: 50 },
+            { emoji: '⭐', x: 60, y: 80, size: 35 },
+            { emoji: '👽', x: 200, y: 290, size: 50 },
+            { emoji: '🛸', x: 360, y: 280, size: 55 },
+            { emoji: '🌟', x: 420, y: 80, size: 35 },
+            { emoji: '🌌', x: 160, y: 120, size: 45 }
+          ],
+          diffs: [1, 3, 4],
+          changes: {
+            1: { emoji: '🌑' },      // full moon -> new moon
+            3: { emoji: '💫' },      // star -> shooting star
+            4: { emoji: '🤖' }       // alien -> robot
+          }
+        }
+      ];
+
+      let levelIndex = 0;
+      let scene = null;
+      let found = [];
+      let gameActive = true;
+
+      const TOP_Y = 30;
+      const PICTURE_H = 200;
+      const BOTTOM_Y = 240;
+
+      function loadScene(index) {
+        scene = SCENES[index % SCENES.length];
+        found = [];
+        gameActive = true;
+        info.textContent = 'Tap the 3 differences!';
+        levelDisplay.textContent = 'Level ' + (index + 1);
+        updateScore();
+        draw();
+      }
+
+      function updateScore() {
+        scoreDisplay.textContent = '⭐ ' + found.length + ' / ' + scene.diffs.length;
+      }
+
+      function drawItem(item, offsetY, isBottom, diffIndex) {
+        let emoji = item.emoji;
+        let x = item.x;
+        let y = item.y + offsetY;
+        let size = item.size;
+
+        if (isBottom && scene.diffs.includes(diffIndex)) {
+          const change = scene.changes[diffIndex];
+          if (change.emoji) emoji = change.emoji;
+          if (change.size) size = change.size;
+        }
+
+        // Draw a soft white circle behind each emoji for pop
+        ctx.beginPath();
+        ctx.arc(x, y, size * 0.6, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255,255,255,0.5)';
+        ctx.fill();
+
+        ctx.font = size + 'px "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(emoji, x, y);
+      }
+
+      function drawPicture(offsetY, isBottom) {
+        // Background of the picture area with rounded corners
+        const r = 16;
+        ctx.beginPath();
+        ctx.moveTo(10 + r, offsetY);
+        ctx.lineTo(W - 10 - r, offsetY);
+        ctx.quadraticCurveTo(W - 10, offsetY, W - 10, offsetY + r);
+        ctx.lineTo(W - 10, offsetY + PICTURE_H - r);
+        ctx.quadraticCurveTo(W - 10, offsetY + PICTURE_H, W - 10 - r, offsetY + PICTURE_H);
+        ctx.lineTo(10 + r, offsetY + PICTURE_H);
+        ctx.quadraticCurveTo(10, offsetY + PICTURE_H, 10, offsetY + PICTURE_H - r);
+        ctx.lineTo(10, offsetY + r);
+        ctx.quadraticCurveTo(10, offsetY, 10 + r, offsetY);
+        ctx.closePath();
+        ctx.fillStyle = scene.bg;
+        ctx.fill();
+
+        // Ground strip
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(10, offsetY + PICTURE_H - 50, W - 20, 50);
+        ctx.clip();
+        ctx.fillStyle = scene.ground;
+        ctx.fillRect(10, offsetY + PICTURE_H - 50, W - 20, 50);
+        ctx.restore();
+
+        // Items
+        scene.items.forEach((item, i) => {
+          drawItem(item, offsetY, isBottom, i);
+        });
+
+        // Found markers
+        if (isBottom) {
+          found.forEach(fi => {
+            const item = scene.items[fi];
+            const x = item.x;
+            const y = item.y + offsetY;
+            ctx.beginPath();
+            ctx.arc(x, y, 30, 0, Math.PI * 2);
+            ctx.strokeStyle = '#00e676';
+            ctx.lineWidth = 6;
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(x, y, 30, 0, Math.PI * 2);
+            ctx.strokeStyle = 'white';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+          });
+        }
+      }
+
+      function draw() {
+        ctx.fillStyle = '#fef9e7';
+        ctx.fillRect(0, 0, W, H);
+
+        // Top picture label
+        ctx.font = 'bold 16px "Comic Sans MS", cursive';
+        ctx.fillStyle = '#6b4e2e';
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'top';
+        ctx.fillText('PICTURE A', 14, 8);
+        drawPicture(TOP_Y, false);
+
+        // Divider
+        ctx.strokeStyle = '#ffb882';
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.moveTo(10, TOP_Y + PICTURE_H + 5);
+        ctx.lineTo(W - 10, TOP_Y + PICTURE_H + 5);
+        ctx.stroke();
+
+        // Bottom picture label
+        ctx.fillStyle = '#6b4e2e';
+        ctx.fillText('PICTURE B', 14, BOTTOM_Y - 18);
+        drawPicture(BOTTOM_Y, true);
+      }
+
+      function getPos(e, isTouch) {
+        const rect = canvas.getBoundingClientRect();
+        const clientX = isTouch ? e.touches[0].clientX : e.clientX;
+        const clientY = isTouch ? e.touches[0].clientY : e.clientY;
+        return {
+          x: (clientX - rect.left) * (W / rect.width),
+          y: (clientY - rect.top) * (H / rect.height)
+        };
+      }
+
+      function handleTap(x, y) {
+        if (!gameActive) return;
+
+        let isBottom = false;
+        let offsetY = TOP_Y;
+        if (y > BOTTOM_Y - 30) {
+          isBottom = true;
+          offsetY = BOTTOM_Y;
+        } else if (y > TOP_Y + PICTURE_H + 10) {
+          return;
+        }
+
+        // Find closest item
+        let best = -1;
+        let bestDist = 50;
+        scene.items.forEach((item, i) => {
+          if (found.includes(i)) return;
+          const ix = item.x;
+          const iy = item.y + offsetY;
+          const dist = Math.hypot(x - ix, y - iy);
+          if (dist < bestDist) {
+            bestDist = dist;
+            best = i;
+          }
+        });
+
+        if (best < 0) return;
+
+        if (scene.diffs.includes(best)) {
+          if (!found.includes(best)) {
+            found.push(best);
+            updateScore();
+            // Happy sound
+            try {
+              const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+              const osc = audioCtx.createOscillator();
+              const gain = audioCtx.createGain();
+              osc.connect(gain);
+              gain.connect(audioCtx.destination);
+              osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+              osc.frequency.exponentialRampToValueAtTime(1400, audioCtx.currentTime + 0.15);
+              gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+              gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.25);
+              osc.start();
+              osc.stop(audioCtx.currentTime + 0.25);
+            } catch (e) {}
+
+            if (found.length >= scene.diffs.length) {
+              gameActive = false;
+              info.textContent = '🎉 You found them all! 🎉';
+              draw();
+              setTimeout(() => {
+                winOverlay.classList.add('show');
+              }, 600);
+            } else {
+              info.textContent = '🎯 Found one! ' + (scene.diffs.length - found.length) + ' more to go!';
+              draw();
+            }
+          }
+        } else {
+          info.textContent = '❌ Not a difference... look closer!';
+          // Buzz sound
+          try {
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.type = 'square';
+            osc.frequency.setValueAtTime(200, audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.15);
+          } catch (e) {}
+        }
+      }
+
+      canvas.addEventListener('click', e => {
+        const p = getPos(e, false);
+        handleTap(p.x, p.y);
+      });
+
+      canvas.addEventListener('touchstart', e => {
+        e.preventDefault();
+        const p = getPos(e, true);
+        handleTap(p.x, p.y);
+      }, { passive: false });
+
+      canvas.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
+
+      resetBtn.addEventListener('click', () => {
+        found = [];
+        gameActive = true;
+        updateScore();
+        info.textContent = 'Tap the 3 differences!';
+        draw();
+      });
+
+      winBtn.addEventListener('click', () => {
+        winOverlay.classList.remove('show');
+        levelIndex++;
+        loadScene(levelIndex);
+      });
+
+      loadScene(0);
+    })();
+  </script>
+</body>
+</html>

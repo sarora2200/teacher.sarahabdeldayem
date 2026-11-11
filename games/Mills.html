@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>⚪ Mills Jr. · Make Three in a Row! ⚫</title>
+  <link rel="icon" type="image/png" href="../images/quran.png">
+  <link rel="apple-touch-icon" href="images/quran.png">
+  <style>
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body {
+      margin: 0; padding: 0;
+      width: 100%; height: 100%;
+      overflow: hidden;
+    }
+    body {
+      background: linear-gradient(145deg, #ffd0e8 0%, #b0e0ff 50%, #c8f7c5 100%);
+      background-attachment: fixed;
+      font-family: 'Comic Sans MS', 'Chalkboard SE', 'Segoe UI', cursive, sans-serif;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 6px 10px;
+    }
+    h1 {
+      font-size: 1.6rem; color: #6b4e2e;
+      text-shadow: 2px 2px 0 #ffeaa5, 4px 4px 0 #ffb882;
+      letter-spacing: 1px; text-align: center;
+      margin: 0 0 4px 0; padding: 0;
+    }
+    .game-card {
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(4px);
+      padding: 10px 12px 12px;
+      border-radius: 30px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.15), 0 0 0 5px #ffea80, 0 0 0 8px #ffb6c1, 0 0 0 10px #a0d8ff;
+      border: 3px solid white;
+      display: flex; flex-direction: column;
+      align-items: center;
+      max-width: 96vw;
+    }
+    canvas {
+      display: block;
+      width: 100%;
+      max-width: 380px;
+      height: auto;
+      border-radius: 20px;
+      box-shadow: 0 0 0 4px #ffe680, 0 0 0 7px #ffb3ba, 0 0 0 10px #b5e8b0, 0 10px 20px -5px #00000055;
+      cursor: pointer;
+      background: #fef9e7;
+      touch-action: manipulation;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+    .game-info {
+      text-align: center; font-size: 1.1rem; font-weight: 700; color: #7a5a3a;
+      margin-top: 6px; text-shadow: 1px 1px 0 white;
+      min-height: 1.6rem;
+    }
+    .game-btn {
+      background: #ffb882; border: none; border-radius: 30px;
+      padding: 8px 24px; font-weight: 900; font-size: 1rem; color: #4a2e1a;
+      letter-spacing: 0.5px; cursor: pointer;
+      box-shadow: 0 6px 0 #b37b4b, 0 8px 12px -4px black;
+      display: flex; align-items: center; gap: 8px;
+      border: 2px solid white; font-family: inherit;
+      text-transform: uppercase; margin-top: 6px;
+    }
+    .game-btn:hover { background: #ffc99c; }
+    .game-btn:active { box-shadow: 0 3px 0 #b37b4b, 0 5px 8px -3px black; }
+    .footer-note {
+      text-align: center; color: #7a5a3a; font-size: 0.85rem; font-weight: 700;
+      text-shadow: 1px 1px 0 white; background: rgba(255,255,200,0.8);
+      padding: 4px 14px; border-radius: 20px; display: inline-block;
+      border: 2px dashed #ffb882; margin-top: 6px;
+    }
+    @media (max-width: 500px) {
+      h1 { font-size: 1.2rem; }
+      .game-card { padding: 6px 8px 8px; }
+      canvas { max-width: 300px; }
+      .game-info { font-size: 0.9rem; }
+      .game-btn { padding: 6px 18px; font-size: 0.9rem; }
+    }
+  </style>
+</head>
+<body>
+  <h1>⚪ Mills Jr. ⚫</h1>
+  <div class="game-card">
+    <canvas id="millsCanvas" width="400" height="400"></canvas>
+    <div id="millsInfo" class="game-info">⚪ Player 1: Place a piece</div>
+    <button id="millsReset" class="game-btn">🔄 Again!</button>
+  </div>
+  <div class="footer-note">👆 Tap an empty spot to place or move! 👆</div>
+
+  <script>
+    (function() {
+      const canvas = document.getElementById('millsCanvas');
+      const ctx = canvas.getContext('2d');
+      const info = document.getElementById('millsInfo');
+      const resetBtn = document.getElementById('millsReset');
+      const W = 400, H = 400;
+
+      // 7x7 grid, only specific positions are valid (three concentric squares with connecting lines)
+      // Coordinates (col, row) in 0..6
+      const NODES = [
+        // Outer square
+        [0,0],[3,0],[6,0],
+        [0,3],[6,3],
+        [0,6],[3,6],[6,6],
+        // Middle square
+        [1,1],[3,1],[5,1],
+        [1,3],[5,3],
+        [1,5],[3,5],[5,5],
+        // Inner square
+        [2,2],[3,2],[4,2],
+        [2,3],[4,3],
+        [2,4],[3,4],[4,4]
+      ];
+
+      // Adjacency map (node index -> array of neighbor indices)
+      // Build programmatically
+      const ADJ = {};
+      NODES.forEach((n, i) => { ADJ[i] = []; });
+
+      function findNode(c, r) {
+        return NODES.findIndex(n => n[0] === c && n[1] === r);
+      }
+
+      // Horizontal connections
+      const hConnections = [
+        // Outer top
+        [0,0],[3,0],[6,0],
+        // Outer middle
+        [0,3],[6,3],
+        // Outer bottom
+        [0,6],[3,6],[6,6],
+        // Middle top
+        [1,1],[3,1],[5,1],
+        // Middle middle
+        [1,3],[5,3],
+        // Middle bottom
+        [1,5],[3,5],[5,5],
+        // Inner top
+        [2,2],[3,2],[4,2],
+        // Inner middle
+        [2,3],[4,3],
+        // Inner bottom
+        [2,4],[3,4],[4,4]
+      ];
+
+      // Connect adjacent nodes in the same row that are next to each other
+      NODES.forEach((n1, i) => {
+        NODES.forEach((n2, j) => {
+          if (i >= j) return;
+          // Same row, adjacent columns
+          if (n1[1] === n2[1] && Math.abs(n1[0] - n2[0]) === (n1[1] % 2 === 1 ? 2 : 3)) {
+            // Check if they're actually connected (no gap)
+            // For odd rows (1,5): cols 1-3, 3-5 connected
+            // For even rows (0,2,4,6): cols 0-3, 3-6 connected
+            // For row 3: special case
+            let connected = false;
+            if (n1[1] === 0 || n1[1] === 6) {
+              if (n1[0] === 0 && n2[0] === 3) connected = true;
+              if (n1[0] === 3 && n2[0] === 6) connected = true;
+            } else if (n1[1] === 1 || n1[1] === 5) {
+              if (n1[0] === 1 && n2[0] === 3) connected = true;
+              if (n1[0] === 3 && n2[0] === 5) connected = true;
+            } else if (n1[1] === 2 || n1[1] === 4) {
+              if (n1[0] === 2 && n2[0] === 3) connected = true;
+              if (n1[0] === 3 && n2[0] === 4) connected = true;
+            } else if (n1[1] === 3) {
+              // Row 3: nodes at cols 0,1,2,4,5,6
+              if (n1[0] === 0 && n2[0] === 1) connected = true;
+              if (n1[0] === 1 && n2[0] === 2) connected = true;
+              if (n1[0] === 4 && n2[0] === 5) connected = true;
+              if (n1[0] === 5 && n2[0] === 6) connected = true;
+            }
+            if (connected) {
+              ADJ[i].push(j);
+              ADJ[j].push(i);
+            }
+          }
+          // Same column, adjacent rows
+          if (n1[0] === n2[0] && Math.abs(n1[1] - n2[1]) === (n1[0] % 2 === 1 ? 2 : 3)) {
+            let connected = false;
+            if (n1[0] === 0 || n1[0] === 6) {
+              if (n1[1] === 0 && n2[1] === 3) connected = true;
+              if (n1[1] === 3 && n2[1] === 6) connected = true;
+            } else if (n1[0] === 1 || n1[0] === 5) {
+              if (n1[1] === 1 && n2[1] === 3) connected = true;
+              if (n1[1] === 3 && n2[1] === 5) connected = true;
+            } else if (n1[0] === 2 || n1[0] === 4) {
+              if (n1[1] === 2 && n2[1] === 3) connected = true;
+              if (n1[1] === 3 && n2[1] === 4) connected = true;
+            } else if (n1[0] === 3) {
+              // Col 3: nodes at rows 0,1,2,4,5,6
+              if (n1[1] === 0 && n2[1] === 1) connected = true;
+              if (n1[1] === 1 && n2[1] === 2) connected = true;
+              if (n1[1] === 4 && n2[1] === 5) connected = true;
+              if (n1[1] === 5 && n2[1] === 6) connected = true;
+            }
+            if (connected) {
+              ADJ[i].push(j);
+              ADJ[j].push(i);
+            }
+          }
+        });
+      });
+
+      // Mills (three in a row)
+      const MILLS = [];
+      // Horizontal mills
+      const hMills = [
+        // Outer
+        [findNode(0,0), findNode(3,0), findNode(6,0)],
+        [findNode(0,3), findNode(6,3)], // only 2 nodes on row 3 outer... skip
+        [findNode(0,6), findNode(3,6), findNode(6,6)],
+        // Middle
+        [findNode(1,1), findNode(3,1), findNode(5,1)],
+        [findNode(1,5), findNode(3,5), findNode(5,5)],
+        // Inner
+        [findNode(2,2), findNode(3,2), findNode(4,2)],
+        [findNode(2,4), findNode(3,4), findNode(4,4)],
+      ];
+      // Vertical mills
+      const vMills = [
+        [findNode(0,0), findNode(0,3), findNode(0,6)],
+        [findNode(6,0), findNode(6,3), findNode(6,6)],
+        [findNode(1,1), findNode(1,3), findNode(1,5)],
+        [findNode(5,1), findNode(5,3), findNode(5,5)],
+        [findNode(2,2), findNode(2,3), findNode(2,4)],
+        [findNode(4,2), findNode(4,3), findNode(4,4)],
+        [findNode(3,0), findNode(3,1), findNode(3,2)],
+        [findNode(3,4), findNode(3,5), findNode(3,6)],
+      ];
+      // Row 3 mills (partial)
+      const row3Mills = [
+        [findNode(0,3), findNode(1,3), findNode(2,3)],
+        [findNode(4,3), findNode(5,3), findNode(6,3)],
+      ];
+      // Col 3 mills (partial)
+      const col3Mills = [
+        [findNode(3,0), findNode(3,1), findNode(3,2)],
+        [findNode(3,4), findNode(3,5), findNode(3,6)],
+      ];
+
+      [...hMills, ...vMills, ...row3Mills, ...col3Mills].forEach(mill => {
+        if (mill.length === 3 && mill.every(i => i >= 0)) {
+          MILLS.push(mill);
+        }
+      });
+
+      let board; // 0 = empty, 1 = player 1, 2 = player 2
+      let currentPlayer;
+      let phase; // 'place' or 'move'
+      let piecesPlaced; // [p1, p2]
+      let selectedNode; // for moving phase
+      let gameOver;
+      let mustRemove; // whether current player must remove an opponent piece
+      let hoverNode;
+
+      const P1_COLOR = '#e74c3c';
+      const P2_COLOR = '#2980b9';
+
+      function init() {
+        board = Array(NODES.length).fill(0);
+        currentPlayer = 1;
+        phase = 'place';
+        piecesPlaced = [0, 0];
+        selectedNode = -1;
+        gameOver = false;
+        mustRemove = false;
+        hoverNode = -1;
+        info.textContent = '⚪ Player 1: Place a piece';
+        draw();
+      }
+
+      function getNodePos(idx) {
+        const [c, r] = NODES[idx];
+        // Map grid coords to pixel
+        const margin = 40;
+        const step = (W - margin * 2) / 6;
+        return {
+          x: margin + c * step,
+          y: margin + r * step
+        };
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+
+        // Background
+        const grad = ctx.createLinearGradient(0, 0, W, H);
+        grad.addColorStop(0, '#fff9e6');
+        grad.addColorStop(0.5, '#ffe6f0');
+        grad.addColorStop(1, '#e6f7ff');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, W, H);
+
+        // Soft polka dots
+        for (let i = 0; i < 8; i++) {
+          for (let j = 0; j < 8; j++) {
+            ctx.beginPath();
+            ctx.arc(i * 55 + 20, j * 55 + 20, 7, 0, Math.PI * 2);
+            ctx.fillStyle = (i + j) % 2 === 0 ? '#ffb3ba20' : '#b5e8b020';
+            ctx.fill();
+          }
+        }
+
+        // Draw connection lines
+        ctx.strokeStyle = '#d4b896';
+        ctx.lineWidth = 4;
+        ctx.lineCap = 'round';
+        for (let i = 0; i < NODES.length; i++) {
+          for (const j of ADJ[i]) {
+            if (i < j) {
+              const p1 = getNodePos(i);
+              const p2 = getNodePos(j);
+              ctx.beginPath();
+              ctx.moveTo(p1.x, p1.y);
+              ctx.lineTo(p2.x, p2.y);
+              ctx.stroke();
+            }
+          }
+        }
+
+        // Draw nodes
+        for (let i = 0; i < NODES.length; i++) {
+          const p = getNodePos(i);
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, 10, 0, Math.PI * 2);
+          ctx.fillStyle = '#ffffffb0';
+          ctx.fill();
+          ctx.strokeStyle = '#d4b896';
+          ctx.lineWidth = 3;
+          ctx.stroke();
+        }
+
+        // Draw pieces
+        for (let i = 0; i < NODES.length; i++) {
+          if (board[i] === 0) continue;
+          const p = getNodePos(i);
+          const color = board[i] === 1 ? P1_COLOR : P2_COLOR;
+          const dark = board[i] === 1 ? '#c0392b' : '#1a5276';
+
+          // Shadow
+          ctx.beginPath();
+          ctx.arc(p.x + 2, p.y + 2, 16, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(0,0,0,0.2)';
+          ctx.fill();
+
+          // Piece
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, 16, 0, Math.PI * 2);
+          const pieceGrad = ctx.createRadialGradient(p.x - 5, p.y - 5, 3, p.x, p.y, 16);
+          pieceGrad.addColorStop(0, '#ffffff');
+          pieceGrad.addColorStop(0.2, color);
+          pieceGrad.addColorStop(1, dark);
+          ctx.fillStyle = pieceGrad;
+          ctx.fill();
+          ctx.strokeStyle = dark;
+          ctx.lineWidth = 2;
+          ctx.stroke();
+
+          // Highlight
+          ctx.beginPath();
+          ctx.arc(p.x - 5, p.y - 5, 4, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(255,255,255,0.5)';
+          ctx.fill();
+
+          // Selected indicator
+          if (i === selectedNode) {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, 20, 0, Math.PI * 2);
+            ctx.strokeStyle = '#ffd700';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+          }
+        }
+
+        // Hover highlight
+        if (hoverNode >= 0 && !gameOver) {
+          const p = getNodePos(hoverNode);
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, 18, 0, Math.PI * 2);
+          ctx.strokeStyle = currentPlayer === 1 ? 'rgba(231,76,60,0.6)' : 'rgba(41,128,185,0.6)';
+          ctx.lineWidth = 3;
+          ctx.setLineDash([4, 4]);
+          ctx.stroke();
+          ctx.setLineDash([]);
+        }
+
+        // Must remove indicator
+        if (mustRemove) {
+          ctx.font = 'bold 16px "Comic Sans MS", cursive';
+          ctx.fillStyle = '#ff6b6b';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'top';
+          ctx.fillText('Remove an opponent piece!', W / 2, 8);
+        }
+      }
+
+      function checkMills(player) {
+        // Returns array of mill indices that are formed by player
+        const millIndices = [];
+        for (let m = 0; m < MILLS.length; m++) {
+          const mill = MILLS[m];
+          if (mill.every(i => board[i] === player)) {
+            millIndices.push(m);
+          }
+        }
+        return millIndices;
+      }
+
+      function isPieceInMill(idx) {
+        // Check if this node is part of any mill
+        for (const mill of MILLS) {
+          if (mill.includes(idx) && mill.every(i => board[i] === board[idx])) {
+            return true;
+          }
+        }
+        return false;
+      }
+
+      function canRemovePiece(idx, player) {
+        // Can't remove a piece that's part of a mill, unless all opponent pieces are in mills
+        if (board[idx] !== (player === 1 ? 2 : 1)) return false;
+        if (!isPieceInMill(idx)) return true;
+        // Check if all opponent pieces are in mills
+        const opp = player === 1 ? 2 : 1;
+        const oppPieces = board.map((v, i) => v === opp ? i : -1).filter(i => i >= 0);
+        return oppPieces.every(i => isPieceInMill(i));
+      }
+
+      function handleTap(x, y) {
+        if (gameOver) return;
+
+        // Find nearest node
+        let nearest = -1;
+        let bestDist = 30;
+        for (let i = 0; i < NODES.length; i++) {
+          const p = getNodePos(i);
+          const dist = Math.hypot(x - p.x, y - p.y);
+          if (dist < bestDist) {
+            bestDist = dist;
+            nearest = i;
+          }
+        }
+        if (nearest < 0) return;
+
+        if (mustRemove) {
+          // Must remove an opponent piece
+          if (canRemovePiece(nearest, currentPlayer)) {
+            board[nearest] = 0;
+            mustRemove = false;
+            // Check win condition after removal
+            const opp = currentPlayer === 1 ? 2 : 1;
+            const oppCount = board.filter(v => v === opp).length;
+            if (phase === 'move' && oppCount < 3) {
+              // Current player wins
+              gameOver = true;
+              info.textContent = currentPlayer === 1 ? '🎉 🔴 Player 1 wins! 🎉' : '🎉 🔵 Player 2 wins! 🎉';
+              draw();
+              return;
+            }
+            // Switch turn
+            currentPlayer = currentPlayer === 1 ? 2 : 1;
+            selectedNode = -1;
+            updateInfo();
+            draw();
+          } else {
+            info.textContent = '❌ Choose an opponent piece (not in a mill)';
+            draw();
+          }
+          return;
+        }
+
+        if (phase === 'place') {
+          if (board[nearest] !== 0) return;
+          // Place piece
+          board[nearest] = currentPlayer;
+          piecesPlaced[currentPlayer - 1]++;
+
+          // Check for mills
+          const mills = checkMills(currentPlayer);
+          if (mills.length > 0) {
+            mustRemove = true;
+            info.textContent = currentPlayer === 1 
+              ? '⚪ Player 1 formed a mill! Remove a 🔵 piece' 
+              : '⚫ Player 2 formed a mill! Remove a 🔴 piece';
+            draw();
+            return;
+          }
+
+          // Check if placing phase is over
+          if (piecesPlaced[0] >= 3 && piecesPlaced[1] >= 3) {
+            phase = 'move';
+            currentPlayer = currentPlayer === 1 ? 2 : 1;
+            updateInfo();
+            draw();
+            return;
+          }
+
+          // Switch turn
+          currentPlayer = currentPlayer === 1 ? 2 : 1;
+          updateInfo();
+          draw();
+        } else if (phase === 'move') {
+          if (selectedNode === -1) {
+            // Select a piece
+            if (board[nearest] === currentPlayer) {
+              selectedNode = nearest;
+              info.textContent = 'Tap an adjacent empty spot to move';
+              draw();
+            }
+          } else {
+            // Try to move
+            if (board[nearest] === 0 && ADJ[selectedNode].includes(nearest)) {
+              // Move piece
+              board[selectedNode] = 0;
+              board[nearest] = currentPlayer;
+              selectedNode = -1;
+
+              // Check for mills
+              const mills = checkMills(currentPlayer);
+              if (mills.length > 0) {
+                mustRemove = true;
+                info.textContent = currentPlayer === 1 
+                  ? '⚪ Player 1 formed a mill! Remove a 🔵 piece' 
+                  : '⚫ Player 2 formed a mill! Remove a 🔴 piece';
+                draw();
+                return;
+              }
+
+              // Switch turn
+              currentPlayer = currentPlayer === 1 ? 2 : 1;
+              updateInfo();
+              draw();
+            } else if (board[nearest] === currentPlayer) {
+              // Re-select
+              selectedNode = nearest;
+              draw();
+            } else {
+              info.textContent = '❌ Move to an adjacent empty spot';
+              draw();
+            }
+          }
+        }
+      }
+
+      function updateInfo() {
+        if (gameOver) return;
+        const p = currentPlayer === 1 ? '⚪ Player 1' : '⚫ Player 2';
+        if (phase === 'place') {
+          info.textContent = p + ': Place a piece';
+        } else {
+          info.textContent = p + ': Select a piece to move';
+        }
+      }
+
+      function getPos(e, isTouch) {
+        const rect = canvas.getBoundingClientRect();
+        const clientX = isTouch ? e.touches[0].clientX : e.clientX;
+        const clientY = isTouch ? e.touches[0].clientY : e.clientY;
+        return {
+          x: (clientX - rect.left) * (W / rect.width),
+          y: (clientY - rect.top) * (H / rect.height)
+        };
+      }
+
+      canvas.addEventListener('mousemove', e => {
+        if (gameOver) return;
+        const p = getPos(e, false);
+        let nearest = -1;
+        let bestDist = 30;
+        for (let i = 0; i < NODES.length; i++) {
+          const pos = getNodePos(i);
+          const dist = Math.hypot(p.x - pos.x, p.y - pos.y);
+          if (dist < bestDist) {
+            bestDist = dist;
+            nearest = i;
+          }
+        }
+        if (nearest !== hoverNode) {
+          hoverNode = nearest;
+          draw();
+        }
+      });
+      canvas.addEventListener('mouseleave', () => {
+        hoverNode = -1;
+        draw();
+      });
+
+      canvas.addEventListener('click', e => {
+        const p = getPos(e, false);
+        handleTap(p.x, p.y);
+      });
+
+      canvas.addEventListener('touchstart', e => {
+        e.preventDefault();
+        const p = getPos(e, true);
+        handleTap(p.x, p.y);
+      }, { passive: false });
+
+      canvas.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
+
+      resetBtn.addEventListener('click', init);
+
+      init();
+    })();
+  </script>
+</body>
+</html>

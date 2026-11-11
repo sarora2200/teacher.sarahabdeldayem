@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🔲 Dots & Boxes · Claim the Squares! 🔳</title>
+  <link rel="icon" type="image/png" href="../images/quran.png">
+  <link rel="apple-touch-icon" href="images/quran.png">
+  <style>
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body {
+      margin: 0; padding: 0;
+      width: 100%; height: 100%;
+      overflow: hidden;
+    }
+    body {
+      background: linear-gradient(145deg, #ffd0e8 0%, #b0e0ff 50%, #c8f7c5 100%);
+      background-attachment: fixed;
+      font-family: 'Comic Sans MS', 'Chalkboard SE', 'Segoe UI', cursive, sans-serif;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 6px 10px;
+    }
+    h1 {
+      font-size: 1.6rem; color: #6b4e2e;
+      text-shadow: 2px 2px 0 #ffeaa5, 4px 4px 0 #ffb882;
+      letter-spacing: 1px; text-align: center;
+      margin: 0 0 4px 0; padding: 0;
+    }
+    .game-card {
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(4px);
+      padding: 10px 12px 12px;
+      border-radius: 30px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.15), 0 0 0 5px #ffea80, 0 0 0 8px #ffb6c1, 0 0 0 10px #a0d8ff;
+      border: 3px solid white;
+      display: flex; flex-direction: column;
+      align-items: center;
+      max-width: 96vw;
+    }
+    .scoreboard {
+      display: flex; gap: 24px; margin-bottom: 6px;
+      font-weight: 800; font-size: 1.1rem;
+    }
+    .score-p1 { color: #e74c3c; }
+    .score-p2 { color: #2980b9; }
+    canvas {
+      display: block;
+      width: 100%;
+      max-width: 380px;
+      height: auto;
+      border-radius: 20px;
+      box-shadow: 0 0 0 4px #ffe680, 0 0 0 7px #ffb3ba, 0 0 0 10px #b5e8b0, 0 10px 20px -5px #00000055;
+      cursor: pointer;
+      background: #fef9e7;
+      touch-action: manipulation;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+    .game-info {
+      text-align: center; font-size: 1.1rem; font-weight: 700; color: #7a5a3a;
+      margin-top: 6px; text-shadow: 1px 1px 0 white;
+      min-height: 1.6rem;
+    }
+    .game-btn {
+      background: #ffb882; border: none; border-radius: 30px;
+      padding: 8px 24px; font-weight: 900; font-size: 1rem; color: #4a2e1a;
+      letter-spacing: 0.5px; cursor: pointer;
+      box-shadow: 0 6px 0 #b37b4b, 0 8px 12px -4px black;
+      display: flex; align-items: center; gap: 8px;
+      border: 2px solid white; font-family: inherit;
+      text-transform: uppercase; margin-top: 6px;
+    }
+    .game-btn:hover { background: #ffc99c; }
+    .game-btn:active { box-shadow: 0 3px 0 #b37b4b, 0 5px 8px -3px black; }
+    .footer-note {
+      text-align: center; color: #7a5a3a; font-size: 0.85rem; font-weight: 700;
+      text-shadow: 1px 1px 0 white; background: rgba(255,255,200,0.8);
+      padding: 4px 14px; border-radius: 20px; display: inline-block;
+      border: 2px dashed #ffb882; margin-top: 6px;
+    }
+    @media (max-width: 500px) {
+      h1 { font-size: 1.2rem; }
+      .game-card { padding: 6px 8px 8px; }
+      canvas { max-width: 300px; }
+      .game-info { font-size: 0.9rem; }
+      .game-btn { padding: 6px 18px; font-size: 0.9rem; }
+      .scoreboard { font-size: 0.95rem; gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <h1>🔲 Dots & Boxes 🔳</h1>
+  <div class="game-card">
+    <div class="scoreboard">
+      <span class="score-p1" id="score1">🔴 P1: 0</span>
+      <span class="score-p2" id="score2">🔵 P2: 0</span>
+    </div>
+    <canvas id="dbCanvas" width="420" height="420"></canvas>
+    <div id="dbInfo" class="game-info">🔴 Player 1's turn!</div>
+    <button id="dbReset" class="game-btn">🔄 Again!</button>
+  </div>
+  <div class="footer-note">👆 Tap between dots to draw a line! 👆</div>
+
+  <script>
+    (function() {
+      const canvas = document.getElementById('dbCanvas');
+      const ctx = canvas.getContext('2d');
+      const info = document.getElementById('dbInfo');
+      const resetBtn = document.getElementById('dbReset');
+      const score1 = document.getElementById('score1');
+      const score2 = document.getElementById('score2');
+      const W = 420, H = 420;
+
+      // 4x4 grid of dots = 3x3 boxes
+      const GRID = 4;
+      const PADDING = 50;
+      const SPACING = (W - PADDING * 2) / (GRID - 1);
+
+      // Horizontal lines: (GRID) rows x (GRID-1) cols
+      // hLines[r][c] = true if line between dot (r,c) and (r,c+1)
+      // Vertical lines: (GRID-1) rows x (GRID) cols
+      // vLines[r][c] = true if line between dot (r,c) and (r+1,c)
+
+      let hLines, vLines, boxOwner, currentPlayer, gameOver, scoreP1, scoreP2, hoverEdge;
+
+      const P1_COLOR = '#e74c3c';
+      const P2_COLOR = '#2980b9';
+
+      function init() {
+        hLines = Array(GRID).fill().map(() => Array(GRID - 1).fill(false));
+        vLines = Array(GRID - 1).fill().map(() => Array(GRID).fill(false));
+        boxOwner = Array(GRID - 1).fill().map(() => Array(GRID - 1).fill(0));
+        currentPlayer = 1;
+        gameOver = false;
+        scoreP1 = 0;
+        scoreP2 = 0;
+        hoverEdge = null;
+        updateScore();
+        info.textContent = '🔴 Player 1\'s turn!';
+        draw();
+      }
+
+      function updateScore() {
+        score1.textContent = '🔴 P1: ' + scoreP1;
+        score2.textContent = '🔵 P2: ' + scoreP2;
+      }
+
+      function getDotPos(r, c) {
+        return {
+          x: PADDING + c * SPACING,
+          y: PADDING + r * SPACING
+        };
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+
+        // Background
+        const grad = ctx.createLinearGradient(0, 0, W, H);
+        grad.addColorStop(0, '#fff9e6');
+        grad.addColorStop(0.5, '#ffe6f0');
+        grad.addColorStop(1, '#e6f7ff');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, W, H);
+
+        // Soft polka dots
+        for (let i = 0; i < 8; i++) {
+          for (let j = 0; j < 8; j++) {
+            ctx.beginPath();
+            ctx.arc(i * 55 + 20, j * 55 + 20, 7, 0, Math.PI * 2);
+            ctx.fillStyle = (i + j) % 2 === 0 ? '#ffb3ba20' : '#b5e8b020';
+            ctx.fill();
+          }
+        }
+
+        // Filled boxes
+        for (let r = 0; r < GRID - 1; r++) {
+          for (let c = 0; c < GRID - 1; c++) {
+            if (boxOwner[r][c] === 0) continue;
+            const p1 = getDotPos(r, c);
+            const p2 = getDotPos(r + 1, c + 1);
+            ctx.fillStyle = boxOwner[r][c] === 1 ? 'rgba(231,76,60,0.25)' : 'rgba(41,128,185,0.25)';
+            ctx.fillRect(p1.x, p1.y, p2.x - p1.x, p2.y - p1.y);
+
+            // Draw the player symbol in center
+            const cx = (p1.x + p2.x) / 2;
+            const cy = (p1.y + p2.y) / 2;
+            ctx.font = 'bold 28px serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillStyle = boxOwner[r][c] === 1 ? P1_COLOR : P2_COLOR;
+            ctx.fillText(boxOwner[r][c] === 1 ? '🔴' : '🔵', cx, cy);
+          }
+        }
+
+        // Hover highlight
+        if (hoverEdge && !gameOver) {
+          ctx.strokeStyle = currentPlayer === 1 ? 'rgba(231,76,60,0.5)' : 'rgba(41,128,185,0.5)';
+          ctx.lineWidth = 8;
+          ctx.lineCap = 'round';
+          const { type, r, c } = hoverEdge;
+          if (type === 'h') {
+            const p1 = getDotPos(r, c);
+            const p2 = getDotPos(r, c + 1);
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.stroke();
+          } else {
+            const p1 = getDotPos(r, c);
+            const p2 = getDotPos(r + 1, c);
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.stroke();
+          }
+        }
+
+        // Draw lines
+        ctx.lineCap = 'round';
+        ctx.lineWidth = 8;
+
+        // Horizontal lines
+        for (let r = 0; r < GRID; r++) {
+          for (let c = 0; c < GRID - 1; c++) {
+            if (hLines[r][c]) {
+              const p1 = getDotPos(r, c);
+              const p2 = getDotPos(r, c + 1);
+              // Determine color: check if adjacent boxes belong to a player
+              let color = '#7a5a3a';
+              // If box above exists and has owner
+              if (r > 0 && boxOwner[r-1][c] !== 0) color = boxOwner[r-1][c] === 1 ? P1_COLOR : P2_COLOR;
+              // If box below exists and has owner
+              else if (r < GRID - 1 && boxOwner[r][c] !== 0) color = boxOwner[r][c] === 1 ? P1_COLOR : P2_COLOR;
+              ctx.strokeStyle = color;
+              ctx.beginPath();
+              ctx.moveTo(p1.x, p1.y);
+              ctx.lineTo(p2.x, p2.y);
+              ctx.stroke();
+            }
+          }
+        }
+
+        // Vertical lines
+        for (let r = 0; r < GRID - 1; r++) {
+          for (let c = 0; c < GRID; c++) {
+            if (vLines[r][c]) {
+              const p1 = getDotPos(r, c);
+              const p2 = getDotPos(r + 1, c);
+              let color = '#7a5a3a';
+              if (c > 0 && boxOwner[r][c-1] !== 0) color = boxOwner[r][c-1] === 1 ? P1_COLOR : P2_COLOR;
+              else if (c < GRID - 1 && boxOwner[r][c] !== 0) color = boxOwner[r][c] === 1 ? P1_COLOR : P2_COLOR;
+              ctx.strokeStyle = color;
+              ctx.beginPath();
+              ctx.moveTo(p1.x, p1.y);
+              ctx.lineTo(p2.x, p2.y);
+              ctx.stroke();
+            }
+          }
+        }
+
+        // Draw dots
+        for (let r = 0; r < GRID; r++) {
+          for (let c = 0; c < GRID; c++) {
+            const p = getDotPos(r, c);
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, 8, 0, Math.PI * 2);
+            ctx.fillStyle = '#6b4e2e';
+            ctx.fill();
+            ctx.strokeStyle = 'white';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+          }
+        }
+      }
+
+      function getEdgeFromPos(x, y) {
+        // Find nearest horizontal or vertical edge
+        let best = null;
+        let bestDist = 20; // max distance to snap
+
+        // Check horizontal edges
+        for (let r = 0; r < GRID; r++) {
+          for (let c = 0; c < GRID - 1; c++) {
+            if (hLines[r][c]) continue;
+            const p1 = getDotPos(r, c);
+            const p2 = getDotPos(r, c + 1);
+            const mx = (p1.x + p2.x) / 2;
+            const my = (p1.y + p2.y) / 2;
+            const dist = Math.hypot(x - mx, y - my);
+            if (dist < bestDist) {
+              bestDist = dist;
+              best = { type: 'h', r, c };
+            }
+          }
+        }
+
+        // Check vertical edges
+        for (let r = 0; r < GRID - 1; r++) {
+          for (let c = 0; c < GRID; c++) {
+            if (vLines[r][c]) continue;
+            const p1 = getDotPos(r, c);
+            const p2 = getDotPos(r + 1, c);
+            const mx = (p1.x + p2.x) / 2;
+            const my = (p1.y + p2.y) / 2;
+            const dist = Math.hypot(x - mx, y - my);
+            if (dist < bestDist) {
+              bestDist = dist;
+              best = { type: 'v', r, c };
+            }
+          }
+        }
+
+        return best;
+      }
+
+      function drawLine(edge) {
+        if (!edge || gameOver) return;
+        const { type, r, c } = edge;
+        if (type === 'h') {
+          if (hLines[r][c]) return;
+          hLines[r][c] = true;
+        } else {
+          if (vLines[r][c]) return;
+          vLines[r][c] = true;
+        }
+
+        // Check for completed boxes
+        let completed = 0;
+        // Check boxes around this line
+        if (type === 'h') {
+          // Box above (if exists)
+          if (r > 0) {
+            if (checkBox(r - 1, c)) completed++;
+          }
+          // Box below
+          if (r < GRID - 1) {
+            if (checkBox(r, c)) completed++;
+          }
+        } else {
+          // Box to left
+          if (c > 0) {
+            if (checkBox(r, c - 1)) completed++;
+          }
+          // Box to right
+          if (c < GRID - 1) {
+            if (checkBox(r, c)) completed++;
+          }
+        }
+
+        if (completed > 0) {
+          // Player gets another turn
+          if (currentPlayer === 1) scoreP1 += completed;
+          else scoreP2 += completed;
+          updateScore();
+          info.textContent = currentPlayer === 1 
+            ? '🔴 Player 1 completed ' + completed + ' box(es)! Go again!' 
+            : '🔵 Player 2 completed ' + completed + ' box(es)! Go again!';
+        } else {
+          currentPlayer = currentPlayer === 1 ? 2 : 1;
+          info.textContent = currentPlayer === 1 ? '🔴 Player 1\'s turn!' : '🔵 Player 2\'s turn!';
+        }
+
+        // Check game over
+        if (scoreP1 + scoreP2 === (GRID - 1) * (GRID - 1)) {
+          gameOver = true;
+          if (scoreP1 > scoreP2) info.textContent = '🎉 🔴 Player 1 wins! 🎉';
+          else if (scoreP2 > scoreP1) info.textContent = '🎉 🔵 Player 2 wins! 🎉';
+          else info.textContent = '🤝 It\'s a tie! 🤝';
+        }
+
+        draw();
+      }
+
+      function checkBox(r, c) {
+        if (boxOwner[r][c] !== 0) return false;
+        // Check if all 4 sides are drawn
+        if (hLines[r][c] && hLines[r + 1][c] && vLines[r][c] && vLines[r][c + 1]) {
+          boxOwner[r][c] = currentPlayer;
+          return true;
+        }
+        return false;
+      }
+
+      function getPos(e, isTouch) {
+        const rect = canvas.getBoundingClientRect();
+        const clientX = isTouch ? e.touches[0].clientX : e.clientX;
+        const clientY = isTouch ? e.touches[0].clientY : e.clientY;
+        return {
+          x: (clientX - rect.left) * (W / rect.width),
+          y: (clientY - rect.top) * (H / rect.height)
+        };
+      }
+
+      canvas.addEventListener('mousemove', e => {
+        if (gameOver) return;
+        const p = getPos(e, false);
+        const edge = getEdgeFromPos(p.x, p.y);
+        if (JSON.stringify(edge) !== JSON.stringify(hoverEdge)) {
+          hoverEdge = edge;
+          draw();
+        }
+      });
+      canvas.addEventListener('mouseleave', () => {
+        hoverEdge = null;
+        draw();
+      });
+
+      canvas.addEventListener('click', e => {
+        const p = getPos(e, false);
+        const edge = getEdgeFromPos(p.x, p.y);
+        if (edge) drawLine(edge);
+      });
+
+      canvas.addEventListener('touchstart', e => {
+        e.preventDefault();
+        const p = getPos(e, true);
+        const edge = getEdgeFromPos(p.x, p.y);
+        if (edge) drawLine(edge);
+      }, { passive: false });
+
+      canvas.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
+
+      resetBtn.addEventListener('click', init);
+
+      init();
+    })();
+  </script>
+</body>
+</html>

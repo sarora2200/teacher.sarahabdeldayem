@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🔴 Connect Four Jr. · Drop & Win! 🟡</title>
+  <link rel="icon" type="image/png" href="../images/quran.png">
+  <link rel="apple-touch-icon" href="images/quran.png">
+  <style>
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body {
+      margin: 0; padding: 0;
+      width: 100%; height: 100%;
+      overflow: hidden; /* no scrolling */
+    }
+    body {
+      background: linear-gradient(145deg, #ffd0e8 0%, #b0e0ff 50%, #c8f7c5 100%);
+      background-attachment: fixed;
+      font-family: 'Comic Sans MS', 'Chalkboard SE', 'Segoe UI', cursive, sans-serif;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 6px 10px;
+    }
+    h1 {
+      font-size: 1.6rem; color: #6b4e2e;
+      text-shadow: 2px 2px 0 #ffeaa5, 4px 4px 0 #ffb882;
+      letter-spacing: 1px; text-align: center;
+      margin: 0 0 4px 0; padding: 0;
+    }
+    .game-card {
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(4px);
+      padding: 10px 12px 12px;
+      border-radius: 30px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.15), 0 0 0 5px #ffea80, 0 0 0 8px #ffb6c1, 0 0 0 10px #a0d8ff;
+      border: 3px solid white;
+      display: flex; flex-direction: column;
+      align-items: center;
+      max-width: 96vw;
+    }
+    canvas {
+      display: block;
+      width: 100%;
+      max-width: 380px;
+      height: auto;
+      border-radius: 20px;
+      box-shadow: 0 0 0 4px #ffe680, 0 0 0 7px #ffb3ba, 0 0 0 10px #b5e8b0, 0 10px 20px -5px #00000055;
+      cursor: pointer;
+      background: #fef9e7;
+      touch-action: manipulation;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+    .game-info {
+      text-align: center; font-size: 1.15rem; font-weight: 700; color: #7a5a3a;
+      margin-top: 6px; text-shadow: 1px 1px 0 white;
+      min-height: 1.6rem;
+    }
+    .game-btn {
+      background: #ffb882; border: none; border-radius: 30px;
+      padding: 8px 24px; font-weight: 900; font-size: 1rem; color: #4a2e1a;
+      letter-spacing: 0.5px; cursor: pointer;
+      box-shadow: 0 6px 0 #b37b4b, 0 8px 12px -4px black;
+      display: flex; align-items: center; gap: 8px;
+      border: 2px solid white; font-family: inherit;
+      text-transform: uppercase; margin-top: 6px;
+    }
+    .game-btn:hover { background: #ffc99c; }
+    .game-btn:active { box-shadow: 0 3px 0 #b37b4b, 0 5px 8px -3px black; }
+    .footer-note {
+      text-align: center; color: #7a5a3a; font-size: 0.85rem; font-weight: 700;
+      text-shadow: 1px 1px 0 white; background: rgba(255,255,200,0.8);
+      padding: 4px 14px; border-radius: 20px; display: inline-block;
+      border: 2px dashed #ffb882; margin-top: 6px;
+    }
+    @media (max-width: 500px) {
+      h1 { font-size: 1.2rem; }
+      .game-card { padding: 6px 8px 8px; }
+      canvas { max-width: 300px; }
+      .game-info { font-size: 0.9rem; }
+      .game-btn { padding: 6px 18px; font-size: 0.9rem; }
+    }
+  </style>
+</head>
+<body>
+  <h1>🔴 Connect Four Jr. 🟡</h1>
+  <div class="game-card">
+    <canvas id="c4Canvas" width="420" height="360"></canvas>
+    <div id="c4Info" class="game-info">🔴 Player 1's turn!</div>
+    <button id="c4Reset" class="game-btn">🔄 Again!</button>
+  </div>
+  <div class="footer-note">👆 Tap a column to drop your piece! 👆</div>
+
+  <script>
+    (function() {
+      const canvas = document.getElementById('c4Canvas');
+      const ctx = canvas.getContext('2d');
+      const info = document.getElementById('c4Info');
+      const resetBtn = document.getElementById('c4Reset');
+      const W = 420, H = 360;
+
+      // 5 columns x 4 rows (smaller than classic 7x6 for speed)
+      const COLS = 5, ROWS = 4;
+      const CELL_W = W / COLS;
+      const CELL_H = H / ROWS;
+      const RADIUS = Math.min(CELL_W, CELL_H) * 0.40;
+
+      const P1_COLOR = '#ff6b6b'; // red
+      const P2_COLOR = '#ffd93d'; // yellow
+      const P1_DARK = '#d94f4f';
+      const P2_DARK = '#d4b32e';
+
+      let board = [];
+      let currentPlayer = 1;
+      let gameOver = false;
+      let winner = null;
+      let winLine = null;
+      let hoverCol = -1;
+
+      function init() {
+        board = Array(ROWS).fill().map(() => Array(COLS).fill(0));
+        currentPlayer = 1;
+        gameOver = false;
+        winner = null;
+        winLine = null;
+        hoverCol = -1;
+        info.textContent = '🔴 Player 1\'s turn!';
+        draw();
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+
+        // Background
+        const grad = ctx.createLinearGradient(0, 0, W, H);
+        grad.addColorStop(0, '#fff9e6');
+        grad.addColorStop(0.5, '#ffe6f0');
+        grad.addColorStop(1, '#e6f7ff');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, W, H);
+
+        // Soft polka dots
+        for (let i = 0; i < 8; i++) {
+          for (let j = 0; j < 8; j++) {
+            ctx.beginPath();
+            ctx.arc(i * 55 + 20, j * 55 + 20, 8, 0, Math.PI * 2);
+            ctx.fillStyle = (i + j) % 2 === 0 ? '#ffb3ba30' : '#b5e8b030';
+            ctx.fill();
+          }
+        }
+
+        // Board slots (empty circles)
+        for (let r = 0; r < ROWS; r++) {
+          for (let c = 0; c < COLS; c++) {
+            const cx = c * CELL_W + CELL_W / 2;
+            const cy = r * CELL_H + CELL_H / 2;
+            ctx.beginPath();
+            ctx.arc(cx, cy, RADIUS, 0, Math.PI * 2);
+            ctx.fillStyle = '#ffffffb0';
+            ctx.fill();
+            ctx.strokeStyle = '#d4b896';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+          }
+        }
+
+        // Pieces
+        for (let r = 0; r < ROWS; r++) {
+          for (let c = 0; c < COLS; c++) {
+            if (board[r][c] === 0) continue;
+            const cx = c * CELL_W + CELL_W / 2;
+            const cy = r * CELL_H + CELL_H / 2;
+            const color = board[r][c] === 1 ? P1_COLOR : P2_COLOR;
+            const dark = board[r][c] === 1 ? P1_DARK : P2_DARK;
+
+            // Shadow
+            ctx.beginPath();
+            ctx.arc(cx + 2, cy + 2, RADIUS, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(0,0,0,0.2)';
+            ctx.fill();
+
+            // Main piece
+            ctx.beginPath();
+            ctx.arc(cx, cy, RADIUS, 0, Math.PI * 2);
+            const pieceGrad = ctx.createRadialGradient(cx - RADIUS*0.3, cy - RADIUS*0.3, RADIUS*0.1, cx, cy, RADIUS);
+            pieceGrad.addColorStop(0, '#ffffff');
+            pieceGrad.addColorStop(0.2, color);
+            pieceGrad.addColorStop(1, dark);
+            ctx.fillStyle = pieceGrad;
+            ctx.fill();
+            ctx.strokeStyle = dark;
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Highlight
+            ctx.beginPath();
+            ctx.arc(cx - RADIUS*0.3, cy - RADIUS*0.3, RADIUS*0.25, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(255,255,255,0.6)';
+            ctx.fill();
+          }
+        }
+
+        // Hover column indicator
+        if (hoverCol >= 0 && !gameOver) {
+          ctx.fillStyle = currentPlayer === 1 ? 'rgba(255,107,107,0.15)' : 'rgba(255,217,61,0.15)';
+          ctx.fillRect(hoverCol * CELL_W, 0, CELL_W, H);
+        }
+
+        // Winning line highlight
+        if (winLine) {
+          ctx.strokeStyle = '#ffd700';
+          ctx.lineWidth = 10;
+          ctx.lineCap = 'round';
+          ctx.shadowColor = '#ffd700';
+          ctx.shadowBlur = 15;
+          ctx.beginPath();
+          const [r1, c1] = winLine[0];
+          const [r2, c2] = winLine[1];
+          const x1 = c1 * CELL_W + CELL_W / 2;
+          const y1 = r1 * CELL_H + CELL_H / 2;
+          const x2 = c2 * CELL_W + CELL_W / 2;
+          const y2 = r2 * CELL_H + CELL_H / 2;
+          ctx.moveTo(x1, y1);
+          ctx.lineTo(x2, y2);
+          ctx.stroke();
+          ctx.shadowColor = 'transparent';
+          ctx.shadowBlur = 0;
+        }
+      }
+
+      function dropPiece(col) {
+        if (gameOver || col < 0 || col >= COLS) return;
+        // Find lowest empty row in column
+        let row = -1;
+        for (let r = ROWS - 1; r >= 0; r--) {
+          if (board[r][col] === 0) { row = r; break; }
+        }
+        if (row === -1) return; // column full
+
+        board[row][col] = currentPlayer;
+        const result = checkWin(row, col, currentPlayer);
+
+        if (result) {
+          gameOver = true;
+          winner = currentPlayer;
+          winLine = result;
+          info.textContent = currentPlayer === 1 
+            ? '🎉 🔴 Player 1 wins! 🎉' 
+            : '🎉 🟡 Player 2 wins! 🎉';
+          draw();
+          return;
+        }
+
+        // Check for draw
+        if (board[0].every(cell => cell !== 0)) {
+          gameOver = true;
+          winner = 'tie';
+          info.textContent = '🤝 It\'s a tie! 🤝';
+          draw();
+          return;
+        }
+
+        currentPlayer = currentPlayer === 1 ? 2 : 1;
+        info.textContent = currentPlayer === 1 ? '🔴 Player 1\'s turn!' : '🟡 Player 2\'s turn!';
+        draw();
+      }
+
+      function checkWin(row, col, player) {
+        const dirs = [[0,1],[1,0],[1,1],[1,-1]];
+        for (const [dr, dc] of dirs) {
+          let count = 1;
+          let endR = row, endC = col;
+          // Forward
+          for (let step = 1; step < 4; step++) {
+            const nr = row + dr * step, nc = col + dc * step;
+            if (nr < 0 || nr >= ROWS || nc < 0 || nc >= COLS || board[nr][nc] !== player) break;
+            count++;
+            endR = nr; endC = nc;
+          }
+          // Backward
+          let startR = row, startC = col;
+          for (let step = 1; step < 4; step++) {
+            const nr = row - dr * step, nc = col - dc * step;
+            if (nr < 0 || nr >= ROWS || nc < 0 || nc >= COLS || board[nr][nc] !== player) break;
+            count++;
+            startR = nr; startC = nc;
+          }
+          if (count >= 4) {
+            return [[startR, startC], [endR, endC]];
+          }
+        }
+        return null;
+      }
+
+      function getPos(e, isTouch) {
+        const rect = canvas.getBoundingClientRect();
+        const clientX = isTouch ? e.touches[0].clientX : e.clientX;
+        const clientY = isTouch ? e.touches[0].clientY : e.clientY;
+        return {
+          x: (clientX - rect.left) * (W / rect.width),
+          y: (clientY - rect.top) * (H / rect.height)
+        };
+      }
+
+      // Desktop: hover to show column highlight
+      canvas.addEventListener('mousemove', e => {
+        if (gameOver) return;
+        const p = getPos(e, false);
+        const col = Math.floor(p.x / CELL_W);
+        if (col !== hoverCol) {
+          hoverCol = col;
+          draw();
+        }
+      });
+      canvas.addEventListener('mouseleave', () => {
+        hoverCol = -1;
+        draw();
+      });
+
+      canvas.addEventListener('click', e => {
+        const p = getPos(e, false);
+        const col = Math.floor(p.x / CELL_W);
+        dropPiece(col);
+      });
+
+      canvas.addEventListener('touchstart', e => {
+        e.preventDefault();
+        const p = getPos(e, true);
+        const col = Math.floor(p.x / CELL_W);
+        dropPiece(col);
+      }, { passive: false });
+
+      canvas.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
+
+      resetBtn.addEventListener('click', init);
+
+      init();
+    })();
+  </script>
+</body>
+</html>
