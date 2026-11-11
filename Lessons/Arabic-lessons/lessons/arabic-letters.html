@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fun Arabic Letters for Kids! 🎈</title>
     <link rel="icon" type="image/png" href="../../../images/quran.png">
-<link rel="apple-touch-icon" href="images/quran.png">
+    <link rel="apple-touch-icon" href="images/quran.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
@@ -34,6 +34,53 @@
             box-shadow: 0 20px 40px -15px rgba(150, 100, 50, 0.3), 0 0 0 8px #fdebd0 inset;
             padding: 2rem 2rem 2.5rem;
             border: 4px dashed #f5cba7;
+            position: relative;
+        }
+
+        /* ===== LANGUAGE TOGGLE ===== */
+        .lang-toggle {
+            position: absolute;
+            top: 1.2rem;
+            left: 1.2rem;
+            display: flex;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 5px;
+            border-radius: 50px;
+            border: 3px solid #f8c471;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            z-index: 10;
+        }
+
+        .lang-btn {
+            min-width: 44px;
+            height: 40px;
+            border-radius: 50px;
+            border: 2px solid #f0b27a;
+            background: #fff3e0;
+            cursor: pointer;
+            font-weight: 700;
+            color: #a04000;
+            font-size: 0.9rem;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 12px;
+            font-family: 'Fredoka', sans-serif;
+            box-shadow: 0 3px 0 #e0a060;
+        }
+
+        .lang-btn:hover {
+            background: #ffe0b2;
+            transform: scale(1.05);
+        }
+
+        .lang-btn.active {
+            background: #e67e22;
+            color: white;
+            border-color: #b85e1a;
+            box-shadow: 0 3px 0 #b85e1a;
         }
 
         .fun-header {
@@ -432,9 +479,11 @@
             align-items: center;
             gap: 1rem;
             text-shadow: 2px 2px 0 rgba(0,0,0,0.15);
+            flex: 1 1 auto;
+            line-height: 1.4;
         }
 
-        .game-banner-text span {
+        .game-banner-text span:first-child {
             font-size: 2.8rem;
             background: #fff3e0;
             border-radius: 50%;
@@ -444,6 +493,7 @@
             align-items: center;
             justify-content: center;
             box-shadow: 0 5px 0 rgba(0,0,0,0.2);
+            flex-shrink: 0;
         }
 
         .game-button {
@@ -461,6 +511,7 @@
             align-items: center;
             gap: 0.5rem;
             white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .game-banner.secondary .game-button {
@@ -484,6 +535,17 @@
 
         .game-banner.secondary .game-button:hover {
             color: #1f618d;
+        }
+
+        /* RTL adjustments for the banner */
+        .lang-ar .game-banner {
+            direction: rtl;
+        }
+        .lang-ar .game-banner-text {
+            text-align: right;
+        }
+        .lang-ar .game-button {
+            direction: rtl;
         }
 
         .kids-note {
@@ -565,6 +627,11 @@
             margin-bottom: 0.5rem;
         }
 
+        /* language visibility */
+        .lang-en .ar-text { display: none; }
+        .lang-ar .en-text { display: none; }
+        .lang-ar .letter-name { text-transform: none; letter-spacing: 0; }
+
         @media (max-width: 700px) {
             .page-wrapper { padding: 1.5rem 1rem; }
             h1 { font-size: 2.3rem; }
@@ -574,9 +641,10 @@
             .arabic-char { font-size: 3.2rem; }
             .letter-name { font-size: 1rem; padding: 0.1rem 0.6rem; }
             .pronunciation { font-size: 0.8rem; }
-            .game-banner { padding: 1.2rem 1.5rem; }
-            .game-banner-text { font-size: 1.2rem; }
-            .game-banner-text span { width: 50px; height: 50px; font-size: 2rem; }
+            .game-banner { padding: 1.2rem 1.5rem; flex-direction: column; text-align: center; }
+            .game-banner-text { font-size: 1.2rem; flex-direction: column; text-align: center; }
+            .lang-ar .game-banner-text { text-align: center; }
+            .game-banner-text span:first-child { width: 50px; height: 50px; font-size: 2rem; }
             .game-button { font-size: 1.2rem; padding: 0.6rem 1.3rem; }
             .kids-info p { font-size: 1rem; }
             .video-section { padding: 1.2rem; }
@@ -588,33 +656,48 @@
             .popup-row { padding: 0.5rem 0.8rem; }
             .tap-hint { font-size: 1.1rem; padding: 0.4rem 1rem; }
             .sound-btn { font-size: 0.8rem; padding: 0.25rem 0.9rem; }
+            .lang-toggle { top: 0.7rem; left: 0.7rem; }
+            .lang-btn { height: 34px; font-size: 0.8rem; padding: 0 8px; }
         }
     </style>
 </head>
-<body>
+<body class="lang-en">
     <div class="page-wrapper">
+        <!-- LANGUAGE TOGGLE -->
+        <div class="lang-toggle">
+            <button class="lang-btn active" id="langEnBtn" title="English">EN</button>
+            <button class="lang-btn" id="langArBtn" title="العربية">ع</button>
+        </div>
+
         <div class="fun-header">
             <h1>
                 <span>أ</span> 
-                Arabic Letters!
+                <span class="en-text" style="font-family:'Fredoka',sans-serif;font-size:3.5rem;color:#e67e22;background:none;box-shadow:none;width:auto;height:auto;animation:none;line-height:1;">Arabic Letters!</span>
+                <span class="ar-text" style="font-family:'Amiri',serif;font-size:3.5rem;color:#e67e22;background:none;box-shadow:none;width:auto;height:auto;animation:none;line-height:1;">الحروف العربية!</span>
                 <span>ب</span>
             </h1>
-            <div class="subhead">🎈 Let's learn and play! 🎈</div>
+            <div class="subhead en-text">🎈 Let's learn and play! 🎈</div>
+            <div class="subhead ar-text">🎈 هيا نتعلم ونلعب! 🎈</div>
         </div>
 
         <div class="tap-hint-container">
-            <div class="tap-hint">👆 Tap a letter to open its page! &nbsp;🔊 Tap the speaker to hear it!</div>
+            <div class="tap-hint en-text">👆 Tap a letter to open its page! &nbsp;🔊 Tap the speaker to hear it!</div>
+            <div class="tap-hint ar-text">👆 اضغط على حرف لفتح صفحته! &nbsp;🔊 اضغط على السماعة لسماعه!</div>
         </div>
 
         <div id="alphabetGrid" class="alphabet-grid"></div>
 
-        <!-- 🎬 VIDEO SECTION (Alif Baa Taa Phonics Song) -->
+        <!-- 🎬 VIDEO SECTION (English + Arabic versions) -->
         <div class="video-section">
-            <h2>🎵 Alif Baa Taa Song</h2>
+            <h2>
+                <span class="en-text">🎵 Alif Baa Taa Song</span>
+                <span class="ar-text">🎵 أغنية ألف باء تاء</span>
+            </h2>
             <div class="video-wrapper">
                 <iframe 
+                    id="letterVideo"
                     src="https://www.youtube.com/embed/FeoSJL1NDPg" 
-                    title="Alif Baa Taa Phonics Song for Kids | Learn Arabic Phonics | Muslim Kids Universe"
+                    title="Arabic Phonics Song for Kids"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowfullscreen>
                 </iframe>
@@ -624,39 +707,52 @@
         <!-- Game link banners -->
         <div class="game-banner">
             <div class="game-banner-text">
-                <span>🎮</span> Letters & Games
+                <span>🎮</span> <span class="en-text">Letters &amp; Games</span><span class="ar-text">الحروف والألعاب</span>
             </div>
             <a href="https://wordwall.net/en-ae/community/arabic-letters" target="_blank" class="game-button">
-                🎯 Arabic Letters →
+                <span class="en-text">🎯 Arabic Letters →</span>
+                <span class="ar-text">🎯 الحروف العربية ←</span>
             </a>
         </div>
 
         <div class="game-banner secondary">
             <div class="game-banner-text">
-                <span>🕌</span> More Arabic Fun
+                <span>🕌</span> <span class="en-text">More Arabic Fun</span><span class="ar-text">المزيد من المرح العربي</span>
             </div>
             <a href="https://wordwall.net/en-us/community/arabic" target="_blank" class="game-button">
-                ✨ Explore Games →
+                <span class="en-text">✨ Explore Games →</span>
+                <span class="ar-text">✨ استكشف الألعاب ←</span>
             </a>
         </div>
 
         <div class="kids-note">
-            <h2>✨ Did you know? ✨</h2>
+            <h2>
+                <span class="en-text">✨ Did you know? ✨</span>
+                <span class="ar-text">✨ هل تعلم؟ ✨</span>
+            </h2>
             <div class="kids-info">
-                <p><strong>Letters change shape!</strong> Like a caterpillar turning into a butterfly 🦋. Most letters hold hands (connect) with the next letter, but some letters like <span class="form-example">ا د ذ ر ز و</span> like to stand alone.</p>
+                <p class="en-text"><strong>Letters change shape!</strong> Like a caterpillar turning into a butterfly 🦋. Most letters hold hands (connect) with the next letter, but some letters like <span class="form-example">ا د ذ ر ز و</span> like to stand alone.</p>
+                <p class="ar-text"><strong>الحروف تغيّر شكلها!</strong> مثل تحوّل اليرقة إلى فراشة 🦋. معظم الحروف تتصل بما بعدها، لكن بعض الحروف مثل <span class="form-example">ا د ذ ر ز و</span> تفضل الوقوف وحدها.</p>
             </div>
             <div class="kids-info">
-                <p><strong>Look at the letter ب (bāʾ):</strong><br>
+                <p class="en-text"><strong>Look at the letter ب (bāʾ):</strong><br>
                 <span class="form-example">ب</span> alone · 
                 <span class="form-example">بـ</span> at start · 
                 <span class="form-example">ـبـ</span> in middle · 
                 <span class="form-example">ـب</span> at end.
                 </p>
+                <p class="ar-text"><strong>انظر إلى حرف الباء (ب):</strong><br>
+                <span class="form-example">ب</span> منفردًا · 
+                <span class="form-example">بـ</span> في البداية · 
+                <span class="form-example">ـبـ</span> في الوسط · 
+                <span class="form-example">ـب</span> في النهاية.
+                </p>
             </div>
         </div>
 
         <div class="footer-note">
-            🌟 You are doing great! Keep practicing! 🌟
+            <span class="en-text">🌟 You are doing great! Keep practicing! 🌟</span>
+            <span class="ar-text">🌟 أنت رائع! واصل التدريب! 🌟</span>
         </div>
     </div>
 
@@ -664,7 +760,10 @@
     <div id="formsOverlay" class="forms-overlay">
         <div class="forms-popup">
             <button class="close-btn" id="closePopup">✕</button>
-            <h2>🔤 Letter Shapes</h2>
+            <h2>
+                <span class="en-text">🔤 Letter Shapes</span>
+                <span class="ar-text">🔤 أشكال الحرف</span>
+            </h2>
             <div class="popup-letter-display" id="popupLetterDisplay"></div>
             <div class="popup-name" id="popupName"></div>
             <div class="popup-rows" id="popupRows"></div>
@@ -683,60 +782,78 @@
         };
 
         /* ============================================================
-           ARABIC LETTER DATA
-           Each letter has a `page` that points to its own page
-           inside the `connecting-letters` folder.
-           ⚠️ Make sure the filenames match exactly what is in your
-           `connecting-letters` folder (case-sensitive).
+           VIDEO IDS PER LANGUAGE
+           English → FeoSJL1NDPg  |  Arabic → Ha_PDb_PH_Q
+           ============================================================ */
+        const VIDEO_IDS = {
+            en: 'FeoSJL1NDPg',
+            ar: 'Ha_PDb_PH_Q'
+        };
+
+        const videoIframe = document.getElementById('letterVideo');
+
+        function updateVideo(lang) {
+            const id = VIDEO_IDS[lang] || VIDEO_IDS.en;
+            const newSrc = `https://www.youtube.com/embed/${id}`;
+            if (videoIframe.getAttribute('src') !== newSrc) {
+                videoIframe.setAttribute('src', newSrc);
+            }
+            videoIframe.title = (lang === 'ar')
+                ? 'أغنية الحروف العربية للأطفال'
+                : 'Arabic Phonics Song for Kids';
+        }
+
+        /* ============================================================
+           ARABIC LETTER DATA (with Arabic names + pronunciations)
            ============================================================ */
         const arabicLetters = [
-            { char: 'ء', name: 'Hamza', pron: 'ʾ (glottal stop)', page: 'hamza.html' },
-            { char: 'ا', name: 'Alif',  pron: 'a',  page: 'alif.html' },
-            { char: 'ب', name: 'Bāʾ',   pron: 'b',  page: 'baa.html' },
-            { char: 'ت', name: 'Tāʾ',   pron: 't',  page: 'taa.html' },
-            { char: 'ث', name: 'Thāʾ',  pron: 'th', page: 'thaa.html' },
-            { char: 'ج', name: 'Jīm',   pron: 'j',  page: 'jeem.html' },
-            { char: 'ح', name: 'Ḥāʾ',   pron: 'h',  page: 'haa.html' },
-            { char: 'خ', name: 'Khāʾ',  pron: 'kh', page: 'khaa.html' },
-            { char: 'د', name: 'Dāl',   pron: 'd',  page: 'dal.html' },
-            { char: 'ذ', name: 'Dhāl',  pron: 'dh', page: 'dhal.html' },
-            { char: 'ر', name: 'Rāʾ',   pron: 'r',  page: 'raa.html' },
-            { char: 'ز', name: 'Zāy',   pron: 'z',  page: 'zay.html' },
-            { char: 'س', name: 'Sīn',   pron: 's',  page: 'seen.html' },
-            { char: 'ش', name: 'Shīn',  pron: 'sh', page: 'sheen.html' },
-            { char: 'ص', name: 'Ṣād',   pron: 's (deep)', page: 'saad.html' },
-            { char: 'ض', name: 'Ḍād',   pron: 'd (deep)', page: 'daad.html' },
-            { char: 'ط', name: 'Ṭāʾ',   pron: 't (deep)', page: 'taa2.html' },
-            { char: 'ظ', name: 'Ẓāʾ',   pron: 'dh (deep)', page: 'zaa.html' },
-            { char: 'ع', name: 'ʿAyn',  pron: 'ʿ (throat)', page: 'ain.html' },
-            { char: 'غ', name: 'Ghayn', pron: 'gh', page: 'ghain.html' },
-            { char: 'ف', name: 'Fāʾ',   pron: 'f',  page: 'faa.html' },
-            { char: 'ق', name: 'Qāf',   pron: 'q',  page: 'qaf.html' },
-            { char: 'ك', name: 'Kāf',   pron: 'k',  page: 'kaf.html' },
-            { char: 'ل', name: 'Lām',   pron: 'l',  page: 'lam.html' },
-            { char: 'م', name: 'Mīm',   pron: 'm',  page: 'meem.html' },
-            { char: 'ن', name: 'Nūn',   pron: 'n',  page: 'noon.html' },
-            { char: 'ه', name: 'Hāʾ',   pron: 'h',  page: 'haa2.html' },
-            { char: 'و', name: 'Wāw',   pron: 'w',  page: 'waw.html' },
-            { char: 'ي', name: 'Yāʾ',   pron: 'y',  page: 'yaa.html' }
+            { char: 'ء', name: 'Hamza', nameAr: 'هَمْزَة', pron: 'ʾ (glottal stop)', pronAr: 'ء (همزة)', page: 'hamza.html' },
+            { char: 'ا', name: 'Alif',  nameAr: 'أَلِف',   pron: 'a',  pronAr: 'أَ', page: 'alif.html' },
+            { char: 'ب', name: 'Bāʾ',   nameAr: 'بَاء',   pron: 'b',  pronAr: 'بَ', page: 'baa.html' },
+            { char: 'ت', name: 'Tāʾ',   nameAr: 'تَاء',   pron: 't',  pronAr: 'تَ', page: 'taa.html' },
+            { char: 'ث', name: 'Thāʾ',  nameAr: 'ثَاء',   pron: 'th', pronAr: 'ثَ', page: 'thaa.html' },
+            { char: 'ج', name: 'Jīm',   nameAr: 'جِيم',   pron: 'j',  pronAr: 'جِ', page: 'jeem.html' },
+            { char: 'ح', name: 'Ḥāʾ',   nameAr: 'حَاء',   pron: 'h',  pronAr: 'حَ', page: 'haa.html' },
+            { char: 'خ', name: 'Khāʾ',  nameAr: 'خَاء',   pron: 'kh', pronAr: 'خَ', page: 'khaa.html' },
+            { char: 'د', name: 'Dāl',   nameAr: 'دَال',   pron: 'd',  pronAr: 'دَ', page: 'dal.html' },
+            { char: 'ذ', name: 'Dhāl',  nameAr: 'ذَال',   pron: 'dh', pronAr: 'ذَ', page: 'dhal.html' },
+            { char: 'ر', name: 'Rāʾ',   nameAr: 'رَاء',   pron: 'r',  pronAr: 'رَ', page: 'raa.html' },
+            { char: 'ز', name: 'Zāy',   nameAr: 'زَاي',   pron: 'z',  pronAr: 'زَ', page: 'zay.html' },
+            { char: 'س', name: 'Sīn',   nameAr: 'سِين',   pron: 's',  pronAr: 'سِ', page: 'seen.html' },
+            { char: 'ش', name: 'Shīn',  nameAr: 'شِين',   pron: 'sh', pronAr: 'شِ', page: 'sheen.html' },
+            { char: 'ص', name: 'Ṣād',   nameAr: 'صَاد',   pron: 's (deep)', pronAr: 'صَ', page: 'saad.html' },
+            { char: 'ض', name: 'Ḍād',   nameAr: 'ضَاد',   pron: 'd (deep)', pronAr: 'ضَ', page: 'daad.html' },
+            { char: 'ط', name: 'Ṭāʾ',   nameAr: 'طَاء',   pron: 't (deep)', pronAr: 'طَ', page: 'taa2.html' },
+            { char: 'ظ', name: 'Ẓāʾ',   nameAr: 'ظَاء',   pron: 'dh (deep)', pronAr: 'ظَ', page: 'zaa.html' },
+            { char: 'ع', name: 'ʿAyn',  nameAr: 'عَيْن',  pron: 'ʿ (throat)', pronAr: 'عَ', page: 'ain.html' },
+            { char: 'غ', name: 'Ghayn', nameAr: 'غَيْن',  pron: 'gh', pronAr: 'غَ', page: 'ghain.html' },
+            { char: 'ف', name: 'Fāʾ',   nameAr: 'فَاء',   pron: 'f',  pronAr: 'فَ', page: 'faa.html' },
+            { char: 'ق', name: 'Qāf',   nameAr: 'قَاف',   pron: 'q',  pronAr: 'قَ', page: 'qaf.html' },
+            { char: 'ك', name: 'Kāf',   nameAr: 'كَاف',   pron: 'k',  pronAr: 'كَ', page: 'kaf.html' },
+            { char: 'ل', name: 'Lām',   nameAr: 'لَام',   pron: 'l',  pronAr: 'لَ', page: 'lam.html' },
+            { char: 'م', name: 'Mīm',   nameAr: 'مِيم',   pron: 'm',  pronAr: 'مِ', page: 'meem.html' },
+            { char: 'ن', name: 'Nūn',   nameAr: 'نُون',   pron: 'n',  pronAr: 'نُ', page: 'noon.html' },
+            { char: 'ه', name: 'Hāʾ',   nameAr: 'هَاء',   pron: 'h',  pronAr: 'هَ', page: 'haa2.html' },
+            { char: 'و', name: 'Wāw',   nameAr: 'وَاو',   pron: 'w',  pronAr: 'وَ', page: 'waw.html' },
+            { char: 'ي', name: 'Yāʾ',   nameAr: 'يَاء',   pron: 'y',  pronAr: 'يَ', page: 'yaa.html' }
         ];
 
         /* ============================================================
-           LETTER FORMS — start / middle / end / isolated (fallback popup)
+           LETTER FORMS (fallback popup)
            ============================================================ */
         const letterForms = {
-            'ء': { start: 'ء', middle: 'ء', end: 'ء', isolated: 'ء', note: 'Hamza usually stands alone' },
-            'ا': { start: 'ا', middle: 'ـا', end: 'ـا', isolated: 'ا', note: 'Never connects to the left' },
+            'ء': { start: 'ء', middle: 'ء', end: 'ء', isolated: 'ء', note: 'Hamza usually stands alone', noteAr: 'الهمزة عادةً تأتي منفردة' },
+            'ا': { start: 'ا', middle: 'ـا', end: 'ـا', isolated: 'ا', note: 'Never connects to the left', noteAr: 'لا تتصل بما بعدها أبدًا' },
             'ب': { start: 'بـ', middle: 'ـبـ', end: 'ـب', isolated: 'ب' },
             'ت': { start: 'تـ', middle: 'ـتـ', end: 'ـت', isolated: 'ت' },
             'ث': { start: 'ثـ', middle: 'ـثـ', end: 'ـث', isolated: 'ث' },
             'ج': { start: 'جـ', middle: 'ـجـ', end: 'ـج', isolated: 'ج' },
             'ح': { start: 'حـ', middle: 'ـحـ', end: 'ـح', isolated: 'ح' },
             'خ': { start: 'خـ', middle: 'ـخـ', end: 'ـخ', isolated: 'خ' },
-            'د': { start: 'د', middle: 'ـد', end: 'ـد', isolated: 'د', note: 'Never connects to the left' },
-            'ذ': { start: 'ذ', middle: 'ـذ', end: 'ـذ', isolated: 'ذ', note: 'Never connects to the left' },
-            'ر': { start: 'ر', middle: 'ـر', end: 'ـر', isolated: 'ر', note: 'Never connects to the left' },
-            'ز': { start: 'ز', middle: 'ـز', end: 'ـز', isolated: 'ز', note: 'Never connects to the left' },
+            'د': { start: 'د', middle: 'ـد', end: 'ـد', isolated: 'د', note: 'Never connects to the left', noteAr: 'لا تتصل بما بعدها أبدًا' },
+            'ذ': { start: 'ذ', middle: 'ـذ', end: 'ـذ', isolated: 'ذ', note: 'Never connects to the left', noteAr: 'لا تتصل بما بعدها أبدًا' },
+            'ر': { start: 'ر', middle: 'ـر', end: 'ـر', isolated: 'ر', note: 'Never connects to the left', noteAr: 'لا تتصل بما بعدها أبدًا' },
+            'ز': { start: 'ز', middle: 'ـز', end: 'ـز', isolated: 'ز', note: 'Never connects to the left', noteAr: 'لا تتصل بما بعدها أبدًا' },
             'س': { start: 'سـ', middle: 'ـسـ', end: 'ـس', isolated: 'س' },
             'ش': { start: 'شـ', middle: 'ـشـ', end: 'ـش', isolated: 'ش' },
             'ص': { start: 'صـ', middle: 'ـصـ', end: 'ـص', isolated: 'ص' },
@@ -752,7 +869,7 @@
             'م': { start: 'مـ', middle: 'ـمـ', end: 'ـم', isolated: 'م' },
             'ن': { start: 'نـ', middle: 'ـنـ', end: 'ـن', isolated: 'ن' },
             'ه': { start: 'هـ', middle: 'ـهـ', end: 'ـه', isolated: 'ه' },
-            'و': { start: 'و', middle: 'ـو', end: 'ـو', isolated: 'و', note: 'Never connects to the left' },
+            'و': { start: 'و', middle: 'ـو', end: 'ـو', isolated: 'و', note: 'Never connects to the left', noteAr: 'لا تتصل بما بعدها أبدًا' },
             'ي': { start: 'يـ', middle: 'ـيـ', end: 'ـي', isolated: 'ي' }
         };
 
@@ -760,36 +877,52 @@
            WHAT AZURE SHOULD SAY FOR EACH LETTER
            ============================================================ */
         const letterSpeechText = {
-            'ء': 'هَمْزَة',
-            'ا': 'أَلِف',
-            'ب': 'بَاء',
-            'ت': 'تَاء',
-            'ث': 'ثَاء',
-            'ج': 'جِيم',
-            'ح': 'حَاء',
-            'خ': 'خَاء',
-            'د': 'دَال',
-            'ذ': 'ذَال',
-            'ر': 'رَاء',
-            'ز': 'زَاي',
-            'س': 'سِين',
-            'ش': 'شِين',
-            'ص': 'صَاد',
-            'ض': 'ضَاد',
-            'ط': 'طَاء',
-            'ظ': 'ظَاء',
-            'ع': 'عَيْن',
-            'غ': 'غَيْن',
-            'ف': 'فَاء',
-            'ق': 'قَاف',
-            'ك': 'كَاف',
-            'ل': 'لَام',
-            'م': 'مِيم',
-            'ن': 'نُون',
-            'ه': 'هَاء',
-            'و': 'وَاو',
-            'ي': 'يَاء'
+            'ء': 'هَمْزَة', 'ا': 'أَلِف', 'ب': 'بَاء', 'ت': 'تَاء', 'ث': 'ثَاء',
+            'ج': 'جِيم', 'ح': 'حَاء', 'خ': 'خَاء', 'د': 'دَال', 'ذ': 'ذَال',
+            'ر': 'رَاء', 'ز': 'زَاي', 'س': 'سِين', 'ش': 'شِين', 'ص': 'صَاد',
+            'ض': 'ضَاد', 'ط': 'طَاء', 'ظ': 'ظَاء', 'ع': 'عَيْن', 'غ': 'غَيْن',
+            'ف': 'فَاء', 'ق': 'قَاف', 'ك': 'كَاف', 'ل': 'لَام', 'م': 'مِيم',
+            'ن': 'نُون', 'ه': 'هَاء', 'و': 'وَاو', 'ي': 'يَاء'
         };
+
+        /* ============================================================
+           LANGUAGE STATE
+           ============================================================ */
+        let currentLang = 'en';
+        const body = document.body;
+        const langEnBtn = document.getElementById('langEnBtn');
+        const langArBtn = document.getElementById('langArBtn');
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            if (lang === 'en') {
+                body.classList.add('lang-en');
+                body.classList.remove('lang-ar');
+                langEnBtn.classList.add('active');
+                langArBtn.classList.remove('active');
+                document.documentElement.lang = 'en';
+                document.documentElement.dir = 'ltr';
+            } else {
+                body.classList.add('lang-ar');
+                body.classList.remove('lang-en');
+                langArBtn.classList.add('active');
+                langEnBtn.classList.remove('active');
+                document.documentElement.lang = 'ar';
+                document.documentElement.dir = 'rtl';
+            }
+            // Swap the video to match the chosen language
+            updateVideo(lang);
+            // Re-render grid so letter name/pron updates in the chosen language
+            renderGrid();
+            // If popup is open, re-render it too
+            if (overlay.classList.contains('show') && activeCard) {
+                const letter = arabicLetters.find(l => l.char === activeCard.dataset.char);
+                if (letter) showForms(letter, true);
+            }
+        }
+
+        langEnBtn.addEventListener('click', () => setLanguage('en'));
+        langArBtn.addEventListener('click', () => setLanguage('ar'));
 
         /* ============================================================
            AZURE TTS ENGINE (with in-memory cache)
@@ -887,7 +1020,7 @@
         }
 
         /* ============================================================
-           BUILD THE ALPHABET GRID
+           BUILD THE ALPHABET GRID (re-rendered on language change)
            ============================================================ */
         const grid = document.getElementById('alphabetGrid');
         const overlay = document.getElementById('formsOverlay');
@@ -898,76 +1031,81 @@
 
         let activeCard = null;
 
-        arabicLetters.forEach(letter => {
-            const card = document.createElement('div');
-            card.className = 'letter-card';
+        function renderGrid() {
+            grid.innerHTML = '';
+            arabicLetters.forEach(letter => {
+                const card = document.createElement('div');
+                card.className = 'letter-card';
+                card.dataset.char = letter.char;
 
-            const charDiv = document.createElement('div');
-            charDiv.className = 'arabic-char';
-            charDiv.textContent = letter.char;
-            charDiv.setAttribute('lang', 'ar');
-            charDiv.setAttribute('dir', 'rtl');
+                const charDiv = document.createElement('div');
+                charDiv.className = 'arabic-char';
+                charDiv.textContent = letter.char;
+                charDiv.setAttribute('lang', 'ar');
+                charDiv.setAttribute('dir', 'rtl');
 
-            const nameDiv = document.createElement('div');
-            nameDiv.className = 'letter-name';
-            nameDiv.textContent = letter.name;
+                const nameDiv = document.createElement('div');
+                nameDiv.className = 'letter-name';
+                nameDiv.textContent = (currentLang === 'ar') ? letter.nameAr : letter.name;
 
-            const pronDiv = document.createElement('div');
-            pronDiv.className = 'pronunciation';
-            pronDiv.textContent = letter.pron;
+                const pronDiv = document.createElement('div');
+                pronDiv.className = 'pronunciation';
+                pronDiv.textContent = (currentLang === 'ar') ? letter.pronAr : letter.pron;
 
-            // ---- SOUND BUTTON ----
-            const soundBtn = document.createElement('button');
-            soundBtn.className = 'sound-btn';
-            soundBtn.innerHTML = '<span class="speaker-icon">🔊</span> Hear';
-            soundBtn.setAttribute('aria-label', `Hear pronunciation of ${letter.name}`);
-            soundBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                playLetterSound(letter.char, soundBtn);
+                // ---- SOUND BUTTON ----
+                const soundBtn = document.createElement('button');
+                soundBtn.className = 'sound-btn';
+                soundBtn.innerHTML = '<span class="speaker-icon">🔊</span> ' + (currentLang === 'ar' ? 'اسمع' : 'Hear');
+                soundBtn.setAttribute('aria-label', (currentLang === 'ar' ? 'اسمع نطق ' : 'Hear pronunciation of ') + letter.nameAr);
+                soundBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    playLetterSound(letter.char, soundBtn);
+                });
+
+                card.appendChild(charDiv);
+                card.appendChild(nameDiv);
+                card.appendChild(pronDiv);
+                card.appendChild(soundBtn);
+
+                // ---- Click handler: navigate to the letter's own page ----
+                card.addEventListener('click', () => {
+                    if (letter.page) {
+                        window.location.href = 'connecting-letters/' + letter.page;
+                    } else {
+                        if (activeCard) activeCard.classList.remove('active');
+                        card.classList.add('active');
+                        activeCard = card;
+                        showForms(letter);
+                    }
+                });
+
+                grid.appendChild(card);
             });
-
-            card.appendChild(charDiv);
-            card.appendChild(nameDiv);
-            card.appendChild(pronDiv);
-            card.appendChild(soundBtn);
-
-            // ---- Click handler: navigate to the letter's own page ----
-            card.addEventListener('click', () => {
-                if (letter.page) {
-                    window.location.href = 'connecting-letters/' + letter.page;
-                } else {
-                    // Fallback: show the popup if no page is defined
-                    if (activeCard) activeCard.classList.remove('active');
-                    card.classList.add('active');
-                    activeCard = card;
-                    showForms(letter);
-                }
-            });
-
-            grid.appendChild(card);
-        });
+        }
 
         /* ============================================================
            LETTER FORMS POPUP (fallback)
            ============================================================ */
-        function showForms(letter) {
+        function showForms(letter, isRefresh) {
             const forms = letterForms[letter.char];
             if (!forms) return;
 
             popupLetterDisplay.textContent = letter.char;
             popupLetterDisplay.setAttribute('lang', 'ar');
             popupLetterDisplay.setAttribute('dir', 'rtl');
-            popupName.textContent = letter.name + '  ·  ' + letter.pron;
+            popupName.textContent = (currentLang === 'ar')
+                ? (letter.nameAr + '  ·  ' + letter.pronAr)
+                : (letter.name + '  ·  ' + letter.pron);
 
             popupRows.innerHTML = '';
 
-            const buildRow = (label, char) => {
+            const buildRow = (labelEn, labelAr, char) => {
                 const row = document.createElement('div');
                 row.className = 'popup-row';
 
                 const labelSpan = document.createElement('span');
                 labelSpan.className = 'popup-label';
-                labelSpan.textContent = label;
+                labelSpan.textContent = (currentLang === 'ar') ? labelAr : labelEn;
 
                 const charSpan = document.createElement('span');
                 charSpan.className = 'popup-char';
@@ -981,17 +1119,17 @@
             };
 
             if (forms.note) {
-                popupRows.appendChild(buildRow('Isolated', forms.isolated));
-                popupRows.appendChild(buildRow('End', forms.end));
+                popupRows.appendChild(buildRow('Isolated', 'منفرد', forms.isolated));
+                popupRows.appendChild(buildRow('End', 'النهاية', forms.end));
                 const noteDiv = document.createElement('div');
                 noteDiv.className = 'popup-note';
-                noteDiv.textContent = '⚠️ ' + forms.note;
+                noteDiv.textContent = '⚠️ ' + ((currentLang === 'ar' && forms.noteAr) ? forms.noteAr : forms.note);
                 popupRows.appendChild(noteDiv);
             } else {
-                popupRows.appendChild(buildRow('Start', forms.start));
-                popupRows.appendChild(buildRow('Middle', forms.middle));
-                popupRows.appendChild(buildRow('End', forms.end));
-                popupRows.appendChild(buildRow('Isolated', forms.isolated));
+                popupRows.appendChild(buildRow('Start', 'البداية', forms.start));
+                popupRows.appendChild(buildRow('Middle', 'الوسط', forms.middle));
+                popupRows.appendChild(buildRow('End', 'النهاية', forms.end));
+                popupRows.appendChild(buildRow('Isolated', 'منفرد', forms.isolated));
             }
 
             // Sound button inside popup
@@ -999,14 +1137,14 @@
             popupSoundBtn.className = 'sound-btn';
             popupSoundBtn.style.marginTop = '1rem';
             popupSoundBtn.style.width = '100%';
-            popupSoundBtn.innerHTML = '🔊 Hear the letter';
+            popupSoundBtn.innerHTML = (currentLang === 'ar') ? '🔊 اسمع الحرف' : '🔊 Hear the letter';
             popupSoundBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 playLetterSound(letter.char, popupSoundBtn);
             });
             popupRows.appendChild(popupSoundBtn);
 
-            overlay.classList.add('show');
+            if (!isRefresh) overlay.classList.add('show');
         }
 
         function closePopup() {
@@ -1024,6 +1162,12 @@
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') closePopup();
         });
+
+        /* ============================================================
+           INITIAL RENDER
+           ============================================================ */
+        renderGrid();
+        updateVideo(currentLang);
     </script>
 </body>
 </html>
