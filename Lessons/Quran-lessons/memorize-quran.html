@@ -463,7 +463,6 @@
     transform: scale(1.15);
   }
 
-  /* ZOOM controls in toolbar */
   .zoom-label {
     font-size: 0.65rem;
     font-weight: 800;
@@ -761,7 +760,6 @@
     border-bottom: 1px dashed rgba(201, 162, 39, 0.5);
   }
 
-  /* ===== BOLDER, CLEARER MUSHAF TEXT ===== */
   .mushaf-text {
     font-family: 'Amiri Quran', 'Amiri', 'Scheherazade New', serif;
     font-size: calc(1.9rem * var(--zoom, 1));
@@ -1308,6 +1306,7 @@
       uploadImg: 'رفع صورة',
       scrollHintText: 'اسحب للتمرير',
       drawHintText: 'الرسم مفعّل — اختر 🖐️ للتمرير',
+      stickerHintText: 'اضغط على المكان لإضافة الملصق',
       toastWelcome: '🌟 أهلاً بك! اختر سورة وابدأ الحفظ!',
       toastTimeUp: '⏰ انتهى الوقت! أحسنت! 🌟',
       toastTimeSet: '⏱️ المؤقت: {n} دقيقة',
@@ -1357,6 +1356,7 @@
       uploadImg: 'Upload image',
       scrollHintText: 'Drag to scroll',
       drawHintText: 'Drawing ON — tap 🖐️ to scroll',
+      stickerHintText: 'Tap anywhere to place the sticker',
       toastWelcome: '🌟 Welcome! Choose a surah and start memorizing!',
       toastTimeUp: '⏰ Time is up! Well done! 🌟',
       toastTimeSet: '⏱️ Timer set to {n} minute(s)',
@@ -1931,12 +1931,10 @@
   const zoomResetBtn = document.getElementById('zoomResetBtn');
 
   function applyZoom() {
-    // Set zoom CSS variable on mushaf page (scales .mushaf-text font-size)
     mushafPage.style.setProperty('--zoom', zoomLevel);
     zoomLabel.textContent = Math.round(zoomLevel * 100) + '%';
     zoomOutBtn.disabled = zoomLevel <= ZOOM_MIN + 0.001;
     zoomInBtn.disabled = zoomLevel >= ZOOM_MAX - 0.001;
-    // Redraw annotations after layout change
     setTimeout(resizeCanvas, 60);
   }
 
@@ -1967,7 +1965,6 @@
   zoomOutBtn.addEventListener('click', zoomOut);
   zoomResetBtn.addEventListener('click', zoomReset);
 
-  // Ctrl + / Ctrl - keyboard zoom
   document.addEventListener('keydown', (e) => {
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'TEXTAREA') return;
     if (e.ctrlKey || e.metaKey) {
@@ -2116,6 +2113,10 @@
       scrollHint.classList.remove('draw-on');
       scrollHint.innerHTML = '🖐️ <span>' + t('scrollHintText') + '</span>';
       scrollHint.classList.add('show');
+    } else if (tool === 'sticker') {
+      scrollHint.classList.add('draw-on');
+      scrollHint.innerHTML = '⭐ <span>' + t('stickerHintText') + '</span>';
+      scrollHint.classList.add('show');
     } else {
       scrollHint.classList.add('draw-on');
       scrollHint.innerHTML = '✏️ <span>' + t('drawHintText') + '</span>';
@@ -2187,7 +2188,8 @@
     stickerGrid.appendChild(el);
   });
 
-  function placeItem(html, isImage = false) {
+  // Place item at a specific position (relative to the mushaf frame)
+  function placeItemAt(html, x, y, isImage = false) {
     const item = document.createElement('div');
     item.className = 'placed-item';
     if (isImage) {
@@ -2200,9 +2202,11 @@
       item.appendChild(del);
     }
 
+    // Position the center of the sticker at the click point
+    item.style.left = (x - 20) + 'px';
+    item.style.top = (y - 20) + 'px';
+
     const frameRect = mushafFrame.getBoundingClientRect();
-    item.style.left = (frameRect.width / 2 - 20) + 'px';
-    item.style.top = (frameRect.height / 2 - 20) + 'px';
 
     let dragging = false;
     let offsetX = 0, offsetY = 0;
@@ -2240,11 +2244,15 @@
     mushafFrame.appendChild(item);
   }
 
+  // Place sticker exactly where clicked (not in the middle)
   canvas.addEventListener('click', (e) => {
     if (tool !== 'sticker') return;
-    placeItem(selectedSticker);
+    const pos = getPos(e);
+    placeItemAt(selectedSticker, pos.x, pos.y);
   });
 
+  // For image uploads, place them at the center of the visible area (fallback)
+  // so the user can drag them where they want.
   document.getElementById('uploadBtn').addEventListener('click', () => {
     document.getElementById('imageUpload').click();
   });
@@ -2253,7 +2261,8 @@
     if (!file) return;
     const reader = new FileReader();
     reader.onload = (ev) => {
-      placeItem(ev.target.result, true);
+      const frameRect = mushafFrame.getBoundingClientRect();
+      placeItemAt(ev.target.result, frameRect.width / 2, frameRect.height / 2, true);
     };
     reader.readAsDataURL(file);
   });
