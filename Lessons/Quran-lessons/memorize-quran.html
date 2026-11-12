@@ -463,6 +463,34 @@
     transform: scale(1.15);
   }
 
+  /* ZOOM controls in toolbar */
+  .zoom-label {
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: var(--gold);
+    min-width: 34px;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+  }
+  .zoom-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    border: 1.5px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.05);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 900;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+  }
+  .zoom-btn:hover { background: rgba(255,209,102,0.15); border-color: rgba(255,209,102,0.5); }
+  .zoom-btn:active { transform: scale(0.92); }
+  .zoom-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
   .ayah-card {
     flex: 1;
     min-height: 0;
@@ -498,6 +526,7 @@
     padding: 16px 20px;
     position: relative;
     overflow-y: auto;
+    overflow-x: hidden;
     scrollbar-width: thin;
     scrollbar-color: #c9a227 rgba(0,0,0,0.05);
     box-shadow: inset 0 0 60px rgba(201, 162, 39, 0.15);
@@ -732,16 +761,21 @@
     border-bottom: 1px dashed rgba(201, 162, 39, 0.5);
   }
 
+  /* ===== BOLDER, CLEARER MUSHAF TEXT ===== */
   .mushaf-text {
     font-family: 'Amiri Quran', 'Amiri', 'Scheherazade New', serif;
-    font-size: 1.65rem;
-    line-height: 2.3;
-    color: #1a1206;
+    font-size: calc(1.9rem * var(--zoom, 1));
+    line-height: 2.4;
+    color: #120c02;
+    font-weight: 700;
     text-align: justify;
     text-align-last: center;
     direction: rtl;
-    word-spacing: 0.05em;
+    word-spacing: 0.08em;
     letter-spacing: 0;
+    -webkit-text-stroke: 0.35px #120c02;
+    text-shadow: 0.3px 0.3px 0.3px rgba(0,0,0,0.18);
+    transition: font-size 0.2s ease;
   }
 
   .ayah-num-mushaf {
@@ -1055,7 +1089,7 @@
   }
 
   @media (max-width: 500px) {
-    .mushaf-text { font-size: 1.35rem; line-height: 2.1; }
+    .mushaf-text { font-size: calc(1.55rem * var(--zoom, 1)); line-height: 2.2; }
     .surah-name { font-size: 1.2rem; }
     .mushaf-page { padding: 12px; }
   }
@@ -1157,6 +1191,12 @@
       <div class="tool-group">
         <button class="tool-btn" id="toolUndo" title="Undo">↩️</button>
         <button class="tool-btn" id="toolClear" title="Clear all">🗑️</button>
+      </div>
+      <div class="tool-group" title="Zoom">
+        <button class="zoom-btn" id="zoomOutBtn" title="Zoom out">−</button>
+        <span class="zoom-label" id="zoomLabel">100%</span>
+        <button class="zoom-btn" id="zoomInBtn" title="Zoom in">+</button>
+        <button class="zoom-btn" id="zoomResetBtn" title="Reset zoom" style="font-size:0.8rem;">⟲</button>
       </div>
     </div>
 
@@ -1279,6 +1319,8 @@
       toastBonus: '🚀 نجمة إضافية!',
       toastFromStart: '🔁 من البداية!',
       toastGoodJob: '👏 أحسنت! نجمة جديدة!',
+      toastZoomMax: '🔍 أقصى تكبير',
+      toastZoomMin: '🔍 أقصى تصغير',
       surahHeader: 'سُورَةُ',
       meccan: 'مكية',
       medinan: 'مدنية',
@@ -1326,6 +1368,8 @@
       toastBonus: '🚀 Bonus star!',
       toastFromStart: '🔁 From the start!',
       toastGoodJob: '👏 Good job! New star!',
+      toastZoomMax: '🔍 Maximum zoom',
+      toastZoomMin: '🔍 Minimum zoom',
       surahHeader: 'Surah',
       meccan: 'Meccan',
       medinan: 'Medinan',
@@ -1572,7 +1616,6 @@
   const starsCountEl = document.getElementById('starsCount');
   const starsMaxDisplay = document.getElementById('starsMaxDisplay');
 
-  // Create initial 10 star slots
   function initStarSlots() {
     starsGrid.innerHTML = '';
     for (let i = 0; i < 10; i++) {
@@ -1588,7 +1631,6 @@
     starsCountEl.textContent = toArabic(starsEarned);
     starsMaxDisplay.textContent = toArabic(starsEarned);
 
-    // Ensure enough star slots (10 initial, then add 5 more when needed)
     const currentSlots = starsGrid.querySelectorAll('.star-slot');
     if (currentSlots.length < starsEarned) {
       const needed = starsEarned - currentSlots.length;
@@ -1601,12 +1643,10 @@
       }
     }
 
-    // Fill all earned stars
     starsGrid.querySelectorAll('.star-slot').forEach((slot, i) => {
       slot.classList.toggle('filled', i < starsEarned);
     });
 
-    // Badges: always unlock when threshold reached (won't relock)
     document.getElementById('badge1').classList.toggle('unlocked', starsEarned >= 3);
     document.getElementById('badge2').classList.toggle('unlocked', starsEarned >= 5);
     document.getElementById('badge3').classList.toggle('unlocked', starsEarned >= 7);
@@ -1621,7 +1661,6 @@
     if (!silent) showToast(t('toastStar'));
   }
 
-  // Good Job button — plays celebration + adds star
   document.getElementById('goodJobBtn').addEventListener('click', () => {
     playCelebrationSound();
     launchConfetti(20);
@@ -1877,6 +1916,68 @@
   });
 
   loadSurahList();
+
+  // ============================================================
+  // ZOOM CONTROLS
+  // ============================================================
+  const ZOOM_MIN = 0.6;
+  const ZOOM_MAX = 3.0;
+  const ZOOM_STEP = 0.15;
+  let zoomLevel = 1.0;
+
+  const zoomLabel = document.getElementById('zoomLabel');
+  const zoomInBtn = document.getElementById('zoomInBtn');
+  const zoomOutBtn = document.getElementById('zoomOutBtn');
+  const zoomResetBtn = document.getElementById('zoomResetBtn');
+
+  function applyZoom() {
+    // Set zoom CSS variable on mushaf page (scales .mushaf-text font-size)
+    mushafPage.style.setProperty('--zoom', zoomLevel);
+    zoomLabel.textContent = Math.round(zoomLevel * 100) + '%';
+    zoomOutBtn.disabled = zoomLevel <= ZOOM_MIN + 0.001;
+    zoomInBtn.disabled = zoomLevel >= ZOOM_MAX - 0.001;
+    // Redraw annotations after layout change
+    setTimeout(resizeCanvas, 60);
+  }
+
+  function zoomIn() {
+    if (zoomLevel >= ZOOM_MAX - 0.001) {
+      showToast(t('toastZoomMax'));
+      return;
+    }
+    zoomLevel = Math.min(ZOOM_MAX, zoomLevel + ZOOM_STEP);
+    applyZoom();
+  }
+
+  function zoomOut() {
+    if (zoomLevel <= ZOOM_MIN + 0.001) {
+      showToast(t('toastZoomMin'));
+      return;
+    }
+    zoomLevel = Math.max(ZOOM_MIN, zoomLevel - ZOOM_STEP);
+    applyZoom();
+  }
+
+  function zoomReset() {
+    zoomLevel = 1.0;
+    applyZoom();
+  }
+
+  zoomInBtn.addEventListener('click', zoomIn);
+  zoomOutBtn.addEventListener('click', zoomOut);
+  zoomResetBtn.addEventListener('click', zoomReset);
+
+  // Ctrl + / Ctrl - keyboard zoom
+  document.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.ctrlKey || e.metaKey) {
+      if (e.key === '=' || e.key === '+') { e.preventDefault(); zoomIn(); }
+      else if (e.key === '-' || e.key === '_') { e.preventDefault(); zoomOut(); }
+      else if (e.key === '0') { e.preventDefault(); zoomReset(); }
+    }
+  });
+
+  applyZoom();
 
   // ============================================================
   // ANNOTATION CANVAS
