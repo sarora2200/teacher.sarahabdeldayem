@@ -305,7 +305,12 @@
     grid-template-columns: repeat(5, 1fr);
     gap: 2px;
     margin: 4px 0;
+    max-height: 100px;
+    overflow-y: auto;
+    padding-right: 2px;
   }
+  .stars-grid::-webkit-scrollbar { width: 5px; }
+  .stars-grid::-webkit-scrollbar-thumb { background: rgba(255,209,102,0.4); border-radius: 999px; }
   .star-slot {
     font-size: 1.3rem;
     filter: grayscale(1) brightness(0.4);
@@ -356,6 +361,27 @@
   }
   .earn-star-btn:hover { filter: brightness(1.08); }
   .earn-star-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #a86e00; }
+
+  .goodjob-btn {
+    margin-top: 6px;
+    padding: 10px;
+    font-size: 0.85rem;
+    background: linear-gradient(135deg, #06d6a0, #059669);
+    color: #04221a;
+    border: none;
+    border-radius: 12px;
+    font-weight: 900;
+    font-family: inherit;
+    cursor: pointer;
+    box-shadow: 0 3px 0 #045c46;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+  }
+  .goodjob-btn:hover { filter: brightness(1.08); }
+  .goodjob-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #045c46; }
 
   .center-stack {
     display: flex;
@@ -1096,9 +1122,10 @@
       </div>
       <div class="stars-grid" id="starsGrid"></div>
       <div class="stars-summary">
-        <span data-i18n="collected">جمعت</span> <strong id="starsCount">0</strong> <span data-i18n="of">من</span> <strong>10</strong>
+        <span data-i18n="collected">جمعت</span> <strong id="starsCount">0</strong> <span data-i18n="of">من</span> <strong id="starsMaxDisplay">10</strong>
       </div>
       <button class="earn-star-btn" id="earnStarBtn" data-i18n="earnStar">⭐ أضف نجمة</button>
+      <button class="goodjob-btn" id="goodJobBtn">👏 <span data-i18n="goodJobText">أحسنت! + نجمة</span></button>
     </div>
   </div>
 
@@ -1224,6 +1251,7 @@
       collected: 'جمعت',
       of: 'من',
       earnStar: '⭐ أضف نجمة',
+      goodJobText: 'أحسنت! + نجمة',
       surahTitle: '📚 اختر السورة',
       loading: 'جاري التحميل...',
       loadingMushaf: '✨ جاري تحميل المصحف...',
@@ -1250,6 +1278,7 @@
       toastMaddDone: '🎉 أكملت المدّ! نجمة قادمة...',
       toastBonus: '🚀 نجمة إضافية!',
       toastFromStart: '🔁 من البداية!',
+      toastGoodJob: '👏 أحسنت! نجمة جديدة!',
       surahHeader: 'سُورَةُ',
       meccan: 'مكية',
       medinan: 'مدنية',
@@ -1269,6 +1298,7 @@
       collected: 'You have',
       of: 'of',
       earnStar: '⭐ Add a Star',
+      goodJobText: 'Good Job! + Star',
       surahTitle: '📚 Choose Surah',
       loading: 'Loading...',
       loadingMushaf: '✨ Loading Mushaf...',
@@ -1295,6 +1325,7 @@
       toastMaddDone: '🎉 Madd complete! Star coming...',
       toastBonus: '🚀 Bonus star!',
       toastFromStart: '🔁 From the start!',
+      toastGoodJob: '👏 Good job! New star!',
       surahHeader: 'Surah',
       meccan: 'Meccan',
       medinan: 'Medinan',
@@ -1343,13 +1374,9 @@
   applyI18n();
 
   // ============ SOUND SYSTEM ============
-  // Uses your own clap file: sounds/clap.mp3
-  // Played as an overlapping crowd of claps + spoken praise.
-
   let soundEnabled = true;
   let voicesLoaded = false;
 
-  // Pool of Audio instances so overlapping claps don't cut each other off.
   const CLAP_POOL_SIZE = 8;
   const clapPool = [];
   for (let i = 0; i < CLAP_POOL_SIZE; i++) {
@@ -1372,7 +1399,6 @@
     } catch (e) {}
   }
 
-  // ---- Spoken praise ----
   function speakPraise() {
     if (!soundEnabled) return;
     if (!('speechSynthesis' in window)) return;
@@ -1400,12 +1426,9 @@
     window.speechSynthesis.getVoices();
   }
 
-  // CHEERFUL CROWD CLAPPING (from your file) + SPOKEN PRAISE
   function playCelebrationSound() {
     if (!soundEnabled) return;
 
-    // ——— A cheerful round of applause ———
-    // Overlapping claps with slight timing offsets & varied volume.
     const clapSchedule = [
       { t: 0,    v: 0.90 },
       { t: 70,   v: 0.80 },
@@ -1425,7 +1448,6 @@
       setTimeout(() => playClap(c.v), c.t);
     });
 
-    // ——— Spoken praise ———
     setTimeout(() => speakPraise(), 260);
   }
 
@@ -1544,24 +1566,47 @@
   });
   updateTimerDisplay();
 
-  // ============ STARS ============
-  const TOTAL_STARS = 10;
+  // ============ STARS (ENDLESS) ============
+  let starsEarned = 0;
   const starsGrid = document.getElementById('starsGrid');
   const starsCountEl = document.getElementById('starsCount');
-  let starsEarned = 0;
+  const starsMaxDisplay = document.getElementById('starsMaxDisplay');
 
-  for (let i = 0; i < TOTAL_STARS; i++) {
-    const slot = document.createElement('span');
-    slot.className = 'star-slot';
-    slot.textContent = '⭐';
-    starsGrid.appendChild(slot);
+  // Create initial 10 star slots
+  function initStarSlots() {
+    starsGrid.innerHTML = '';
+    for (let i = 0; i < 10; i++) {
+      const slot = document.createElement('span');
+      slot.className = 'star-slot';
+      slot.textContent = '⭐';
+      starsGrid.appendChild(slot);
+    }
   }
+  initStarSlots();
 
   function updateStars() {
-    starsCountEl.textContent = starsEarned;
+    starsCountEl.textContent = toArabic(starsEarned);
+    starsMaxDisplay.textContent = toArabic(starsEarned);
+
+    // Ensure enough star slots (10 initial, then add 5 more when needed)
+    const currentSlots = starsGrid.querySelectorAll('.star-slot');
+    if (currentSlots.length < starsEarned) {
+      const needed = starsEarned - currentSlots.length;
+      const addCount = Math.max(5, needed);
+      for (let i = 0; i < addCount; i++) {
+        const slot = document.createElement('span');
+        slot.className = 'star-slot';
+        slot.textContent = '⭐';
+        starsGrid.appendChild(slot);
+      }
+    }
+
+    // Fill all earned stars
     starsGrid.querySelectorAll('.star-slot').forEach((slot, i) => {
       slot.classList.toggle('filled', i < starsEarned);
     });
+
+    // Badges: always unlock when threshold reached (won't relock)
     document.getElementById('badge1').classList.toggle('unlocked', starsEarned >= 3);
     document.getElementById('badge2').classList.toggle('unlocked', starsEarned >= 5);
     document.getElementById('badge3').classList.toggle('unlocked', starsEarned >= 7);
@@ -1569,25 +1614,20 @@
   }
 
   function addStar(silent = false) {
-    if (starsEarned >= TOTAL_STARS) {
-      if (!silent) showToast(t('toastStarsFull'));
-      launchConfetti(15);
-      playCelebrationSound();
-      return;
-    }
     starsEarned++;
     updateStars();
     launchConfetti(18);
     playCelebrationSound();
     if (!silent) showToast(t('toastStar'));
-    if (starsEarned === TOTAL_STARS) {
-      setTimeout(() => {
-        showToast(t('toastAllStars'));
-        launchConfetti(50);
-        playCelebrationSound();
-      }, 900);
-    }
   }
+
+  // Good Job button — plays celebration + adds star
+  document.getElementById('goodJobBtn').addEventListener('click', () => {
+    playCelebrationSound();
+    launchConfetti(20);
+    addStar(true);
+    showToast(t('toastGoodJob'));
+  });
 
   const resetStarsBtn = document.getElementById('resetStarsBtn');
   const resetModal = document.getElementById('resetModal');
@@ -1615,6 +1655,7 @@
     });
     setTimeout(() => {
       starsEarned = 0;
+      initStarSlots();
       updateStars();
       showToast(t('toastReset'), true);
       launchConfetti(12);
