@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>حديقة سارة 🌸</title>
+ <link rel="icon" type="image/png" href="../images/quran.png">
+  <link rel="apple-touch-icon" href="images/quran.png">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Amiri:wght@700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  :root {
+    --sky: #a8e6ff;
+    --grass: #7ed957;
+    --grass-dark: #4caf50;
+    --sun: #ffd93d;
+    --pink: #ff8fb1;
+    --purple: #b388ff;
+    --cream: #fff8e1;
+  }
+  html, body { height: 100%; margin: 0; }
+  body {
+    font-family: 'Cairo', sans-serif;
+    background: linear-gradient(var(--sky) 0%, var(--sky) 55%, var(--grass) 55%, var(--grass-dark) 100%);
+    overflow: hidden;
+    touch-action: manipulation;
+    user-select: none;
+  }
+
+  /* Sky decorations */
+  .sun {
+    position: fixed; top: 4vh; left: 6vw;
+    width: 70px; height: 70px; border-radius: 50%;
+    background: radial-gradient(circle, #fff3a0, var(--sun));
+    box-shadow: 0 0 40px #ffd93daa;
+    animation: pulse 3s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
+  .cloud {
+    position: fixed; background: #fff; border-radius: 50px;
+    height: 40px; opacity: .85; filter: blur(.3px);
+    animation: drift 30s linear infinite;
+  }
+  .cloud::before, .cloud::after {
+    content: ''; position: absolute; background: #fff; border-radius: 50%;
+  }
+  .cloud::before { width: 55px; height: 55px; top: -22px; left: 12px; }
+  .cloud::after  { width: 40px; height: 40px; top: -14px; right: 12px; }
+  .c1 { width: 110px; top: 10vh; left: -150px; animation-duration: 45s; }
+  .c2 { width: 90px;  top: 22vh; left: -150px; animation-duration: 60s; animation-delay: -20s; }
+  @keyframes drift { to { transform: translateX(120vw); } }
+
+  /* Header */
+  header {
+    position: fixed; top: 0; left: 0; right: 0;
+    padding: 10px 14px; z-index: 20;
+    display: flex; align-items: center; justify-content: space-between;
+    pointer-events: none;
+  }
+  .title {
+    font-weight: 900; font-size: clamp(16px, 4vw, 22px);
+    color: #fff; text-shadow: 0 2px 0 #0003, 0 0 14px #fff6;
+    pointer-events: auto;
+  }
+  .stars {
+    background: #fff; border-radius: 999px; padding: 6px 14px;
+    font-weight: 900; color: #ff8f00; font-size: clamp(14px, 3.5vw, 18px);
+    box-shadow: 0 3px 0 #0002; pointer-events: auto;
+  }
+
+  /* Garden */
+  .garden {
+    position: fixed; bottom: 0; left: 0; right: 0; top: 12vh;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px; padding: 10px 14px 130px;
+    align-content: end;
+    overflow-y: auto;
+  }
+  .garden::-webkit-scrollbar { display: none; }
+
+  .plant {
+    position: relative;
+    display: flex; flex-direction: column; align-items: center;
+    cursor: pointer;
+    transition: transform .15s;
+    animation: grow .5s ease-out backwards;
+  }
+  .plant:active { transform: scale(.94); }
+  @keyframes grow { from { transform: scale(.3) translateY(40px); opacity: 0; } }
+
+  .pot {
+    width: 100%; max-width: 130px; aspect-ratio: 1;
+    background: rgba(255,255,255,.55);
+    border-radius: 24px;
+    display: grid; place-items: center;
+    font-size: clamp(44px, 12vw, 62px);
+    box-shadow: 0 6px 0 rgba(0,0,0,.12), inset 0 -4px 0 rgba(0,0,0,.06);
+    border: 3px solid #fff;
+    position: relative;
+    transition: background .3s, transform .3s;
+  }
+  .plant.done .pot {
+    background: linear-gradient(135deg, #fff6a8, #ffd93d);
+    box-shadow: 0 6px 0 #d4a300, 0 0 30px #ffd93d99;
+  }
+  .plant.done .pot::after {
+    content: '⭐';
+    position: absolute; top: -10px; right: -10px;
+    font-size: 28px; animation: pop .5s;
+  }
+  @keyframes pop { 0% { transform: scale(0) rotate(-90deg); } 80% { transform: scale(1.3) rotate(10deg); } 100% { transform: scale(1); } }
+
+  .name {
+    margin-top: 6px;
+    font-family: 'Amiri', serif;
+    font-weight: 700;
+    font-size: clamp(15px, 4vw, 19px);
+    color: #1b4d1b;
+    background: #ffffffcc; padding: 2px 12px; border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  /* Bottom bar */
+  .bottom {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    padding: 10px 14px 16px;
+    display: flex; gap: 10px; justify-content: center;
+    background: linear-gradient(transparent, var(--grass-dark));
+    z-index: 20;
+  }
+  .bottom button {
+    border: none; border-radius: 999px;
+    font-family: inherit; font-weight: 900;
+    font-size: clamp(13px, 3.5vw, 16px);
+    padding: 10px 18px;
+    background: #fff; color: #2d5a2d;
+    box-shadow: 0 4px 0 #0003;
+    cursor: pointer;
+  }
+  .bottom button:active { transform: translateY(2px); box-shadow: 0 2px 0 #0003; }
+  .bottom button.reset { background: #ffd1d1; color: #8b0000; }
+
+  /* Modal */
+  .modal {
+    position: fixed; inset: 0; z-index: 50;
+    background: rgba(0,0,0,.55);
+    display: none; place-items: center;
+    padding: 16px;
+  }
+  .modal.open { display: grid; animation: fadein .2s; }
+  @keyframes fadein { from { opacity: 0; } }
+
+  .card {
+    background: var(--cream);
+    border-radius: 32px;
+    padding: 24px 20px 20px;
+    max-width: 420px; width: 100%;
+    text-align: center;
+    box-shadow: 0 20px 60px #0005;
+    animation: popin .35s cubic-bezier(.34,1.56,.64,1);
+    border: 5px solid #fff;
+  }
+  @keyframes popin { from { transform: scale(.6) translateY(30px); opacity: 0; } }
+
+  .card .big-emoji { font-size: 84px; line-height: 1; margin-bottom: 4px; }
+  .card h2 {
+    font-family: 'Amiri', serif;
+    font-size: clamp(26px, 7vw, 34px);
+    margin: 6px 0;
+    color: #2d5a2d;
+  }
+  .card p { color: #6b6b6b; font-size: 15px; margin: 6px 0 18px; }
+
+  .btn-big {
+    display: block; width: 100%;
+    border: none; border-radius: 22px;
+    padding: 16px; margin: 10px 0;
+    font-family: inherit; font-weight: 900;
+    font-size: clamp(17px, 4.5vw, 20px);
+    cursor: pointer;
+    box-shadow: 0 5px 0 #0002;
+    transition: transform .1s;
+  }
+  .btn-big:active { transform: translateY(3px); box-shadow: 0 2px 0 #0002; }
+  .btn-listen  { background: #a8e6ff; color: #004d66; }
+  .btn-done    { background: var(--grass); color: #fff; }
+  .btn-close   { background: #eee; color: #555; }
+
+  /* Confetti */
+  .confetti {
+    position: fixed; top: -20px;
+    width: 10px; height: 16px;
+    z-index: 60; pointer-events: none;
+    animation: fall linear forwards;
+  }
+  @keyframes fall {
+    to { transform: translateY(105vh) rotate(720deg); opacity: .3; }
+  }
+
+  .empty-hint {
+    position: fixed; inset: 0; display: none;
+    place-items: center; text-align: center;
+    color: #fff; font-weight: 900; font-size: 18px;
+    padding: 40px;
+    text-shadow: 0 2px 6px #0006;
+  }
+</style>
+</head>
+<body>
+
+<div class="sun"></div>
+<div class="cloud c1"></div>
+<div class="cloud c2"></div>
+
+<header>
+  <div class="title">🌸 حديقة سارة</div>
+  <div class="stars" id="starCount">⭐ 0</div>
+</header>
+
+<div class="garden" id="garden"></div>
+
+<div class="bottom">
+  <button id="btnAdd">➕ وردة جديدة</button>
+  <button id="btnReset" class="reset">🔄 من جديد</button>
+</div>
+
+<!-- Memorization card modal -->
+<div class="modal" id="cardModal">
+  <div class="card">
+    <div class="big-emoji" id="cardEmoji">🌸</div>
+    <h2 id="cardTitle">الفاتحة</h2>
+    <p>استمعي، ثم قولي "أحسنت" عندما تحفظينها 🎉</p>
+    <button class="btn-big btn-listen" id="btnListen">🔊 اسمعي السورة</button>
+    <button class="btn-big btn-done" id="btnDone">⭐ أحسنت! حفظتها</button>
+    <button class="btn-big btn-close" id="btnClose">رجوع</button>
+  </div>
+</div>
+
+<!-- Reward modal -->
+<div class="modal" id="rewardModal">
+  <div class="card">
+    <div class="big-emoji" id="rewardEmoji">🎉</div>
+    <h2 id="rewardTitle">أحسنتِ يا بطلة!</h2>
+    <p id="rewardText">لقد أزهرت وردة جديدة في حديقتك 🌷</p>
+    <button class="btn-big btn-done" id="btnRewardClose">🌟 رائع</button>
+  </div>
+</div>
+
+<script>
+/* ---------- DATA ---------- */
+const DEFAULT_SURAHS = [
+  { name: 'الفاتحة', emoji: '🌷' },
+  { name: 'الإخلاص', emoji: '🌻' },
+  { name: 'الفلق',   emoji: '🌺' },
+  { name: 'الناس',   emoji: '🌼' },
+  { name: 'الكوثر',  emoji: '🌸' },
+  { name: 'النصر',   emoji: '💐' },
+  { name: 'العصر',   emoji: '🌹' },
+  { name: 'المسد',   emoji: '🌵' },
+];
+
+const STICKERS = ['🦋','🐝','🐞','🌈','🦄','🐢','🐰','🦉','🐬','🦋'];
+
+/* ---------- STATE ---------- */
+let state = load();
+function load() {
+  try {
+    const s = JSON.parse(localStorage.getItem('quranGardenV1'));
+    if (s && Array.isArray(s.surahs)) return s;
+  } catch(e){}
+  return { surahs: DEFAULT_SURAHS.map(s => ({ ...s, done: false })) };
+}
+function save() { localStorage.setItem('quranGardenV1', JSON.stringify(state)); }
+
+/* ---------- DOM ---------- */
+const garden = document.getElementById('garden');
+const starCount = document.getElementById('starCount');
+const cardModal = document.getElementById('cardModal');
+const rewardModal = document.getElementById('rewardModal');
+let currentIndex = -1;
+
+/* ---------- RENDER ---------- */
+function render() {
+  garden.innerHTML = '';
+  state.surahs.forEach((s, i) => {
+    const el = document.createElement('div');
+    el.className = 'plant' + (s.done ? ' done' : '');
+    el.style.animationDelay = (i * 0.05) + 's';
+    el.innerHTML = `
+      <div class="pot">${s.done ? '🌷' : s.emoji}</div>
+      <div class="name">${s.name}</div>
+    `;
+    el.addEventListener('click', () => openCard(i));
+    garden.appendChild(el);
+  });
+  const done = state.surahs.filter(s => s.done).length;
+  starCount.textContent = `⭐ ${done} / ${state.surahs.length}`;
+}
+
+/* ---------- CARD ---------- */
+function openCard(i) {
+  currentIndex = i;
+  const s = state.surahs[i];
+  document.getElementById('cardEmoji').textContent = s.emoji;
+  document.getElementById('cardTitle').textContent = 'سورة ' + s.name;
+  const doneBtn = document.getElementById('btnDone');
+  doneBtn.textContent = s.done ? '✅ محفوظة! (إلغاء)' : '⭐ أحسنت! حفظتها';
+  doneBtn.style.background = s.done ? '#bbb' : '';
+  cardModal.classList.add('open');
+}
+document.getElementById('btnClose').onclick = () => cardModal.classList.remove('open');
+
+/* ---------- LISTEN (Arabic speech) ---------- */
+document.getElementById('btnListen').onclick = () => {
+  const s = state.surahs[currentIndex];
+  if (!('speechSynthesis' in window)) { alert('المتصفح لا يدعم الصوت'); return; }
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance('سورة ' + s.name);
+  u.lang = 'ar-SA';
+  u.rate = 0.85;
+  u.pitch = 1.1;
+  speechSynthesis.speak(u);
+};
+
+/* ---------- MARK DONE ---------- */
+document.getElementById('btnDone').onclick = () => {
+  const s = state.surahs[currentIndex];
+  s.done = !s.done;
+  save();
+  render();
+  cardModal.classList.remove('open');
+  if (s.done) {
+    celebrate(currentIndex);
+  }
+};
+
+/* ---------- CELEBRATION ---------- */
+function celebrate(index) {
+  const s = state.surahs[index];
+  const allDone = state.surahs.every(x => x.done);
+  const sticker = STICKERS[index % STICKERS.length];
+
+  document.getElementById('rewardEmoji').textContent = allDone ? '🏆' : sticker;
+  document.getElementById('rewardTitle').textContent = allDone
+    ? '🎉 يا بطلة! أكملتِ الحديقة!'
+    : 'أحسنتِ يا سارة! 🌟';
+  document.getElementById('rewardText').textContent = allDone
+    ? 'كل الورود أزهرت! أنتِ نجمة القرآن 🌟'
+    : `أزهرت وردة ${s.name} وأصبحت ${sticker} صديقتك!`;
+
+  rewardModal.classList.add('open');
+  confetti();
+  cheerSound();
+  speak(`أحسنت يا سارة، حفظت سورة ${s.name}`);
+}
+document.getElementById('btnRewardClose').onclick = () => rewardModal.classList.remove('open');
+
+function confetti() {
+  const colors = ['#ff8fb1','#ffd93d','#7ed957','#a8e6ff','#b388ff','#ff9f68'];
+  for (let i = 0; i < 60; i++) {
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = Math.random() * 100 + 'vw';
+    c.style.background = colors[Math.floor(Math.random() * colors.length)];
+    c.style.animationDuration = (1.5 + Math.random() * 1.5) + 's';
+    c.style.animationDelay = (Math.random() * 0.4) + 's';
+    c.style.transform = `rotate(${Math.random()*360}deg)`;
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 3500);
+  }
+}
+
+/* ---------- SOUND ---------- */
+let audioCtx;
+function beep(freq, start, dur, type='sine') {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  const o = audioCtx.createOscillator();
+  const g = audioCtx.createGain();
+  o.type = type; o.frequency.value = freq;
+  o.connect(g); g.connect(audioCtx.destination);
+  const t = audioCtx.currentTime + start;
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(0.25, t + 0.02);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  o.start(t); o.stop(t + dur + 0.05);
+}
+function cheerSound() {
+  beep(523, 0,    0.15);
+  beep(659, 0.12, 0.15);
+  beep(784, 0.24, 0.15);
+  beep(1046,0.36, 0.35, 'triangle');
+}
+
+/* ---------- SPEECH ---------- */
+function speak(text) {
+  if (!('speechSynthesis' in window)) return;
+  setTimeout(() => {
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'ar-SA'; u.rate = 0.9; u.pitch = 1.2;
+    speechSynthesis.speak(u);
+  }, 400);
+}
+
+/* ---------- ADD / RESET ---------- */
+document.getElementById('btnAdd').onclick = () => {
+  const name = prompt('اسم السورة أو الهدف (مثل: الناس) 🎈');
+  if (!name || !name.trim()) return;
+  const emojis = ['🌷','🌻','🌺','🌼','🌸','💐','🌹','🌵','🌴','🌱'];
+  state.surahs.push({
+    name: name.trim(),
+    emoji: emojis[Math.floor(Math.random() * emojis.length)],
+    done: false
+  });
+  save(); render();
+};
+
+document.getElementById('btnReset').onclick = () => {
+  if (!confirm('هل نبدأ الحديقة من جديد؟ 🌱')) return;
+  state.surahs.forEach(s => s.done = false);
+  save(); render();
+};
+
+/* ---------- INIT ---------- */
+render();
+</script>
+</body>
+</html>

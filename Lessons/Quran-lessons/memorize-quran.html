@@ -1,1863 +1,2253 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" id="htmlRoot">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>🚀 لوحة تحفيظ القرآن الكريم | Quran Memorization Board</title>
-<link rel="icon" type="image/png" href="../../images/quran.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;600;800&family=Amiri:wght@400;700&family=Amiri+Quran&family=Scheherazade+New:wght@400;700&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --gold: #ffd166;
-    --gold-deep: #f4a900;
-    --teal: #06d6a0;
-    --pink: #ef476f;
-    --purple: #9b5de5;
-    --orange: #ff8500;
-    --sky: #2a5298;
-  }
-
-  html, body {
-    height: 100%;
-    width: 100%;
-    font-family: 'Baloo Bhaijaan 2', 'Tajawal', sans-serif;
-    background: #0b1a3a;
-    overflow: hidden;
-  }
-
-  body {
-    background: radial-gradient(circle at 20% 10%, #2a5298 0%, #14243f 45%, #060d1f 100%);
-    color: #fff;
-    display: grid;
-    grid-template-rows: auto 1fr;
-    height: 100vh;
-    width: 100vw;
-  }
-
-  .lang-toggle {
-    position: fixed;
-    top: 8px;
-    left: 8px;
-    z-index: 1002;
-    display: flex;
-    gap: 4px;
-    background: rgba(11, 26, 58, 0.9);
-    padding: 4px;
-    border-radius: 999px;
-    border: 1.5px solid rgba(255,209,102,0.4);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-  }
-  .lang-btn {
-    padding: 5px 12px;
-    font-family: inherit;
-    font-weight: 800;
-    font-size: 0.7rem;
-    border: none;
-    border-radius: 999px;
-    background: transparent;
-    color: #a8b8d8;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .lang-btn.active {
-    background: linear-gradient(135deg, #ffe08a, var(--gold-deep));
-    color: #4a2c00;
-  }
-
-  .sound-toggle {
-    position: fixed;
-    top: 8px;
-    right: 8px;
-    z-index: 1002;
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    background: rgba(11, 26, 58, 0.9);
-    border: 1.5px solid rgba(255,209,102,0.4);
-    color: var(--gold);
-    font-size: 1.1rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-  }
-  .sound-toggle:hover { transform: scale(1.1); }
-  .sound-toggle.muted { opacity: 0.5; }
-
-  .starfield {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    overflow: hidden;
-  }
-  .starfield span {
-    position: absolute;
-    background: white;
-    border-radius: 50%;
-    animation: twinkle 3s infinite ease-in-out;
-  }
-  @keyframes twinkle {
-    0%, 100% { opacity: 0.2; transform: scale(0.8); }
-    50% { opacity: 1; transform: scale(1.2); }
-  }
-
-  header {
-    position: relative;
-    z-index: 3;
-    text-align: center;
-    padding: 8px 60px 4px;
-    border-bottom: 1px solid rgba(255, 209, 102, 0.15);
-    background: linear-gradient(180deg, rgba(11, 26, 58, 0.9), rgba(11, 26, 58, 0.4));
-  }
-  .title {
-    font-size: clamp(1.1rem, 2.2vw, 1.6rem);
-    font-weight: 900;
-    background: linear-gradient(135deg, #ffe08a, #ffd166, #ff8500);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    letter-spacing: 0.5px;
-  }
-  .subtitle {
-    font-size: 0.75rem;
-    color: #c8d6f0;
-    margin-top: 2px;
-    font-weight: 600;
-  }
-
-  .board {
-    position: relative;
-    z-index: 2;
-    padding: 10px;
-    display: grid;
-    grid-template-columns: 260px 1fr 280px;
-    grid-template-rows: 1fr;
-    gap: 10px;
-    height: 100%;
-    overflow: hidden;
-  }
-
-  .card {
-    background: linear-gradient(160deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
-    border: 1.5px solid rgba(255, 209, 102, 0.3);
-    border-radius: 18px;
-    padding: 12px;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255,255,255,0.08);
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
-  }
-  .card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--teal), var(--gold), var(--pink), var(--purple), var(--teal));
-    background-size: 300% 100%;
-    animation: shimmer 6s linear infinite;
-  }
-  @keyframes shimmer {
-    0% { background-position: 0% 0; }
-    100% { background-position: 300% 0; }
-  }
-
-  .card-title {
-    font-size: 0.95rem;
-    font-weight: 800;
-    color: var(--gold);
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    flex-shrink: 0;
-  }
-
-  .timer-circle {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 1;
-    max-width: 170px;
-    margin: 0 auto;
-  }
-  .timer-circle svg { transform: rotate(-90deg); width: 100%; height: 100%; }
-  .bg-ring { fill: none; stroke: rgba(255,255,255,0.1); stroke-width: 12; }
-  .progress-ring {
-    fill: none;
-    stroke: url(#timerGradient);
-    stroke-width: 12;
-    stroke-linecap: round;
-    transition: stroke-dashoffset 0.5s linear;
-    filter: drop-shadow(0 0 8px rgba(6, 214, 160, 0.6));
-  }
-  .timer-text {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-  .timer-text .time {
-    font-size: 1.8rem;
-    font-weight: 900;
-    color: #fff;
-    line-height: 1;
-    font-variant-numeric: tabular-nums;
-  }
-  .timer-text .label {
-    font-size: 0.6rem;
-    color: #a8b8d8;
-    margin-top: 2px;
-  }
-
-  .btn {
-    border: none;
-    cursor: pointer;
-    font-family: inherit;
-    font-weight: 800;
-    font-size: 0.75rem;
-    padding: 7px 10px;
-    border-radius: 999px;
-    transition: all 0.2s ease;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-    user-select: none;
-    white-space: nowrap;
-  }
-  .btn:active { transform: scale(0.95); }
-  .btn-primary { background: linear-gradient(135deg, var(--teal), #059669); color: #04221a; box-shadow: 0 3px 0 #045c46; }
-  .btn-primary:hover { filter: brightness(1.08); }
-  .btn-gold { background: linear-gradient(135deg, #ffe08a, var(--gold-deep)); color: #4a2c00; box-shadow: 0 3px 0 #a86e00; }
-  .btn-gold:hover { filter: brightness(1.08); }
-  .btn-danger { background: linear-gradient(135deg, #ff8fa3, var(--pink)); color: #fff; box-shadow: 0 3px 0 #a82a45; }
-  .btn-danger:hover { filter: brightness(1.08); }
-
-  .timer-controls {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 4px;
-    margin-top: 8px;
-  }
-  .timer-presets {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 4px;
-    margin-top: 8px;
-  }
-  .preset-btn {
-    padding: 5px 2px;
-    font-size: 0.65rem;
-    border-radius: 8px;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,209,102,0.3);
-    color: #fff;
-    font-family: inherit;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .preset-btn:hover { background: rgba(255,209,102,0.15); }
-
-  .stars-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 6px;
-  }
-  .reset-stars-btn {
-    background: rgba(239, 71, 111, 0.15);
-    border: 1.5px solid rgba(239, 71, 111, 0.5);
-    color: #ff8fa3;
-    font-family: inherit;
-    font-weight: 800;
-    font-size: 0.7rem;
-    padding: 4px 10px;
-    border-radius: 999px;
-    cursor: pointer;
-    transition: all 0.2s;
-    display: inline-flex;
-    align-items: center;
-    gap: 3px;
-    white-space: nowrap;
-  }
-  .reset-stars-btn:hover {
-    background: rgba(239, 71, 111, 0.3);
-    border-color: var(--pink);
-    color: #fff;
-    transform: scale(1.05);
-  }
-  .reset-stars-btn:active { transform: scale(0.95); }
-
-  .stars-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 2px;
-    margin: 4px 0;
-    max-height: 100px;
-    overflow-y: auto;
-    padding-right: 2px;
-  }
-  .stars-grid::-webkit-scrollbar { width: 5px; }
-  .stars-grid::-webkit-scrollbar-thumb { background: rgba(255,209,102,0.4); border-radius: 999px; }
-  .star-slot {
-    font-size: 1.3rem;
-    filter: grayscale(1) brightness(0.4);
-    opacity: 0.4;
-    transition: all 0.4s ease;
-    transform: scale(0.85);
-    text-align: center;
-  }
-  .star-slot.filled {
-    filter: none;
-    opacity: 1;
-    transform: scale(1);
-    animation: starPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-    text-shadow: 0 0 14px rgba(255, 209, 102, 0.9);
-  }
-  .star-slot.resetting { animation: starReset 0.4s ease; }
-  @keyframes starPop {
-    0% { transform: scale(0.3) rotate(-30deg); }
-    60% { transform: scale(1.3) rotate(15deg); }
-    100% { transform: scale(1) rotate(0); }
-  }
-  @keyframes starReset {
-    0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.4) rotate(180deg); opacity: 0.5; }
-    100% { transform: scale(0.85); opacity: 0.4; }
-  }
-  .stars-summary {
-    text-align: center;
-    font-size: 0.75rem;
-    color: #c8d6f0;
-    font-weight: 600;
-    margin-top: 2px;
-  }
-  .stars-summary strong { color: var(--gold); font-size: 0.95rem; }
-  .earn-star-btn {
-    margin-top: 8px;
-    padding: 10px;
-    font-size: 0.85rem;
-    background: linear-gradient(135deg, #ffe08a, #f4a900);
-    color: #4a2c00;
-    border: none;
-    border-radius: 12px;
-    font-weight: 900;
-    font-family: inherit;
-    cursor: pointer;
-    box-shadow: 0 3px 0 #a86e00;
-    transition: all 0.2s;
-  }
-  .earn-star-btn:hover { filter: brightness(1.08); }
-  .earn-star-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #a86e00; }
-
-  .goodjob-btn {
-    margin-top: 6px;
-    padding: 10px;
-    font-size: 0.85rem;
-    background: linear-gradient(135deg, #06d6a0, #059669);
-    color: #04221a;
-    border: none;
-    border-radius: 12px;
-    font-weight: 900;
-    font-family: inherit;
-    cursor: pointer;
-    box-shadow: 0 3px 0 #045c46;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-  }
-  .goodjob-btn:hover { filter: brightness(1.08); }
-  .goodjob-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #045c46; }
-
-  .center-stack {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    min-height: 0;
-  }
-
-  .surah-card { flex-shrink: 0; }
-  .surah-select-wrap { display: flex; gap: 6px; align-items: center; }
-  .surah-select {
-    flex: 1;
-    padding: 8px 10px;
-    font-family: inherit;
-    font-size: 0.85rem;
-    font-weight: 700;
-    background: rgba(0,0,0,0.3);
-    color: #fff;
-    border: 1.5px solid rgba(255,209,102,0.4);
-    border-radius: 10px;
-    cursor: pointer;
-    outline: none;
-  }
-  .surah-select:focus { border-color: var(--gold); }
-  .surah-select option { background: #14243f; color: #fff; }
-
-  .annotation-toolbar {
-    display: flex;
-    gap: 4px;
-    padding: 6px;
-    background: rgba(0,0,0,0.35);
-    border-radius: 12px;
-    border: 1.5px solid rgba(255,209,102,0.3);
-    margin-bottom: 8px;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-  .tool-group {
-    display: flex;
-    gap: 2px;
-    align-items: center;
-    padding: 0 4px;
-    border-right: 1px solid rgba(255,209,102,0.2);
-  }
-  .tool-group:last-child { border-right: none; }
-  .tool-btn {
-    width: 30px;
-    height: 30px;
-    border-radius: 8px;
-    border: 1.5px solid rgba(255,255,255,0.15);
-    background: rgba(255,255,255,0.05);
-    color: #fff;
-    font-size: 0.9rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.15s;
-  }
-  .tool-btn:hover { background: rgba(255,209,102,0.15); border-color: rgba(255,209,102,0.5); }
-  .tool-btn.active {
-    background: linear-gradient(135deg, #ffe08a, var(--gold-deep));
-    color: #4a2c00;
-    border-color: var(--gold-deep);
-    box-shadow: 0 0 8px rgba(255,209,102,0.6);
-  }
-  .color-swatch {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    border: 2px solid rgba(255,255,255,0.3);
-    cursor: pointer;
-    transition: transform 0.15s;
-  }
-  .color-swatch:hover { transform: scale(1.15); }
-  .color-swatch.active {
-    border-color: var(--gold);
-    box-shadow: 0 0 8px rgba(255,209,102,0.8);
-    transform: scale(1.15);
-  }
-
-  .zoom-label {
-    font-size: 0.65rem;
-    font-weight: 800;
-    color: var(--gold);
-    min-width: 34px;
-    text-align: center;
-    font-variant-numeric: tabular-nums;
-  }
-  .zoom-btn {
-    width: 30px;
-    height: 30px;
-    border-radius: 8px;
-    border: 1.5px solid rgba(255,255,255,0.15);
-    background: rgba(255,255,255,0.05);
-    color: #fff;
-    font-size: 1rem;
-    font-weight: 900;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.15s;
-  }
-  .zoom-btn:hover { background: rgba(255,209,102,0.15); border-color: rgba(255,209,102,0.5); }
-  .zoom-btn:active { transform: scale(0.92); }
-  .zoom-btn:disabled { opacity: 0.35; cursor: not-allowed; }
-
-  .ayah-card {
-    flex: 1;
-    min-height: 0;
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-    background: transparent;
-    border: none;
-    box-shadow: none;
-    backdrop-filter: none;
-  }
-  .ayah-card::before { display: none; }
-
-  .mushaf-frame {
-    flex: 1;
-    min-height: 0;
-    position: relative;
-    padding: 10px;
-    background: linear-gradient(135deg, #d4a017 0%, #b8860b 40%, #8b6914 100%);
-    border-radius: 16px;
-    box-shadow: 0 0 0 2px #6b4f0f inset, 0 12px 30px rgba(0,0,0,0.5);
-  }
-
-  .mushaf-page {
-    height: 100%;
-    width: 100%;
-    background:
-      radial-gradient(ellipse at top left, rgba(201, 162, 39, 0.08) 0%, transparent 50%),
-      radial-gradient(ellipse at bottom right, rgba(201, 162, 39, 0.08) 0%, transparent 50%),
-      linear-gradient(180deg, #fdf6e3 0%, #faf0d7 50%, #f5e8c8 100%);
-    border-radius: 10px;
-    border: 1px solid #c9a227;
-    padding: 16px 20px;
-    position: relative;
-    overflow-y: auto;
-    overflow-x: hidden;
-    scrollbar-width: thin;
-    scrollbar-color: #c9a227 rgba(0,0,0,0.05);
-    box-shadow: inset 0 0 60px rgba(201, 162, 39, 0.15);
-  }
-  .mushaf-page::-webkit-scrollbar { width: 10px; }
-  .mushaf-page::-webkit-scrollbar-track {
-    background: rgba(201, 162, 39, 0.1);
-    border-radius: 0 10px 10px 0;
-  }
-  .mushaf-page::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #d4a017, #8b6914);
-    border-radius: 999px;
-    border: 1px solid #fdf6e3;
-  }
-
-  .mushaf-page::before,
-  .mushaf-page::after {
-    content: '';
-    position: absolute;
-    width: 36px;
-    height: 36px;
-    border: 2px solid #c9a227;
-    pointer-events: none;
-    opacity: 0.6;
-  }
-  .mushaf-page::before {
-    top: 8px; right: 8px;
-    border-left: none; border-bottom: none;
-    border-radius: 0 8px 0 0;
-  }
-  .mushaf-page::after {
-    bottom: 8px; left: 8px;
-    border-right: none; border-top: none;
-    border-radius: 0 0 0 8px;
-  }
-
-  .mushaf-canvas {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    width: calc(100% - 20px);
-    height: calc(100% - 20px);
-    pointer-events: none;
-    z-index: 5;
-    border-radius: 10px;
-    touch-action: none;
-  }
-  .mushaf-canvas.draw-active {
-    pointer-events: auto;
-    cursor: crosshair;
-  }
-  .mushaf-canvas.draw-active.highlight-mode {
-    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path fill='%23ffd166' d='M3 17l6-6 4 4 8-8-2-2-6 6-4-4-8 8z'/></svg>") 4 20, crosshair;
-  }
-  .mushaf-canvas.sticker-mode {
-    pointer-events: auto;
-    cursor: copy;
-  }
-
-  .scroll-hint {
-    position: absolute;
-    bottom: 16px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(107, 79, 15, 0.9);
-    color: #fdf6e3;
-    font-size: 0.68rem;
-    font-weight: 700;
-    padding: 4px 12px;
-    border-radius: 999px;
-    pointer-events: none;
-    z-index: 8;
-    opacity: 0;
-    transition: opacity 0.3s;
-    white-space: nowrap;
-  }
-  .scroll-hint.show { opacity: 1; }
-  .scroll-hint.draw-on {
-    background: rgba(239, 71, 111, 0.95);
-    color: #fff;
-  }
-
-  .sticker-palette {
-    display: none;
-    position: absolute;
-    bottom: 60px;
-    right: 20px;
-    background: rgba(11, 26, 58, 0.95);
-    border: 2px solid var(--gold);
-    border-radius: 16px;
-    padding: 10px;
-    z-index: 20;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-    max-width: 300px;
-    backdrop-filter: blur(8px);
-  }
-  .sticker-palette.show { display: block; animation: modalIn 0.25s; }
-  .sticker-palette-title {
-    font-size: 0.8rem;
-    font-weight: 800;
-    color: var(--gold);
-    margin-bottom: 8px;
-    text-align: center;
-  }
-  .sticker-grid {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 4px;
-    margin-bottom: 8px;
-  }
-  .sticker-option {
-    width: 34px;
-    height: 34px;
-    border-radius: 8px;
-    border: 1.5px solid transparent;
-    background: rgba(255,255,255,0.08);
-    cursor: pointer;
-    font-size: 1.3rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.15s;
-  }
-  .sticker-option:hover {
-    background: rgba(255,209,102,0.2);
-    border-color: rgba(255,209,102,0.5);
-    transform: scale(1.1);
-  }
-  .sticker-option.active {
-    border-color: var(--gold);
-    background: rgba(255,209,102,0.25);
-    box-shadow: 0 0 8px rgba(255,209,102,0.6);
-  }
-  .upload-btn {
-    width: 100%;
-    padding: 7px;
-    font-family: inherit;
-    font-size: 0.75rem;
-    font-weight: 800;
-    border-radius: 8px;
-    border: 1.5px dashed rgba(255,209,102,0.6);
-    background: rgba(255,209,102,0.1);
-    color: var(--gold);
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .upload-btn:hover { background: rgba(255,209,102,0.2); }
-
-  .placed-item {
-    position: absolute;
-    font-size: 2rem;
-    cursor: move;
-    user-select: none;
-    z-index: 15;
-    padding: 2px;
-    border-radius: 6px;
-    transition: box-shadow 0.15s;
-    pointer-events: auto;
-  }
-  .placed-item:hover {
-    box-shadow: 0 0 0 2px var(--gold), 0 0 12px rgba(255,209,102,0.5);
-  }
-  .placed-item img {
-    max-width: 80px;
-    max-height: 80px;
-    display: block;
-    pointer-events: none;
-    border-radius: 4px;
-  }
-  .placed-item .delete-badge {
-    position: absolute;
-    top: -6px;
-    right: -6px;
-    width: 18px;
-    height: 18px;
-    background: var(--pink);
-    color: white;
-    border-radius: 50%;
-    font-size: 11px;
-    font-weight: 900;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    border: 2px solid #fff;
-  }
-  .placed-item:hover .delete-badge { display: flex; }
-
-  .surah-header {
-    text-align: center;
-    margin-bottom: 18px;
-    padding: 12px 16px;
-    background: linear-gradient(180deg, #f4e3a1, #e8cf7c);
-    border: 2px solid #c9a227;
-    border-radius: 10px;
-    position: relative;
-    box-shadow: 0 2px 0 #a8861f, inset 0 0 20px rgba(201, 162, 39, 0.2);
-  }
-  .surah-header::before,
-  .surah-header::after {
-    content: '❁';
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #8b6914;
-    font-size: 1.1rem;
-    opacity: 0.7;
-  }
-  .surah-header::before { right: 12px; }
-  .surah-header::after { left: 12px; }
-  .surah-name {
-    font-family: 'Amiri Quran', 'Amiri', serif;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #6b4f0f;
-    letter-spacing: 1px;
-  }
-  .surah-info {
-    font-size: 0.7rem;
-    color: #8b6914;
-    margin-top: 2px;
-    font-weight: 600;
-  }
-
-  .bismillah-line {
-    text-align: center;
-    font-family: 'Amiri Quran', 'Amiri', serif;
-    font-size: 1.3rem;
-    color: #6b4f0f;
-    margin-bottom: 18px;
-    padding-bottom: 12px;
-    border-bottom: 1px dashed rgba(201, 162, 39, 0.5);
-  }
-
-  .mushaf-text {
-    font-family: 'Amiri Quran', 'Amiri', 'Scheherazade New', serif;
-    font-size: calc(1.9rem * var(--zoom, 1));
-    line-height: 2.4;
-    color: #120c02;
-    font-weight: 700;
-    text-align: justify;
-    text-align-last: center;
-    direction: rtl;
-    word-spacing: 0.08em;
-    letter-spacing: 0;
-    -webkit-text-stroke: 0.35px #120c02;
-    text-shadow: 0.3px 0.3px 0.3px rgba(0,0,0,0.18);
-    transition: font-size 0.2s ease;
-  }
-
-  .ayah-num-mushaf {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 1.7em;
-    height: 1.7em;
-    font-family: 'Amiri Quran', serif;
-    font-size: 0.75em;
-    font-weight: 700;
-    color: #6b4f0f;
-    background: radial-gradient(circle at center, #fdf6e3 30%, #f4e3a1 60%, #d4a017 100%);
-    border: 1px solid #a8861f;
-    border-radius: 50%;
-    margin: 0 0.2em;
-    vertical-align: middle;
-    line-height: 1;
-    box-shadow: inset 0 0 4px rgba(107, 79, 15, 0.3);
-    position: relative;
-  }
-  .ayah-num-mushaf::before {
-    content: '';
-    position: absolute;
-    inset: 2px;
-    border: 1px dotted rgba(107, 79, 15, 0.5);
-    border-radius: 50%;
-  }
-
-  .surah-end {
-    text-align: center;
-    margin: 22px 0 8px;
-    font-family: 'Amiri Quran', serif;
-    font-size: 1.1rem;
-    color: #8b6914;
-    font-weight: 700;
-  }
-  .surah-end .ornament {
-    display: inline-block;
-    padding: 6px 20px;
-    border: 1px solid #c9a227;
-    border-radius: 999px;
-    background: linear-gradient(180deg, #f4e3a1, #e8cf7c);
-    box-shadow: 0 2px 0 #a8861f;
-  }
-
-  .ayah-loading {
-    color: #8b6914;
-    text-align: center;
-    padding: 40px 20px;
-    font-size: 0.95rem;
-    font-family: 'Baloo Bhaijaan 2', sans-serif;
-    font-weight: 600;
-  }
-
-  .ayah-actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6px;
-    margin-top: 8px;
-    flex-shrink: 0;
-  }
-
-  .right-stack {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    min-height: 0;
-  }
-
-  .road-track {
-    position: relative;
-    height: 70px;
-    background: linear-gradient(180deg, rgba(0,0,0,0.5), rgba(0,0,0,0.15));
-    border-radius: 14px;
-    border: 1.5px solid rgba(255,255,255,0.08);
-    overflow: hidden;
-    flex-shrink: 0;
-  }
-  .road-dashes {
-    position: absolute;
-    bottom: 16px;
-    left: 0; right: 0;
-    height: 3px;
-    background-image: linear-gradient(90deg, #ffd166 50%, transparent 50%);
-    background-size: 30px 3px;
-    opacity: 0.5;
-  }
-  .milestone {
-    position: absolute;
-    bottom: 3px;
-    transform: translateX(-50%);
-    font-size: 0.6rem;
-    font-weight: 800;
-    color: #6f80a4;
-    transition: all 0.3s;
-  }
-  .milestone.reached { color: var(--teal); text-shadow: 0 0 8px rgba(6,214,160,0.8); }
-  .rocket {
-    position: absolute;
-    bottom: 24px;
-    right: 6px;
-    font-size: 2rem;
-    transition: right 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-    filter: drop-shadow(0 4px 10px rgba(255, 133, 0, 0.6));
-    transform: rotate(-8deg);
-    z-index: 2;
-  }
-  .rocket.boosting { animation: rocketBoost 0.6s ease; }
-  @keyframes rocketBoost {
-    0%, 100% { transform: rotate(-8deg) scale(1); }
-    50% { transform: rotate(-8deg) scale(1.25); filter: drop-shadow(0 0 25px rgba(255, 133, 0, 1)); }
-  }
-  .rocket-flame {
-    position: absolute;
-    bottom: 22px;
-    right: 2px;
-    font-size: 1.1rem;
-    transition: right 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-    animation: flicker 0.3s infinite alternate;
-    z-index: 1;
-  }
-  @keyframes flicker {
-    0% { opacity: 0.6; transform: scaleY(0.9); }
-    100% { opacity: 1; transform: scaleY(1.15); }
-  }
-  .madd-meter {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-top: 6px;
-    flex-shrink: 0;
-  }
-  .madd-meter .bar {
-    flex: 1;
-    height: 10px;
-    background: rgba(0,0,0,0.4);
-    border-radius: 999px;
-    overflow: hidden;
-    border: 1px solid rgba(255,255,255,0.1);
-  }
-  .madd-meter .fill {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, var(--teal), var(--gold), var(--orange));
-    transition: width 0.4s ease;
-    border-radius: 999px;
-    box-shadow: 0 0 10px rgba(255, 209, 102, 0.7);
-  }
-  .madd-meter .label {
-    font-size: 0.7rem;
-    font-weight: 800;
-    color: var(--gold);
-    min-width: 40px;
-    text-align: left;
-  }
-  .madd-actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4px;
-    margin-top: 8px;
-    flex-shrink: 0;
-  }
-  .madd-btn {
-    padding: 7px 8px;
-    font-size: 0.7rem;
-    border-radius: 8px;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255, 209, 102, 0.4);
-    color: #fff;
-    font-family: inherit;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s;
-    white-space: nowrap;
-  }
-  .madd-btn:hover { background: rgba(255, 209, 102, 0.15); border-color: var(--gold); }
-  .madd-btn:active { transform: scale(0.94); }
-
-  .rewards-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 4px;
-  }
-  .reward-badge {
-    background: rgba(255,255,255,0.05);
-    border: 1.5px solid rgba(255,255,255,0.1);
-    border-radius: 10px;
-    padding: 6px 2px;
-    text-align: center;
-    opacity: 0.4;
-    transition: all 0.4s ease;
-    filter: grayscale(1);
-  }
-  .reward-badge.unlocked {
-    opacity: 1;
-    filter: none;
-    border-color: var(--gold);
-    background: linear-gradient(135deg, rgba(255, 209, 102, 0.15), rgba(255, 133, 0, 0.05));
-    box-shadow: 0 0 15px rgba(255, 209, 102, 0.2);
-    animation: badgeGlow 2s infinite ease-in-out;
-  }
-  @keyframes badgeGlow {
-    0%, 100% { box-shadow: 0 0 15px rgba(255, 209, 102, 0.2); }
-    50% { box-shadow: 0 0 25px rgba(255, 209, 102, 0.5); }
-  }
-  .reward-badge .icon { font-size: 1.3rem; }
-  .reward-badge .name { font-size: 0.55rem; font-weight: 800; color: var(--gold); margin-top: 2px; }
-
-  .confetti {
-    position: fixed;
-    top: -20px;
-    font-size: 1.4rem;
-    pointer-events: none;
-    z-index: 9999;
-    animation: fall linear forwards;
-  }
-  @keyframes fall {
-    to { transform: translateY(110vh) rotate(720deg); opacity: 0; }
-  }
-
-  .toast {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%) translateY(120px);
-    background: linear-gradient(135deg, #ffe08a, #f4a900);
-    color: #3a2200;
-    font-weight: 900;
-    padding: 12px 22px;
-    border-radius: 999px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-    z-index: 10000;
-    font-size: 0.9rem;
-    max-width: 90vw;
-    text-align: center;
-  }
-  .toast.show { transform: translateX(-50%) translateY(0); }
-  .toast.danger {
-    background: linear-gradient(135deg, #ff8fa3, #ef476f);
-    color: #fff;
-  }
-
-  .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(6px);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 10001;
-    padding: 20px;
-  }
-  .modal-overlay.show { display: flex; }
-  .modal {
-    background: linear-gradient(160deg, #1e3c72, #14243f);
-    border: 2px solid var(--gold);
-    border-radius: 24px;
-    padding: 28px 24px;
-    max-width: 380px;
-    width: 100%;
-    text-align: center;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
-    animation: modalIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  }
-  @keyframes modalIn {
-    0% { transform: scale(0.8); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
-  }
-  .modal-icon { font-size: 3.5rem; margin-bottom: 12px; }
-  .modal-title { font-size: 1.3rem; font-weight: 900; color: var(--gold); margin-bottom: 8px; }
-  .modal-text { font-size: 0.95rem; color: #c8d6f0; margin-bottom: 20px; line-height: 1.6; }
-  .modal-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .modal-btn {
-    padding: 12px;
-    font-family: inherit;
-    font-weight: 800;
-    font-size: 0.9rem;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .modal-btn.cancel {
-    background: rgba(255,255,255,0.1);
-    color: #fff;
-    border: 1.5px solid rgba(255,255,255,0.2);
-  }
-  .modal-btn.cancel:hover { background: rgba(255,255,255,0.15); }
-  .modal-btn.confirm {
-    background: linear-gradient(135deg, #ff8fa3, #ef476f);
-    color: #fff;
-    box-shadow: 0 4px 0 #a82a45;
-  }
-  .modal-btn.confirm:hover { filter: brightness(1.1); }
-  .modal-btn.confirm:active { transform: translateY(2px); box-shadow: 0 2px 0 #a82a45; }
-
-  @media (max-width: 900px) {
-    body { overflow: auto; height: auto; }
-    .board {
-      grid-template-columns: 1fr;
-      grid-template-rows: auto auto auto;
-      height: auto;
-      overflow: visible;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>🚀 لوحة تحفيظ القرآن الكريم | Quran Memorization Board</title>
+  <link rel="icon" type="image/png" href="../../images/quran.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;600;800&family=Amiri:wght@400;700&family=Amiri+Quran&family=Scheherazade+New:wght@400;700&family=Tajawal:wght@400;500;700;900&display=swap"
+    rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
-    .center-stack, .right-stack { min-height: auto; }
-    .mushaf-page { max-height: 500px; }
-    html, body { overflow-y: auto; }
-  }
 
-  @media (max-width: 500px) {
-    .mushaf-text { font-size: calc(1.55rem * var(--zoom, 1)); line-height: 2.2; }
-    .surah-name { font-size: 1.2rem; }
-    .mushaf-page { padding: 12px; }
-  }
-</style>
+    :root {
+      --gold: #ffd166;
+      --gold-deep: #f4a900;
+      --teal: #06d6a0;
+      --pink: #ef476f;
+      --purple: #9b5de5;
+      --orange: #ff8500;
+      --sky: #2a5298;
+    }
+
+    html,
+    body {
+      height: 100%;
+      width: 100%;
+      font-family: 'Baloo Bhaijaan 2', 'Tajawal', sans-serif;
+      background: #0b1a3a;
+      overflow: hidden;
+    }
+
+    body {
+      background: radial-gradient(circle at 20% 10%, #2a5298 0%, #14243f 45%, #060d1f 100%);
+      color: #fff;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    .lang-toggle {
+      position: fixed;
+      top: 8px;
+      left: 8px;
+      z-index: 1002;
+      display: flex;
+      gap: 4px;
+      background: rgba(11, 26, 58, 0.9);
+      padding: 4px;
+      border-radius: 999px;
+      border: 1.5px solid rgba(255, 209, 102, 0.4);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .lang-btn {
+      padding: 5px 12px;
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.7rem;
+      border: none;
+      border-radius: 999px;
+      background: transparent;
+      color: #a8b8d8;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .lang-btn.active {
+      background: linear-gradient(135deg, #ffe08a, var(--gold-deep));
+      color: #4a2c00;
+    }
+
+    .sound-toggle {
+      position: fixed;
+      top: 8px;
+      right: 8px;
+      z-index: 1002;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(11, 26, 58, 0.9);
+      border: 1.5px solid rgba(255, 209, 102, 0.4);
+      color: var(--gold);
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .sound-toggle:hover {
+      transform: scale(1.1);
+    }
+
+    .sound-toggle.muted {
+      opacity: 0.5;
+    }
+
+    .starfield {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .starfield span {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle 3s infinite ease-in-out;
+    }
+
+    @keyframes twinkle {
+
+      0%,
+      100% {
+        opacity: 0.2;
+        transform: scale(0.8);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.2);
+      }
+    }
+
+    header {
+      position: relative;
+      z-index: 3;
+      text-align: center;
+      padding: 8px 60px 4px;
+      border-bottom: 1px solid rgba(255, 209, 102, 0.15);
+      background: linear-gradient(180deg, rgba(11, 26, 58, 0.9), rgba(11, 26, 58, 0.4));
+    }
+
+    .title {
+      font-size: clamp(1.1rem, 2.2vw, 1.6rem);
+      font-weight: 900;
+      background: linear-gradient(135deg, #ffe08a, #ffd166, #ff8500);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: 0.5px;
+    }
+
+    .subtitle {
+      font-size: 0.75rem;
+      color: #c8d6f0;
+      margin-top: 2px;
+      font-weight: 600;
+    }
+
+    .board {
+      position: relative;
+      z-index: 2;
+      padding: 10px;
+      display: grid;
+      grid-template-columns: 260px 1fr 280px;
+      grid-template-rows: 1fr;
+      gap: 10px;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .card {
+      background: linear-gradient(160deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+      border: 1.5px solid rgba(255, 209, 102, 0.3);
+      border-radius: 18px;
+      padding: 12px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--teal), var(--gold), var(--pink), var(--purple), var(--teal));
+      background-size: 300% 100%;
+      animation: shimmer 6s linear infinite;
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: 0% 0;
+      }
+
+      100% {
+        background-position: 300% 0;
+      }
+    }
+
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--gold);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .timer-circle {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1;
+      max-width: 170px;
+      margin: 0 auto;
+    }
+
+    .timer-circle svg {
+      transform: rotate(-90deg);
+      width: 100%;
+      height: 100%;
+    }
+
+    .bg-ring {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.1);
+      stroke-width: 12;
+    }
+
+    .progress-ring {
+      fill: none;
+      stroke: url(#timerGradient);
+      stroke-width: 12;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 0.5s linear;
+      filter: drop-shadow(0 0 8px rgba(6, 214, 160, 0.6));
+    }
+
+    .timer-text {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .timer-text .time {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .timer-text .label {
+      font-size: 0.6rem;
+      color: #a8b8d8;
+      margin-top: 2px;
+    }
+
+    .btn {
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.75rem;
+      padding: 7px 10px;
+      border-radius: 999px;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    .btn:active {
+      transform: scale(0.95);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--teal), #059669);
+      color: #04221a;
+      box-shadow: 0 3px 0 #045c46;
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.08);
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, #ffe08a, var(--gold-deep));
+      color: #4a2c00;
+      box-shadow: 0 3px 0 #a86e00;
+    }
+
+    .btn-gold:hover {
+      filter: brightness(1.08);
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, #ff8fa3, var(--pink));
+      color: #fff;
+      box-shadow: 0 3px 0 #a82a45;
+    }
+
+    .btn-danger:hover {
+      filter: brightness(1.08);
+    }
+
+    .timer-controls {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 4px;
+      margin-top: 8px;
+    }
+
+    .timer-presets {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4px;
+      margin-top: 8px;
+    }
+
+    .preset-btn {
+      padding: 5px 2px;
+      font-size: 0.65rem;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 209, 102, 0.3);
+      color: #fff;
+      font-family: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .preset-btn:hover {
+      background: rgba(255, 209, 102, 0.15);
+    }
+
+    .stars-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .reset-stars-btn {
+      background: rgba(239, 71, 111, 0.15);
+      border: 1.5px solid rgba(239, 71, 111, 0.5);
+      color: #ff8fa3;
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.7rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      white-space: nowrap;
+    }
+
+    .reset-stars-btn:hover {
+      background: rgba(239, 71, 111, 0.3);
+      border-color: var(--pink);
+      color: #fff;
+      transform: scale(1.05);
+    }
+
+    .reset-stars-btn:active {
+      transform: scale(0.95);
+    }
+
+    .stars-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 2px;
+      margin: 4px 0;
+      max-height: 100px;
+      overflow-y: auto;
+      padding-right: 2px;
+    }
+
+    .stars-grid::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    .stars-grid::-webkit-scrollbar-thumb {
+      background: rgba(255, 209, 102, 0.4);
+      border-radius: 999px;
+    }
+
+    .star-slot {
+      font-size: 1.3rem;
+      filter: grayscale(1) brightness(0.4);
+      opacity: 0.4;
+      transition: all 0.4s ease;
+      transform: scale(0.85);
+      text-align: center;
+    }
+
+    .star-slot.filled {
+      filter: none;
+      opacity: 1;
+      transform: scale(1);
+      animation: starPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      text-shadow: 0 0 14px rgba(255, 209, 102, 0.9);
+    }
+
+    .star-slot.resetting {
+      animation: starReset 0.4s ease;
+    }
+
+    @keyframes starPop {
+      0% {
+        transform: scale(0.3) rotate(-30deg);
+      }
+
+      60% {
+        transform: scale(1.3) rotate(15deg);
+      }
+
+      100% {
+        transform: scale(1) rotate(0);
+      }
+    }
+
+    @keyframes starReset {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+
+      50% {
+        transform: scale(1.4) rotate(180deg);
+        opacity: 0.5;
+      }
+
+      100% {
+        transform: scale(0.85);
+        opacity: 0.4;
+      }
+    }
+
+    .stars-summary {
+      text-align: center;
+      font-size: 0.75rem;
+      color: #c8d6f0;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .stars-summary strong {
+      color: var(--gold);
+      font-size: 0.95rem;
+    }
+
+    .earn-star-btn {
+      margin-top: 8px;
+      padding: 10px;
+      font-size: 0.85rem;
+      background: linear-gradient(135deg, #ffe08a, #f4a900);
+      color: #4a2c00;
+      border: none;
+      border-radius: 12px;
+      font-weight: 900;
+      font-family: inherit;
+      cursor: pointer;
+      box-shadow: 0 3px 0 #a86e00;
+      transition: all 0.2s;
+    }
+
+    .earn-star-btn:hover {
+      filter: brightness(1.08);
+    }
+
+    .earn-star-btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 #a86e00;
+    }
+
+    .goodjob-btn {
+      margin-top: 6px;
+      padding: 10px;
+      font-size: 0.85rem;
+      background: linear-gradient(135deg, #06d6a0, #059669);
+      color: #04221a;
+      border: none;
+      border-radius: 12px;
+      font-weight: 900;
+      font-family: inherit;
+      cursor: pointer;
+      box-shadow: 0 3px 0 #045c46;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .goodjob-btn:hover {
+      filter: brightness(1.08);
+    }
+
+    .goodjob-btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 #045c46;
+    }
+
+    .center-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 0;
+    }
+
+    .surah-card {
+      flex-shrink: 0;
+    }
+
+    .surah-select-wrap {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .surah-select {
+      flex: 1;
+      padding: 8px 10px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 700;
+      background: rgba(0, 0, 0, 0.3);
+      color: #fff;
+      border: 1.5px solid rgba(255, 209, 102, 0.4);
+      border-radius: 10px;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .surah-select:focus {
+      border-color: var(--gold);
+    }
+
+    .surah-select option {
+      background: #14243f;
+      color: #fff;
+    }
+
+    .annotation-toolbar {
+      display: flex;
+      gap: 4px;
+      padding: 6px;
+      background: rgba(0, 0, 0, 0.35);
+      border-radius: 12px;
+      border: 1.5px solid rgba(255, 209, 102, 0.3);
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .tool-group {
+      display: flex;
+      gap: 2px;
+      align-items: center;
+      padding: 0 4px;
+      border-right: 1px solid rgba(255, 209, 102, 0.2);
+    }
+
+    .tool-group:last-child {
+      border-right: none;
+    }
+
+    .tool-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+
+    .tool-btn:hover {
+      background: rgba(255, 209, 102, 0.15);
+      border-color: rgba(255, 209, 102, 0.5);
+    }
+
+    .tool-btn.active {
+      background: linear-gradient(135deg, #ffe08a, var(--gold-deep));
+      color: #4a2c00;
+      border-color: var(--gold-deep);
+      box-shadow: 0 0 8px rgba(255, 209, 102, 0.6);
+    }
+
+    .color-swatch {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+
+    .color-swatch:hover {
+      transform: scale(1.15);
+    }
+
+    .color-swatch.active {
+      border-color: var(--gold);
+      box-shadow: 0 0 8px rgba(255, 209, 102, 0.8);
+      transform: scale(1.15);
+    }
+
+    .zoom-label {
+      font-size: 0.65rem;
+      font-weight: 800;
+      color: var(--gold);
+      min-width: 34px;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .zoom-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 900;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+
+    .zoom-btn:hover {
+      background: rgba(255, 209, 102, 0.15);
+      border-color: rgba(255, 209, 102, 0.5);
+    }
+
+    .zoom-btn:active {
+      transform: scale(0.92);
+    }
+
+    .zoom-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .ayah-card {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      backdrop-filter: none;
+    }
+
+    .ayah-card::before {
+      display: none;
+    }
+
+    .mushaf-frame {
+      flex: 1;
+      min-height: 0;
+      position: relative;
+      padding: 10px;
+      background: linear-gradient(135deg, #d4a017 0%, #b8860b 40%, #8b6914 100%);
+      border-radius: 16px;
+      box-shadow: 0 0 0 2px #6b4f0f inset, 0 12px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .mushaf-page {
+      height: 100%;
+      width: 100%;
+      background:
+        radial-gradient(ellipse at top left, rgba(201, 162, 39, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom right, rgba(201, 162, 39, 0.08) 0%, transparent 50%),
+        linear-gradient(180deg, #fdf6e3 0%, #faf0d7 50%, #f5e8c8 100%);
+      border-radius: 10px;
+      border: 1px solid #c9a227;
+      padding: 16px 20px;
+      position: relative;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scrollbar-width: thin;
+      scrollbar-color: #c9a227 rgba(0, 0, 0, 0.05);
+      box-shadow: inset 0 0 60px rgba(201, 162, 39, 0.15);
+    }
+
+    .mushaf-page::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    .mushaf-page::-webkit-scrollbar-track {
+      background: rgba(201, 162, 39, 0.1);
+      border-radius: 0 10px 10px 0;
+    }
+
+    .mushaf-page::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #d4a017, #8b6914);
+      border-radius: 999px;
+      border: 1px solid #fdf6e3;
+    }
+
+    .mushaf-page::before,
+    .mushaf-page::after {
+      content: '';
+      position: absolute;
+      width: 36px;
+      height: 36px;
+      border: 2px solid #c9a227;
+      pointer-events: none;
+      opacity: 0.6;
+    }
+
+    .mushaf-page::before {
+      top: 8px;
+      right: 8px;
+      border-left: none;
+      border-bottom: none;
+      border-radius: 0 8px 0 0;
+    }
+
+    .mushaf-page::after {
+      bottom: 8px;
+      left: 8px;
+      border-right: none;
+      border-top: none;
+      border-radius: 0 0 0 8px;
+    }
+
+    .mushaf-canvas {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: calc(100% - 20px);
+      height: calc(100% - 20px);
+      pointer-events: none;
+      z-index: 5;
+      border-radius: 10px;
+      touch-action: none;
+    }
+
+    .mushaf-canvas.draw-active {
+      pointer-events: auto;
+      cursor: crosshair;
+    }
+
+    .mushaf-canvas.draw-active.highlight-mode {
+      cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path fill='%23ffd166' d='M3 17l6-6 4 4 8-8-2-2-6 6-4-4-8 8z'/></svg>") 4 20, crosshair;
+    }
+
+    .mushaf-canvas.sticker-mode {
+      pointer-events: auto;
+      cursor: copy;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(107, 79, 15, 0.9);
+      color: #fdf6e3;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 999px;
+      pointer-events: none;
+      z-index: 8;
+      opacity: 0;
+      transition: opacity 0.3s;
+      white-space: nowrap;
+    }
+
+    .scroll-hint.show {
+      opacity: 1;
+    }
+
+    .scroll-hint.draw-on {
+      background: rgba(239, 71, 111, 0.95);
+      color: #fff;
+    }
+
+    .sticker-palette {
+      display: none;
+      position: absolute;
+      bottom: 60px;
+      right: 20px;
+      background: rgba(11, 26, 58, 0.95);
+      border: 2px solid var(--gold);
+      border-radius: 16px;
+      padding: 10px;
+      z-index: 20;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      max-width: 300px;
+      backdrop-filter: blur(8px);
+    }
+
+    .sticker-palette.show {
+      display: block;
+      animation: modalIn 0.25s;
+    }
+
+    .sticker-palette-title {
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--gold);
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    .sticker-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 4px;
+      margin-bottom: 8px;
+    }
+
+    .sticker-option {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      border: 1.5px solid transparent;
+      background: rgba(255, 255, 255, 0.08);
+      cursor: pointer;
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+
+    .sticker-option:hover {
+      background: rgba(255, 209, 102, 0.2);
+      border-color: rgba(255, 209, 102, 0.5);
+      transform: scale(1.1);
+    }
+
+    .sticker-option.active {
+      border-color: var(--gold);
+      background: rgba(255, 209, 102, 0.25);
+      box-shadow: 0 0 8px rgba(255, 209, 102, 0.6);
+    }
+
+    .upload-btn {
+      width: 100%;
+      padding: 7px;
+      font-family: inherit;
+      font-size: 0.75rem;
+      font-weight: 800;
+      border-radius: 8px;
+      border: 1.5px dashed rgba(255, 209, 102, 0.6);
+      background: rgba(255, 209, 102, 0.1);
+      color: var(--gold);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .upload-btn:hover {
+      background: rgba(255, 209, 102, 0.2);
+    }
+
+    .placed-item {
+      position: absolute;
+      font-size: 2rem;
+      cursor: move;
+      user-select: none;
+      z-index: 15;
+      padding: 2px;
+      border-radius: 6px;
+      transition: box-shadow 0.15s;
+      pointer-events: auto;
+    }
+
+    .placed-item:hover {
+      box-shadow: 0 0 0 2px var(--gold), 0 0 12px rgba(255, 209, 102, 0.5);
+    }
+
+    .placed-item img {
+      max-width: 80px;
+      max-height: 80px;
+      display: block;
+      pointer-events: none;
+      border-radius: 4px;
+    }
+
+    .placed-item .delete-badge {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      width: 18px;
+      height: 18px;
+      background: var(--pink);
+      color: white;
+      border-radius: 50%;
+      font-size: 11px;
+      font-weight: 900;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: 2px solid #fff;
+    }
+
+    .placed-item:hover .delete-badge {
+      display: flex;
+    }
+
+    .surah-header {
+      text-align: center;
+      margin-bottom: 18px;
+      padding: 12px 16px;
+      background: linear-gradient(180deg, #f4e3a1, #e8cf7c);
+      border: 2px solid #c9a227;
+      border-radius: 10px;
+      position: relative;
+      box-shadow: 0 2px 0 #a8861f, inset 0 0 20px rgba(201, 162, 39, 0.2);
+    }
+
+    .surah-header::before,
+    .surah-header::after {
+      content: '❁';
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #8b6914;
+      font-size: 1.1rem;
+      opacity: 0.7;
+    }
+
+    .surah-header::before {
+      right: 12px;
+    }
+
+    .surah-header::after {
+      left: 12px;
+    }
+
+    .surah-name {
+      font-family: 'Amiri Quran', 'Amiri', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #6b4f0f;
+      letter-spacing: 1px;
+    }
+
+    .surah-info {
+      font-size: 0.7rem;
+      color: #8b6914;
+      margin-top: 2px;
+      font-weight: 600;
+    }
+
+    .bismillah-line {
+      text-align: center;
+      font-family: 'Amiri Quran', 'Amiri', serif;
+      font-size: 1.3rem;
+      color: #6b4f0f;
+      margin-bottom: 18px;
+      padding-bottom: 12px;
+      border-bottom: 1px dashed rgba(201, 162, 39, 0.5);
+    }
+
+    .mushaf-text {
+      font-family: 'Amiri Quran', 'Amiri', 'Scheherazade New', serif;
+      font-size: calc(1.9rem * var(--zoom, 1));
+      line-height: 2.4;
+      color: #120c02;
+      font-weight: 700;
+      text-align: justify;
+      text-align-last: center;
+      direction: rtl;
+      word-spacing: 0.08em;
+      letter-spacing: 0;
+      -webkit-text-stroke: 0.35px #120c02;
+      text-shadow: 0.3px 0.3px 0.3px rgba(0, 0, 0, 0.18);
+      transition: font-size 0.2s ease;
+    }
+
+    .ayah-num-mushaf {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.7em;
+      height: 1.7em;
+      font-family: 'Amiri Quran', serif;
+      font-size: 0.75em;
+      font-weight: 700;
+      color: #6b4f0f;
+      background: radial-gradient(circle at center, #fdf6e3 30%, #f4e3a1 60%, #d4a017 100%);
+      border: 1px solid #a8861f;
+      border-radius: 50%;
+      margin: 0 0.2em;
+      vertical-align: middle;
+      line-height: 1;
+      box-shadow: inset 0 0 4px rgba(107, 79, 15, 0.3);
+      position: relative;
+    }
+
+    .ayah-num-mushaf::before {
+      content: '';
+      position: absolute;
+      inset: 2px;
+      border: 1px dotted rgba(107, 79, 15, 0.5);
+      border-radius: 50%;
+    }
+
+    .surah-end {
+      text-align: center;
+      margin: 22px 0 8px;
+      font-family: 'Amiri Quran', serif;
+      font-size: 1.1rem;
+      color: #8b6914;
+      font-weight: 700;
+    }
+
+    .surah-end .ornament {
+      display: inline-block;
+      padding: 6px 20px;
+      border: 1px solid #c9a227;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #f4e3a1, #e8cf7c);
+      box-shadow: 0 2px 0 #a8861f;
+    }
+
+    .ayah-loading {
+      color: #8b6914;
+      text-align: center;
+      padding: 40px 20px;
+      font-size: 0.95rem;
+      font-family: 'Baloo Bhaijaan 2', sans-serif;
+      font-weight: 600;
+    }
+
+    .ayah-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin-top: 8px;
+      flex-shrink: 0;
+    }
+
+    .right-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 0;
+    }
+
+    .road-track {
+      position: relative;
+      height: 70px;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.15));
+      border-radius: 14px;
+      border: 1.5px solid rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .road-dashes {
+      position: absolute;
+      bottom: 16px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background-image: linear-gradient(90deg, #ffd166 50%, transparent 50%);
+      background-size: 30px 3px;
+      opacity: 0.5;
+    }
+
+    .milestone {
+      position: absolute;
+      bottom: 3px;
+      transform: translateX(-50%);
+      font-size: 0.6rem;
+      font-weight: 800;
+      color: #6f80a4;
+      transition: all 0.3s;
+    }
+
+    .milestone.reached {
+      color: var(--teal);
+      text-shadow: 0 0 8px rgba(6, 214, 160, 0.8);
+    }
+
+    .rocket {
+      position: absolute;
+      bottom: 24px;
+      right: 6px;
+      font-size: 2rem;
+      transition: right 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      filter: drop-shadow(0 4px 10px rgba(255, 133, 0, 0.6));
+      transform: rotate(-8deg);
+      z-index: 2;
+    }
+
+    .rocket.boosting {
+      animation: rocketBoost 0.6s ease;
+    }
+
+    @keyframes rocketBoost {
+
+      0%,
+      100% {
+        transform: rotate(-8deg) scale(1);
+      }
+
+      50% {
+        transform: rotate(-8deg) scale(1.25);
+        filter: drop-shadow(0 0 25px rgba(255, 133, 0, 1));
+      }
+    }
+
+    .rocket-flame {
+      position: absolute;
+      bottom: 22px;
+      right: 2px;
+      font-size: 1.1rem;
+      transition: right 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      animation: flicker 0.3s infinite alternate;
+      z-index: 1;
+    }
+
+    @keyframes flicker {
+      0% {
+        opacity: 0.6;
+        transform: scaleY(0.9);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scaleY(1.15);
+      }
+    }
+
+    .madd-meter {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 6px;
+      flex-shrink: 0;
+    }
+
+    .madd-meter .bar {
+      flex: 1;
+      height: 10px;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .madd-meter .fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--teal), var(--gold), var(--orange));
+      transition: width 0.4s ease;
+      border-radius: 999px;
+      box-shadow: 0 0 10px rgba(255, 209, 102, 0.7);
+    }
+
+    .madd-meter .label {
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: var(--gold);
+      min-width: 40px;
+      text-align: left;
+    }
+
+    .madd-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+      margin-top: 8px;
+      flex-shrink: 0;
+    }
+
+    .madd-btn {
+      padding: 7px 8px;
+      font-size: 0.7rem;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 209, 102, 0.4);
+      color: #fff;
+      font-family: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .madd-btn:hover {
+      background: rgba(255, 209, 102, 0.15);
+      border-color: var(--gold);
+    }
+
+    .madd-btn:active {
+      transform: scale(0.94);
+    }
+
+    .rewards-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4px;
+    }
+
+    .reward-badge {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1.5px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 6px 2px;
+      text-align: center;
+      opacity: 0.4;
+      transition: all 0.4s ease;
+      filter: grayscale(1);
+    }
+
+    .reward-badge.unlocked {
+      opacity: 1;
+      filter: none;
+      border-color: var(--gold);
+      background: linear-gradient(135deg, rgba(255, 209, 102, 0.15), rgba(255, 133, 0, 0.05));
+      box-shadow: 0 0 15px rgba(255, 209, 102, 0.2);
+      animation: badgeGlow 2s infinite ease-in-out;
+    }
+
+    @keyframes badgeGlow {
+
+      0%,
+      100% {
+        box-shadow: 0 0 15px rgba(255, 209, 102, 0.2);
+      }
+
+      50% {
+        box-shadow: 0 0 25px rgba(255, 209, 102, 0.5);
+      }
+    }
+
+    .reward-badge .icon {
+      font-size: 1.3rem;
+    }
+
+    .reward-badge .name {
+      font-size: 0.55rem;
+      font-weight: 800;
+      color: var(--gold);
+      margin-top: 2px;
+    }
+
+    .confetti {
+      position: fixed;
+      top: -20px;
+      font-size: 1.4rem;
+      pointer-events: none;
+      z-index: 9999;
+      animation: fall linear forwards;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(120px);
+      background: linear-gradient(135deg, #ffe08a, #f4a900);
+      color: #3a2200;
+      font-weight: 900;
+      padding: 12px 22px;
+      border-radius: 999px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      z-index: 10000;
+      font-size: 0.9rem;
+      max-width: 90vw;
+      text-align: center;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .toast.danger {
+      background: linear-gradient(135deg, #ff8fa3, #ef476f);
+      color: #fff;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 10001;
+      padding: 20px;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .modal {
+      background: linear-gradient(160deg, #1e3c72, #14243f);
+      border: 2px solid var(--gold);
+      border-radius: 24px;
+      padding: 28px 24px;
+      max-width: 380px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+      animation: modalIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes modalIn {
+      0% {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .modal-icon {
+      font-size: 3.5rem;
+      margin-bottom: 12px;
+    }
+
+    .modal-title {
+      font-size: 1.3rem;
+      font-weight: 900;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .modal-text {
+      font-size: 0.95rem;
+      color: #c8d6f0;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .modal-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .modal-btn {
+      padding: 12px;
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.9rem;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .modal-btn.cancel {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border: 1.5px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .modal-btn.cancel:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .modal-btn.confirm {
+      background: linear-gradient(135deg, #ff8fa3, #ef476f);
+      color: #fff;
+      box-shadow: 0 4px 0 #a82a45;
+    }
+
+    .modal-btn.confirm:hover {
+      filter: brightness(1.1);
+    }
+
+    .modal-btn.confirm:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 #a82a45;
+    }
+
+    @media (max-width: 900px) {
+      body {
+        overflow: auto;
+        height: auto;
+      }
+
+      .board {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+        height: auto;
+        overflow: visible;
+      }
+
+      .center-stack,
+      .right-stack {
+        min-height: auto;
+      }
+
+      .mushaf-page {
+        max-height: 500px;
+      }
+
+      html,
+      body {
+        overflow-y: auto;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .mushaf-text {
+        font-size: calc(1.55rem * var(--zoom, 1));
+        line-height: 2.2;
+      }
+
+      .surah-name {
+        font-size: 1.2rem;
+      }
+
+      .mushaf-page {
+        padding: 12px;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="starfield" id="starfield"></div>
+  <div class="starfield" id="starfield"></div>
 
-<div class="lang-toggle">
-  <button class="lang-btn active" id="langArBtn">العربية</button>
-  <button class="lang-btn" id="langEnBtn">English</button>
-</div>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="langArBtn">العربية</button>
+    <button class="lang-btn" id="langEnBtn">English</button>
+  </div>
 
-<button class="sound-toggle" id="soundToggle" title="Toggle sound">🔊</button>
+  <button class="sound-toggle" id="soundToggle" title="Toggle sound">🔊</button>
 
-<header>
-  <div class="title" data-i18n="title">🚀 لوحة تحفيظ القرآن الكريم</div>
-  <div class="subtitle" data-i18n="subtitle">🌟 اجمع النجوم، أطلق صاروخك، واحفظ كتاب الله 🌟</div>
-</header>
+  <header>
+    <div class="title" data-i18n="title">🚀 لوحة تحفيظ القرآن الكريم</div>
+    <div class="subtitle" data-i18n="subtitle">🌟 اجمع النجوم، أطلق صاروخك، واحفظ كتاب الله 🌟</div>
+  </header>
 
-<div class="board">
+  <div class="board">
 
-  <div style="display: flex; flex-direction: column; gap: 10px; min-height: 0;">
-    <div class="card">
-      <div class="card-title" data-i18n="timerTitle">⏱️ مؤقت الحفظ</div>
-      <div class="timer-circle">
-        <svg viewBox="0 0 200 200">
-          <defs>
-            <linearGradient id="timerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#06d6a0" />
-              <stop offset="50%" stop-color="#ffd166" />
-              <stop offset="100%" stop-color="#ff8500" />
-            </linearGradient>
-          </defs>
-          <circle class="bg-ring" cx="100" cy="100" r="88" />
-          <circle class="progress-ring" id="timerProgress" cx="100" cy="100" r="88"
-                  stroke-dasharray="552.92" stroke-dashoffset="0" />
-        </svg>
-        <div class="timer-text">
-          <div class="time" id="timerDisplay">05:00</div>
-          <div class="label" data-i18n="timerLabel">دقائق : ثواني</div>
+    <div style="display: flex; flex-direction: column; gap: 10px; min-height: 0;">
+      <div class="card">
+        <div class="card-title" data-i18n="timerTitle">⏱️ مؤقت الحفظ</div>
+        <div class="timer-circle">
+          <svg viewBox="0 0 200 200">
+            <defs>
+              <linearGradient id="timerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#06d6a0" />
+                <stop offset="50%" stop-color="#ffd166" />
+                <stop offset="100%" stop-color="#ff8500" />
+              </linearGradient>
+            </defs>
+            <circle class="bg-ring" cx="100" cy="100" r="88" />
+            <circle class="progress-ring" id="timerProgress" cx="100" cy="100" r="88" stroke-dasharray="552.92"
+              stroke-dashoffset="0" />
+          </svg>
+          <div class="timer-text">
+            <div class="time" id="timerDisplay">05:00</div>
+            <div class="label" data-i18n="timerLabel">دقائق : ثواني</div>
+          </div>
+        </div>
+        <div class="timer-controls">
+          <button class="btn btn-primary" id="startTimer">▶️</button>
+          <button class="btn btn-gold" id="pauseTimer">⏸️</button>
+          <button class="btn btn-danger" id="resetTimer">🔄</button>
+        </div>
+        <div class="timer-presets">
+          <button class="preset-btn" data-minutes="1" data-i18n="min1">١د</button>
+          <button class="preset-btn" data-minutes="3" data-i18n="min3">٣د</button>
+          <button class="preset-btn" data-minutes="5" data-i18n="min5">٥د</button>
+          <button class="preset-btn" data-minutes="10" data-i18n="min10">١٠د</button>
         </div>
       </div>
-      <div class="timer-controls">
-        <button class="btn btn-primary" id="startTimer">▶️</button>
-        <button class="btn btn-gold" id="pauseTimer">⏸️</button>
-        <button class="btn btn-danger" id="resetTimer">🔄</button>
-      </div>
-      <div class="timer-presets">
-        <button class="preset-btn" data-minutes="1" data-i18n="min1">١د</button>
-        <button class="preset-btn" data-minutes="3" data-i18n="min3">٣د</button>
-        <button class="preset-btn" data-minutes="5" data-i18n="min5">٥د</button>
-        <button class="preset-btn" data-minutes="10" data-i18n="min10">١٠د</button>
-      </div>
-    </div>
 
-    <div class="card" style="flex: 1; min-height: 0;">
-      <div class="stars-header">
-        <div class="card-title" style="margin-bottom: 0;" data-i18n="starsTitle">⭐ نجومك</div>
-        <button class="reset-stars-btn" id="resetStarsBtn" data-i18n="resetBtn" title="إعادة النجوم من الصفر">
-          🔄 إعادة
-        </button>
-      </div>
-      <div class="stars-grid" id="starsGrid"></div>
-      <div class="stars-summary">
-        <span data-i18n="collected">جمعت</span> <strong id="starsCount">0</strong> <span data-i18n="of">من</span> <strong id="starsMaxDisplay">10</strong>
-      </div>
-      <button class="earn-star-btn" id="earnStarBtn" data-i18n="earnStar">⭐ أضف نجمة</button>
-      <button class="goodjob-btn" id="goodJobBtn">👏 <span data-i18n="goodJobText">أحسنت! + نجمة</span></button>
-    </div>
-  </div>
-
-  <div class="center-stack">
-    <div class="card surah-card">
-      <div class="card-title" data-i18n="surahTitle">📚 اختر السورة</div>
-      <div class="surah-select-wrap">
-        <select class="surah-select" id="surahSelect">
-          <option value="" data-i18n="loading">جاري التحميل...</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="annotation-toolbar" id="annotationToolbar">
-      <div class="tool-group">
-        <button class="tool-btn active" id="toolScroll" title="Scroll / Move">🖐️</button>
-        <button class="tool-btn" id="toolPen" title="Pen">✏️</button>
-        <button class="tool-btn" id="toolHighlight" title="Highlight">🖍️</button>
-        <button class="tool-btn" id="toolSticker" title="Stickers">⭐</button>
-        <button class="tool-btn" id="toolEraser" title="Eraser">🧽</button>
-      </div>
-      <div class="tool-group" id="colorGroup">
-        <div class="color-swatch active" data-color="#ffd166" style="background:#ffd166"></div>
-        <div class="color-swatch" data-color="#06d6a0" style="background:#06d6a0"></div>
-        <div class="color-swatch" data-color="#ef476f" style="background:#ef476f"></div>
-        <div class="color-swatch" data-color="#9b5de5" style="background:#9b5de5"></div>
-        <div class="color-swatch" data-color="#118ab2" style="background:#118ab2"></div>
-      </div>
-      <div class="tool-group">
-        <button class="tool-btn" id="toolUndo" title="Undo">↩️</button>
-        <button class="tool-btn" id="toolClear" title="Clear all">🗑️</button>
-      </div>
-      <div class="tool-group" title="Zoom">
-        <button class="zoom-btn" id="zoomOutBtn" title="Zoom out">−</button>
-        <span class="zoom-label" id="zoomLabel">100%</span>
-        <button class="zoom-btn" id="zoomInBtn" title="Zoom in">+</button>
-        <button class="zoom-btn" id="zoomResetBtn" title="Reset zoom" style="font-size:0.8rem;">⟲</button>
-      </div>
-    </div>
-
-    <div class="sticker-palette" id="stickerPalette">
-      <div class="sticker-palette-title" data-i18n="stickerTitle">اختر ملصق</div>
-      <div class="sticker-grid" id="stickerGrid"></div>
-      <input type="file" id="imageUpload" accept="image/*" style="display:none">
-      <button class="upload-btn" id="uploadBtn">📷 <span data-i18n="uploadImg">رفع صورة</span></button>
-    </div>
-
-    <div class="ayah-card">
-      <div class="mushaf-frame">
-        <div class="mushaf-page" id="mushafPage">
-          <div class="ayah-loading" data-i18n="loadingMushaf">✨ جاري تحميل المصحف...</div>
+      <div class="card" style="flex: 1; min-height: 0;">
+        <div class="stars-header">
+          <div class="card-title" style="margin-bottom: 0;" data-i18n="starsTitle">⭐ نجومك</div>
+          <button class="reset-stars-btn" id="resetStarsBtn" data-i18n="resetBtn" title="إعادة النجوم من الصفر">
+            🔄 إعادة
+          </button>
         </div>
-        <canvas class="mushaf-canvas" id="mushafCanvas"></canvas>
-        <div class="scroll-hint show" id="scrollHint">🖐️ <span data-i18n="scrollHintText">اسحب للتمرير</span></div>
+        <div class="stars-grid" id="starsGrid"></div>
+        <div class="stars-summary">
+          <span data-i18n="collected">جمعت</span> <strong id="starsCount">0</strong> <span data-i18n="of">من</span>
+          <strong id="starsMaxDisplay">10</strong>
+        </div>
+        <button class="earn-star-btn" id="earnStarBtn" data-i18n="earnStar">⭐ أضف نجمة</button>
+        <button class="goodjob-btn" id="goodJobBtn">👏 <span data-i18n="goodJobText">أحسنت! + نجمة</span></button>
       </div>
-      <div class="ayah-actions">
-        <button class="btn btn-gold" id="reciteBtn" data-i18n="reciteBtn">🎤 أتقنت! + نجمة</button>
-        <button class="btn btn-primary" id="repeatBtn" data-i18n="repeatBtn">🔁 إعادة السورة</button>
+    </div>
+
+    <div class="center-stack">
+      <div class="card surah-card">
+        <div class="card-title" data-i18n="surahTitle">📚 اختر السورة</div>
+        <div class="surah-select-wrap">
+          <select class="surah-select" id="surahSelect">
+            <option value="" data-i18n="loading">جاري التحميل...</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="annotation-toolbar" id="annotationToolbar">
+        <div class="tool-group">
+          <button class="tool-btn active" id="toolScroll" title="Scroll / Move">🖐️</button>
+          <button class="tool-btn" id="toolPen" title="Pen">✏️</button>
+          <button class="tool-btn" id="toolHighlight" title="Highlight">🖍️</button>
+          <button class="tool-btn" id="toolSticker" title="Stickers">⭐</button>
+          <button class="tool-btn" id="toolEraser" title="Eraser">🧽</button>
+        </div>
+        <div class="tool-group" id="colorGroup">
+          <div class="color-swatch active" data-color="#ffd166" style="background:#ffd166"></div>
+          <div class="color-swatch" data-color="#06d6a0" style="background:#06d6a0"></div>
+          <div class="color-swatch" data-color="#ef476f" style="background:#ef476f"></div>
+          <div class="color-swatch" data-color="#9b5de5" style="background:#9b5de5"></div>
+          <div class="color-swatch" data-color="#118ab2" style="background:#118ab2"></div>
+        </div>
+        <div class="tool-group">
+          <button class="tool-btn" id="toolUndo" title="Undo">↩️</button>
+          <button class="tool-btn" id="toolClear" title="Clear all">🗑️</button>
+        </div>
+        <div class="tool-group" title="Zoom">
+          <button class="zoom-btn" id="zoomOutBtn" title="Zoom out">−</button>
+          <span class="zoom-label" id="zoomLabel">100%</span>
+          <button class="zoom-btn" id="zoomInBtn" title="Zoom in">+</button>
+          <button class="zoom-btn" id="zoomResetBtn" title="Reset zoom" style="font-size:0.8rem;">⟲</button>
+        </div>
+      </div>
+
+      <div class="sticker-palette" id="stickerPalette">
+        <div class="sticker-palette-title" data-i18n="stickerTitle">اختر ملصق</div>
+        <div class="sticker-grid" id="stickerGrid"></div>
+        <input type="file" id="imageUpload" accept="image/*" style="display:none">
+        <button class="upload-btn" id="uploadBtn">📷 <span data-i18n="uploadImg">رفع صورة</span></button>
+      </div>
+
+      <div class="ayah-card">
+        <div class="mushaf-frame">
+          <div class="mushaf-page" id="mushafPage">
+            <div class="ayah-loading" data-i18n="loadingMushaf">✨ جاري تحميل المصحف...</div>
+          </div>
+          <canvas class="mushaf-canvas" id="mushafCanvas"></canvas>
+          <div class="scroll-hint show" id="scrollHint">🖐️ <span data-i18n="scrollHintText">اسحب للتمرير</span></div>
+        </div>
+        <div class="ayah-actions">
+          <button class="btn btn-gold" id="reciteBtn" data-i18n="reciteBtn">🎤 أتقنت! + نجمة</button>
+          <button class="btn btn-primary" id="repeatBtn" data-i18n="repeatBtn">🔁 إعادة السورة</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="right-stack">
+      <div class="card" style="flex-shrink: 0;">
+        <div class="card-title" data-i18n="maddTitle">🚀 مسار المدّ</div>
+        <div class="road-track">
+          <div class="milestone" style="right: 8%;">١</div>
+          <div class="milestone" style="right: 33%;">٢</div>
+          <div class="milestone" style="right: 58%;">٣</div>
+          <div class="milestone" style="right: 83%;">٤</div>
+          <div class="road-dashes"></div>
+          <div class="rocket-flame" id="rocketFlame" style="right: 2px;">🔥</div>
+          <div class="rocket" id="rocket" style="right: 6px;">🚀</div>
+        </div>
+        <div class="madd-meter">
+          <div class="bar">
+            <div class="fill" id="maddFill"></div>
+          </div>
+          <div class="label" id="maddLabel">٠/٤</div>
+        </div>
+        <div class="madd-actions">
+          <button class="madd-btn" id="maddStepBtn" data-i18n="maddStep">➕ مدّ</button>
+          <button class="madd-btn" id="maddResetBtn">🔄</button>
+        </div>
+      </div>
+
+      <div class="card" style="flex-shrink: 0;">
+        <div class="card-title" data-i18n="rewardsTitle">🏆 جوائزك</div>
+        <div class="rewards-grid">
+          <div class="reward-badge" id="badge1">
+            <div class="icon">🥉</div>
+            <div class="name">٣</div>
+          </div>
+          <div class="reward-badge" id="badge2">
+            <div class="icon">🥈</div>
+            <div class="name">٥</div>
+          </div>
+          <div class="reward-badge" id="badge3">
+            <div class="icon">🥇</div>
+            <div class="name">٧</div>
+          </div>
+          <div class="reward-badge" id="badge4">
+            <div class="icon">👑</div>
+            <div class="name">١٠</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="modal-overlay" id="resetModal">
+    <div class="modal">
+      <div class="modal-icon">🌟</div>
+      <div class="modal-title" data-i18n="resetTitle">إعادة النجوم من الصفر؟</div>
+      <div class="modal-text" data-i18n="resetText">
+        سيتم مسح كل النجوم والجوائز التي جمعتها.<br>
+        هل أنت متأكد يا بطل؟
+      </div>
+      <div class="modal-actions">
+        <button class="modal-btn cancel" id="modalCancel" data-i18n="cancel">لا، تراجع ↩️</button>
+        <button class="modal-btn confirm" id="modalConfirm" data-i18n="confirm">نعم، ابدأ من جديد 🔄</button>
       </div>
     </div>
   </div>
 
-  <div class="right-stack">
-    <div class="card" style="flex-shrink: 0;">
-      <div class="card-title" data-i18n="maddTitle">🚀 مسار المدّ</div>
-      <div class="road-track">
-        <div class="milestone" style="right: 8%;">١</div>
-        <div class="milestone" style="right: 33%;">٢</div>
-        <div class="milestone" style="right: 58%;">٣</div>
-        <div class="milestone" style="right: 83%;">٤</div>
-        <div class="road-dashes"></div>
-        <div class="rocket-flame" id="rocketFlame" style="right: 2px;">🔥</div>
-        <div class="rocket" id="rocket" style="right: 6px;">🚀</div>
-      </div>
-      <div class="madd-meter">
-        <div class="bar"><div class="fill" id="maddFill"></div></div>
-        <div class="label" id="maddLabel">٠/٤</div>
-      </div>
-      <div class="madd-actions">
-        <button class="madd-btn" id="maddStepBtn" data-i18n="maddStep">➕ مدّ</button>
-        <button class="madd-btn" id="maddResetBtn">🔄</button>
-      </div>
-    </div>
+  <div class="toast" id="toast"></div>
 
-    <div class="card" style="flex-shrink: 0;">
-      <div class="card-title" data-i18n="rewardsTitle">🏆 جوائزك</div>
-      <div class="rewards-grid">
-        <div class="reward-badge" id="badge1"><div class="icon">🥉</div><div class="name">٣</div></div>
-        <div class="reward-badge" id="badge2"><div class="icon">🥈</div><div class="name">٥</div></div>
-        <div class="reward-badge" id="badge3"><div class="icon">🥇</div><div class="name">٧</div></div>
-        <div class="reward-badge" id="badge4"><div class="icon">👑</div><div class="name">١٠</div></div>
-      </div>
-    </div>
-  </div>
+  <script>
+    (function () {
+      'use strict';
 
-</div>
+      // ============ I18N ============
+      const I18N = {
+        ar: {
+          title: '🚀 لوحة تحفيظ القرآن الكريم',
+          subtitle: '🌟 اجمع النجوم، أطلق صاروخك، واحفظ كتاب الله 🌟',
+          timerTitle: '⏱️ مؤقت الحفظ',
+          timerLabel: 'دقائق : ثواني',
+          min1: '١د', min3: '٣د', min5: '٥د', min10: '١٠د',
+          starsTitle: '⭐ نجومك',
+          resetBtn: '🔄 إعادة',
+          collected: 'جمعت',
+          of: 'من',
+          earnStar: '⭐ أضف نجمة',
+          goodJobText: 'أحسنت! + نجمة',
+          surahTitle: '📚 اختر السورة',
+          loading: 'جاري التحميل...',
+          loadingMushaf: '✨ جاري تحميل المصحف...',
+          reciteBtn: '🎤 أتقنت! + نجمة',
+          repeatBtn: '🔁 إعادة السورة',
+          maddTitle: '🚀 مسار المدّ',
+          maddStep: '➕ مدّ',
+          rewardsTitle: '🏆 جوائزك',
+          resetTitle: 'إعادة النجوم من الصفر؟',
+          resetText: 'سيتم مسح كل النجوم والجوائز التي جمعتها.<br>هل أنت متأكد يا بطل؟',
+          cancel: 'لا، تراجع ↩️',
+          confirm: 'نعم، ابدأ من جديد 🔄',
+          stickerTitle: 'اختر ملصق',
+          uploadImg: 'رفع صورة',
+          scrollHintText: 'اسحب للتمرير',
+          drawHintText: 'الرسم مفعّل — اختر 🖐️ للتمرير',
+          stickerHintText: 'اضغط على المكان لإضافة الملصق',
+          toastWelcome: '🌟 أهلاً بك! اختر سورة وابدأ الحفظ!',
+          toastTimeUp: '⏰ انتهى الوقت! أحسنت! 🌟',
+          toastTimeSet: '⏱️ المؤقت: {n} دقيقة',
+          toastStar: '⭐ أحسنت! نجمة جديدة!',
+          toastAllStars: '🏆 مبارك! كل النجوم!',
+          toastStarsFull: '🌟 جمعت كل النجوم!',
+          toastReset: '✨ النجوم صُفِّرت! رحلة جديدة تبدأ الآن',
+          toastMaddDone: '🎉 أكملت المدّ! نجمة قادمة...',
+          toastBonus: '🚀 نجمة إضافية!',
+          toastFromStart: '🔁 من البداية!',
+          toastGoodJob: '👏 أحسنت! نجمة جديدة!',
+          toastZoomMax: '🔍 أقصى تكبير',
+          toastZoomMin: '🔍 أقصى تصغير',
+          surahHeader: 'سُورَةُ',
+          meccan: 'مكية',
+          medinan: 'مدنية',
+          ayahWord: 'آية',
+          surahNumber: 'السورة رقم',
+          sadq: 'صدق الله العظيم',
+          error: '❌ تعذّر تحميل السورة. تحقق من الاتصال.',
+        },
+        en: {
+          title: '🚀 Quran Memorization Board',
+          subtitle: '🌟 Collect stars, launch your rocket, memorize the Quran 🌟',
+          timerTitle: '⏱️ Memorization Timer',
+          timerLabel: 'min : sec',
+          min1: '1m', min3: '3m', min5: '5m', min10: '10m',
+          starsTitle: '⭐ Your Stars',
+          resetBtn: '🔄 Reset',
+          collected: 'You have',
+          of: 'of',
+          earnStar: '⭐ Add a Star',
+          goodJobText: 'Good Job! + Star',
+          surahTitle: '📚 Choose Surah',
+          loading: 'Loading...',
+          loadingMushaf: '✨ Loading Mushaf...',
+          reciteBtn: '🎤 Mastered! + Star',
+          repeatBtn: '🔁 Restart Surah',
+          maddTitle: '🚀 Madd Path',
+          maddStep: '➕ Extend',
+          rewardsTitle: '🏆 Rewards',
+          resetTitle: 'Reset stars to zero?',
+          resetText: 'All stars and rewards will be cleared.<br>Are you sure, champion?',
+          cancel: 'No, go back ↩️',
+          confirm: 'Yes, start fresh 🔄',
+          stickerTitle: 'Choose a sticker',
+          uploadImg: 'Upload image',
+          scrollHintText: 'Drag to scroll',
+          drawHintText: 'Drawing ON — tap 🖐️ to scroll',
+          stickerHintText: 'Tap anywhere to place the sticker',
+          toastWelcome: '🌟 Welcome! Choose a surah and start memorizing!',
+          toastTimeUp: '⏰ Time is up! Well done! 🌟',
+          toastTimeSet: '⏱️ Timer set to {n} minute(s)',
+          toastStar: '⭐ Excellent! New star!',
+          toastAllStars: '🏆 Congratulations! All stars!',
+          toastStarsFull: '🌟 You collected all stars!',
+          toastReset: '✨ Stars reset! A new journey begins',
+          toastMaddDone: '🎉 Madd complete! Star coming...',
+          toastBonus: '🚀 Bonus star!',
+          toastFromStart: '🔁 From the start!',
+          toastGoodJob: '👏 Good job! New star!',
+          toastZoomMax: '🔍 Maximum zoom',
+          toastZoomMin: '🔍 Minimum zoom',
+          surahHeader: 'Surah',
+          meccan: 'Meccan',
+          medinan: 'Medinan',
+          ayahWord: 'ayahs',
+          surahNumber: 'Surah #',
+          sadq: 'Sadaqa Allahu Al-Adheem',
+          error: '❌ Could not load the surah. Check your connection.',
+        }
+      };
 
-<div class="modal-overlay" id="resetModal">
-  <div class="modal">
-    <div class="modal-icon">🌟</div>
-    <div class="modal-title" data-i18n="resetTitle">إعادة النجوم من الصفر؟</div>
-    <div class="modal-text" data-i18n="resetText">
-      سيتم مسح كل النجوم والجوائز التي جمعتها.<br>
-      هل أنت متأكد يا بطل؟
-    </div>
-    <div class="modal-actions">
-      <button class="modal-btn cancel" id="modalCancel" data-i18n="cancel">لا، تراجع ↩️</button>
-      <button class="modal-btn confirm" id="modalConfirm" data-i18n="confirm">نعم، ابدأ من جديد 🔄</button>
-    </div>
-  </div>
-</div>
+      let currentLang = 'ar';
 
-<div class="toast" id="toast"></div>
-
-<script>
-(function() {
-  'use strict';
-
-  // ============ I18N ============
-  const I18N = {
-    ar: {
-      title: '🚀 لوحة تحفيظ القرآن الكريم',
-      subtitle: '🌟 اجمع النجوم، أطلق صاروخك، واحفظ كتاب الله 🌟',
-      timerTitle: '⏱️ مؤقت الحفظ',
-      timerLabel: 'دقائق : ثواني',
-      min1: '١د', min3: '٣د', min5: '٥د', min10: '١٠د',
-      starsTitle: '⭐ نجومك',
-      resetBtn: '🔄 إعادة',
-      collected: 'جمعت',
-      of: 'من',
-      earnStar: '⭐ أضف نجمة',
-      goodJobText: 'أحسنت! + نجمة',
-      surahTitle: '📚 اختر السورة',
-      loading: 'جاري التحميل...',
-      loadingMushaf: '✨ جاري تحميل المصحف...',
-      reciteBtn: '🎤 أتقنت! + نجمة',
-      repeatBtn: '🔁 إعادة السورة',
-      maddTitle: '🚀 مسار المدّ',
-      maddStep: '➕ مدّ',
-      rewardsTitle: '🏆 جوائزك',
-      resetTitle: 'إعادة النجوم من الصفر؟',
-      resetText: 'سيتم مسح كل النجوم والجوائز التي جمعتها.<br>هل أنت متأكد يا بطل؟',
-      cancel: 'لا، تراجع ↩️',
-      confirm: 'نعم، ابدأ من جديد 🔄',
-      stickerTitle: 'اختر ملصق',
-      uploadImg: 'رفع صورة',
-      scrollHintText: 'اسحب للتمرير',
-      drawHintText: 'الرسم مفعّل — اختر 🖐️ للتمرير',
-      stickerHintText: 'اضغط على المكان لإضافة الملصق',
-      toastWelcome: '🌟 أهلاً بك! اختر سورة وابدأ الحفظ!',
-      toastTimeUp: '⏰ انتهى الوقت! أحسنت! 🌟',
-      toastTimeSet: '⏱️ المؤقت: {n} دقيقة',
-      toastStar: '⭐ أحسنت! نجمة جديدة!',
-      toastAllStars: '🏆 مبارك! كل النجوم!',
-      toastStarsFull: '🌟 جمعت كل النجوم!',
-      toastReset: '✨ النجوم صُفِّرت! رحلة جديدة تبدأ الآن',
-      toastMaddDone: '🎉 أكملت المدّ! نجمة قادمة...',
-      toastBonus: '🚀 نجمة إضافية!',
-      toastFromStart: '🔁 من البداية!',
-      toastGoodJob: '👏 أحسنت! نجمة جديدة!',
-      toastZoomMax: '🔍 أقصى تكبير',
-      toastZoomMin: '🔍 أقصى تصغير',
-      surahHeader: 'سُورَةُ',
-      meccan: 'مكية',
-      medinan: 'مدنية',
-      ayahWord: 'آية',
-      surahNumber: 'السورة رقم',
-      sadq: 'صدق الله العظيم',
-      error: '❌ تعذّر تحميل السورة. تحقق من الاتصال.',
-    },
-    en: {
-      title: '🚀 Quran Memorization Board',
-      subtitle: '🌟 Collect stars, launch your rocket, memorize the Quran 🌟',
-      timerTitle: '⏱️ Memorization Timer',
-      timerLabel: 'min : sec',
-      min1: '1m', min3: '3m', min5: '5m', min10: '10m',
-      starsTitle: '⭐ Your Stars',
-      resetBtn: '🔄 Reset',
-      collected: 'You have',
-      of: 'of',
-      earnStar: '⭐ Add a Star',
-      goodJobText: 'Good Job! + Star',
-      surahTitle: '📚 Choose Surah',
-      loading: 'Loading...',
-      loadingMushaf: '✨ Loading Mushaf...',
-      reciteBtn: '🎤 Mastered! + Star',
-      repeatBtn: '🔁 Restart Surah',
-      maddTitle: '🚀 Madd Path',
-      maddStep: '➕ Extend',
-      rewardsTitle: '🏆 Rewards',
-      resetTitle: 'Reset stars to zero?',
-      resetText: 'All stars and rewards will be cleared.<br>Are you sure, champion?',
-      cancel: 'No, go back ↩️',
-      confirm: 'Yes, start fresh 🔄',
-      stickerTitle: 'Choose a sticker',
-      uploadImg: 'Upload image',
-      scrollHintText: 'Drag to scroll',
-      drawHintText: 'Drawing ON — tap 🖐️ to scroll',
-      stickerHintText: 'Tap anywhere to place the sticker',
-      toastWelcome: '🌟 Welcome! Choose a surah and start memorizing!',
-      toastTimeUp: '⏰ Time is up! Well done! 🌟',
-      toastTimeSet: '⏱️ Timer set to {n} minute(s)',
-      toastStar: '⭐ Excellent! New star!',
-      toastAllStars: '🏆 Congratulations! All stars!',
-      toastStarsFull: '🌟 You collected all stars!',
-      toastReset: '✨ Stars reset! A new journey begins',
-      toastMaddDone: '🎉 Madd complete! Star coming...',
-      toastBonus: '🚀 Bonus star!',
-      toastFromStart: '🔁 From the start!',
-      toastGoodJob: '👏 Good job! New star!',
-      toastZoomMax: '🔍 Maximum zoom',
-      toastZoomMin: '🔍 Minimum zoom',
-      surahHeader: 'Surah',
-      meccan: 'Meccan',
-      medinan: 'Medinan',
-      ayahWord: 'ayahs',
-      surahNumber: 'Surah #',
-      sadq: 'Sadaqa Allahu Al-Adheem',
-      error: '❌ Could not load the surah. Check your connection.',
-    }
-  };
-
-  let currentLang = 'ar';
-
-  function t(key, vars) {
-    let s = (I18N[currentLang] && I18N[currentLang][key]) || key;
-    if (vars) Object.keys(vars).forEach(k => { s = s.replace(`{${k}}`, vars[k]); });
-    return s;
-  }
-
-  function applyI18n() {
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-      const key = el.getAttribute('data-i18n');
-      if (I18N[currentLang][key] !== undefined) {
-        el.innerHTML = t(key);
+      function t(key, vars) {
+        let s = (I18N[currentLang] && I18N[currentLang][key]) || key;
+        if (vars) Object.keys(vars).forEach(k => { s = s.replace(`{${k}}`, vars[k]); });
+        return s;
       }
-    });
-    document.documentElement.lang = currentLang;
-    document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
-  }
 
-  function setLanguage(lang) {
-    currentLang = lang;
-    document.getElementById('langArBtn').classList.toggle('active', lang === 'ar');
-    document.getElementById('langEnBtn').classList.toggle('active', lang === 'en');
-    applyI18n();
-    if (currentSurahNumber) loadSurah(currentSurahNumber);
-    localStorage.setItem('quranBoardLang', lang);
-  }
-
-  document.getElementById('langArBtn').addEventListener('click', () => setLanguage('ar'));
-  document.getElementById('langEnBtn').addEventListener('click', () => setLanguage('en'));
-
-  try {
-    const savedLang = localStorage.getItem('quranBoardLang');
-    if (savedLang === 'en') { setLanguage('en'); }
-  } catch(e) {}
-  applyI18n();
-
-  // ============ SOUND SYSTEM ============
-  let soundEnabled = true;
-  let voicesLoaded = false;
-
-  const CLAP_POOL_SIZE = 8;
-  const clapPool = [];
-  for (let i = 0; i < CLAP_POOL_SIZE; i++) {
-    const a = new Audio('sounds/clap.mp3');
-    a.preload = 'auto';
-    a.volume = 1.0;
-    clapPool.push(a);
-  }
-  let clapPoolIndex = 0;
-
-  function playClap(volume = 1.0) {
-    if (!soundEnabled) return;
-    try {
-      const a = clapPool[clapPoolIndex];
-      clapPoolIndex = (clapPoolIndex + 1) % CLAP_POOL_SIZE;
-      a.currentTime = 0;
-      a.volume = Math.max(0, Math.min(1, volume));
-      const p = a.play();
-      if (p && p.catch) p.catch(() => {});
-    } catch (e) {}
-  }
-
-  function speakPraise() {
-    if (!soundEnabled) return;
-    if (!('speechSynthesis' in window)) return;
-    try {
-      window.speechSynthesis.cancel();
-      const text = currentLang === 'ar' ? 'أَحْسَنْت!' : 'Good job!';
-      const lang = currentLang === 'ar' ? 'ar-SA' : 'en-US';
-      const utt = new SpeechSynthesisUtterance(text);
-      utt.lang = lang;
-      utt.rate = currentLang === 'ar' ? 0.9 : 1.0;
-      utt.pitch = 1.2;
-      utt.volume = 1.0;
-
-      const voices = window.speechSynthesis.getVoices();
-      if (voices && voices.length) {
-        let best = voices.find(v => v.lang && v.lang.toLowerCase().startsWith(lang.toLowerCase().slice(0, 2)));
-        if (best) utt.voice = best;
+      function applyI18n() {
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+          const key = el.getAttribute('data-i18n');
+          if (I18N[currentLang][key] !== undefined) {
+            el.innerHTML = t(key);
+          }
+        });
+        document.documentElement.lang = currentLang;
+        document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
       }
-      window.speechSynthesis.speak(utt);
-    } catch (e) {}
-  }
 
-  if ('speechSynthesis' in window) {
-    window.speechSynthesis.onvoiceschanged = () => { voicesLoaded = true; };
-    window.speechSynthesis.getVoices();
-  }
+      function setLanguage(lang) {
+        currentLang = lang;
+        document.getElementById('langArBtn').classList.toggle('active', lang === 'ar');
+        document.getElementById('langEnBtn').classList.toggle('active', lang === 'en');
+        applyI18n();
+        if (currentSurahNumber) loadSurah(currentSurahNumber);
+        localStorage.setItem('quranBoardLang', lang);
+      }
 
-  function playCelebrationSound() {
-    if (!soundEnabled) return;
+      document.getElementById('langArBtn').addEventListener('click', () => setLanguage('ar'));
+      document.getElementById('langEnBtn').addEventListener('click', () => setLanguage('en'));
 
-    const clapSchedule = [
-      { t: 0,    v: 0.90 },
-      { t: 70,   v: 0.80 },
-      { t: 130,  v: 0.95 },
-      { t: 200,  v: 0.85 },
-      { t: 280,  v: 0.90 },
-      { t: 360,  v: 0.80 },
-      { t: 450,  v: 0.95 },
-      { t: 540,  v: 0.85 },
-      { t: 640,  v: 0.90 },
-      { t: 760,  v: 0.80 },
-      { t: 880,  v: 0.90 },
-      { t: 1000, v: 0.85 },
-      { t: 1120, v: 0.90 },
-    ];
-    clapSchedule.forEach(c => {
-      setTimeout(() => playClap(c.v), c.t);
-    });
+      try {
+        const savedLang = localStorage.getItem('quranBoardLang');
+        if (savedLang === 'en') { setLanguage('en'); }
+      } catch (e) { }
+      applyI18n();
 
-    setTimeout(() => speakPraise(), 260);
-  }
+      // ============ SOUND SYSTEM ============
+      let soundEnabled = true;
+      let voicesLoaded = false;
 
-  document.getElementById('soundToggle').addEventListener('click', function() {
-    soundEnabled = !soundEnabled;
-    this.classList.toggle('muted', !soundEnabled);
-    this.textContent = soundEnabled ? '🔊' : '🔇';
-    if (!soundEnabled && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-    }
-  });
+      const CLAP_POOL_SIZE = 8;
+      const clapPool = [];
+      for (let i = 0; i < CLAP_POOL_SIZE; i++) {
+        const a = new Audio('sounds/clap.mp3');
+        a.preload = 'auto';
+        a.volume = 1.0;
+        clapPool.push(a);
+      }
+      let clapPoolIndex = 0;
 
-  // ============ STARFIELD ============
-  const starfield = document.getElementById('starfield');
-  for (let i = 0; i < 60; i++) {
-    const s = document.createElement('span');
-    const size = Math.random() * 2.5 + 1;
-    s.style.width = size + 'px';
-    s.style.height = size + 'px';
-    s.style.left = Math.random() * 100 + '%';
-    s.style.top = Math.random() * 100 + '%';
-    s.style.animationDelay = (Math.random() * 3) + 's';
-    s.style.animationDuration = (2 + Math.random() * 3) + 's';
-    starfield.appendChild(s);
-  }
+      function playClap(volume = 1.0) {
+        if (!soundEnabled) return;
+        try {
+          const a = clapPool[clapPoolIndex];
+          clapPoolIndex = (clapPoolIndex + 1) % CLAP_POOL_SIZE;
+          a.currentTime = 0;
+          a.volume = Math.max(0, Math.min(1, volume));
+          const p = a.play();
+          if (p && p.catch) p.catch(() => { });
+        } catch (e) { }
+      }
 
-  // ============ HELPERS ============
-  const toast = document.getElementById('toast');
-  let toastTimeout;
-  function showToast(msg, isDanger = false) {
-    toast.textContent = msg;
-    toast.classList.toggle('danger', isDanger);
-    toast.classList.add('show');
-    clearTimeout(toastTimeout);
-    toastTimeout = setTimeout(() => toast.classList.remove('show'), 2400);
-  }
+      function speakPraise() {
+        if (!soundEnabled) return;
+        if (!('speechSynthesis' in window)) return;
+        try {
+          window.speechSynthesis.cancel();
+          const text = currentLang === 'ar' ? 'أَحْسَنْت!' : 'Good job!';
+          const lang = currentLang === 'ar' ? 'ar-SA' : 'en-US';
+          const utt = new SpeechSynthesisUtterance(text);
+          utt.lang = lang;
+          utt.rate = currentLang === 'ar' ? 0.9 : 1.0;
+          utt.pitch = 1.2;
+          utt.volume = 1.0;
 
-  function launchConfetti(count = 25) {
-    const emojis = ['⭐', '✨', '🌟', '💫', '🎉', '🎊', '🌟', '⭐'];
-    for (let i = 0; i < count; i++) {
-      const c = document.createElement('div');
-      c.className = 'confetti';
-      c.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-      c.style.left = Math.random() * 100 + '%';
-      c.style.animationDuration = (2 + Math.random() * 2) + 's';
-      c.style.animationDelay = (Math.random() * 0.4) + 's';
-      c.style.fontSize = (1 + Math.random() * 1.2) + 'rem';
-      document.body.appendChild(c);
-      setTimeout(() => c.remove(), 4500);
-    }
-  }
+          const voices = window.speechSynthesis.getVoices();
+          if (voices && voices.length) {
+            let best = voices.find(v => v.lang && v.lang.toLowerCase().startsWith(lang.toLowerCase().slice(0, 2)));
+            if (best) utt.voice = best;
+          }
+          window.speechSynthesis.speak(utt);
+        } catch (e) { }
+      }
 
-  function toArabic(n) {
-    if (currentLang === 'en') return String(n);
-    const map = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
-    return String(n).split('').map(d => map[+d] || d).join('');
-  }
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.onvoiceschanged = () => { voicesLoaded = true; };
+        window.speechSynthesis.getVoices();
+      }
 
-  // ============ TIMER ============
-  const timerDisplay = document.getElementById('timerDisplay');
-  const timerProgress = document.getElementById('timerProgress');
-  const CIRCUMFERENCE = 2 * Math.PI * 88;
-  let totalSeconds = 5 * 60;
-  let remainingSeconds = totalSeconds;
-  let timerInterval = null;
-  let timerRunning = false;
+      function playCelebrationSound() {
+        if (!soundEnabled) return;
 
-  function formatTime(sec) {
-    const m = Math.floor(sec / 60).toString().padStart(2, '0');
-    const s = (sec % 60).toString().padStart(2, '0');
-    return `${m}:${s}`;
-  }
-  function updateTimerDisplay() {
-    timerDisplay.textContent = formatTime(remainingSeconds);
-    const progress = 1 - (remainingSeconds / totalSeconds);
-    timerProgress.style.strokeDashoffset = CIRCUMFERENCE * progress;
-  }
-  function startTimer() {
-    if (timerRunning) return;
-    if (remainingSeconds <= 0) { showToast(t('toastTimeUp')); return; }
-    timerRunning = true;
-    timerInterval = setInterval(() => {
-      remainingSeconds--;
-      updateTimerDisplay();
-      if (remainingSeconds <= 0) {
+        const clapSchedule = [
+          { t: 0, v: 0.90 },
+          { t: 70, v: 0.80 },
+          { t: 130, v: 0.95 },
+          { t: 200, v: 0.85 },
+          { t: 280, v: 0.90 },
+          { t: 360, v: 0.80 },
+          { t: 450, v: 0.95 },
+          { t: 540, v: 0.85 },
+          { t: 640, v: 0.90 },
+          { t: 760, v: 0.80 },
+          { t: 880, v: 0.90 },
+          { t: 1000, v: 0.85 },
+          { t: 1120, v: 0.90 },
+        ];
+        clapSchedule.forEach(c => {
+          setTimeout(() => playClap(c.v), c.t);
+        });
+
+        setTimeout(() => speakPraise(), 260);
+      }
+
+      document.getElementById('soundToggle').addEventListener('click', function () {
+        soundEnabled = !soundEnabled;
+        this.classList.toggle('muted', !soundEnabled);
+        this.textContent = soundEnabled ? '🔊' : '🔇';
+        if (!soundEnabled && 'speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+        }
+      });
+
+      // ============ STARFIELD ============
+      const starfield = document.getElementById('starfield');
+      for (let i = 0; i < 60; i++) {
+        const s = document.createElement('span');
+        const size = Math.random() * 2.5 + 1;
+        s.style.width = size + 'px';
+        s.style.height = size + 'px';
+        s.style.left = Math.random() * 100 + '%';
+        s.style.top = Math.random() * 100 + '%';
+        s.style.animationDelay = (Math.random() * 3) + 's';
+        s.style.animationDuration = (2 + Math.random() * 3) + 's';
+        starfield.appendChild(s);
+      }
+
+      // ============ HELPERS ============
+      const toast = document.getElementById('toast');
+      let toastTimeout;
+      function showToast(msg, isDanger = false) {
+        toast.textContent = msg;
+        toast.classList.toggle('danger', isDanger);
+        toast.classList.add('show');
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => toast.classList.remove('show'), 2400);
+      }
+
+      function launchConfetti(count = 25) {
+        const emojis = ['⭐', '✨', '🌟', '💫', '🎉', '🎊', '🌟', '⭐'];
+        for (let i = 0; i < count; i++) {
+          const c = document.createElement('div');
+          c.className = 'confetti';
+          c.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+          c.style.left = Math.random() * 100 + '%';
+          c.style.animationDuration = (2 + Math.random() * 2) + 's';
+          c.style.animationDelay = (Math.random() * 0.4) + 's';
+          c.style.fontSize = (1 + Math.random() * 1.2) + 'rem';
+          document.body.appendChild(c);
+          setTimeout(() => c.remove(), 4500);
+        }
+      }
+
+      function toArabic(n) {
+        if (currentLang === 'en') return String(n);
+        const map = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+        return String(n).split('').map(d => map[+d] || d).join('');
+      }
+
+      // ============ TIMER ============
+      const timerDisplay = document.getElementById('timerDisplay');
+      const timerProgress = document.getElementById('timerProgress');
+      const CIRCUMFERENCE = 2 * Math.PI * 88;
+      let totalSeconds = 5 * 60;
+      let remainingSeconds = totalSeconds;
+      let timerInterval = null;
+      let timerRunning = false;
+
+      function formatTime(sec) {
+        const m = Math.floor(sec / 60).toString().padStart(2, '0');
+        const s = (sec % 60).toString().padStart(2, '0');
+        return `${m}:${s}`;
+      }
+      function updateTimerDisplay() {
+        timerDisplay.textContent = formatTime(remainingSeconds);
+        const progress = 1 - (remainingSeconds / totalSeconds);
+        timerProgress.style.strokeDashoffset = CIRCUMFERENCE * progress;
+      }
+      function startTimer() {
+        if (timerRunning) return;
+        if (remainingSeconds <= 0) { showToast(t('toastTimeUp')); return; }
+        timerRunning = true;
+        timerInterval = setInterval(() => {
+          remainingSeconds--;
+          updateTimerDisplay();
+          if (remainingSeconds <= 0) {
+            clearInterval(timerInterval);
+            timerRunning = false;
+            showToast(t('toastTimeUp'));
+            launchConfetti(20);
+          }
+        }, 1000);
+      }
+      function pauseTimer() {
         clearInterval(timerInterval);
         timerRunning = false;
-        showToast(t('toastTimeUp'));
-        launchConfetti(20);
       }
-    }, 1000);
-  }
-  function pauseTimer() {
-    clearInterval(timerInterval);
-    timerRunning = false;
-  }
-  function resetTimer() {
-    clearInterval(timerInterval);
-    timerRunning = false;
-    remainingSeconds = totalSeconds;
-    updateTimerDisplay();
-  }
-  document.getElementById('startTimer').addEventListener('click', startTimer);
-  document.getElementById('pauseTimer').addEventListener('click', pauseTimer);
-  document.getElementById('resetTimer').addEventListener('click', resetTimer);
-  document.querySelectorAll('.preset-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const mins = parseInt(btn.dataset.minutes, 10);
-      clearInterval(timerInterval);
-      timerRunning = false;
-      totalSeconds = mins * 60;
-      remainingSeconds = totalSeconds;
-      updateTimerDisplay();
-      showToast(t('toastTimeSet', { n: mins }));
-    });
-  });
-  updateTimerDisplay();
-
-  // ============ STARS (ENDLESS) ============
-  let starsEarned = 0;
-  const starsGrid = document.getElementById('starsGrid');
-  const starsCountEl = document.getElementById('starsCount');
-  const starsMaxDisplay = document.getElementById('starsMaxDisplay');
-
-  function initStarSlots() {
-    starsGrid.innerHTML = '';
-    for (let i = 0; i < 10; i++) {
-      const slot = document.createElement('span');
-      slot.className = 'star-slot';
-      slot.textContent = '⭐';
-      starsGrid.appendChild(slot);
-    }
-  }
-  initStarSlots();
-
-  function updateStars() {
-    starsCountEl.textContent = toArabic(starsEarned);
-    starsMaxDisplay.textContent = toArabic(starsEarned);
-
-    const currentSlots = starsGrid.querySelectorAll('.star-slot');
-    if (currentSlots.length < starsEarned) {
-      const needed = starsEarned - currentSlots.length;
-      const addCount = Math.max(5, needed);
-      for (let i = 0; i < addCount; i++) {
-        const slot = document.createElement('span');
-        slot.className = 'star-slot';
-        slot.textContent = '⭐';
-        starsGrid.appendChild(slot);
+      function resetTimer() {
+        clearInterval(timerInterval);
+        timerRunning = false;
+        remainingSeconds = totalSeconds;
+        updateTimerDisplay();
       }
-    }
-
-    starsGrid.querySelectorAll('.star-slot').forEach((slot, i) => {
-      slot.classList.toggle('filled', i < starsEarned);
-    });
-
-    document.getElementById('badge1').classList.toggle('unlocked', starsEarned >= 3);
-    document.getElementById('badge2').classList.toggle('unlocked', starsEarned >= 5);
-    document.getElementById('badge3').classList.toggle('unlocked', starsEarned >= 7);
-    document.getElementById('badge4').classList.toggle('unlocked', starsEarned >= 10);
-  }
-
-  function addStar(silent = false) {
-    starsEarned++;
-    updateStars();
-    launchConfetti(18);
-    playCelebrationSound();
-    if (!silent) showToast(t('toastStar'));
-  }
-
-  document.getElementById('goodJobBtn').addEventListener('click', () => {
-    playCelebrationSound();
-    launchConfetti(20);
-    addStar(true);
-    showToast(t('toastGoodJob'));
-  });
-
-  const resetStarsBtn = document.getElementById('resetStarsBtn');
-  const resetModal = document.getElementById('resetModal');
-  const modalCancel = document.getElementById('modalCancel');
-  const modalConfirm = document.getElementById('modalConfirm');
-
-  function openResetModal() { resetModal.classList.add('show'); }
-  function closeResetModal() { resetModal.classList.remove('show'); }
-
-  resetStarsBtn.addEventListener('click', openResetModal);
-  modalCancel.addEventListener('click', closeResetModal);
-  resetModal.addEventListener('click', (e) => {
-    if (e.target === resetModal) closeResetModal();
-  });
-
-  modalConfirm.addEventListener('click', () => {
-    closeResetModal();
-    const slots = starsGrid.querySelectorAll('.star-slot');
-    slots.forEach((slot, i) => {
-      setTimeout(() => {
-        slot.classList.add('resetting');
-        slot.classList.remove('filled');
-        setTimeout(() => slot.classList.remove('resetting'), 400);
-      }, i * 40);
-    });
-    setTimeout(() => {
-      starsEarned = 0;
-      initStarSlots();
-      updateStars();
-      showToast(t('toastReset'), true);
-      launchConfetti(12);
-    }, slots.length * 40 + 200);
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && resetModal.classList.contains('show')) closeResetModal();
-  });
-
-  document.getElementById('earnStarBtn').addEventListener('click', () => addStar());
-  document.getElementById('reciteBtn').addEventListener('click', () => addStar());
-  updateStars();
-
-  // ============ ROCKET / MADD ============
-  const rocket = document.getElementById('rocket');
-  const rocketFlame = document.getElementById('rocketFlame');
-  const maddFill = document.getElementById('maddFill');
-  const maddLabel = document.getElementById('maddLabel');
-  const MADD_MAX = 4;
-  let maddStep = 0;
-
-  function updateRocket() {
-    const rightPercent = 6 + (maddStep / MADD_MAX) * 78;
-    rocket.style.right = rightPercent + '%';
-    rocketFlame.style.right = (rightPercent - 1) + '%';
-    maddFill.style.width = (maddStep / MADD_MAX * 100) + '%';
-    maddLabel.textContent = `${toArabic(maddStep)}/${toArabic(MADD_MAX)}`;
-    document.querySelectorAll('.milestone').forEach((m, i) => {
-      m.classList.toggle('reached', maddStep > i);
-    });
-    rocket.classList.add('boosting');
-    setTimeout(() => rocket.classList.remove('boosting'), 600);
-  }
-
-  document.getElementById('maddStepBtn').addEventListener('click', () => {
-    if (maddStep >= MADD_MAX) {
-      showToast(t('toastBonus'));
-      addStar(true);
-      maddStep = 0;
-      setTimeout(() => { updateRocket(); launchConfetti(12); }, 400);
-      return;
-    }
-    maddStep++;
-    updateRocket();
-    if (maddStep === MADD_MAX) {
-      showToast(t('toastMaddDone'));
-      setTimeout(() => { addStar(); maddStep = 0; updateRocket(); }, 800);
-    }
-  });
-  document.getElementById('maddResetBtn').addEventListener('click', () => {
-    maddStep = 0;
-    updateRocket();
-  });
-  updateRocket();
-
-  // ============ QURAN API + MUSHAF RENDER ============
-  const API_BASE = 'https://api.alquran.cloud/v1';
-  const surahSelect = document.getElementById('surahSelect');
-  const mushafPage = document.getElementById('mushafPage');
-
-  let currentSurahNumber = 1;
-  let surahCache = {};
-
-  async function loadSurahList() {
-    try {
-      const res = await fetch(`${API_BASE}/surah`);
-      const data = await res.json();
-      if (data.code === 200 && data.data) {
-        surahSelect.innerHTML = '';
-        data.data.forEach(s => {
-          const opt = document.createElement('option');
-          opt.value = s.number;
-          opt.textContent = `${s.number}. ${s.name} — ${s.englishName}`;
-          surahSelect.appendChild(opt);
+      document.getElementById('startTimer').addEventListener('click', startTimer);
+      document.getElementById('pauseTimer').addEventListener('click', pauseTimer);
+      document.getElementById('resetTimer').addEventListener('click', resetTimer);
+      document.querySelectorAll('.preset-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const mins = parseInt(btn.dataset.minutes, 10);
+          clearInterval(timerInterval);
+          timerRunning = false;
+          totalSeconds = mins * 60;
+          remainingSeconds = totalSeconds;
+          updateTimerDisplay();
+          showToast(t('toastTimeSet', { n: mins }));
         });
-        surahSelect.value = '1';
-        loadSurah(1);
-      } else {
-        throw new Error('Failed to load surahs');
+      });
+      updateTimerDisplay();
+
+      // ============ STARS (ENDLESS) ============
+      let starsEarned = 0;
+      const starsGrid = document.getElementById('starsGrid');
+      const starsCountEl = document.getElementById('starsCount');
+      const starsMaxDisplay = document.getElementById('starsMaxDisplay');
+
+      function initStarSlots() {
+        starsGrid.innerHTML = '';
+        for (let i = 0; i < 10; i++) {
+          const slot = document.createElement('span');
+          slot.className = 'star-slot';
+          slot.textContent = '⭐';
+          starsGrid.appendChild(slot);
+        }
       }
-    } catch (err) {
-      console.error(err);
-      surahSelect.innerHTML = '<option value="1">١. الفاتحة (Al-Fatiha)</option>';
-      loadSurah(1);
-    }
-  }
+      initStarSlots();
 
-  async function loadSurah(number) {
-    currentSurahNumber = number;
-    mushafPage.innerHTML = `<div class="ayah-loading">${t('loadingMushaf')}</div>`;
-    clearAnnotations();
+      function updateStars() {
+        starsCountEl.textContent = toArabic(starsEarned);
+        starsMaxDisplay.textContent = toArabic(starsEarned);
 
-    if (surahCache[number]) {
-      renderMushafPage(surahCache[number]);
-      return;
-    }
+        const currentSlots = starsGrid.querySelectorAll('.star-slot');
+        if (currentSlots.length < starsEarned) {
+          const needed = starsEarned - currentSlots.length;
+          const addCount = Math.max(5, needed);
+          for (let i = 0; i < addCount; i++) {
+            const slot = document.createElement('span');
+            slot.className = 'star-slot';
+            slot.textContent = '⭐';
+            starsGrid.appendChild(slot);
+          }
+        }
 
-    try {
-      const res = await fetch(`${API_BASE}/surah/${number}/quran-uthmani`);
-      const data = await res.json();
-      if (data.code === 200 && data.data) {
-        surahCache[number] = data.data;
-        renderMushafPage(data.data);
-      } else {
-        throw new Error('Failed to load surah');
+        starsGrid.querySelectorAll('.star-slot').forEach((slot, i) => {
+          slot.classList.toggle('filled', i < starsEarned);
+        });
+
+        document.getElementById('badge1').classList.toggle('unlocked', starsEarned >= 3);
+        document.getElementById('badge2').classList.toggle('unlocked', starsEarned >= 5);
+        document.getElementById('badge3').classList.toggle('unlocked', starsEarned >= 7);
+        document.getElementById('badge4').classList.toggle('unlocked', starsEarned >= 10);
       }
-    } catch (err) {
-      console.error(err);
-      mushafPage.innerHTML = `<div class="ayah-loading">${t('error')}</div>`;
-    }
-  }
 
-  function stripBismillah(text) {
-    function normalize(s) {
-      return s
-        .replace(/[\u064B-\u065F\u0670\u06D6-\u06ED\u0640]/g, '')
-        .replace(/\u0671/g, '\u0627')
-        .replace(/\s+/g, ' ')
-        .trim();
-    }
-    const normBism = normalize('بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ');
-    const normText = normalize(text);
-    if (!normText.startsWith(normBism)) return text;
-
-    const targetLen = normBism.length;
-    let normCount = 0;
-    let origIndex = 0;
-
-    for (let i = 0; i < text.length; i++) {
-      const ch = text[i];
-      if (/[\u064B-\u065F\u0670\u06D6-\u06ED\u0640]/.test(ch)) {
-        origIndex = i + 1;
-        continue;
+      function addStar(silent = false) {
+        starsEarned++;
+        updateStars();
+        launchConfetti(18);
+        playCelebrationSound();
+        if (!silent) showToast(t('toastStar'));
       }
-      if (ch === '\u0671' || ch === '\u0627') {
-        normCount++;
-        origIndex = i + 1;
-        if (normCount >= targetLen) break;
-        continue;
-      }
-      if (ch === ' ' || ch === '\u00A0' || ch === '\t' || ch === '\n') {
-        let j = i;
-        while (j + 1 < text.length && /[\s\u00A0]/.test(text[j + 1])) j++;
-        normCount++;
-        origIndex = j + 1;
-        i = j;
-        if (normCount >= targetLen) break;
-        continue;
-      }
-      normCount++;
-      origIndex = i + 1;
-      if (normCount >= targetLen) break;
-    }
-    return text.substring(origIndex).replace(/^[\s\u00A0]+/, '');
-  }
 
-  function renderMushafPage(surahData) {
-    mushafPage.innerHTML = '';
+      document.getElementById('goodJobBtn').addEventListener('click', () => {
+        playCelebrationSound();
+        launchConfetti(20);
+        addStar(true);
+        showToast(t('toastGoodJob'));
+      });
 
-    const header = document.createElement('div');
-    header.className = 'surah-header';
-    header.innerHTML = `
+      const resetStarsBtn = document.getElementById('resetStarsBtn');
+      const resetModal = document.getElementById('resetModal');
+      const modalCancel = document.getElementById('modalCancel');
+      const modalConfirm = document.getElementById('modalConfirm');
+
+      function openResetModal() { resetModal.classList.add('show'); }
+      function closeResetModal() { resetModal.classList.remove('show'); }
+
+      resetStarsBtn.addEventListener('click', openResetModal);
+      modalCancel.addEventListener('click', closeResetModal);
+      resetModal.addEventListener('click', (e) => {
+        if (e.target === resetModal) closeResetModal();
+      });
+
+      modalConfirm.addEventListener('click', () => {
+        closeResetModal();
+        const slots = starsGrid.querySelectorAll('.star-slot');
+        slots.forEach((slot, i) => {
+          setTimeout(() => {
+            slot.classList.add('resetting');
+            slot.classList.remove('filled');
+            setTimeout(() => slot.classList.remove('resetting'), 400);
+          }, i * 40);
+        });
+        setTimeout(() => {
+          starsEarned = 0;
+          initStarSlots();
+          updateStars();
+          showToast(t('toastReset'), true);
+          launchConfetti(12);
+        }, slots.length * 40 + 200);
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && resetModal.classList.contains('show')) closeResetModal();
+      });
+
+      document.getElementById('earnStarBtn').addEventListener('click', () => addStar());
+      document.getElementById('reciteBtn').addEventListener('click', () => addStar());
+      updateStars();
+
+      // ============ ROCKET / MADD ============
+      const rocket = document.getElementById('rocket');
+      const rocketFlame = document.getElementById('rocketFlame');
+      const maddFill = document.getElementById('maddFill');
+      const maddLabel = document.getElementById('maddLabel');
+      const MADD_MAX = 4;
+      let maddStep = 0;
+
+      function updateRocket() {
+        const rightPercent = 6 + (maddStep / MADD_MAX) * 78;
+        rocket.style.right = rightPercent + '%';
+        rocketFlame.style.right = (rightPercent - 1) + '%';
+        maddFill.style.width = (maddStep / MADD_MAX * 100) + '%';
+        maddLabel.textContent = `${toArabic(maddStep)}/${toArabic(MADD_MAX)}`;
+        document.querySelectorAll('.milestone').forEach((m, i) => {
+          m.classList.toggle('reached', maddStep > i);
+        });
+        rocket.classList.add('boosting');
+        setTimeout(() => rocket.classList.remove('boosting'), 600);
+      }
+
+      document.getElementById('maddStepBtn').addEventListener('click', () => {
+        if (maddStep >= MADD_MAX) {
+          showToast(t('toastBonus'));
+          addStar(true);
+          maddStep = 0;
+          setTimeout(() => { updateRocket(); launchConfetti(12); }, 400);
+          return;
+        }
+        maddStep++;
+        updateRocket();
+        if (maddStep === MADD_MAX) {
+          showToast(t('toastMaddDone'));
+          setTimeout(() => { addStar(); maddStep = 0; updateRocket(); }, 800);
+        }
+      });
+      document.getElementById('maddResetBtn').addEventListener('click', () => {
+        maddStep = 0;
+        updateRocket();
+      });
+      updateRocket();
+
+      // ============ QURAN API + MUSHAF RENDER ============
+      const API_BASE = 'https://api.alquran.cloud/v1';
+      const surahSelect = document.getElementById('surahSelect');
+      const mushafPage = document.getElementById('mushafPage');
+
+      let currentSurahNumber = 1;
+      let surahCache = {};
+
+      async function loadSurahList() {
+        try {
+          const res = await fetch(`${API_BASE}/surah`);
+          const data = await res.json();
+          if (data.code === 200 && data.data) {
+            surahSelect.innerHTML = '';
+            data.data.forEach(s => {
+              const opt = document.createElement('option');
+              opt.value = s.number;
+              opt.textContent = `${s.number}. ${s.name} — ${s.englishName}`;
+              surahSelect.appendChild(opt);
+            });
+            surahSelect.value = '1';
+            loadSurah(1);
+          } else {
+            throw new Error('Failed to load surahs');
+          }
+        } catch (err) {
+          console.error(err);
+          surahSelect.innerHTML = '<option value="1">١. الفاتحة (Al-Fatiha)</option>';
+          loadSurah(1);
+        }
+      }
+
+      async function loadSurah(number) {
+        currentSurahNumber = number;
+        mushafPage.innerHTML = `<div class="ayah-loading">${t('loadingMushaf')}</div>`;
+        clearAnnotations();
+
+        if (surahCache[number]) {
+          renderMushafPage(surahCache[number]);
+          return;
+        }
+
+        try {
+          const res = await fetch(`${API_BASE}/surah/${number}/quran-uthmani`);
+          const data = await res.json();
+          if (data.code === 200 && data.data) {
+            surahCache[number] = data.data;
+            renderMushafPage(data.data);
+          } else {
+            throw new Error('Failed to load surah');
+          }
+        } catch (err) {
+          console.error(err);
+          mushafPage.innerHTML = `<div class="ayah-loading">${t('error')}</div>`;
+        }
+      }
+
+      function stripBismillah(text) {
+        function normalize(s) {
+          return s
+            .replace(/[\u064B-\u065F\u0670\u06D6-\u06ED\u0640]/g, '')
+            .replace(/\u0671/g, '\u0627')
+            .replace(/\s+/g, ' ')
+            .trim();
+        }
+        const normBism = normalize('بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ');
+        const normText = normalize(text);
+        if (!normText.startsWith(normBism)) return text;
+
+        const targetLen = normBism.length;
+        let normCount = 0;
+        let origIndex = 0;
+
+        for (let i = 0; i < text.length; i++) {
+          const ch = text[i];
+          if (/[\u064B-\u065F\u0670\u06D6-\u06ED\u0640]/.test(ch)) {
+            origIndex = i + 1;
+            continue;
+          }
+          if (ch === '\u0671' || ch === '\u0627') {
+            normCount++;
+            origIndex = i + 1;
+            if (normCount >= targetLen) break;
+            continue;
+          }
+          if (ch === ' ' || ch === '\u00A0' || ch === '\t' || ch === '\n') {
+            let j = i;
+            while (j + 1 < text.length && /[\s\u00A0]/.test(text[j + 1])) j++;
+            normCount++;
+            origIndex = j + 1;
+            i = j;
+            if (normCount >= targetLen) break;
+            continue;
+          }
+          normCount++;
+          origIndex = i + 1;
+          if (normCount >= targetLen) break;
+        }
+        return text.substring(origIndex).replace(/^[\s\u00A0]+/, '');
+      }
+
+      function renderMushafPage(surahData) {
+        mushafPage.innerHTML = '';
+
+        const header = document.createElement('div');
+        header.className = 'surah-header';
+        header.innerHTML = `
       <div class="surah-name">${t('surahHeader')} ${surahData.name}</div>
       <div class="surah-info">
         ${surahData.revelationType === 'Meccan' ? t('meccan') : t('medinan')}
@@ -1865,436 +2255,436 @@
         · ${t('surahNumber')} ${toArabic(surahData.number)}
       </div>
     `;
-    mushafPage.appendChild(header);
+        mushafPage.appendChild(header);
 
-    if (surahData.number !== 1 && surahData.number !== 9) {
-      const bismillah = document.createElement('div');
-      bismillah.className = 'bismillah-line';
-      bismillah.textContent = 'بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ';
-      mushafPage.appendChild(bismillah);
-    }
+        if (surahData.number !== 1 && surahData.number !== 9) {
+          const bismillah = document.createElement('div');
+          bismillah.className = 'bismillah-line';
+          bismillah.textContent = 'بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ';
+          mushafPage.appendChild(bismillah);
+        }
 
-    const textContainer = document.createElement('div');
-    textContainer.className = 'mushaf-text';
+        const textContainer = document.createElement('div');
+        textContainer.className = 'mushaf-text';
 
-    surahData.ayahs.forEach(ayah => {
-      let text = ayah.text;
-      if (ayah.numberInSurah === 1 && surahData.number !== 1) {
-        text = stripBismillah(text);
+        surahData.ayahs.forEach(ayah => {
+          let text = ayah.text;
+          if (ayah.numberInSurah === 1 && surahData.number !== 1) {
+            text = stripBismillah(text);
+          }
+          const ayahSpan = document.createElement('span');
+          ayahSpan.textContent = text + ' ';
+
+          const numSpan = document.createElement('span');
+          numSpan.className = 'ayah-num-mushaf';
+          numSpan.textContent = toArabic(ayah.numberInSurah);
+
+          textContainer.appendChild(ayahSpan);
+          textContainer.appendChild(numSpan);
+          textContainer.appendChild(document.createTextNode(' '));
+        });
+
+        mushafPage.appendChild(textContainer);
+
+        const endMarker = document.createElement('div');
+        endMarker.className = 'surah-end';
+        endMarker.innerHTML = `<span class="ornament">${t('sadq')}</span>`;
+        mushafPage.appendChild(endMarker);
+
+        mushafPage.scrollTop = 0;
+        resizeCanvas();
       }
-      const ayahSpan = document.createElement('span');
-      ayahSpan.textContent = text + ' ';
 
-      const numSpan = document.createElement('span');
-      numSpan.className = 'ayah-num-mushaf';
-      numSpan.textContent = toArabic(ayah.numberInSurah);
-
-      textContainer.appendChild(ayahSpan);
-      textContainer.appendChild(numSpan);
-      textContainer.appendChild(document.createTextNode(' '));
-    });
-
-    mushafPage.appendChild(textContainer);
-
-    const endMarker = document.createElement('div');
-    endMarker.className = 'surah-end';
-    endMarker.innerHTML = `<span class="ornament">${t('sadq')}</span>`;
-    mushafPage.appendChild(endMarker);
-
-    mushafPage.scrollTop = 0;
-    resizeCanvas();
-  }
-
-  surahSelect.addEventListener('change', () => {
-    const num = parseInt(surahSelect.value, 10);
-    if (num) loadSurah(num);
-  });
-
-  document.getElementById('repeatBtn').addEventListener('click', () => {
-    mushafPage.scrollTop = 0;
-    showToast(t('toastFromStart'));
-  });
-
-  loadSurahList();
-
-  // ============================================================
-  // ZOOM CONTROLS
-  // ============================================================
-  const ZOOM_MIN = 0.6;
-  const ZOOM_MAX = 3.0;
-  const ZOOM_STEP = 0.15;
-  let zoomLevel = 1.0;
-
-  const zoomLabel = document.getElementById('zoomLabel');
-  const zoomInBtn = document.getElementById('zoomInBtn');
-  const zoomOutBtn = document.getElementById('zoomOutBtn');
-  const zoomResetBtn = document.getElementById('zoomResetBtn');
-
-  function applyZoom() {
-    mushafPage.style.setProperty('--zoom', zoomLevel);
-    zoomLabel.textContent = Math.round(zoomLevel * 100) + '%';
-    zoomOutBtn.disabled = zoomLevel <= ZOOM_MIN + 0.001;
-    zoomInBtn.disabled = zoomLevel >= ZOOM_MAX - 0.001;
-    setTimeout(resizeCanvas, 60);
-  }
-
-  function zoomIn() {
-    if (zoomLevel >= ZOOM_MAX - 0.001) {
-      showToast(t('toastZoomMax'));
-      return;
-    }
-    zoomLevel = Math.min(ZOOM_MAX, zoomLevel + ZOOM_STEP);
-    applyZoom();
-  }
-
-  function zoomOut() {
-    if (zoomLevel <= ZOOM_MIN + 0.001) {
-      showToast(t('toastZoomMin'));
-      return;
-    }
-    zoomLevel = Math.max(ZOOM_MIN, zoomLevel - ZOOM_STEP);
-    applyZoom();
-  }
-
-  function zoomReset() {
-    zoomLevel = 1.0;
-    applyZoom();
-  }
-
-  zoomInBtn.addEventListener('click', zoomIn);
-  zoomOutBtn.addEventListener('click', zoomOut);
-  zoomResetBtn.addEventListener('click', zoomReset);
-
-  document.addEventListener('keydown', (e) => {
-    if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'TEXTAREA') return;
-    if (e.ctrlKey || e.metaKey) {
-      if (e.key === '=' || e.key === '+') { e.preventDefault(); zoomIn(); }
-      else if (e.key === '-' || e.key === '_') { e.preventDefault(); zoomOut(); }
-      else if (e.key === '0') { e.preventDefault(); zoomReset(); }
-    }
-  });
-
-  applyZoom();
-
-  // ============================================================
-  // ANNOTATION CANVAS
-  // ============================================================
-  const canvas = document.getElementById('mushafCanvas');
-  const ctx = canvas.getContext('2d');
-  const mushafFrame = document.querySelector('.mushaf-frame');
-  const scrollHint = document.getElementById('scrollHint');
-
-  let tool = 'scroll';
-  let currentColor = '#ffd166';
-  let isDrawing = false;
-  const strokes = [];
-  const MAX_STROKES = 50;
-
-  function resizeCanvas() {
-    const frameRect = mushafFrame.getBoundingClientRect();
-    const dpr = window.devicePixelRatio || 1;
-    canvas.width = (frameRect.width - 20) * dpr;
-    canvas.height = (frameRect.height - 20) * dpr;
-    canvas.style.width = (frameRect.width - 20) + 'px';
-    canvas.style.height = (frameRect.height - 20) + 'px';
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    redrawAll();
-  }
-
-  function redrawAll() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    strokes.forEach(stroke => {
-      if (stroke._erased) return;
-      drawStroke(stroke);
-    });
-  }
-
-  function drawStroke(stroke) {
-    if (stroke.type === 'highlight') {
-      ctx.globalAlpha = 0.35;
-    } else {
-      ctx.globalAlpha = 1;
-    }
-    ctx.globalCompositeOperation = 'source-over';
-    ctx.strokeStyle = stroke.color;
-    ctx.lineWidth = stroke.type === 'highlight' ? 22 : 3;
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
-    ctx.beginPath();
-    stroke.points.forEach((p, i) => {
-      if (i === 0) ctx.moveTo(p.x, p.y);
-      else ctx.lineTo(p.x, p.y);
-    });
-    ctx.stroke();
-    ctx.globalAlpha = 1;
-  }
-
-  function getPos(e) {
-    const rect = canvas.getBoundingClientRect();
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-    return { x: clientX - rect.left, y: clientY - rect.top };
-  }
-
-  function startDraw(e) {
-    if (tool === 'scroll' || tool === 'sticker') return;
-    e.preventDefault();
-    isDrawing = true;
-    const pos = getPos(e);
-
-    if (tool === 'eraser') {
-      strokes.forEach(s => {
-        const hit = s.points.some(p => Math.hypot(p.x - pos.x, p.y - pos.y) < 20);
-        if (hit) s._erased = true;
+      surahSelect.addEventListener('change', () => {
+        const num = parseInt(surahSelect.value, 10);
+        if (num) loadSurah(num);
       });
-      redrawAll();
-      return;
-    }
 
-    const stroke = {
-      type: tool === 'highlight' ? 'highlight' : 'pen',
-      color: currentColor,
-      points: [pos]
-    };
-    strokes.push(stroke);
-    if (strokes.length > MAX_STROKES) strokes.shift();
-    redrawAll();
-  }
-
-  function drawMove(e) {
-    if (!isDrawing) return;
-    e.preventDefault();
-    const pos = getPos(e);
-
-    if (tool === 'eraser') {
-      strokes.forEach(s => {
-        const hit = s.points.some(p => Math.hypot(p.x - pos.x, p.y - pos.y) < 20);
-        if (hit) s._erased = true;
+      document.getElementById('repeatBtn').addEventListener('click', () => {
+        mushafPage.scrollTop = 0;
+        showToast(t('toastFromStart'));
       });
-      redrawAll();
-      return;
-    }
 
-    const stroke = strokes[strokes.length - 1];
-    if (stroke) {
-      stroke.points.push(pos);
-      redrawAll();
-    }
-  }
+      loadSurahList();
 
-  function endDraw() { isDrawing = false; }
+      // ============================================================
+      // ZOOM CONTROLS
+      // ============================================================
+      const ZOOM_MIN = 0.6;
+      const ZOOM_MAX = 3.0;
+      const ZOOM_STEP = 0.15;
+      let zoomLevel = 1.0;
 
-  canvas.addEventListener('mousedown', startDraw);
-  canvas.addEventListener('mousemove', drawMove);
-  canvas.addEventListener('mouseup', endDraw);
-  canvas.addEventListener('mouseleave', endDraw);
-  canvas.addEventListener('touchstart', startDraw, { passive: false });
-  canvas.addEventListener('touchmove', drawMove, { passive: false });
-  canvas.addEventListener('touchend', endDraw);
-  canvas.addEventListener('touchcancel', endDraw);
+      const zoomLabel = document.getElementById('zoomLabel');
+      const zoomInBtn = document.getElementById('zoomInBtn');
+      const zoomOutBtn = document.getElementById('zoomOutBtn');
+      const zoomResetBtn = document.getElementById('zoomResetBtn');
 
-  function clearAnnotations() {
-    strokes.length = 0;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    document.querySelectorAll('.placed-item').forEach(el => el.remove());
-  }
+      function applyZoom() {
+        mushafPage.style.setProperty('--zoom', zoomLevel);
+        zoomLabel.textContent = Math.round(zoomLevel * 100) + '%';
+        zoomOutBtn.disabled = zoomLevel <= ZOOM_MIN + 0.001;
+        zoomInBtn.disabled = zoomLevel >= ZOOM_MAX - 0.001;
+        setTimeout(resizeCanvas, 60);
+      }
 
-  // ============ TOOLBAR ============
-  const toolButtons = {
-    scroll: document.getElementById('toolScroll'),
-    pen: document.getElementById('toolPen'),
-    highlight: document.getElementById('toolHighlight'),
-    sticker: document.getElementById('toolSticker'),
-    eraser: document.getElementById('toolEraser'),
-  };
+      function zoomIn() {
+        if (zoomLevel >= ZOOM_MAX - 0.001) {
+          showToast(t('toastZoomMax'));
+          return;
+        }
+        zoomLevel = Math.min(ZOOM_MAX, zoomLevel + ZOOM_STEP);
+        applyZoom();
+      }
 
-  function updateScrollHint() {
-    if (tool === 'scroll') {
-      scrollHint.classList.remove('draw-on');
-      scrollHint.innerHTML = '🖐️ <span>' + t('scrollHintText') + '</span>';
-      scrollHint.classList.add('show');
-    } else if (tool === 'sticker') {
-      scrollHint.classList.add('draw-on');
-      scrollHint.innerHTML = '⭐ <span>' + t('stickerHintText') + '</span>';
-      scrollHint.classList.add('show');
-    } else {
-      scrollHint.classList.add('draw-on');
-      scrollHint.innerHTML = '✏️ <span>' + t('drawHintText') + '</span>';
-      scrollHint.classList.add('show');
-    }
-    clearTimeout(scrollHint._timeout);
-    scrollHint._timeout = setTimeout(() => scrollHint.classList.remove('show'), 3500);
-  }
+      function zoomOut() {
+        if (zoomLevel <= ZOOM_MIN + 0.001) {
+          showToast(t('toastZoomMin'));
+          return;
+        }
+        zoomLevel = Math.max(ZOOM_MIN, zoomLevel - ZOOM_STEP);
+        applyZoom();
+      }
 
-  function setTool(newTool) {
-    tool = newTool;
-    Object.keys(toolButtons).forEach(k => {
-      toolButtons[k].classList.toggle('active', k === newTool);
-    });
+      function zoomReset() {
+        zoomLevel = 1.0;
+        applyZoom();
+      }
 
-    canvas.classList.remove('draw-active', 'highlight-mode', 'sticker-mode');
+      zoomInBtn.addEventListener('click', zoomIn);
+      zoomOutBtn.addEventListener('click', zoomOut);
+      zoomResetBtn.addEventListener('click', zoomReset);
 
-    if (newTool === 'pen' || newTool === 'eraser') {
-      canvas.classList.add('draw-active');
-    } else if (newTool === 'highlight') {
-      canvas.classList.add('draw-active', 'highlight-mode');
-    } else if (newTool === 'sticker') {
-      canvas.classList.add('sticker-mode');
-    }
+      document.addEventListener('keydown', (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'TEXTAREA') return;
+        if (e.ctrlKey || e.metaKey) {
+          if (e.key === '=' || e.key === '+') { e.preventDefault(); zoomIn(); }
+          else if (e.key === '-' || e.key === '_') { e.preventDefault(); zoomOut(); }
+          else if (e.key === '0') { e.preventDefault(); zoomReset(); }
+        }
+      });
 
-    document.getElementById('stickerPalette').classList.toggle('show', newTool === 'sticker');
-    updateScrollHint();
-  }
+      applyZoom();
 
-  toolButtons.scroll.addEventListener('click', () => setTool('scroll'));
-  toolButtons.pen.addEventListener('click', () => setTool('pen'));
-  toolButtons.highlight.addEventListener('click', () => setTool('highlight'));
-  toolButtons.sticker.addEventListener('click', () => setTool('sticker'));
-  toolButtons.eraser.addEventListener('click', () => setTool('eraser'));
+      // ============================================================
+      // ANNOTATION CANVAS
+      // ============================================================
+      const canvas = document.getElementById('mushafCanvas');
+      const ctx = canvas.getContext('2d');
+      const mushafFrame = document.querySelector('.mushaf-frame');
+      const scrollHint = document.getElementById('scrollHint');
 
-  document.querySelectorAll('.color-swatch').forEach(sw => {
-    sw.addEventListener('click', () => {
-      currentColor = sw.dataset.color;
-      document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
-      sw.classList.add('active');
-    });
-  });
+      let tool = 'scroll';
+      let currentColor = '#ffd166';
+      let isDrawing = false;
+      const strokes = [];
+      const MAX_STROKES = 50;
 
-  document.getElementById('toolUndo').addEventListener('click', () => {
-    if (strokes.length > 0) {
-      strokes.pop();
-      redrawAll();
-    }
-  });
+      function resizeCanvas() {
+        const frameRect = mushafFrame.getBoundingClientRect();
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = (frameRect.width - 20) * dpr;
+        canvas.height = (frameRect.height - 20) * dpr;
+        canvas.style.width = (frameRect.width - 20) + 'px';
+        canvas.style.height = (frameRect.height - 20) + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        redrawAll();
+      }
 
-  document.getElementById('toolClear').addEventListener('click', () => {
-    clearAnnotations();
-  });
+      function redrawAll() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        strokes.forEach(stroke => {
+          if (stroke._erased) return;
+          drawStroke(stroke);
+        });
+      }
 
-  // ============ STICKERS ============
-  const STICKERS = ['⭐','🌟','✨','❤️','💚','💙','🌈','🌸','🦋','🌙','☀️','🎈','🎉','🏆','👑','🕌','📖','🕋','🧕','👨‍👩‍👧','🐱','🐶','🍎','🌺','🦅','🌹','💎','🎨'];
-  const stickerGrid = document.getElementById('stickerGrid');
-  let selectedSticker = '⭐';
+      function drawStroke(stroke) {
+        if (stroke.type === 'highlight') {
+          ctx.globalAlpha = 0.35;
+        } else {
+          ctx.globalAlpha = 1;
+        }
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.strokeStyle = stroke.color;
+        ctx.lineWidth = stroke.type === 'highlight' ? 22 : 3;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.beginPath();
+        stroke.points.forEach((p, i) => {
+          if (i === 0) ctx.moveTo(p.x, p.y);
+          else ctx.lineTo(p.x, p.y);
+        });
+        ctx.stroke();
+        ctx.globalAlpha = 1;
+      }
 
-  STICKERS.forEach(s => {
-    const el = document.createElement('div');
-    el.className = 'sticker-option' + (s === selectedSticker ? ' active' : '');
-    el.textContent = s;
-    el.addEventListener('click', () => {
-      selectedSticker = s;
-      document.querySelectorAll('.sticker-option').forEach(o => o.classList.remove('active'));
-      el.classList.add('active');
-    });
-    stickerGrid.appendChild(el);
-  });
+      function getPos(e) {
+        const rect = canvas.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        return { x: clientX - rect.left, y: clientY - rect.top };
+      }
 
-  // Place item at a specific position (relative to the mushaf frame)
-  function placeItemAt(html, x, y, isImage = false) {
-    const item = document.createElement('div');
-    item.className = 'placed-item';
-    if (isImage) {
-      item.innerHTML = `<img src="${html}" alt=""><div class="delete-badge">×</div>`;
-    } else {
-      item.textContent = html;
-      const del = document.createElement('div');
-      del.className = 'delete-badge';
-      del.textContent = '×';
-      item.appendChild(del);
-    }
+      function startDraw(e) {
+        if (tool === 'scroll' || tool === 'sticker') return;
+        e.preventDefault();
+        isDrawing = true;
+        const pos = getPos(e);
 
-    // Position the center of the sticker at the click point
-    item.style.left = (x - 20) + 'px';
-    item.style.top = (y - 20) + 'px';
+        if (tool === 'eraser') {
+          strokes.forEach(s => {
+            const hit = s.points.some(p => Math.hypot(p.x - pos.x, p.y - pos.y) < 20);
+            if (hit) s._erased = true;
+          });
+          redrawAll();
+          return;
+        }
 
-    const frameRect = mushafFrame.getBoundingClientRect();
+        const stroke = {
+          type: tool === 'highlight' ? 'highlight' : 'pen',
+          color: currentColor,
+          points: [pos]
+        };
+        strokes.push(stroke);
+        if (strokes.length > MAX_STROKES) strokes.shift();
+        redrawAll();
+      }
 
-    let dragging = false;
-    let offsetX = 0, offsetY = 0;
+      function drawMove(e) {
+        if (!isDrawing) return;
+        e.preventDefault();
+        const pos = getPos(e);
 
-    function onDown(e) {
-      if (e.target.classList.contains('delete-badge')) return;
-      dragging = true;
-      const pos = getPos(e);
-      const itemRect = item.getBoundingClientRect();
-      offsetX = pos.x - (itemRect.left - frameRect.left);
-      offsetY = pos.y - (itemRect.top - frameRect.top);
-      e.stopPropagation();
-    }
-    function onMove(e) {
-      if (!dragging) return;
-      e.preventDefault();
-      const pos = getPos(e);
-      item.style.left = (pos.x - offsetX) + 'px';
-      item.style.top = (pos.y - offsetY) + 'px';
-    }
-    function onUp() { dragging = false; }
+        if (tool === 'eraser') {
+          strokes.forEach(s => {
+            const hit = s.points.some(p => Math.hypot(p.x - pos.x, p.y - pos.y) < 20);
+            if (hit) s._erased = true;
+          });
+          redrawAll();
+          return;
+        }
 
-    item.addEventListener('mousedown', onDown);
-    item.addEventListener('mousemove', onMove);
-    item.addEventListener('mouseup', onUp);
-    item.addEventListener('touchstart', onDown, { passive: true });
-    item.addEventListener('touchmove', onMove, { passive: false });
-    item.addEventListener('touchend', onUp);
+        const stroke = strokes[strokes.length - 1];
+        if (stroke) {
+          stroke.points.push(pos);
+          redrawAll();
+        }
+      }
 
-    item.querySelector('.delete-badge').addEventListener('click', (e) => {
-      e.stopPropagation();
-      item.remove();
-    });
+      function endDraw() { isDrawing = false; }
 
-    mushafFrame.appendChild(item);
-  }
+      canvas.addEventListener('mousedown', startDraw);
+      canvas.addEventListener('mousemove', drawMove);
+      canvas.addEventListener('mouseup', endDraw);
+      canvas.addEventListener('mouseleave', endDraw);
+      canvas.addEventListener('touchstart', startDraw, { passive: false });
+      canvas.addEventListener('touchmove', drawMove, { passive: false });
+      canvas.addEventListener('touchend', endDraw);
+      canvas.addEventListener('touchcancel', endDraw);
 
-  // Place sticker exactly where clicked (not in the middle)
-  canvas.addEventListener('click', (e) => {
-    if (tool !== 'sticker') return;
-    const pos = getPos(e);
-    placeItemAt(selectedSticker, pos.x, pos.y);
-  });
+      function clearAnnotations() {
+        strokes.length = 0;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        document.querySelectorAll('.placed-item').forEach(el => el.remove());
+      }
 
-  // For image uploads, place them at the center of the visible area (fallback)
-  // so the user can drag them where they want.
-  document.getElementById('uploadBtn').addEventListener('click', () => {
-    document.getElementById('imageUpload').click();
-  });
-  document.getElementById('imageUpload').addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      const frameRect = mushafFrame.getBoundingClientRect();
-      placeItemAt(ev.target.result, frameRect.width / 2, frameRect.height / 2, true);
-    };
-    reader.readAsDataURL(file);
-  });
+      // ============ TOOLBAR ============
+      const toolButtons = {
+        scroll: document.getElementById('toolScroll'),
+        pen: document.getElementById('toolPen'),
+        highlight: document.getElementById('toolHighlight'),
+        sticker: document.getElementById('toolSticker'),
+        eraser: document.getElementById('toolEraser'),
+      };
 
-  let resizeTimeout;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(() => {
-      resizeCanvas();
-    }, 200);
-  });
-  setTimeout(resizeCanvas, 300);
+      function updateScrollHint() {
+        if (tool === 'scroll') {
+          scrollHint.classList.remove('draw-on');
+          scrollHint.innerHTML = '🖐️ <span>' + t('scrollHintText') + '</span>';
+          scrollHint.classList.add('show');
+        } else if (tool === 'sticker') {
+          scrollHint.classList.add('draw-on');
+          scrollHint.innerHTML = '⭐ <span>' + t('stickerHintText') + '</span>';
+          scrollHint.classList.add('show');
+        } else {
+          scrollHint.classList.add('draw-on');
+          scrollHint.innerHTML = '✏️ <span>' + t('drawHintText') + '</span>';
+          scrollHint.classList.add('show');
+        }
+        clearTimeout(scrollHint._timeout);
+        scrollHint._timeout = setTimeout(() => scrollHint.classList.remove('show'), 3500);
+      }
 
-  // ============ KEYBOARD ============
-  document.addEventListener('keydown', (e) => {
-    if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'TEXTAREA') return;
-    if (resetModal.classList.contains('show')) return;
-    if (e.code === 'Space') {
-      e.preventDefault();
-      timerRunning ? pauseTimer() : startTimer();
-    } else if (e.code === 'Enter') {
-      document.getElementById('earnStarBtn').click();
-    } else if (e.code === 'ArrowRight') {
-      document.getElementById('maddStepBtn').click();
-    }
-  });
+      function setTool(newTool) {
+        tool = newTool;
+        Object.keys(toolButtons).forEach(k => {
+          toolButtons[k].classList.toggle('active', k === newTool);
+        });
 
-  setTimeout(() => showToast(t('toastWelcome')), 1000);
+        canvas.classList.remove('draw-active', 'highlight-mode', 'sticker-mode');
 
-  setTool('scroll');
+        if (newTool === 'pen' || newTool === 'eraser') {
+          canvas.classList.add('draw-active');
+        } else if (newTool === 'highlight') {
+          canvas.classList.add('draw-active', 'highlight-mode');
+        } else if (newTool === 'sticker') {
+          canvas.classList.add('sticker-mode');
+        }
 
-})();
-</script>
+        document.getElementById('stickerPalette').classList.toggle('show', newTool === 'sticker');
+        updateScrollHint();
+      }
+
+      toolButtons.scroll.addEventListener('click', () => setTool('scroll'));
+      toolButtons.pen.addEventListener('click', () => setTool('pen'));
+      toolButtons.highlight.addEventListener('click', () => setTool('highlight'));
+      toolButtons.sticker.addEventListener('click', () => setTool('sticker'));
+      toolButtons.eraser.addEventListener('click', () => setTool('eraser'));
+
+      document.querySelectorAll('.color-swatch').forEach(sw => {
+        sw.addEventListener('click', () => {
+          currentColor = sw.dataset.color;
+          document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+          sw.classList.add('active');
+        });
+      });
+
+      document.getElementById('toolUndo').addEventListener('click', () => {
+        if (strokes.length > 0) {
+          strokes.pop();
+          redrawAll();
+        }
+      });
+
+      document.getElementById('toolClear').addEventListener('click', () => {
+        clearAnnotations();
+      });
+
+      // ============ STICKERS ============
+      const STICKERS = ['⭐', '🌟', '✨', '❤️', '💚', '💙', '🌈', '🌸', '🦋', '🌙', '☀️', '🎈', '🎉', '🏆', '👑', '🕌', '📖', '🕋', '🧕', '👨‍👩‍👧', '🐱', '🐶', '🍎', '🌺', '🦅', '🌹', '💎', '🎨'];
+      const stickerGrid = document.getElementById('stickerGrid');
+      let selectedSticker = '⭐';
+
+      STICKERS.forEach(s => {
+        const el = document.createElement('div');
+        el.className = 'sticker-option' + (s === selectedSticker ? ' active' : '');
+        el.textContent = s;
+        el.addEventListener('click', () => {
+          selectedSticker = s;
+          document.querySelectorAll('.sticker-option').forEach(o => o.classList.remove('active'));
+          el.classList.add('active');
+        });
+        stickerGrid.appendChild(el);
+      });
+
+      // Place item at a specific position (relative to the mushaf frame)
+      function placeItemAt(html, x, y, isImage = false) {
+        const item = document.createElement('div');
+        item.className = 'placed-item';
+        if (isImage) {
+          item.innerHTML = `<img src="${html}" alt=""><div class="delete-badge">×</div>`;
+        } else {
+          item.textContent = html;
+          const del = document.createElement('div');
+          del.className = 'delete-badge';
+          del.textContent = '×';
+          item.appendChild(del);
+        }
+
+        // Position the center of the sticker at the click point
+        item.style.left = (x - 20) + 'px';
+        item.style.top = (y - 20) + 'px';
+
+        const frameRect = mushafFrame.getBoundingClientRect();
+
+        let dragging = false;
+        let offsetX = 0, offsetY = 0;
+
+        function onDown(e) {
+          if (e.target.classList.contains('delete-badge')) return;
+          dragging = true;
+          const pos = getPos(e);
+          const itemRect = item.getBoundingClientRect();
+          offsetX = pos.x - (itemRect.left - frameRect.left);
+          offsetY = pos.y - (itemRect.top - frameRect.top);
+          e.stopPropagation();
+        }
+        function onMove(e) {
+          if (!dragging) return;
+          e.preventDefault();
+          const pos = getPos(e);
+          item.style.left = (pos.x - offsetX) + 'px';
+          item.style.top = (pos.y - offsetY) + 'px';
+        }
+        function onUp() { dragging = false; }
+
+        item.addEventListener('mousedown', onDown);
+        item.addEventListener('mousemove', onMove);
+        item.addEventListener('mouseup', onUp);
+        item.addEventListener('touchstart', onDown, { passive: true });
+        item.addEventListener('touchmove', onMove, { passive: false });
+        item.addEventListener('touchend', onUp);
+
+        item.querySelector('.delete-badge').addEventListener('click', (e) => {
+          e.stopPropagation();
+          item.remove();
+        });
+
+        mushafFrame.appendChild(item);
+      }
+
+      // Place sticker exactly where clicked (not in the middle)
+      canvas.addEventListener('click', (e) => {
+        if (tool !== 'sticker') return;
+        const pos = getPos(e);
+        placeItemAt(selectedSticker, pos.x, pos.y);
+      });
+
+      // For image uploads, place them at the center of the visible area (fallback)
+      // so the user can drag them where they want.
+      document.getElementById('uploadBtn').addEventListener('click', () => {
+        document.getElementById('imageUpload').click();
+      });
+      document.getElementById('imageUpload').addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          const frameRect = mushafFrame.getBoundingClientRect();
+          placeItemAt(ev.target.result, frameRect.width / 2, frameRect.height / 2, true);
+        };
+        reader.readAsDataURL(file);
+      });
+
+      let resizeTimeout;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+          resizeCanvas();
+        }, 200);
+      });
+      setTimeout(resizeCanvas, 300);
+
+      // ============ KEYBOARD ============
+      document.addEventListener('keydown', (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'TEXTAREA') return;
+        if (resetModal.classList.contains('show')) return;
+        if (e.code === 'Space') {
+          e.preventDefault();
+          timerRunning ? pauseTimer() : startTimer();
+        } else if (e.code === 'Enter') {
+          document.getElementById('earnStarBtn').click();
+        } else if (e.code === 'ArrowRight') {
+          document.getElementById('maddStepBtn').click();
+        }
+      });
+
+      setTimeout(() => showToast(t('toastWelcome')), 1000);
+
+      setTool('scroll');
+
+    })();
+  </script>
 </body>
 </html>

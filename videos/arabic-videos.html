@@ -1,0 +1,1169 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Arabic Learning · تعلم العربية</title>
+ <link rel="icon" type="image/png" href="../images/quran.png">
+  <link rel="apple-touch-icon" href="images/quran.png">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Amiri:wght@700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; min-height: 100%; }
+  body {
+    font-family: 'Cairo', sans-serif;
+    background: linear-gradient(160deg, #e8f4ff 0%, #fff8f0 55%, #f0e8ff 100%);
+    background-attachment: fixed;
+    color: #2d2a1f;
+    min-height: 100vh;
+    padding-bottom: 40px;
+    user-select: none;
+  }
+
+  /* ===== Header ===== */
+  header {
+    text-align: center;
+    padding: 22px 16px 10px;
+    position: relative;
+  }
+  header h1 {
+    margin: 0 0 6px;
+    font-size: clamp(24px, 6vw, 40px);
+    font-weight: 900;
+    color: #2d3a6b;
+    text-shadow: 0 3px 0 #fff, 0 6px 14px #0002;
+    letter-spacing: 1px;
+    cursor: default;
+  }
+  header p {
+    margin: 0;
+    color: #5a5f7a;
+    font-weight: 700;
+    font-size: clamp(13px, 3.5vw, 16px);
+  }
+  
+  /* ===== Top Buttons Area ===== */
+  .top-buttons {
+    position: absolute;
+    top: 16px;
+    inset-inline-end: 16px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .home-btn {
+    position: absolute;
+    top: 16px;
+    inset-inline-start: 16px;
+    text-decoration: none;
+  }
+  
+  .pill-btn {
+    background: #fff;
+    border: 3px solid #fff;
+    border-radius: 999px;
+    padding: 8px 14px;
+    font-family: inherit;
+    font-weight: 900;
+    font-size: 13px;
+    color: #2d3a6b;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #0002, 0 8px 20px #0002;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: transform .12s;
+    white-space: nowrap;
+  }
+  .pill-btn:active { transform: scale(.93); }
+  
+  /* Admin Buttons visibility */
+  #addBtn, #logoutBtn { display: none; }
+  body.is-admin #addBtn, body.is-admin #logoutBtn { display: flex; }
+  #logoutBtn { background: #ffd1d1; color: #a02020; }
+
+  /* ===== Search + filter ===== */
+  .controls {
+    max-width: 720px;
+    margin: 18px auto 8px;
+    padding: 0 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  #searchInput {
+    width: 100%;
+    padding: 12px 18px;
+    border-radius: 999px;
+    border: 3px solid #fff;
+    background: #ffffffcc;
+    font-family: inherit;
+    font-size: 16px;
+    outline: none;
+    box-shadow: 0 4px 0 #0001, 0 8px 20px #0001;
+    text-align: center;
+    user-select: text;
+  }
+  #searchInput::placeholder { color: #999; }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+  }
+  .chip {
+    background: #fff;
+    border: 2px solid #fff;
+    border-radius: 999px;
+    padding: 8px 16px;
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 13px;
+    color: #4a5a6a;
+    cursor: pointer;
+    box-shadow: 0 3px 0 #0001;
+    transition: transform .1s, background .15s, color .15s;
+  }
+  .chip:active { transform: scale(.94); }
+  .chip.active {
+    background: #7c8cff;
+    color: #fff;
+    border-color: #fff;
+    box-shadow: 0 3px 0 #5a6bcc;
+  }
+
+  /* ===== Video grid ===== */
+  .video-grid {
+    max-width: 1100px;
+    margin: 18px auto;
+    padding: 0 14px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+
+  .video-card {
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 6px 0 rgba(0,0,0,.08), 0 12px 24px -6px rgba(0,0,0,.15);
+    border: 3px solid #fff;
+    transition: transform .14s, box-shadow .2s;
+    position: relative;
+    text-align: start;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+  }
+  .video-card:hover {
+    box-shadow: 0 10px 0 rgba(0,0,0,.06), 0 18px 30px -8px rgba(0,0,0,.2);
+    transform: translateY(-3px);
+  }
+
+  /* --- Thumbnail --- */
+  .thumb {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: linear-gradient(135deg, var(--thumb-a, #e8e8ff), var(--thumb-b, #d0d0ff));
+    position: relative;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+  }
+  
+  .thumb img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    position: absolute;
+    top: 0; left: 0;
+    z-index: 1;
+  }
+  
+  .thumb .default-icon {
+    font-size: 56px;
+    opacity: 0.7;
+    z-index: 1;
+  }
+
+  /* Play Button Layer */
+  .thumb .play-badge {
+    position: absolute; inset: 0;
+    display: grid; place-items: center;
+    pointer-events: none;
+    background: rgba(0,0,0,0.05);
+    z-index: 2;
+  }
+  .play-badge .circle {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: #fff;
+    display: grid; place-items: center;
+    box-shadow: 0 4px 14px #0005;
+    color: #e03e3e;
+    font-size: 26px;
+    padding-inline-start: 6px;
+    transition: transform .2s;
+  }
+  .thumb:hover .play-badge .circle { transform: scale(1.15); }
+
+  /* Under construction badge */
+  .construction-badge {
+    position: absolute; inset: 0;
+    display: grid; place-items: center;
+    pointer-events: none;
+    background: rgba(0,0,0,0.6);
+    z-index: 3;
+    color: #fff;
+    font-weight: 900;
+    font-size: 20px;
+    text-align: center;
+    padding: 10px;
+    line-height: 1.4;
+    backdrop-filter: blur(2px);
+  }
+
+  /* Tags */
+  .duration-badge {
+    position: absolute; bottom: 8px; inset-inline-end: 8px;
+    background: #000000cc; color: #fff;
+    font-weight: 800; font-size: 11px;
+    padding: 2px 8px; border-radius: 6px;
+    z-index: 3;
+  }
+  .category-badge {
+    position: absolute; top: 8px; inset-inline-start: 8px;
+    background: #ffffffdd; color: #2d3a6b;
+    font-weight: 900; font-size: 11px;
+    padding: 3px 10px; border-radius: 999px;
+    z-index: 3;
+    box-shadow: 0 2px 6px #0002;
+  }
+
+  /* Card body */
+  .card-body {
+    padding: 12px 14px 14px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    z-index: 2;
+    background: #fff;
+  }
+  .card-title {
+    font-weight: 900;
+    font-size: clamp(14px, 3.5vw, 16px);
+    color: #2d3a6b;
+    line-height: 1.3;
+    margin: 0;
+  }
+  .card-desc {
+    font-size: 12px;
+    color: #6b6b7a;
+    font-weight: 600;
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  /* Admin actions */
+  .card-admin-actions {
+    display: none;
+    gap: 6px;
+    padding: 0 14px 14px;
+    z-index: 2;
+    background: #fff;
+  }
+  body.is-admin .card-admin-actions { display: flex; }
+  .admin-btn {
+    flex: 1;
+    border: none;
+    border-radius: 12px;
+    padding: 8px;
+    font-family: inherit;
+    font-weight: 900;
+    font-size: 12px;
+    cursor: pointer;
+    transition: transform .1s;
+  }
+  .admin-btn:active { transform: scale(.94); }
+  .admin-btn.edit { background: #ffe4a8; color: #7a5a00; }
+  .admin-btn.del  { background: #ffd1d1; color: #a02020; }
+
+  .empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: #7a7a8a;
+    font-weight: 800;
+    font-size: 16px;
+    display: none;
+  }
+  .empty.show { display: block; }
+
+  footer {
+    text-align: center;
+    color: #7a7a8a;
+    font-weight: 700;
+    font-size: 13px;
+    margin-top: 30px;
+    padding: 0 20px;
+  }
+
+  /* ===== PIN pad ===== */
+  .pin-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: #000000cc;
+    display: none;
+    place-items: center;
+    padding: 12px;
+    backdrop-filter: blur(6px);
+  }
+  .pin-modal.open { display: grid; animation: fadein .2s; }
+  @keyframes fadein { from { opacity: 0; } }
+
+  .pin-box {
+    background: #fff;
+    border-radius: 24px;
+    padding: 24px 20px 20px;
+    text-align: center;
+    box-shadow: 0 20px 60px #0008;
+    max-width: 340px;
+    width: 100%;
+    animation: popin .3s cubic-bezier(.34,1.56,.64,1);
+  }
+  @keyframes popin { from { transform: scale(.8); opacity: 0; } }
+  .pin-box h2 { margin: 0 0 6px; font-size: 20px; color: #2d3a6b; }
+  .pin-box .pin-sub { font-size: 13px; color: #7a7a8a; margin-bottom: 16px; font-weight: 600; }
+  .pin-dots {
+    display: flex; gap: 10px; justify-content: center;
+    margin-bottom: 18px;
+  }
+  .pin-dot {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: #e0e0ea;
+    transition: background .15s, transform .15s;
+  }
+  .pin-dot.filled { background: #7c8cff; transform: scale(1.15); }
+  .pin-pad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
+  .pin-key {
+    aspect-ratio: 1.4;
+    border: 2px solid #e0e0ea;
+    border-radius: 14px;
+    background: #fafafa;
+    font-family: inherit;
+    font-size: 22px;
+    font-weight: 900;
+    color: #2d3a6b;
+    cursor: pointer;
+    transition: transform .1s, background .15s;
+  }
+  .pin-key:active { transform: scale(.92); background: #7c8cff; color: #fff; border-color: #7c8cff; }
+  .pin-key.special { font-size: 18px; background: #fff; }
+  .pin-key.special.clear { color: #d35400; }
+  .pin-key.special.enter { color: #32a852; }
+  .pin-cancel {
+    width: 100%;
+    border: none;
+    border-radius: 14px;
+    background: #e8e8f0;
+    color: #4a4a5a;
+    padding: 12px;
+    font-family: inherit;
+    font-weight: 900;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .pin-error {
+    color: #e03e3e;
+    font-weight: 800;
+    font-size: 13px;
+    min-height: 1.2em;
+    margin-bottom: 8px;
+  }
+
+  /* ===== Add / Edit Form ===== */
+  .form-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 110;
+    background: #000000cc;
+    display: none;
+    place-items: center;
+    padding: 12px;
+    backdrop-filter: blur(4px);
+  }
+  .form-modal.open { display: grid; }
+  .form-inner {
+    width: 100%;
+    max-width: 560px;
+    max-height: 92vh;
+    overflow-y: auto;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px #0008;
+    padding: 20px;
+  }
+  .form-inner h2 {
+    margin: 0 0 16px;
+    font-size: 20px;
+    color: #2d3a6b;
+    text-align: center;
+  }
+  .form-group { margin-bottom: 12px; }
+  .form-group label {
+    display: block;
+    font-weight: 800;
+    font-size: 13px;
+    color: #4a5a6a;
+    margin-bottom: 6px;
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 2px solid #e0e0ea;
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 14px;
+    background: #fafafa;
+    outline: none;
+    transition: border-color .15s;
+    user-select: text;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: #7c8cff;
+    background: #fff;
+  }
+  .form-group textarea { resize: vertical; min-height: 60px; }
+  .form-hint { font-size: 11px; color: #8a8a9a; margin-top: 4px; font-weight: 600; line-height: 1.4; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .form-actions { display: flex; gap: 10px; margin-top: 16px; }
+  .form-actions button {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 14px;
+    font-family: inherit;
+    font-weight: 900;
+    font-size: 15px;
+    cursor: pointer;
+    transition: transform .1s;
+  }
+  .form-actions button:active { transform: scale(.96); }
+  .btn-save { background: #7c8cff; color: #fff; box-shadow: 0 4px 0 #5a6bcc; }
+  .btn-cancel { background: #e8e8f0; color: #4a4a5a; }
+
+  /* Simple Alert Modal for Construction */
+  .alert-modal {
+    position: fixed; inset: 0; z-index: 300;
+    background: #000000cc; display: none; place-items: center; padding: 20px;
+    backdrop-filter: blur(4px);
+  }
+  .alert-modal.open { display: grid; }
+  .alert-box {
+    background: #fff; border-radius: 24px; padding: 30px 24px;
+    text-align: center; max-width: 320px; width: 100%;
+    box-shadow: 0 20px 60px #0008;
+    animation: popin .3s cubic-bezier(.34,1.56,.64,1);
+  }
+  .alert-box .icon { font-size: 50px; margin-bottom: 10px; }
+  .alert-box h2 { margin: 0 0 10px; font-size: 22px; color: #2d3a6b; }
+  .alert-box p { margin: 0 0 20px; color: #6b6b7a; font-weight: 600; line-height: 1.5; }
+  .alert-box button {
+    width: 100%; padding: 14px; border: none; border-radius: 14px;
+    background: #7c8cff; color: #fff; font-family: inherit;
+    font-weight: 900; font-size: 16px; cursor: pointer;
+  }
+
+  @media (max-width: 480px) {
+    .video-grid { grid-template-columns: 1fr; }
+    .top-buttons { position: static; justify-content: center; margin-top: 12px; flex-wrap: wrap; }
+    .home-btn { position: static; display: flex; justify-content: center; margin-top: 12px; }
+    header { padding-bottom: 0; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <!-- Home Button -->
+  <a href="../index.html" class="pill-btn home-btn">🏠 <span data-t="home">الرئيسية</span></a>
+
+  <div class="top-buttons">
+    <button class="pill-btn" id="langBtn">🌐 <span id="langLabel">English</span></button>
+    <button class="pill-btn" id="logoutBtn">🔒 إغلاق الإدارة</button>
+    <button class="pill-btn" id="addBtn">➕ <span id="addLabel">إضافة فيديو</span></button>
+  </div>
+  
+  <h1 id="headerTitle">🗣️ تعلم اللغة العربية</h1>
+  <p id="headerSub">دروس فيديو لتعلّم الحروف والمفردات العربية</p>
+</header>
+
+<div class="controls">
+  <input id="searchInput" type="search" placeholder="🔍 ابحثي عن درس..." autocomplete="off">
+  <div class="chips" id="chips"></div>
+</div>
+
+<div class="video-grid" id="videoGrid"></div>
+<div class="empty" id="empty">لا توجد فيديوهات مطابقة 😊</div>
+
+<footer id="footer">تعلّمي العربية بسهولة — فيديو واحد في كل مرة 🌟</footer>
+
+<!-- PIN pad -->
+<div class="pin-modal" id="pinModal">
+  <div class="pin-box">
+    <h2>🔐 وضع الأهل</h2>
+    <p class="pin-sub">أدخل الرقم السري</p>
+    <div class="pin-dots" id="pinDots">
+      <div class="pin-dot"></div>
+      <div class="pin-dot"></div>
+      <div class="pin-dot"></div>
+      <div class="pin-dot"></div>
+    </div>
+    <div class="pin-error" id="pinError"></div>
+    <div class="pin-pad" id="pinPad">
+      <button class="pin-key" data-k="1">1</button>
+      <button class="pin-key" data-k="2">2</button>
+      <button class="pin-key" data-k="3">3</button>
+      <button class="pin-key" data-k="4">4</button>
+      <button class="pin-key" data-k="5">5</button>
+      <button class="pin-key" data-k="6">6</button>
+      <button class="pin-key" data-k="7">7</button>
+      <button class="pin-key" data-k="8">8</button>
+      <button class="pin-key" data-k="9">9</button>
+      <button class="pin-key special clear" data-k="clear">مسح</button>
+      <button class="pin-key" data-k="0">0</button>
+      <button class="pin-key special enter" data-k="enter">✓</button>
+    </div>
+    <button class="pin-cancel" id="pinCancel">إلغاء</button>
+  </div>
+</div>
+
+<!-- Add / Edit Video Modal -->
+<div class="form-modal" id="formModal">
+  <div class="form-inner">
+    <h2 id="formTitle">إضافة درس جديد</h2>
+
+    <div class="form-group">
+      <label>العنوان (عربي)</label>
+      <input id="fTitleAr" type="text" placeholder="مثال: الحروف الهجائية">
+    </div>
+    <div class="form-group">
+      <label>Title (English)</label>
+      <input id="fTitleEn" type="text" placeholder="e.g. Arabic Alphabet">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>الوصف (عربي)</label>
+        <textarea id="fDescAr" placeholder="شرح مختصر"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Description (English)</label>
+        <textarea id="fDescEn" placeholder="Short description"></textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>التصنيف</label>
+      <select id="fCategory"></select>
+    </div>
+    
+    <!-- ARABIC VIDEO LINK -->
+    <div class="form-group">
+      <label>رابط الفيديو (عربي - Arabic Video)</label>
+      <input id="fVideoAr" type="text" placeholder="Leave blank if under construction">
+      <div class="form-hint">The video that shows when website is in Arabic.</div>
+    </div>
+
+    <!-- ENGLISH VIDEO LINK -->
+    <div class="form-group">
+      <label>رابط الفيديو (إنجليزي - English Video)</label>
+      <input id="fVideoEn" type="text" placeholder="Leave blank if under construction">
+      <div class="form-hint">The video that shows when website is in English.</div>
+    </div>
+
+    <div class="form-group">
+      <label>صورة الغلاف المخصصة (اختياري - Custom Thumbnail)</label>
+      <input id="fThumb" type="text" placeholder="Leave blank to auto-generate">
+    </div>
+    
+    <div class="form-row">
+      <div class="form-group">
+        <label>المدة</label>
+        <input id="fDuration" type="text" placeholder="5:30">
+      </div>
+      <div class="form-group">
+        <label>لون الغلاف (إن لم توجد صورة)</label>
+        <input id="fThumbColor" type="color" value="#ffe0e8">
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn-cancel" id="formCancel">إلغاء</button>
+      <button class="btn-save" id="formSave">حفظ</button>
+    </div>
+  </div>
+</div>
+
+<!-- Under Construction Alert -->
+<div class="alert-modal" id="alertModal">
+  <div class="alert-box">
+    <div class="icon">🚧</div>
+    <h2 id="alertTitle">تحت الانشاء</h2>
+    <p id="alertDesc">هذا الفيديو قيد الإنشاء، يرجى العودة لاحقاً!</p>
+    <button id="alertBtn">حسناً</button>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   🔐 ADMIN CONFIG
+   ============================================================ */
+const ADMIN_PIN = '1234';
+const ADMIN_KEY = 'arabicAdminOK'; // Separate key for this page
+
+const STRINGS = {
+  ar: {
+    home: 'الرئيسية',
+    headerTitle: '🗣️ تعلم اللغة العربية',
+    headerSub: 'دروس فيديو لتعلّم الحروف والمفردات العربية',
+    searchPlaceholder: '🔍 ابحثي عن درس...',
+    empty: 'لا توجد فيديوهات مطابقة 😊',
+    footer: 'تعلّمي العربية بسهولة — فيديو واحد في كل مرة 🌟',
+    langLabel: 'English',
+    addLabel: 'إضافة درس',
+    all: 'الكل',
+    formAddTitle: 'إضافة درس جديد',
+    formEditTitle: 'تعديل الدرس',
+    cancel: 'إلغاء',
+    save: 'حفظ',
+    confirmDelete: 'هل تريدين حذف هذا الدرس؟',
+    confirmReset: 'هل تريدين مسح كل الدروس المضافة والرجوع للقائمة الأصلية؟',
+    edit: 'تعديل',
+    del: 'حذف',
+    constructionTitle: 'تحت الانشاء',
+    constructionDesc: 'هذا الدرس قيد الإنشاء، يرجى العودة لاحقاً!',
+    btnOk: 'حسناً'
+  },
+  en: {
+    home: 'Home',
+    headerTitle: '🗣️ Arabic Learning',
+    headerSub: 'Video lessons to learn Arabic letters and vocabulary',
+    searchPlaceholder: '🔍 Search for a lesson...',
+    empty: 'No matching videos 😊',
+    footer: 'Learn Arabic easily — one video at a time 🌟',
+    langLabel: 'العربية',
+    addLabel: 'Add Lesson',
+    all: 'All',
+    formAddTitle: 'Add a new lesson',
+    formEditTitle: 'Edit lesson',
+    cancel: 'Cancel',
+    save: 'Save',
+    confirmDelete: 'Delete this lesson?',
+    confirmReset: 'Clear all added lessons and return to the default list?',
+    edit: 'Edit',
+    del: 'Delete',
+    constructionTitle: 'Under Construction',
+    constructionDesc: 'This lesson is coming soon. Please check back later!',
+    btnOk: 'Okay'
+  }
+};
+
+// 🔄 Look for 'siteLang' first, then fallback to 'arabicLang', then default to 'ar'
+let lang = localStorage.getItem('siteLang') || localStorage.getItem('arabicLang') || 'ar';
+if (lang !== 'ar' && lang !== 'en') lang = 'ar';
+
+function t(key) { return STRINGS[lang][key] || key; }
+
+// Custom categories for Arabic Learning
+const CATEGORIES = {
+  alphabet: { ar: 'الحروف الهجائية', en: 'Alphabet' },
+  vocab:    { ar: 'المفردات', en: 'Vocabulary' },
+  grammar:  { ar: 'القواعد', en: 'Grammar' },
+  reading:  { ar: 'القراءة', en: 'Reading' },
+  writing:  { ar: 'الكتابة', en: 'Writing' },
+  speaking: { ar: 'المحادثة', en: 'Speaking' }
+};
+
+const DEFAULT_VIDEOS = [
+  { id: 'alph-1', category: 'alphabet', title_ar: 'الحروف الهجائية', title_en: 'Arabic Alphabet', desc_ar: 'تعلم الحروف من الألف إلى الياء', desc_en: 'Learn the letters from Alif to Yaa', duration: '10:15', video_ar: '', video_en: '', thumbnail: '', thumbA: '#ffe0d4', thumbB: '#ffb8a8' },
+  { id: 'vocab-1', category: 'vocab', title_ar: 'أعضاء الجسم', title_en: 'Body Parts', desc_ar: 'تعلم أسماء أعضاء الجسم بالعربية', desc_en: 'Learn body parts in Arabic', duration: '6:30', video_ar: '', video_en: '', thumbA: '#d4f0ff', thumbB: '#b8e0ff' },
+  { id: 'grammar-1', category: 'grammar', title_ar: 'الضمائر', title_en: 'Pronouns', desc_ar: 'أنا، أنت، هو، هي...', desc_en: 'I, you, he, she...', duration: '8:45', video_ar: '', video_en: '', thumbA: '#d4ffd4', thumbB: '#a8e6a8' },
+  { id: 'read-1', category: 'reading', title_ar: 'قراءة الكلمات', title_en: 'Reading Words', desc_ar: 'كيف نقرأ الكلمات العربية', desc_en: 'How to read Arabic words', duration: '7:20', video_ar: '', video_en: '', thumbA: '#e0d4ff', thumbB: '#c4b8ff' }
+];
+
+function isAdminUnlocked() { return localStorage.getItem(ADMIN_KEY) === 'true'; }
+function setAdminUnlocked(v) {
+  if (v) localStorage.setItem(ADMIN_KEY, 'true');
+  else localStorage.removeItem(ADMIN_KEY);
+  document.body.classList.toggle('is-admin', v);
+  renderVideos();
+}
+
+function loadVideos() {
+  try {
+    const raw = localStorage.getItem('arabicVideosV1');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) return parsed;
+    }
+  } catch (e) {}
+  return JSON.parse(JSON.stringify(DEFAULT_VIDEOS));
+}
+function saveVideos(list) {
+  try { localStorage.setItem('arabicVideosV1', JSON.stringify(list)); } catch(e) {}
+}
+
+let VIDEOS = loadVideos();
+let editingId = null;
+let activeCategory = 'all';
+let searchQuery = '';
+
+const videoGrid   = document.getElementById('videoGrid');
+const emptyState  = document.getElementById('empty');
+const searchInput = document.getElementById('searchInput');
+const chipsWrap   = document.getElementById('chips');
+const langBtn     = document.getElementById('langBtn');
+const langLabel   = document.getElementById('langLabel');
+const headerTitle = document.getElementById('headerTitle');
+const headerSub   = document.getElementById('headerSub');
+const footer      = document.getElementById('footer');
+const addBtn      = document.getElementById('addBtn');
+const logoutBtn   = document.getElementById('logoutBtn');
+
+const pinModal    = document.getElementById('pinModal');
+const pinPad      = document.getElementById('pinPad');
+const pinDots     = document.querySelectorAll('#pinDots .pin-dot');
+const pinError    = document.getElementById('pinError');
+const pinCancel   = document.getElementById('pinCancel');
+
+const formModal   = document.getElementById('formModal');
+const formTitle   = document.getElementById('formTitle');
+const fTitleAr    = document.getElementById('fTitleAr');
+const fTitleEn    = document.getElementById('fTitleEn');
+const fDescAr     = document.getElementById('fDescAr');
+const fDescEn     = document.getElementById('fDescEn');
+const fCategory   = document.getElementById('fCategory');
+const fVideoAr    = document.getElementById('fVideoAr');
+const fVideoEn    = document.getElementById('fVideoEn');
+const fThumb      = document.getElementById('fThumb');
+const fDuration   = document.getElementById('fDuration');
+const fThumbColor = document.getElementById('fThumbColor');
+const formSave    = document.getElementById('formSave');
+const formCancel  = document.getElementById('formCancel');
+
+const alertModal  = document.getElementById('alertModal');
+const alertTitle  = document.getElementById('alertTitle');
+const alertDesc   = document.getElementById('alertDesc');
+const alertBtn    = document.getElementById('alertBtn');
+
+function applyLanguage() {
+  document.documentElement.lang = lang;
+  document.documentElement.dir  = lang === 'ar' ? 'rtl' : 'ltr';
+  langLabel.textContent = t('langLabel');
+  document.getElementById('addLabel').textContent = t('addLabel');
+  document.querySelector('[data-t="home"]').textContent = t('home');
+  headerTitle.textContent = t('headerTitle');
+  headerSub.textContent   = t('headerSub');
+  searchInput.placeholder = t('searchPlaceholder');
+  emptyState.textContent  = t('empty');
+  footer.textContent      = t('footer');
+  formCancel.textContent  = t('cancel');
+  formSave.textContent    = t('save');
+  
+  // Update Alert strings
+  alertTitle.textContent  = t('constructionTitle');
+  alertDesc.textContent   = t('constructionDesc');
+  alertBtn.textContent    = t('btnOk');
+  
+  renderChips();
+  renderVideos();
+}
+
+function renderChips() {
+  chipsWrap.innerHTML = '';
+  const allBtn = document.createElement('button');
+  allBtn.className = 'chip' + (activeCategory === 'all' ? ' active' : '');
+  allBtn.textContent = t('all');
+  allBtn.onclick = () => { activeCategory = 'all'; renderChips(); renderVideos(); };
+  chipsWrap.appendChild(allBtn);
+
+  Object.keys(CATEGORIES).forEach(catKey => {
+    const hasVideos = VIDEOS.some(v => v.category === catKey);
+    if (!hasVideos && !isAdminUnlocked()) return;
+    const btn = document.createElement('button');
+    btn.className = 'chip' + (activeCategory === catKey ? ' active' : '');
+    btn.textContent = lang === 'en' ? CATEGORIES[catKey].en : CATEGORIES[catKey].ar;
+    btn.onclick = () => { activeCategory = catKey; renderChips(); renderVideos(); };
+    chipsWrap.appendChild(btn);
+  });
+}
+
+/* ============================================================
+   🚀 AUTO-THUMBNAIL GENERATORS
+   ============================================================ */
+function getAutoThumbnail(videoUrl) {
+  if (!videoUrl) return '';
+  
+  // 1. YouTube Link
+  const ytMatch = videoUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+  if (ytMatch && ytMatch[1]) {
+    return `https://i.ytimg.com/vi/${ytMatch[1]}/hqdefault.jpg`;
+  }
+
+  // 2. Google Drive Link
+  const driveMatch = videoUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
+  if (driveMatch && driveMatch[1]) {
+    return `https://drive.google.com/thumbnail?id=${driveMatch[1]}&sz=w800`;
+  }
+
+  return '';
+}
+
+function getCleanVideoUrl(url) {
+  if (!url) return '';
+  if (url.includes('drive.google.com') && url.includes('/view')) {
+    return url.replace('/view', '/preview');
+  }
+  const driveMatch = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+  if (url.includes('drive.google.com') && driveMatch && !url.includes('/preview')) {
+      return `https://drive.google.com/file/d/${driveMatch[1]}/preview`;
+  }
+  return url;
+}
+
+function renderVideos() {
+  videoGrid.innerHTML = '';
+  const q = searchQuery.trim().toLowerCase();
+  const admin = isAdminUnlocked();
+
+  const matches = VIDEOS.filter(v => {
+    if (activeCategory !== 'all' && v.category !== activeCategory) return false;
+    if (!q) return true;
+    const haystack = [v.title_ar, v.title_en, v.desc_ar, v.desc_en, CATEGORIES[v.category]?.ar || '', CATEGORIES[v.category]?.en || ''].join(' ').toLowerCase();
+    return haystack.includes(q);
+  });
+
+  if (matches.length === 0) {
+    emptyState.classList.add('show');
+    return;
+  }
+  emptyState.classList.remove('show');
+
+  matches.forEach((v, i) => {
+    const title    = lang === 'en' ? v.title_en : v.title_ar;
+    const desc     = lang === 'en' ? v.desc_en  : v.desc_ar;
+    const catLabel = lang === 'en' ? CATEGORIES[v.category]?.en : CATEGORIES[v.category]?.ar;
+    
+    // Choose the correct video based on language
+    const rawVideoUrl = lang === 'en' ? v.video_en : v.video_ar;
+    const targetUrl = getCleanVideoUrl(rawVideoUrl);
+    
+    // Generate Thumbnail
+    let thumbUrl = v.thumbnail;
+    if (!thumbUrl && rawVideoUrl) {
+      thumbUrl = getAutoThumbnail(rawVideoUrl);
+    }
+    
+    // Check if we need to show "Under Construction"
+    const isConstruction = !targetUrl;
+
+    const card = document.createElement('div');
+    card.className = 'video-card';
+    card.style.animation = `fadeUp .35s ease ${i * 0.03}s backwards`;
+    
+    // Make it an interactive element
+    card.onclick = (e) => {
+       // Ignore clicks on admin buttons
+       if(e.target.closest('.card-admin-actions')) return;
+       
+       if (isConstruction) {
+           alertModal.classList.add('open');
+       } else {
+           window.open(targetUrl, '_blank', 'noopener,noreferrer');
+       }
+    };
+
+    const thumbInner = thumbUrl
+      ? `<img src="${thumbUrl}" alt="${title}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"> 
+         <div class="default-icon" style="display:none;">📖</div>`
+      : `<div class="default-icon">📖</div>`;
+
+    // Add construction overlay
+    const constructionOverlay = isConstruction 
+      ? `<div class="construction-badge">🚧<br>${t('constructionTitle')}</div>` 
+      : '';
+
+    card.innerHTML = `
+      <div class="thumb" style="--thumb-a:${v.thumbA || '#e8e8ff'}; --thumb-b:${v.thumbB || '#d0d0ff'}">
+        ${thumbInner}
+        ${!isConstruction ? `<div class="play-badge"><div class="circle">▶</div></div>` : ''}
+        ${constructionOverlay}
+        <span class="category-badge">${catLabel}</span>
+        ${v.duration ? `<span class="duration-badge">${v.duration}</span>` : ''}
+      </div>
+      <div class="card-body">
+        <h3 class="card-title">${escapeHtml(title)}</h3>
+        <p class="card-desc">${escapeHtml(desc || '')}</p>
+      </div>
+      <div class="card-admin-actions">
+        <button class="admin-btn edit" data-edit="${v.id}">✏️ ${t('edit')}</button>
+        <button class="admin-btn del"  data-del="${v.id}">🗑 ${t('del')}</button>
+      </div>
+    `;
+
+    videoGrid.appendChild(card);
+  });
+
+  if (admin) {
+    videoGrid.querySelectorAll('[data-edit]').forEach(btn => {
+      btn.onclick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const v = VIDEOS.find(x => x.id === btn.dataset.edit);
+        if (v) openForm(v);
+      };
+    });
+    videoGrid.querySelectorAll('[data-del]').forEach(btn => {
+      btn.onclick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!confirm(t('confirmDelete'))) return;
+        VIDEOS = VIDEOS.filter(x => x.id !== btn.dataset.del);
+        saveVideos(VIDEOS);
+        renderChips();
+        renderVideos();
+      };
+    });
+  }
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]));
+}
+
+/* ============================================================
+   PIN PAD
+   ============================================================ */
+let pinBuffer = '';
+function updatePinDots() {
+  pinDots.forEach((dot, i) => dot.classList.toggle('filled', i < pinBuffer.length));
+}
+function openPinModal() {
+  pinBuffer = '';
+  updatePinDots();
+  pinError.textContent = '';
+  pinModal.classList.add('open');
+}
+function closePinModal() {
+  pinModal.classList.remove('open');
+  pinBuffer = '';
+  updatePinDots();
+  pinError.textContent = '';
+}
+function submitPin() {
+  if (pinBuffer === ADMIN_PIN) {
+    setAdminUnlocked(true);
+    closePinModal();
+  } else {
+    pinError.textContent = '❌ الرقم غير صحيح';
+    pinBuffer = '';
+    updatePinDots();
+    setTimeout(() => { pinError.textContent = ''; }, 1500);
+  }
+}
+pinPad.addEventListener('click', e => {
+  const btn = e.target.closest('.pin-key');
+  if (!btn) return;
+  const k = btn.dataset.k;
+  if (k === 'clear') { pinBuffer = ''; updatePinDots(); }
+  else if (k === 'enter') { if (pinBuffer.length === 4) submitPin(); }
+  else if (/^\d$/.test(k)) {
+    if (pinBuffer.length < 4) {
+      pinBuffer += k;
+      updatePinDots();
+      if (pinBuffer.length === 4) setTimeout(submitPin, 200);
+    }
+  }
+});
+pinCancel.onclick = closePinModal;
+pinModal.addEventListener('click', e => { if (e.target === pinModal) closePinModal(); });
+
+let titlePressTimer = null;
+function startTitlePress() { titlePressTimer = setTimeout(openPinModal, 900); }
+function cancelTitlePress() { clearTimeout(titlePressTimer); }
+headerTitle.addEventListener('pointerdown', startTitlePress);
+headerTitle.addEventListener('pointerup', cancelTitlePress);
+headerTitle.addEventListener('pointerleave', cancelTitlePress);
+headerTitle.addEventListener('pointercancel', cancelTitlePress);
+headerTitle.addEventListener('contextmenu', e => e.preventDefault());
+
+/* ============================================================
+   ADD / EDIT FORM
+   ============================================================ */
+function populateCategorySelect() {
+  fCategory.innerHTML = '';
+  Object.keys(CATEGORIES).forEach(key => {
+    const opt = document.createElement('option');
+    opt.value = key;
+    opt.textContent = lang === 'en' ? CATEGORIES[key].en : CATEGORIES[key].ar;
+    fCategory.appendChild(opt);
+  });
+}
+function openForm(v = null) {
+  if (!isAdminUnlocked()) return;
+  editingId = v ? v.id : null;
+  formTitle.textContent = v ? t('formEditTitle') : t('formAddTitle');
+  populateCategorySelect();
+
+  if (v) {
+    fTitleAr.value    = v.title_ar || '';
+    fTitleEn.value    = v.title_en || '';
+    fDescAr.value     = v.desc_ar  || '';
+    fDescEn.value     = v.desc_en  || '';
+    fCategory.value   = v.category || 'general';
+    fVideoAr.value    = v.video_ar || '';
+    fVideoEn.value    = v.video_en || '';
+    fThumb.value      = v.thumbnail || '';
+    fDuration.value   = v.duration || '';
+    fThumbColor.value = v.thumbA || '#d4e0ff';
+  } else {
+    fTitleAr.value = fTitleEn.value = fDescAr.value = fDescEn.value = '';
+    fVideoAr.value = fVideoEn.value = fThumb.value = fDuration.value = '';
+    fCategory.value = 'alphabet';
+    fThumbColor.value = '#ffe0e8';
+  }
+  formModal.classList.add('open');
+  setTimeout(() => fTitleAr.focus(), 50);
+}
+function closeForm() {
+  formModal.classList.remove('open');
+  editingId = null;
+}
+
+formSave.onclick = () => {
+  if (!isAdminUnlocked()) return;
+  const titleAr = fTitleAr.value.trim();
+  const titleEn = fTitleEn.value.trim();
+  if (!titleAr && !titleEn) {
+    alert(lang === 'en' ? 'Please enter a title' : 'الرجاء إدخال عنوان');
+    return;
+  }
+  const id = editingId || ('v_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7));
+  
+  let vAr = fVideoAr.value.trim();
+  if (vAr.includes('drive.google.com') && vAr.includes('/view')) vAr = vAr.replace('/view', '/preview');
+  
+  let vEn = fVideoEn.value.trim();
+  if (vEn.includes('drive.google.com') && vEn.includes('/view')) vEn = vEn.replace('/view', '/preview');
+
+  const entry = {
+    id,
+    category: fCategory.value,
+    title_ar: titleAr || titleEn,
+    title_en: titleEn || titleAr,
+    desc_ar:  fDescAr.value.trim(),
+    desc_en:  fDescEn.value.trim(),
+    video_ar: vAr,
+    video_en: vEn,
+    thumbnail: fThumb.value.trim(),
+    duration: fDuration.value.trim(),
+    thumbA:   fThumbColor.value,
+    thumbB:   shadeColor(fThumbColor.value, -20)
+  };
+  if (editingId) {
+    const idx = VIDEOS.findIndex(x => x.id === editingId);
+    if (idx >= 0) VIDEOS[idx] = entry;
+  } else {
+    VIDEOS.unshift(entry);
+  }
+  saveVideos(VIDEOS);
+  closeForm();
+  renderChips();
+  renderVideos();
+};
+
+formCancel.onclick = closeForm;
+
+function shadeColor(hex, percent) {
+  const num = parseInt(hex.replace('#',''), 16);
+  const amt = Math.round(2.55 * percent);
+  const R = Math.max(0, Math.min(255, (num >> 16) + amt));
+  const G = Math.max(0, Math.min(255, ((num >> 8) & 0x00FF) + amt));
+  const B = Math.max(0, Math.min(255, (num & 0x0000FF) + amt));
+  return '#' + ((1 << 24) + (R << 16) + (G << 8) + B).toString(16).slice(1);
+}
+
+/* ============================================================
+   BUTTONS (ADD, LOGOUT, ALERT CLOSE)
+   ============================================================ */
+addBtn.onclick = () => { if (isAdminUnlocked()) openForm(null); };
+
+logoutBtn.onclick = () => {
+  setAdminUnlocked(false);
+  alert(lang === 'en' ? 'Admin mode closed' : 'تم إغلاق وضع الإدارة');
+};
+
+alertBtn.onclick = () => { alertModal.classList.remove('open'); };
+alertModal.addEventListener('click', e => { if(e.target === alertModal) alertModal.classList.remove('open'); });
+
+let addPressTimer;
+addBtn.addEventListener('pointerdown', () => {
+  addPressTimer = setTimeout(() => {
+    if (!isAdminUnlocked()) return;
+    if (confirm(t('confirmReset'))) {
+      localStorage.removeItem('arabicVideosV1');
+      VIDEOS = JSON.parse(JSON.stringify(DEFAULT_VIDEOS));
+      renderChips();
+      renderVideos();
+    }
+  }, 1200);
+});
+addBtn.addEventListener('pointerup', () => clearTimeout(addPressTimer));
+addBtn.addEventListener('pointerleave', () => clearTimeout(addPressTimer));
+
+/* ============================================================
+   LANGUAGE + SEARCH + MODAL
+   ============================================================ */
+langBtn.addEventListener('click', () => {
+  lang = lang === 'ar' ? 'en' : 'ar';
+  
+  // 🔄 CHANGED: Save BOTH keys so the main page stays in sync too
+  localStorage.setItem('siteLang', lang);
+  localStorage.setItem('arabicLang', lang);
+  
+  applyLanguage();
+});
+searchInput.addEventListener('input', e => {
+  searchQuery = e.target.value;
+  renderVideos();
+});
+formModal.addEventListener('click', e => { if (e.target === formModal) closeForm(); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeForm(); closePinModal(); alertModal.classList.remove('open'); }
+});
+
+/* ============================================================
+   INIT
+   ============================================================ */
+document.body.classList.toggle('is-admin', isAdminUnlocked());
+applyLanguage();
+
+const style = document.createElement('style');
+style.textContent = `@keyframes fadeUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}`;
+document.head.appendChild(style);
+</script>
+
+</body>
+</html>

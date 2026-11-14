@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Sara's Arcade · ساحة الألعاب</title>
+ <link rel="icon" type="image/png" href="../images/quran.png">
+  <link rel="apple-touch-icon" href="images/quran.png">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Amiri:wght@700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; min-height: 100%; }
+  body {
+    font-family: 'Cairo', sans-serif;
+    background: linear-gradient(160deg, #a8e6ff 0%, #f4efe1 60%, #ffe0f0 100%);
+    background-attachment: fixed;
+    color: #2d2a1f;
+    min-height: 100vh;
+    padding-bottom: 40px;
+    transition: direction .2s;
+  }
+
+  /* ===== Header ===== */
+  header {
+    text-align: center;
+    padding: 22px 16px 8px;
+    position: relative;
+  }
+  header h1 {
+    margin: 0 0 6px;
+    font-size: clamp(24px, 6vw, 40px);
+    font-weight: 900;
+    color: #2d5a2d;
+    text-shadow: 0 3px 0 #fff, 0 6px 14px #0002;
+    letter-spacing: 1px;
+  }
+  header p {
+    margin: 0;
+    color: #5a6b5a;
+    font-weight: 700;
+    font-size: clamp(13px, 3.5vw, 16px);
+  }
+
+  /* Language toggle — always top corner */
+  .lang-toggle {
+    position: absolute;
+    top: 16px;
+    inset-inline-end: 16px;
+    background: #fff;
+    border: 3px solid #fff;
+    border-radius: 999px;
+    padding: 8px 16px;
+    font-family: inherit;
+    font-weight: 900;
+    font-size: 14px;
+    color: #2d5a2d;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #0002, 0 8px 20px #0002;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: transform .12s;
+  }
+  .lang-toggle:active { transform: scale(.93); }
+
+  /* ===== Search ===== */
+  .search-wrap {
+    max-width: 560px;
+    margin: 18px auto 6px;
+    padding: 0 16px;
+  }
+  #searchInput {
+    width: 100%;
+    padding: 12px 18px;
+    border-radius: 999px;
+    border: 3px solid #fff;
+    background: #ffffffcc;
+    font-family: inherit;
+    font-size: 16px;
+    outline: none;
+    box-shadow: 0 4px 0 #0001, 0 8px 20px #0001;
+    text-align: center;
+  }
+  #searchInput::placeholder { color: #999; }
+
+  /* ===== Grid ===== */
+  .arcade {
+    max-width: 1100px;
+    margin: 16px auto;
+    padding: 0 14px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 14px;
+  }
+
+  .game-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background: #fff;
+    border-radius: 24px;
+    padding: 14px 10px 12px;
+    text-align: center;
+    box-shadow: 0 6px 0 rgba(0,0,0,.1), 0 12px 24px -6px rgba(0,0,0,.15);
+    transition: transform .14s ease, box-shadow .2s;
+    border: 3px solid #fff;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .game-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, var(--tile-a, #ffe), var(--tile-b, #fff));
+    opacity: .55;
+    z-index: 0;
+  }
+  .game-card > * { position: relative; z-index: 1; }
+
+  .game-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 0 rgba(0,0,0,.08), 0 18px 30px -8px rgba(0,0,0,.2);
+  }
+  .game-card:active {
+    transform: scale(.96);
+  }
+
+  .game-icon {
+    font-size: clamp(44px, 10vw, 60px);
+    line-height: 1;
+    margin-bottom: 6px;
+    filter: drop-shadow(0 3px 4px #0002);
+    display: block;
+  }
+  .game-title {
+    font-weight: 900;
+    font-size: clamp(13px, 3.4vw, 15px);
+    color: #2d3a2d;
+    line-height: 1.25;
+    margin: 0 0 4px;
+    min-height: 2.4em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .game-sub {
+    font-size: clamp(10px, 2.6vw, 12px);
+    color: #6b6b6b;
+    font-weight: 700;
+  }
+
+  .empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: #7a8a7a;
+    font-weight: 800;
+    font-size: 16px;
+    display: none;
+  }
+  .empty.show { display: block; }
+
+  footer {
+    text-align: center;
+    color: #7a8a7a;
+    font-weight: 700;
+    font-size: 13px;
+    margin-top: 30px;
+    padding: 0 20px;
+  }
+
+  @media (max-width: 480px) {
+    .arcade {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+  }
+
+  @keyframes fadeUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <button class="lang-toggle" id="langBtn">🌐 <span id="langLabel">English</span></button>
+  <h1 id="headerTitle">🎮 ساحة الألعاب</h1>
+  <p id="headerSub">Sara's Games Arcade · اختاري لعبة وابدئي المرح!</p>
+</header>
+
+<div class="search-wrap">
+  <input id="searchInput" type="search" placeholder="🔍 ابحثي عن لعبة..." autocomplete="off">
+</div>
+
+<div class="arcade" id="arcade"></div>
+<div class="empty" id="empty">لا توجد ألعاب بهذا الاسم 😊</div>
+
+<footer id="footer">كل الألعاب هنا — استمتعي! 🌟</footer>
+
+<script>
+/* ============================================================
+   LANGUAGE STRINGS
+   ============================================================ */
+const STRINGS = {
+  ar: {
+    headerTitle: '🎮 ساحة الألعاب',
+    headerSub: 'Sara\'s Games Arcade · اختاري لعبة وابدئي المرح!',
+    searchPlaceholder: '🔍 ابحثي عن لعبة...',
+    empty: 'لا توجد ألعاب بهذا الاسم 😊',
+    footer: 'كل الألعاب هنا — استمتعي! 🌟',
+    playLabel: 'اضغطي للعب ▶',
+    langLabel: 'English'
+  },
+  en: {
+    headerTitle: '🎮 Sara\'s Arcade',
+    headerSub: 'Choose a game and start the fun!',
+    searchPlaceholder: '🔍 Search for a game...',
+    empty: 'No games found 😊',
+    footer: 'All the games live here — have fun! 🌟',
+    playLabel: 'Tap to play ▶',
+    langLabel: 'العربية'
+  }
+};
+
+let lang = localStorage.getItem('arcadeLang') || 'ar';
+if (lang !== 'ar' && lang !== 'en') lang = 'ar';
+
+function t(key) { return STRINGS[lang][key] || key; }
+
+/* ============================================================
+   GAMES LIST
+   title_ar and title_en are used based on language.
+   ============================================================ */
+const GAMES = [
+  // Quran
+  { file: 'mushaf.html',                    title_ar: 'مصحفي الصغير',     title_en: 'My Little Mushaf',   icon: '📖', colorA: '#d4f0d4', colorB: '#b8e6b8', tags: 'quran mushaf مصحف قران' },
+  { file: 'quran-garden.html',              title_ar: 'حديقة القرآن',      title_en: 'Quran Garden',       icon: '🌸', colorA: '#ffd6e8', colorB: '#ffb8d1', tags: 'quran garden حديقة قران' },
+  { file: 'Quran-memo.html',                title_ar: 'رحلة الحفظ',        title_en: 'Memorization Journey', icon: '🕌', colorA: '#e8d4f0', colorB: '#d1b8e6', tags: 'quran memorization حفظ' },
+
+  // Fun
+  { file: 'Pop-the-Balloons.html',          title_ar: 'انفخ البالونات',    title_en: 'Pop the Balloons',   icon: '🎈', colorA: '#ffe0e0', colorB: '#ffb8b8', tags: 'balloons pop بالونات' },
+  { file: 'Bubble-Pop-Adventure.html',      title_ar: 'فقاعات',            title_en: 'Bubble Pop',         icon: '🫧', colorA: '#d4e8ff', colorB: '#b8d1ff', tags: 'bubble pop فقاعات' },
+  { file: 'Animal-Parade.html',             title_ar: 'عرض الحيوانات',     title_en: 'Animal Parade',      icon: '🐘', colorA: '#ffe8d4', colorB: '#ffd1b8', tags: 'animals حيوانات' },
+  { file: 'Feed-the-Fish.html',             title_ar: 'أطعمي السمكة',      title_en: 'Feed the Fish',      icon: '🐟', colorA: '#d4f0ff', colorB: '#b8e0ff', tags: 'fish سمك' },
+  { file: 'Feed-the-Hungry-Monster.html',   title_ar: 'أطعمي الوحش',       title_en: 'Hungry Monster',     icon: '👾', colorA: '#e0d4ff', colorB: '#d1b8ff', tags: 'monster food وحش' },
+  { file: 'find-shape.html',                title_ar: 'اكتشفي الشكل',      title_en: 'Find the Shape',     icon: '🔺', colorA: '#fff0d4', colorB: '#ffe0b8', tags: 'shapes أشكال' },
+  { file: 'Find-the-Difference.html',       title_ar: 'الفرق بين الصورتين', title_en: 'Find the Difference', icon: '🔍', colorA: '#d4ffe8', colorB: '#b8ffd1', tags: 'difference فرق' },
+  { file: 'coloring.html',                  title_ar: 'كتاب التلوين',      title_en: 'Coloring Book',      icon: '🎨', colorA: '#ffd4f0', colorB: '#e6b8ff', tags: 'coloring art تلوين' },
+  { file: 'games22.html',                   title_ar: 'حزمة المرح',        title_en: 'Playtime Pack',      icon: '🌈', colorA: '#fff4c4', colorB: '#ffe680', tags: 'fun playtime ألعاب' },
+
+  // Board
+  { file: 'Tic-Tac-Toe.html',               title_ar: 'إكس أو',            title_en: 'Tic Tac Toe',        icon: '⭕', colorA: '#e8f0ff', colorB: '#d4e0ff', tags: 'tic tac toe xo' },
+  { file: 'connect.html',                   title_ar: 'أربعة في صف',       title_en: 'Connect Four',       icon: '🔴', colorA: '#ffe0d4', colorB: '#ffd1b8', tags: 'connect four أربعة' },
+  { file: 'Dots&Boxes.html',                title_ar: 'نقاط ومربعات',      title_en: 'Dots & Boxes',       icon: '🔲', colorA: '#e0f0e8', colorB: '#c4e6d4', tags: 'dots boxes نقاط' },
+  { file: 'Mills.html',                     title_ar: 'طاحونة',            title_en: 'Mills',              icon: '⚫', colorA: '#f0e8e0', colorB: '#e6d4c4', tags: 'mills board' },
+
+  // Arabic learning
+  { file: 'game.html',                      title_ar: 'الحروف العربية',    title_en: 'Arabic Letters',     icon: '🦉', colorA: '#fff4d4', colorB: '#ffe8b8', tags: 'arabic letters حروف عربي' },
+  { file: 'games.html',                     title_ar: 'الأركيد العربي',    title_en: 'Arabic Arcade',      icon: '🎓', colorA: '#ffe0f0', colorB: '#ffd4e8', tags: 'arabic arcade عربي' },
+  { file: 'games2.html',                    title_ar: 'الأركيد العربي الكبير', title_en: 'Arabic Mega Arcade', icon: '🏫', colorA: '#e0f0ff', colorB: '#d4e6ff', tags: 'arabic mega arcade عربي' },
+];
+
+/* ============================================================
+   DOM
+   ============================================================ */
+const arcade      = document.getElementById('arcade');
+const emptyState  = document.getElementById('empty');
+const searchInput = document.getElementById('searchInput');
+const langBtn     = document.getElementById('langBtn');
+const langLabel   = document.getElementById('langLabel');
+const headerTitle = document.getElementById('headerTitle');
+const headerSub   = document.getElementById('headerSub');
+const footer      = document.getElementById('footer');
+
+/* ============================================================
+   APPLY LANGUAGE
+   ============================================================ */
+function applyLanguage() {
+  document.documentElement.lang = lang;
+  document.documentElement.dir  = lang === 'ar' ? 'rtl' : 'ltr';
+  langLabel.textContent         = t('langLabel');
+  headerTitle.textContent       = t('headerTitle');
+  headerSub.textContent         = t('headerSub');
+  searchInput.placeholder       = t('searchPlaceholder');
+  emptyState.textContent        = t('empty');
+  footer.textContent            = t('footer');
+  renderGames(searchInput.value);
+}
+
+/* ============================================================
+   RENDER GAMES
+   ============================================================ */
+function renderGames(filter = '') {
+  const f = filter.trim().toLowerCase();
+  arcade.innerHTML = '';
+
+  const matches = GAMES.filter(g => {
+    if (!f) return true;
+    const haystack = [
+      g.title_ar, g.title_en, g.file, g.tags
+    ].join(' ').toLowerCase();
+    return haystack.includes(f);
+  });
+
+  if (matches.length === 0) {
+    emptyState.classList.add('show');
+    return;
+  }
+  emptyState.classList.remove('show');
+
+  matches.forEach((g, i) => {
+    const card = document.createElement('a');
+    card.className = 'game-card';
+    card.href = g.file;
+    card.style.setProperty('--tile-a', g.colorA || '#fff');
+    card.style.setProperty('--tile-b', g.colorB || '#eef');
+    card.style.animation = `fadeUp .35s ease ${i * 0.02}s backwards`;
+
+    const title = lang === 'en' ? g.title_en : g.title_ar;
+    card.innerHTML = `
+      <span class="game-icon">${g.icon}</span>
+      <div class="game-title">${title}</div>
+      <div class="game-sub">${t('playLabel')}</div>
+    `;
+    arcade.appendChild(card);
+  });
+}
+
+/* ============================================================
+   EVENTS
+   ============================================================ */
+searchInput.addEventListener('input', e => renderGames(e.target.value));
+
+langBtn.addEventListener('click', () => {
+  lang = lang === 'ar' ? 'en' : 'ar';
+  localStorage.setItem('arcadeLang', lang);
+  applyLanguage();
+});
+
+/* ============================================================
+   INIT
+   ============================================================ */
+applyLanguage();
+</script>
+
+</body>
+</html>

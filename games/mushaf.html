@@ -1,0 +1,1565 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>مصحفي الصغير · My Little Mushaf</title>
+ <link rel="icon" type="image/png" href="../images/quran.png">
+  <link rel="apple-touch-icon" href="images/quran.png">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Amiri:wght@700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  :root { --cream: #fff8e1; --ink: #2d2a1f; --gold: #ffd93d; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    font-family: 'Cairo', sans-serif;
+    background: #f4efe1; color: var(--ink);
+    touch-action: manipulation; user-select: none;
+  }
+
+  header {
+    position: sticky; top: 0; z-index: 10;
+    background: linear-gradient(135deg, #7ed957, #4caf50);
+    padding: 10px 14px;
+    display: flex; align-items: center; justify-content: space-between;
+    box-shadow: 0 3px 0 #0002;
+    gap: 8px;
+  }
+  .title {
+    color: #fff; font-weight: 900;
+    font-size: clamp(15px, 4.2vw, 20px);
+    text-shadow: 0 2px 0 #0003;
+    flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .header-actions { display: flex; gap: 6px; align-items: center; }
+  .icon-btn {
+    background: #fff3; border: 2px solid #fff6;
+    color: #fff; border-radius: 999px;
+    width: 42px; height: 42px;
+    font-size: 20px; cursor: pointer;
+    display: grid; place-items: center;
+    transition: transform .12s;
+  }
+  .icon-btn:active { transform: scale(.9); }
+  .stars {
+    background: #fff; border-radius: 999px;
+    padding: 6px 12px; font-weight: 900;
+    color: #ff8f00; font-size: clamp(13px, 3.5vw, 16px);
+    box-shadow: 0 3px 0 #0002; white-space: nowrap;
+  }
+
+  #juzList { padding-bottom: 30px; }
+  .juz {
+    margin: 10px; background: #fff;
+    border-radius: 18px; padding: 10px 12px 12px;
+    box-shadow: 0 2px 0 #0001;
+    border-inline-start: 8px solid var(--juz-color);
+  }
+  .juz-label {
+    display: flex; align-items: center; gap: 8px;
+    font-weight: 900; font-size: clamp(14px, 3.6vw, 17px);
+    color: var(--juz-color); margin-bottom: 8px;
+  }
+  .juz-label .dot { width: 14px; height: 14px; border-radius: 50%; background: var(--juz-color); }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(68px, 1fr));
+    gap: 6px;
+  }
+  .tile {
+    aspect-ratio: 1; border-radius: 14px; border: none;
+    background: var(--juz-color-soft); color: #2d2a1f;
+    font-family: 'Amiri', serif; font-weight: 700;
+    font-size: clamp(10px, 2.4vw, 13px);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 2px; cursor: pointer; position: relative;
+    transition: transform .12s, box-shadow .2s;
+    line-height: 1.1; text-align: center;
+    box-shadow: 0 3px 0 rgba(0,0,0,.12);
+  }
+  .tile:active { transform: scale(.92); }
+  .tile .num {
+    position: absolute; top: 2px; inset-inline-end: 5px;
+    font-size: 9px; opacity: .55;
+    font-family: 'Cairo', sans-serif;
+  }
+  .tile .emoji { font-size: clamp(18px, 4.5vw, 26px); line-height: 1; }
+  .tile .name {
+    margin-top: 2px; max-width: 100%;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  body[dir="ltr"] .tile .name { font-family: 'Cairo', sans-serif; font-size: 10px; }
+  .tile .star-badge {
+    position: absolute; bottom: 2px; inset-inline-start: 3px;
+    font-size: 9px; font-weight: 900; color: #d4a300;
+    background: #fff8; border-radius: 999px; padding: 0 4px;
+    font-family: 'Cairo', sans-serif;
+  }
+  .tile.done {
+    background: var(--juz-color); color: #fff;
+    box-shadow: 0 3px 0 rgba(0,0,0,.25), 0 0 0 3px #ffd93d;
+  }
+  .tile.done .star-badge { background: #fff; color: #d4a300; }
+
+  .modal {
+    position: fixed; inset: 0; z-index: 50;
+    background: rgba(0,0,0,.6);
+    display: none; place-items: center;
+    padding: 10px;
+  }
+  .modal.open { display: grid; }
+  .ayah-card {
+    background: var(--cream);
+    border-radius: 24px; padding: 0;
+    max-width: 500px; width: 100%;
+    max-height: 92vh;
+    display: flex; flex-direction: column;
+    box-shadow: 0 20px 60px #0005;
+    border: 4px solid #fff;
+    animation: popin .3s cubic-bezier(.34,1.56,.64,1);
+    overflow: hidden;
+  }
+  @keyframes popin { from { transform: scale(.7); opacity: 0; } }
+
+  .ayah-head {
+    background: var(--card-color, #4caf50);
+    color: #fff; padding: 14px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-shrink: 0; gap: 8px;
+  }
+  .ayah-head h2 {
+    font-size: clamp(18px, 5vw, 24px);
+    margin: 0; font-weight: 700;
+    flex: 1; text-align: center;
+    font-family: 'Amiri', serif;
+  }
+  body[dir="ltr"] .ayah-head h2 { font-family: 'Cairo', sans-serif; }
+  .ayah-head .close-x {
+    background: #fff3; border: none; color: #fff;
+    font-size: 20px; width: 34px; height: 34px;
+    border-radius: 50%; cursor: pointer; font-weight: 900;
+    display: grid; place-items: center; flex-shrink: 0;
+  }
+
+  .ayah-body {
+    overflow-y: auto; padding: 10px 12px 16px;
+    flex: 1; -webkit-overflow-scrolling: touch;
+  }
+  .ayah-row {
+    display: flex; align-items: flex-start; gap: 8px;
+    padding: 10px 6px; border-bottom: 1px dashed #ddd6c0;
+  }
+  .ayah-row:last-child { border-bottom: none; }
+  .ayah-text {
+    flex: 1;
+    font-family: 'Amiri', serif;
+    font-size: clamp(18px, 4.8vw, 22px);
+    line-height: 1.8;
+    text-align: start; direction: rtl;
+  }
+  .ayah-num {
+    font-family: 'Cairo', sans-serif;
+    font-size: 12px; font-weight: 700;
+    color: #fff; background: var(--card-color, #4caf50);
+    width: 24px; height: 24px; border-radius: 50%;
+    display: grid; place-items: center; flex-shrink: 0;
+    margin-top: 4px;
+  }
+  .star-btn {
+    background: none; border: none;
+    font-size: 28px; cursor: pointer;
+    padding: 0; line-height: 1;
+    flex-shrink: 0; margin-top: 2px;
+    transition: transform .15s;
+  }
+  .star-btn:active { transform: scale(1.3); }
+  .star-btn.earned { filter: drop-shadow(0 0 6px #ffd93d); }
+
+  .ayah-foot {
+    padding: 10px 14px 14px;
+    display: flex; gap: 8px; flex-shrink: 0;
+    background: var(--cream);
+    border-top: 2px solid #eee5cc;
+  }
+  .ayah-foot button {
+    flex: 1; border: none; border-radius: 18px;
+    padding: 12px; font-family: inherit; font-weight: 900;
+    font-size: clamp(13px, 3.5vw, 15px);
+    cursor: pointer; box-shadow: 0 4px 0 #0002;
+    transition: transform .1s;
+  }
+  .ayah-foot button:active { transform: translateY(2px); box-shadow: 0 2px 0 #0002; }
+  .btn-listen { background: #a8e6ff; color: #004d66; }
+  .btn-all { background: #ffd93d; color: #7a5c00; }
+
+  .loading {
+    text-align: center; padding: 40px 20px;
+    font-weight: 700; color: #888;
+  }
+  .loading .spin {
+    display: inline-block; font-size: 40px;
+    animation: spin 1s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .reward-card {
+    background: var(--cream); border-radius: 32px;
+    padding: 26px 22px 20px; max-width: 380px; width: 100%;
+    text-align: center; border: 5px solid #fff;
+    box-shadow: 0 20px 60px #0005;
+    animation: popin .35s cubic-bezier(.34,1.56,.64,1);
+  }
+  .reward-card .big { font-size: 80px; line-height: 1; }
+  .reward-card h2 {
+    font-family: 'Amiri', serif;
+    font-size: clamp(24px, 7vw, 30px);
+    margin: 8px 0; color: #2d5a2d;
+  }
+  body[dir="ltr"] .reward-card h2 { font-family: 'Cairo', sans-serif; }
+  .reward-card p { color: #6b6b6b; font-size: 15px; margin: 6px 0 16px; }
+  .reward-card button {
+    width: 100%; border: none; border-radius: 20px;
+    padding: 14px; background: #7ed957; color: #fff;
+    font-family: inherit; font-weight: 900; font-size: 18px;
+    cursor: pointer; box-shadow: 0 4px 0 #4caf50;
+  }
+
+  .games-hub {
+    position: fixed; inset: 0; z-index: 55;
+    background: linear-gradient(160deg, #a8e6ff, #f4efe1 70%);
+    display: none; flex-direction: column;
+    overflow-y: auto;
+  }
+  .games-hub.open { display: flex; }
+  .games-head {
+    padding: 14px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: #fff9; backdrop-filter: blur(6px);
+    position: sticky; top: 0; z-index: 2;
+  }
+  .games-head h2 {
+    margin: 0; font-size: clamp(18px, 5vw, 24px);
+    color: #2d5a2d;
+  }
+  .games-body {
+    padding: 16px; flex: 1;
+    display: flex; flex-direction: column;
+    gap: 14px; max-width: 560px;
+    margin: 0 auto; width: 100%;
+  }
+  .game-card {
+    background: #fff; border-radius: 22px;
+    padding: 18px 16px;
+    display: flex; align-items: center; gap: 14px;
+    cursor: pointer; border: none; text-align: start;
+    box-shadow: 0 4px 0 rgba(0,0,0,.1);
+    transition: transform .12s;
+    font-family: inherit;
+  }
+  .game-card:active { transform: scale(.97); }
+  .game-card .game-icon {
+    font-size: 46px; flex-shrink: 0;
+    width: 64px; height: 64px;
+    display: grid; place-items: center;
+    background: var(--game-color, #ffe);
+    border-radius: 18px;
+  }
+  .game-card .game-info { flex: 1; }
+  .game-card .game-info h3 {
+    margin: 0 0 4px; font-size: clamp(16px, 4.3vw, 19px);
+    color: #2d5a2d;
+  }
+  .game-card .game-info p {
+    margin: 0; font-size: 13px; color: #6b6b6b;
+  }
+
+  .game-screen {
+    position: fixed; inset: 0; z-index: 58;
+    background: #a8e6ff;
+    display: none; flex-direction: column;
+  }
+  .game-screen.open { display: flex; }
+  .game-top {
+    padding: 12px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: #fff9; backdrop-filter: blur(6px);
+    flex-shrink: 0;
+  }
+  .game-top h3 { margin: 0; font-size: clamp(16px, 4.5vw, 20px); color: #2d5a2d; }
+  .game-stat {
+    background: #fff; border-radius: 999px; padding: 6px 14px;
+    font-weight: 900; font-size: clamp(14px, 3.8vw, 17px); color: #ff8f00;
+    box-shadow: 0 2px 0 #0001;
+  }
+  .game-area {
+    flex: 1; position: relative; overflow: hidden;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 16px;
+  }
+
+  #starCatcherArea { overflow: hidden; cursor: crosshair; }
+  .falling-star {
+    position: absolute; top: -40px;
+    font-size: 42px; cursor: pointer;
+    filter: drop-shadow(0 2px 4px #0003);
+    animation: fallStar linear forwards;
+    transition: transform .1s;
+  }
+  .falling-star:active { transform: scale(1.3); }
+  @keyframes fallStar { to { transform: translateY(110vh) rotate(360deg); } }
+  .caught-pop {
+    position: absolute; font-size: 22px; font-weight: 900;
+    color: #ff8f00; pointer-events: none;
+    animation: popUp .6s ease-out forwards;
+  }
+  @keyframes popUp { to { transform: translateY(-60px); opacity: 0; } }
+
+  .memory-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 10px; max-width: 360px; width: 100%;
+  }
+  .mem-card {
+    aspect-ratio: 1; border-radius: 18px;
+    background: #4caf50; border: none;
+    font-size: 44px; cursor: pointer;
+    display: grid; place-items: center;
+    box-shadow: 0 4px 0 #2e7d32;
+    transition: transform .15s, background .2s;
+    color: #fff;
+  }
+  .mem-card:active { transform: scale(.95); }
+  .mem-card.flipped { background: #fff; box-shadow: 0 4px 0 #ccc; }
+  .mem-card.matched {
+    background: #ffd93d; box-shadow: 0 4px 0 #d4a300;
+    animation: matchedPop .4s;
+  }
+  @keyframes matchedPop { 50% { transform: scale(1.15) rotate(10deg); } }
+
+  .find-prompt {
+    font-size: clamp(18px, 5vw, 24px);
+    font-weight: 900; color: #2d5a2d;
+    margin-bottom: 18px; text-align: center;
+    background: #fff; padding: 12px 20px; border-radius: 18px;
+    box-shadow: 0 3px 0 #0001;
+  }
+  .find-options {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 12px; max-width: 400px; width: 100%;
+  }
+  .find-btn {
+    aspect-ratio: 1.2; border-radius: 22px;
+    background: #fff; border: 4px solid #4caf50;
+    font-family: 'Cairo', sans-serif; font-weight: 700;
+    font-size: clamp(13px, 3.5vw, 18px);
+    color: #2d5a2d; cursor: pointer;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 4px;
+    box-shadow: 0 5px 0 #0002;
+    transition: transform .12s;
+  }
+  .find-btn:active { transform: scale(.95); }
+  .find-btn .big-emoji { font-size: 36px; }
+  .find-btn.correct { background: #7ed957; color: #fff; border-color: #4caf50; animation: correctPop .5s; }
+  .find-btn.wrong { background: #ffd1d1; border-color: #e57373; animation: shake .4s; }
+  @keyframes correctPop { 50% { transform: scale(1.1); } }
+  @keyframes shake {
+    25% { transform: translateX(-6px); }
+    50% { transform: translateX(6px); }
+    75% { transform: translateX(-4px); }
+  }
+
+  .game-finish {
+    position: absolute; inset: 0;
+    background: #fff8e1; display: grid; place-items: center;
+    text-align: center; padding: 20px; z-index: 5;
+    animation: popin .4s;
+  }
+  .game-finish .big { font-size: 80px; }
+  .game-finish h3 {
+    font-size: clamp(22px, 6vw, 28px);
+    color: #2d5a2d; margin: 8px 0;
+  }
+  .game-finish p { color: #6b6b6b; margin: 6px 0 16px; }
+  .game-finish button {
+    border: none; border-radius: 20px;
+    padding: 14px 32px; font-family: inherit;
+    font-weight: 900; font-size: 17px;
+    background: #7ed957; color: #fff;
+    cursor: pointer; box-shadow: 0 4px 0 #4caf50;
+    margin: 6px;
+  }
+
+  .confetti {
+    position: fixed; top: -20px;
+    width: 10px; height: 16px;
+    z-index: 100; pointer-events: none;
+    animation: fall linear forwards;
+  }
+  @keyframes fall { to { transform: translateY(105vh) rotate(720deg); opacity: .3; } }
+
+  /* ============ WHITEBOARD ============ */
+  .whiteboard {
+    position: fixed; inset: 0; z-index: 60;
+    background: #fff;
+    display: none; flex-direction: column;
+  }
+  .whiteboard.open { display: flex; }
+
+  .wb-top {
+    padding: 8px 12px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: #ffe066; flex-shrink: 0;
+    box-shadow: 0 2px 0 #0001;
+    gap: 8px;
+  }
+  .wb-top h3 {
+    margin: 0; color: #6b4e00;
+    font-size: clamp(15px, 4vw, 18px);
+  }
+  .wb-top .icon-btn {
+    background: #00000022; border-color: #00000033; color: #6b4e00;
+  }
+
+  /* Tools bar */
+  .wb-tools {
+    background: #fff8e1;
+    padding: 8px 10px;
+    display: flex; flex-wrap: wrap; gap: 6px;
+    align-items: center;
+    border-bottom: 2px solid #eee2b8;
+    flex-shrink: 0;
+  }
+  .tool-group {
+    display: flex; gap: 4px; align-items: center;
+    padding: 3px 6px;
+    background: #fff; border-radius: 14px;
+    box-shadow: 0 2px 0 #00000010;
+  }
+  .tool-group-label {
+    font-size: 11px; font-weight: 900;
+    color: #a08540; padding-inline-end: 4px;
+  }
+  .color-swatch {
+    width: 28px; height: 28px; border-radius: 50%;
+    border: 3px solid #fff;
+    box-shadow: 0 2px 0 #00000022;
+    cursor: pointer;
+    transition: transform .12s;
+    flex-shrink: 0;
+  }
+  .color-swatch:active { transform: scale(.9); }
+  .color-swatch.active {
+    box-shadow: 0 0 0 3px #ffb300, 0 2px 0 #00000022;
+    transform: scale(1.08);
+  }
+  .tool-btn {
+    width: 36px; height: 36px;
+    border: 2px solid #ddd; border-radius: 10px;
+    background: #fff; cursor: pointer;
+    display: grid; place-items: center;
+    font-size: 18px;
+    transition: transform .12s, background .12s;
+    flex-shrink: 0;
+  }
+  .tool-btn:active { transform: scale(.9); }
+  .tool-btn.active {
+    background: #ffe066;
+    border-color: #ffb300;
+    box-shadow: 0 0 0 2px #ffb30055;
+  }
+
+  .wb-canvas-wrap {
+    flex: 1; position: relative;
+    overflow: hidden; background: #fff;
+    cursor: crosshair;
+    touch-action: none;
+  }
+  #wbCanvas {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    display: block;
+    touch-action: none;
+  }
+
+  /* Sticker picker */
+  .sticker-picker {
+    background: #fff8e1;
+    padding: 8px 10px;
+    border-top: 2px solid #eee2b8;
+    display: none;
+    gap: 6px;
+    overflow-x: auto;
+    flex-shrink: 0;
+  }
+  .sticker-picker.open { display: flex; }
+  .sticker-picker .stick {
+    font-size: 32px;
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    background: #fff; border: 2px solid #eee;
+    cursor: pointer;
+    display: grid; place-items: center;
+    flex-shrink: 0;
+    transition: transform .12s;
+  }
+  .sticker-picker .stick:active { transform: scale(.9); }
+  .sticker-picker .stick.active {
+    border-color: #ffb300;
+    background: #fff3c4;
+    box-shadow: 0 0 0 2px #ffb30055;
+  }
+
+  .wb-hint {
+    position: absolute; bottom: 12px; left: 50%;
+    transform: translateX(-50%);
+    background: #00000099; color: #fff;
+    padding: 8px 16px; border-radius: 999px;
+    font-size: 13px; font-weight: 700;
+    pointer-events: none;
+    transition: opacity .4s;
+    white-space: nowrap;
+    z-index: 5;
+  }
+  .wb-hint.hide { opacity: 0; }
+
+  @media (max-width: 500px) {
+    .tool-group-label { display: none; }
+    .tool-group { padding: 2px 4px; }
+    .color-swatch { width: 24px; height: 24px; }
+    .tool-btn { width: 32px; height: 32px; font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="title" id="appTitle">📖 مصحفي الصغير</div>
+  <div class="header-actions">
+    <div class="stars" id="totalStars">⭐ 0</div>
+    <button class="icon-btn" id="btnLang" title="Language">🌐</button>
+    <button class="icon-btn" id="btnBoard" title="Whiteboard">🖍️</button>
+    <button class="icon-btn" id="btnGames" title="Games">🎮</button>
+  </div>
+</header>
+
+<div id="juzList"></div>
+
+<div class="modal" id="ayahModal">
+  <div class="ayah-card" id="ayahCard">
+    <div class="ayah-head" id="ayahHead">
+      <button class="close-x" id="btnCloseAyah">✕</button>
+      <h2 id="ayahTitle">الفاتحة</h2>
+      <span id="ayahStarCount" style="font-weight:900;font-size:14px;">⭐ 0/0</span>
+    </div>
+    <div class="ayah-body" id="ayahBody">
+      <div class="loading"><div class="spin">📖</div><br><span data-t="loading">جاري تحميل السورة...</span></div>
+    </div>
+    <div class="ayah-foot">
+      <button class="btn-listen" id="btnListenSurah" data-t="listen">🔊 اسمعي</button>
+      <button class="btn-all" id="btnAllStars" data-t="allStars">⭐ كل النجوم</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="rewardModal">
+  <div class="reward-card">
+    <div class="big" id="rewardEmoji">🎉</div>
+    <h2 id="rewardTitle" data-t="wellDone">أحسنتِ يا بطلة!</h2>
+    <p id="rewardText" data-t="newStar">نجمة جديدة!</p>
+    <button id="btnRewardClose" data-t="great">🌟 رائع</button>
+  </div>
+</div>
+
+<div class="games-hub" id="gamesHub">
+  <div class="games-head">
+    <h2 data-t="gamesTitle">🎮 الألعاب</h2>
+    <button class="icon-btn" id="btnCloseGames" style="background:#0002;border-color:#0003;color:#333;">✕</button>
+  </div>
+  <div class="games-body">
+    <button class="game-card" id="game1Btn">
+      <div class="game-icon" style="--game-color:#fff3c4;">⭐</div>
+      <div class="game-info">
+        <h3 data-t="game1Name">صائد النجوم</h3>
+        <p data-t="game1Desc">التقطي أكبر عدد من النجوم قبل أن تسقط!</p>
+      </div>
+    </button>
+    <button class="game-card" id="game2Btn">
+      <div class="game-icon" style="--game-color:#e1f5e1;">🃏</div>
+      <div class="game-info">
+        <h3 data-t="game2Name">لعبة الذاكرة</h3>
+        <p data-t="game2Desc">اقلب البطاقات وطابقي الأزواج المتشابهة</p>
+      </div>
+    </button>
+    <button class="game-card" id="game3Btn">
+      <div class="game-icon" style="--game-color:#e1e9ff;">🔍</div>
+      <div class="game-info">
+        <h3 data-t="game3Name">اكتشفي السورة</h3>
+        <p data-t="game3Desc">اختاري السورة الصحيحة من بين الخيارات</p>
+      </div>
+    </button>
+  </div>
+</div>
+
+<div class="game-screen" id="game1Screen">
+  <div class="game-top">
+    <h3 data-t="game1Name">⭐ صائد النجوم</h3>
+    <span class="game-stat" id="g1Score">⭐ 0</span>
+    <button class="icon-btn" onclick="closeGame('game1Screen')" style="background:#0002;border-color:#0003;color:#333;">✕</button>
+  </div>
+  <div class="game-area" id="starCatcherArea"></div>
+</div>
+
+<div class="game-screen" id="game2Screen" style="background:#e1f5e1;">
+  <div class="game-top">
+    <h3 data-t="game2Name">🃏 لعبة الذاكرة</h3>
+    <span class="game-stat" id="g2Score">0 / 6</span>
+    <button class="icon-btn" onclick="closeGame('game2Screen')" style="background:#0002;border-color:#0003;color:#333;">✕</button>
+  </div>
+  <div class="game-area" id="memoryArea"></div>
+</div>
+
+<div class="game-screen" id="game3Screen" style="background:#e1e9ff;">
+  <div class="game-top">
+    <h3 data-t="game3Name">🔍 اكتشفي السورة</h3>
+    <span class="game-stat" id="g3Score">0 / 5</span>
+    <button class="icon-btn" onclick="closeGame('game3Screen')" style="background:#0002;border-color:#0003;color:#333;">✕</button>
+  </div>
+  <div class="game-area" id="findArea"></div>
+</div>
+
+<!-- ============ WHITEBOARD ============ -->
+<div class="whiteboard" id="whiteboard">
+  <div class="wb-top">
+    <h3 data-t="wbTitle">🖍️ السبورة</h3>
+    <button class="icon-btn" id="btnCloseBoard">✕</button>
+  </div>
+
+  <div class="wb-tools">
+    <div class="tool-group">
+      <span class="tool-group-label" data-t="wbColors">الألوان</span>
+      <div class="color-swatch active" style="background:#e53935" data-color="#e53935"></div>
+      <div class="color-swatch" style="background:#fb8c00" data-color="#fb8c00"></div>
+      <div class="color-swatch" style="background:#fdd835" data-color="#fdd835"></div>
+      <div class="color-swatch" style="background:#43a047" data-color="#43a047"></div>
+      <div class="color-swatch" style="background:#1e88e5" data-color="#1e88e5"></div>
+      <div class="color-swatch" style="background:#8e24aa" data-color="#8e24aa"></div>
+      <div class="color-swatch" style="background:#ec407a" data-color="#ec407a"></div>
+      <div class="color-swatch" style="background:#212121" data-color="#212121"></div>
+    </div>
+
+    <div class="tool-group">
+      <span class="tool-group-label" data-t="wbSize">الحجم</span>
+      <button class="tool-btn" data-size="3">•</button>
+      <button class="tool-btn active" data-size="6">●</button>
+      <button class="tool-btn" data-size="12">⬤</button>
+    </div>
+
+    <div class="tool-group">
+      <button class="tool-btn" id="wbPen" data-t="wbPenTool" title="Pen">✏️</button>
+      <button class="tool-btn" id="wbEraser" title="Eraser">🧽</button>
+      <button class="tool-btn" id="wbStickers" title="Stickers">😀</button>
+      <button class="tool-btn" id="wbUndo" title="Undo">↩️</button>
+      <button class="tool-btn" id="wbClear" title="Clear">🗑️</button>
+    </div>
+  </div>
+
+  <div class="sticker-picker" id="stickerPicker">
+    <button class="stick" data-sticker="⭐">⭐</button>
+    <button class="stick" data-sticker="🌸">🌸</button>
+    <button class="stick" data-sticker="🌷">🌷</button>
+    <button class="stick" data-sticker="🌻">🌻</button>
+    <button class="stick" data-sticker="🦋">🦋</button>
+    <button class="stick" data-sticker="🐝">🐝</button>
+    <button class="stick" data-sticker="🐱">🐱</button>
+    <button class="stick" data-sticker="🐰">🐰</button>
+    <button class="stick" data-sticker="🌈">🌈</button>
+    <button class="stick" data-sticker="☀️">☀️</button>
+    <button class="stick" data-sticker="💖">💖</button>
+    <button class="stick" data-sticker="🏆">🏆</button>
+  </div>
+
+  <div class="wb-canvas-wrap" id="wbCanvasWrap">
+    <canvas id="wbCanvas"></canvas>
+    <div class="wb-hint" id="wbHint" data-t="wbHint">ارسمي بإصبعك ✏️</div>
+  </div>
+</div>
+
+<script>
+/* ==================== I18N ==================== */
+const I18N = {
+  ar: {
+    appTitle: '📖 مصحفي الصغير',
+    loading: 'جاري تحميل السورة...',
+    listen: '🔊 اسمعي',
+    allStars: '⭐ كل النجوم',
+    wellDone: 'أحسنتِ يا بطلة!',
+    newStar: 'نجمة جديدة!',
+    great: '🌟 رائع',
+    gamesTitle: '🎮 الألعاب',
+    game1Name: 'صائد النجوم',
+    game1Desc: 'التقطي أكبر عدد من النجوم قبل أن تسقط!',
+    game2Name: 'لعبة الذاكرة',
+    game2Desc: 'اقلب البطاقات وطابقي الأزواج المتشابهة',
+    game3Name: 'اكتشفي السورة',
+    game3Desc: 'اختاري السورة الصحيحة من بين الخيارات',
+    juz: 'الجزء',
+    startHere: '⭐ ابدأ من هنا',
+    playAgain: 'العب مرة أخرى',
+    backToGames: 'رجوع للألعاب',
+    timeUp: 'انتهى الوقت!',
+    youCaught: 'التقطتِ',
+    stars: 'نجمة!',
+    matchComplete: 'أكملتِ المطابقة!',
+    findComplete: 'أحسنتِ! وجدتِ كل السور',
+    question: 'أين سورة',
+    youWon: 'لقد فزتِ!',
+    wbTitle: '🖍️ السبورة',
+    wbColors: 'الألوان',
+    wbSize: 'الحجم',
+    wbPenTool: '✏️',
+    wbHint: 'ارسمي بإصبعك ✏️',
+    wbHintSticker: 'اضغطي على السبورة لوضع الملصق 😀',
+  },
+  en: {
+    appTitle: '📖 My Little Mushaf',
+    loading: 'Loading surah...',
+    listen: '🔊 Listen',
+    allStars: '⭐ All Stars',
+    wellDone: 'Well done, little champion!',
+    newStar: 'A new star!',
+    great: '🌟 Great',
+    gamesTitle: '🎮 Games',
+    game1Name: 'Star Catcher',
+    game1Desc: 'Tap falling stars before they hit the ground!',
+    game2Name: 'Memory Match',
+    game2Desc: 'Flip cards and match the pairs',
+    game3Name: 'Find the Surah',
+    game3Desc: 'Pick the correct surah from the options',
+    juz: 'Juz',
+    startHere: '⭐ Start here',
+    playAgain: 'Play again',
+    backToGames: 'Back to games',
+    timeUp: "Time's up!",
+    youCaught: 'You caught',
+    stars: 'stars!',
+    matchComplete: 'You matched them all!',
+    findComplete: 'You found them all!',
+    question: 'Where is Surah',
+    youWon: 'You won!',
+    wbTitle: '🖍️ Whiteboard',
+    wbColors: 'Colors',
+    wbSize: 'Size',
+    wbPenTool: '✏️',
+    wbHint: 'Draw with your finger ✏️',
+    wbHintSticker: 'Tap the board to place a sticker 😀',
+  }
+};
+let lang = 'ar';
+function t(key) { return (I18N[lang] && I18N[lang][key]) || key; }
+function applyI18n() {
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  document.getElementById('appTitle').textContent = t('appTitle');
+  document.querySelectorAll('[data-t]').forEach(el => {
+    if (el.id === 'wbHint') {
+      // handled dynamically
+      return;
+    }
+    el.textContent = t(el.getAttribute('data-t'));
+  });
+  render();
+}
+
+/* ==================== SURAH DATA ==================== */
+const SURAHS = [
+  ['الفاتحة',1,'🌷'],['البقرة',1,'📗'],['آل عمران',3,'📘'],['النساء',4,'📙'],
+  ['المائدة',6,'📕'],['الأنعام',7,'📗'],['الأعراف',8,'📘'],['الأنفال',9,'📙'],
+  ['التوبة',10,'📕'],['يونس',11,'📗'],['هود',11,'📘'],['يوسف',12,'📙'],
+  ['الرعد',13,'📕'],['إبراهيم',13,'📗'],['الحجر',14,'📘'],['النحل',14,'📙'],
+  ['الإسراء',15,'📕'],['الكهف',15,'📗'],['مريم',16,'📘'],['طه',16,'📙'],
+  ['الأنبياء',17,'📕'],['الحج',17,'📗'],['المؤمنون',18,'📘'],['النور',18,'📙'],
+  ['الفرقان',18,'📕'],['الشعراء',19,'📗'],['النمل',19,'📘'],['القصص',20,'📙'],
+  ['العنكبوت',20,'📕'],['الروم',21,'📗'],['لقمان',21,'📘'],['السجدة',21,'📙'],
+  ['الأحزاب',21,'📕'],['سبأ',22,'📗'],['فاطر',22,'📘'],['يس',22,'📙'],
+  ['الصافات',23,'📕'],['ص',23,'📗'],['الزمر',23,'📘'],['غافر',24,'📙'],
+  ['فصلت',24,'📕'],['الشورى',25,'📗'],['الزخرف',25,'📘'],['الدخان',25,'📙'],
+  ['الجاثية',25,'📕'],['الأحقاف',26,'📗'],['محمد',26,'📘'],['الفتح',26,'📙'],
+  ['الحجرات',26,'📕'],['ق',26,'📗'],['الذاريات',26,'📘'],['الطور',27,'📙'],
+  ['النجم',27,'📕'],['القمر',27,'📗'],['الرحمن',27,'📘'],['الواقعة',27,'📙'],
+  ['الحديد',27,'📕'],['المجادلة',28,'📗'],['الحشر',28,'📘'],['الممتحنة',28,'📙'],
+  ['الصف',28,'📕'],['الجمعة',28,'📗'],['المنافقون',28,'📘'],['التغابن',28,'📙'],
+  ['الطلاق',28,'📕'],['التحريم',28,'📗'],['الملك',29,'📘'],['القلم',29,'📙'],
+  ['الحاقة',29,'📕'],['المعارج',29,'📗'],['نوح',29,'📘'],['الجن',29,'📙'],
+  ['المزمل',29,'📕'],['المدثر',29,'📗'],['القيامة',29,'📘'],['الإنسان',29,'📙'],
+  ['المرسلات',29,'📕'],['النبأ',30,'🌸'],['النازعات',30,'🌺'],['عبس',30,'🌻'],
+  ['التكوير',30,'🌼'],['الانفطار',30,'🌷'],['المطففين',30,'🌹'],['الانشقاق',30,'💐'],
+  ['البروج',30,'🌵'],['الطارق',30,'🌴'],['الأعلى',30,'🌱'],['الغاشية',30,'🍀'],
+  ['الفجر',30,'🌸'],['البلد',30,'🌺'],['الشمس',30,'🌻'],['الليل',30,'🌼'],
+  ['الضحى',30,'🌷'],['الشرح',30,'🌹'],['التين',30,'💐'],['العلق',30,'🌵'],
+  ['القدر',30,'🌴'],['البينة',30,'🌱'],['الزلزلة',30,'🍀'],['العاديات',30,'🌸'],
+  ['القارعة',30,'🌺'],['التكاثر',30,'🌻'],['العصر',30,'🌼'],['الهمزة',30,'🌷'],
+  ['الفيل',30,'🌹'],['قريش',30,'💐'],['الماعون',30,'🌵'],['الكوثر',30,'🌴'],
+  ['الكافرون',30,'🌱'],['النصر',30,'🍀'],['المسد',30,'🌸'],['الإخلاص',30,'🌺'],
+  ['الفلق',30,'🌻'],['الناس',30,'🌼']
+];
+
+const SURAHS_EN = [
+  'Al-Fatihah','Al-Baqarah','Ali Imran','An-Nisa','Al-Ma\'idah','Al-An\'am','Al-A\'raf','Al-Anfal',
+  'At-Tawbah','Yunus','Hud','Yusuf','Ar-Ra\'d','Ibrahim','Al-Hijr','An-Nahl','Al-Isra','Al-Kahf',
+  'Maryam','Taha','Al-Anbiya','Al-Hajj','Al-Mu\'minun','An-Nur','Al-Furqan','Ash-Shu\'ara','An-Naml',
+  'Al-Qasas','Al-\'Ankabut','Ar-Rum','Luqman','As-Sajdah','Al-Ahzab','Saba','Fatir','Ya-Sin','As-Saffat',
+  'Sad','Az-Zumar','Ghafir','Fussilat','Ash-Shura','Az-Zukhruf','Ad-Dukhan','Al-Jathiyah','Al-Ahqaf',
+  'Muhammad','Al-Fath','Al-Hujurat','Qaf','Adh-Dhariyat','At-Tur','An-Najm','Al-Qamar','Ar-Rahman',
+  'Al-Waqi\'ah','Al-Hadid','Al-Mujadila','Al-Hashr','Al-Mumtahanah','As-Saff','Al-Jumu\'ah','Al-Munafiqun',
+  'At-Taghabun','At-Talaq','At-Tahrim','Al-Mulk','Al-Qalam','Al-Haqqah','Al-Ma\'arij','Nuh','Al-Jinn',
+  'Al-Muzzammil','Al-Muddaththir','Al-Qiyamah','Al-Insan','Al-Mursalat','An-Naba','An-Nazi\'at','Abasa',
+  'At-Takwir','Al-Infitar','Al-Mutaffifin','Al-Inshiqaq','Al-Buruj','At-Tariq','Al-A\'la','Al-Ghashiyah',
+  'Al-Fajr','Al-Balad','Ash-Shams','Al-Layl','Ad-Duha','Ash-Sharh','At-Tin','Al-\'Alaq','Al-Qadr',
+  'Al-Bayyinah','Az-Zalzalah','Al-\'Adiyat','Al-Qari\'ah','At-Takathur','Al-\'Asr','Al-Humazah','Al-Fil',
+  'Quraysh','Al-Ma\'un','Al-Kawthar','Al-Kafirun','An-Nasr','Al-Masad','Al-Ikhlas','Al-Falaq','An-Nas'
+];
+
+function surahName(i) {
+  return lang === 'en' ? SURAHS_EN[i] : SURAHS[i][0];
+}
+
+const JUZ_COLORS = [
+  '#e57373','#f06292','#ba68c8','#9575cd','#7986cb','#64b5f6','#4fc3f7','#4dd0e1','#4db6ac','#81c784',
+  '#aed581','#dce775','#fff176','#ffd54f','#ffb74d','#ff8a65','#a1887f','#90a4ae','#e57373','#f06292',
+  '#ba68c8','#9575cd','#7986cb','#64b5f6','#4fc3f7','#4dd0e1','#4db6ac','#81c784','#aed581','#ffd93d'
+];
+
+const SURAH_AYAH_COUNTS = {
+  1:7,2:286,3:200,4:176,5:120,6:165,7:206,8:75,9:129,10:109,11:123,12:111,13:43,14:52,15:99,
+  16:128,17:111,18:110,19:98,20:135,21:112,22:78,23:118,24:64,25:77,26:227,27:93,28:88,29:69,
+  30:60,31:34,32:30,33:73,34:54,35:45,36:83,37:182,38:88,39:75,40:85,41:54,42:53,43:89,44:59,
+  45:37,46:35,47:38,48:29,49:18,50:45,51:60,52:49,53:62,54:55,55:78,56:96,57:29,58:22,59:24,
+  60:13,61:14,62:11,63:11,64:18,65:12,66:12,67:30,68:52,69:52,70:44,71:28,72:28,73:20,74:56,
+  75:40,76:31,77:50,78:40,79:46,80:42,81:29,82:19,83:36,84:25,85:22,86:17,87:19,88:26,89:30,
+  90:20,91:15,92:21,93:11,94:8,95:8,96:19,97:5,98:8,99:8,100:11,101:11,102:8,103:3,104:9,
+  105:5,106:4,107:7,108:3,109:6,110:3,111:5,112:4,113:5,114:6
+};
+
+let stars = {};
+localStorage.removeItem('mushafStarsV1');
+
+let surahCache = {};
+try { surahCache = JSON.parse(localStorage.getItem('mushafTextCacheV1') || '{}'); } catch(e) {}
+function saveSurahCache() {
+  try { localStorage.setItem('mushafTextCacheV1', JSON.stringify(surahCache)); } catch(e) {}
+}
+
+const juzList = document.getElementById('juzList');
+const totalStarsEl = document.getElementById('totalStars');
+
+function buildJuzGroups() {
+  const groups = {};
+  SURAHS.forEach((s, i) => {
+    const j = s[1];
+    if (!groups[j]) groups[j] = [];
+    groups[j].push({ index: i, emoji: s[2] });
+  });
+  return groups;
+}
+function getSurahStars(i) { return stars[i] ? stars[i].size : 0; }
+function updateTotalStars() {
+  let total = 0;
+  Object.values(stars).forEach(set => total += set.size);
+  totalStarsEl.textContent = `⭐ ${total}`;
+}
+
+function render() {
+  const groups = buildJuzGroups();
+  juzList.innerHTML = '';
+  const order = [30, ...Array.from({length:29}, (_, i) => i + 1)];
+
+  order.forEach(juzNum => {
+    const items = groups[juzNum];
+    if (!items) return;
+    const color = JUZ_COLORS[juzNum - 1];
+
+    const section = document.createElement('div');
+    section.className = 'juz';
+    section.style.setProperty('--juz-color', color);
+    section.style.setProperty('--juz-color-soft', color + '44');
+
+    const label = document.createElement('div');
+    label.className = 'juz-label';
+    label.innerHTML = `<span class="dot"></span> ${t('juz')} ${juzNum}${juzNum === 30 ? ' ' + t('startHere') : ''}`;
+    section.appendChild(label);
+
+    const grid = document.createElement('div');
+    grid.className = 'grid';
+
+    items.forEach(item => {
+      const earned = getSurahStars(item.index);
+      const totalAyahs = SURAH_AYAH_COUNTS[item.index + 1] || '?';
+      const isDone = earned > 0 && earned >= totalAyahs;
+
+      const tile = document.createElement('button');
+      tile.type = 'button';
+      tile.className = 'tile' + (isDone ? ' done' : '');
+      tile.style.setProperty('--juz-color', color);
+      tile.style.setProperty('--juz-color-soft', color + '44');
+      tile.innerHTML = `
+        <span class="num">${item.index + 1}</span>
+        <span class="emoji">${item.emoji}</span>
+        <span class="name">${surahName(item.index)}</span>
+        ${earned > 0 ? `<span class="star-badge">⭐${earned}</span>` : ''}
+      `;
+      tile.addEventListener('click', () => openAyahs(item.index));
+      grid.appendChild(tile);
+    });
+
+    section.appendChild(grid);
+    juzList.appendChild(section);
+  });
+
+  updateTotalStars();
+}
+
+const ayahModal = document.getElementById('ayahModal');
+const ayahBody = document.getElementById('ayahBody');
+const ayahTitle = document.getElementById('ayahTitle');
+const ayahHead = document.getElementById('ayahHead');
+const ayahStarCount = document.getElementById('ayahStarCount');
+const ayahCard = document.getElementById('ayahCard');
+let currentSurahIndex = -1;
+
+function openAyahs(i) {
+  currentSurahIndex = i;
+  const juz = SURAHS[i][1];
+  const emoji = SURAHS[i][2];
+  const surahNum = i + 1;
+  const color = JUZ_COLORS[juz - 1];
+
+  ayahTitle.textContent = `${emoji} ${lang === 'ar' ? 'سورة' : 'Surah'} ${surahName(i)}`;
+  ayahHead.style.background = color;
+  ayahCard.style.setProperty('--card-color', color);
+
+  ayahModal.classList.add('open');
+
+  if (surahCache[surahNum]) {
+    renderAyahs(surahCache[surahNum], i);
+    return;
+  }
+
+  ayahBody.innerHTML = `<div class="loading"><div class="spin">📖</div><br>${t('loading')}</div>`;
+
+  fetch(`https://api.alquran.cloud/v1/surah/${surahNum}/quran-uthmani`)
+    .then(r => r.json())
+    .then(data => {
+      if (data.code === 200 && data.data && data.data.ayahs) {
+        const ayahs = data.data.ayahs.map(a => ({ number: a.numberInSurah, text: a.text }));
+        surahCache[surahNum] = ayahs;
+        saveSurahCache();
+        renderAyahs(ayahs, i);
+      } else { throw new Error('bad response'); }
+    })
+    .catch(() => {
+      ayahBody.innerHTML = `<div class="loading">⚠️ ${lang === 'ar' ? 'تعذر تحميل السورة. تأكدي من الاتصال.' : 'Could not load. Check your connection.'}</div>`;
+    });
+}
+
+function renderAyahs(ayahs, surahIndex) {
+  const earnedSet = stars[surahIndex] || new Set();
+  ayahStarCount.textContent = `⭐ ${earnedSet.size}/${ayahs.length}`;
+  ayahBody.innerHTML = '';
+
+  ayahs.forEach(a => {
+    const row = document.createElement('div');
+    row.className = 'ayah-row';
+    const isEarned = earnedSet.has(a.number);
+
+    const starBtn = document.createElement('button');
+    starBtn.className = 'star-btn' + (isEarned ? ' earned' : '');
+    starBtn.textContent = isEarned ? '⭐' : '☆';
+
+    const num = document.createElement('span');
+    num.className = 'ayah-num';
+    num.textContent = a.number;
+
+    const text = document.createElement('div');
+    text.className = 'ayah-text';
+    text.textContent = a.text;
+
+    starBtn.addEventListener('click', () => toggleStar(surahIndex, a.number, ayahs.length));
+
+    row.appendChild(starBtn);
+    row.appendChild(num);
+    row.appendChild(text);
+    ayahBody.appendChild(row);
+  });
+}
+
+function toggleStar(surahIndex, ayahNum, totalAyahs) {
+  if (!stars[surahIndex]) stars[surahIndex] = new Set();
+  const set = stars[surahIndex];
+
+  if (set.has(ayahNum)) set.delete(ayahNum);
+  else { set.add(ayahNum); beep(880, 0, 0.1); }
+
+  const earnedSet = stars[surahIndex] || new Set();
+  ayahStarCount.textContent = `⭐ ${earnedSet.size}/${totalAyahs}`;
+
+  const rows = ayahBody.querySelectorAll('.ayah-row');
+  rows.forEach((row, idx) => {
+    const btn = row.querySelector('.star-btn');
+    const num = idx + 1;
+    const isEarned = earnedSet.has(num);
+    btn.textContent = isEarned ? '⭐' : '☆';
+    btn.className = 'star-btn' + (isEarned ? ' earned' : '');
+  });
+
+  render();
+
+  if (set.size === totalAyahs && totalAyahs > 0) celebrateSurah(surahIndex);
+}
+
+const rewardModal = document.getElementById('rewardModal');
+function celebrateSurah(i) {
+  document.getElementById('rewardEmoji').textContent = '🏆';
+  document.getElementById('rewardTitle').textContent = t('wellDone');
+  document.getElementById('rewardText').textContent = lang === 'ar'
+    ? `أكملتِ نجوم سورة ${surahName(i)}!`
+    : `You completed Surah ${surahName(i)}!`;
+  rewardModal.classList.add('open');
+  confetti();
+  cheerSound();
+  setTimeout(() => speak(lang === 'ar'
+    ? `ماشاء الله، أكملت سورة ${surahName(i)}`
+    : `Well done! You completed Surah ${surahName(i)}`), 400);
+}
+document.getElementById('btnRewardClose').onclick = () => rewardModal.classList.remove('open');
+
+function confetti() {
+  const colors = ['#ff8fb1','#ffd93d','#7ed957','#a8e6ff','#b388ff','#ff9f68'];
+  for (let i = 0; i < 70; i++) {
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = Math.random() * 100 + 'vw';
+    c.style.background = colors[Math.floor(Math.random() * colors.length)];
+    c.style.animationDuration = (1.5 + Math.random() * 1.5) + 's';
+    c.style.animationDelay = (Math.random() * 0.4) + 's';
+    c.style.transform = `rotate(${Math.random()*360}deg)`;
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 3500);
+  }
+}
+
+let audioCtx;
+function beep(freq, start, dur, type='sine') {
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+    o.type = type; o.frequency.value = freq;
+    o.connect(g); g.connect(audioCtx.destination);
+    const t = audioCtx.currentTime + start;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.25, t + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.start(t); o.stop(t + dur + 0.05);
+  } catch(e) {}
+}
+function cheerSound() {
+  beep(523, 0, 0.15); beep(659, 0.12, 0.15);
+  beep(784, 0.24, 0.15); beep(1046, 0.36, 0.35, 'triangle');
+}
+function speak(text) {
+  if (!('speechSynthesis' in window)) return;
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = lang === 'ar' ? 'ar-SA' : 'en-US';
+  u.rate = 0.9; u.pitch = 1.2;
+  speechSynthesis.speak(u);
+}
+
+document.getElementById('btnCloseAyah').onclick = () => ayahModal.classList.remove('open');
+document.getElementById('btnListenSurah').onclick = () => {
+  if (!('speechSynthesis' in window)) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance((lang === 'ar' ? 'سورة ' : 'Surah ') + surahName(currentSurahIndex));
+  u.lang = lang === 'ar' ? 'ar-SA' : 'en-US';
+  u.rate = 0.85; u.pitch = 1.1;
+  speechSynthesis.speak(u);
+};
+document.getElementById('btnAllStars').onclick = () => {
+  const surahNum = currentSurahIndex + 1;
+  const cached = surahCache[surahNum];
+  if (!cached) return;
+  if (!stars[currentSurahIndex]) stars[currentSurahIndex] = new Set();
+  cached.forEach(a => stars[currentSurahIndex].add(a.number));
+  renderAyahs(cached, currentSurahIndex);
+  render();
+  celebrateSurah(currentSurahIndex);
+};
+ayahModal.addEventListener('click', e => { if (e.target === ayahModal) ayahModal.classList.remove('open'); });
+rewardModal.addEventListener('click', e => { if (e.target === rewardModal) rewardModal.classList.remove('open'); });
+
+document.getElementById('btnLang').onclick = () => {
+  lang = lang === 'ar' ? 'en' : 'ar';
+  applyI18n();
+};
+
+const gamesHub = document.getElementById('gamesHub');
+document.getElementById('btnGames').onclick = () => gamesHub.classList.add('open');
+document.getElementById('btnCloseGames').onclick = () => gamesHub.classList.remove('open');
+
+function closeGame(id) {
+  document.getElementById(id).classList.remove('open');
+  gamesHub.classList.add('open');
+}
+
+/* ========== GAME 1: STAR CATCHER ========== */
+let g1Interval, g1Spawner, g1TimeLeft, g1Score;
+document.getElementById('game1Btn').onclick = () => {
+  gamesHub.classList.remove('open');
+  document.getElementById('game1Screen').classList.add('open');
+  startStarCatcher();
+};
+
+function startStarCatcher() {
+  const area = document.getElementById('starCatcherArea');
+  area.innerHTML = '';
+  g1Score = 0;
+  g1TimeLeft = 30;
+  document.getElementById('g1Score').textContent = `⭐ 0`;
+
+  const timerBar = document.createElement('div');
+  timerBar.style.cssText = 'position:absolute;top:0;left:0;height:8px;background:#ff8f00;width:100%;transition:width 1s linear;z-index:3;border-radius:4px;';
+  area.appendChild(timerBar);
+
+  g1Spawner = setInterval(() => spawnStar(area), 550);
+  g1Interval = setInterval(() => {
+    g1TimeLeft--;
+    timerBar.style.width = `${(g1TimeLeft / 30) * 100}%`;
+    if (g1TimeLeft <= 0) endStarCatcher();
+  }, 1000);
+
+  for (let i = 0; i < 3; i++) setTimeout(() => spawnStar(area), i * 200);
+}
+
+function spawnStar(area) {
+  const star = document.createElement('div');
+  star.className = 'falling-star';
+  star.textContent = '⭐';
+  star.style.left = (10 + Math.random() * 80) + '%';
+  const dur = 2.2 + Math.random() * 1.5;
+  star.style.animationDuration = dur + 's';
+
+  star.addEventListener('click', (e) => {
+    e.stopPropagation();
+    g1Score++;
+    document.getElementById('g1Score').textContent = `⭐ ${g1Score}`;
+    beep(880 + Math.random() * 400, 0, 0.08);
+    const pop = document.createElement('div');
+    pop.className = 'caught-pop';
+    pop.textContent = '+1';
+    pop.style.left = star.style.left;
+    pop.style.top = '10%';
+    area.appendChild(pop);
+    setTimeout(() => pop.remove(), 600);
+    star.remove();
+  });
+
+  area.appendChild(star);
+  setTimeout(() => star.remove(), dur * 1000 + 100);
+}
+
+function endStarCatcher() {
+  clearInterval(g1Interval);
+  clearInterval(g1Spawner);
+  const area = document.getElementById('starCatcherArea');
+  const finish = document.createElement('div');
+  finish.className = 'game-finish';
+  finish.innerHTML = `
+    <div>
+      <div class="big">🏆</div>
+      <h3>${t('timeUp')}</h3>
+      <p>${t('youCaught')} <strong>${g1Score}</strong> ${t('stars')}</p>
+      <button onclick="startStarCatcher(); this.closest('.game-finish').remove();">${t('playAgain')}</button>
+      <button onclick="closeGame('game1Screen')">${t('backToGames')}</button>
+    </div>
+  `;
+  area.appendChild(finish);
+  if (g1Score >= 10) { confetti(); cheerSound(); }
+}
+
+/* ========== GAME 2: MEMORY MATCH ========== */
+let g2Flipped, g2Matched, g2Lock;
+document.getElementById('game2Btn').onclick = () => {
+  gamesHub.classList.remove('open');
+  document.getElementById('game2Screen').classList.add('open');
+  startMemory();
+};
+
+function startMemory() {
+  const area = document.getElementById('memoryArea');
+  area.innerHTML = '';
+  g2Flipped = [];
+  g2Matched = 0;
+  g2Lock = false;
+  document.getElementById('g2Score').textContent = '0 / 6';
+
+  const emojis = ['🌷','🌻','🌸','🌺','🌼','💐'];
+  const cards = [...emojis, ...emojis].sort(() => Math.random() - 0.5);
+
+  const grid = document.createElement('div');
+  grid.className = 'memory-grid';
+  cards.forEach(emoji => {
+    const btn = document.createElement('button');
+    btn.className = 'mem-card';
+    btn.textContent = '❓';
+    btn.dataset.emoji = emoji;
+    btn.addEventListener('click', () => flipMemCard(btn));
+    grid.appendChild(btn);
+  });
+  area.appendChild(grid);
+}
+
+function flipMemCard(btn) {
+  if (g2Lock || btn.classList.contains('flipped') || btn.classList.contains('matched')) return;
+  btn.classList.add('flipped');
+  btn.textContent = btn.dataset.emoji;
+  beep(660, 0, 0.08);
+  g2Flipped.push(btn);
+
+  if (g2Flipped.length === 2) {
+    g2Lock = true;
+    const [a, b] = g2Flipped;
+    if (a.dataset.emoji === b.dataset.emoji) {
+      setTimeout(() => {
+        a.classList.add('matched');
+        b.classList.add('matched');
+        a.textContent = '⭐';
+        b.textContent = '⭐';
+        g2Matched++;
+        document.getElementById('g2Score').textContent = `${g2Matched} / 6`;
+        beep(1046, 0, 0.15, 'triangle');
+        g2Flipped = [];
+        g2Lock = false;
+        if (g2Matched === 6) endMemory();
+      }, 400);
+    } else {
+      setTimeout(() => {
+        a.classList.remove('flipped');
+        b.classList.remove('flipped');
+        a.textContent = '❓';
+        b.textContent = '❓';
+        g2Flipped = [];
+        g2Lock = false;
+      }, 800);
+    }
+  }
+}
+
+function endMemory() {
+  const area = document.getElementById('memoryArea');
+  const finish = document.createElement('div');
+  finish.className = 'game-finish';
+  finish.innerHTML = `
+    <div>
+      <div class="big">🎉</div>
+      <h3>${t('matchComplete')}</h3>
+      <p>${t('wellDone')}</p>
+      <button onclick="startMemory(); this.closest('.game-finish').remove();">${t('playAgain')}</button>
+      <button onclick="closeGame('game2Screen')">${t('backToGames')}</button>
+    </div>
+  `;
+  area.appendChild(finish);
+  confetti(); cheerSound();
+  setTimeout(() => speak(t('wellDone')), 300);
+}
+
+/* ========== GAME 3: FIND THE SURAH ========== */
+let g3Round, g3Score, g3Pool;
+document.getElementById('game3Btn').onclick = () => {
+  gamesHub.classList.remove('open');
+  document.getElementById('game3Screen').classList.add('open');
+  startFindSurah();
+};
+
+function startFindSurah() {
+  g3Round = 0;
+  g3Score = 0;
+  document.getElementById('g3Score').textContent = '0 / 5';
+  g3Pool = SURAHS.slice(77, 114).map((s, i) => ({
+    name: surahName(77 + i),
+    emoji: s[2]
+  }));
+  nextFindRound();
+}
+
+function nextFindRound() {
+  const area = document.getElementById('findArea');
+  area.innerHTML = '';
+
+  if (g3Round >= 5) { endFindSurah(); return; }
+
+  const shuffled = [...g3Pool].sort(() => Math.random() - 0.5);
+  const options = shuffled.slice(0, 4);
+  const correct = options[Math.floor(Math.random() * 4)];
+
+  const prompt = document.createElement('div');
+  prompt.className = 'find-prompt';
+  prompt.textContent = `${t('question')} ${correct.name}${lang === 'ar' ? '؟' : ''}`;
+  area.appendChild(prompt);
+
+  const opts = document.createElement('div');
+  opts.className = 'find-options';
+
+  options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'find-btn';
+    btn.innerHTML = `<span class="big-emoji">${opt.emoji}</span><span>${opt.name}</span>`;
+    btn.addEventListener('click', () => {
+      if (btn.classList.contains('correct') || btn.classList.contains('wrong')) return;
+      if (opt.name === correct.name) {
+        btn.classList.add('correct');
+        g3Score++;
+        document.getElementById('g3Score').textContent = `${g3Score} / 5`;
+        beep(1046, 0, 0.15, 'triangle');
+        setTimeout(() => { g3Round++; nextFindRound(); }, 700);
+      } else {
+        btn.classList.add('wrong');
+        setTimeout(() => { g3Round++; nextFindRound(); }, 700);
+      }
+    });
+    opts.appendChild(btn);
+  });
+
+  area.appendChild(opts);
+}
+
+function endFindSurah() {
+  const area = document.getElementById('findArea');
+  area.innerHTML = '';
+  const finish = document.createElement('div');
+  finish.className = 'game-finish';
+  finish.innerHTML = `
+    <div>
+      <div class="big">${g3Score >= 4 ? '🏆' : '🌟'}</div>
+      <h3>${t('findComplete')}</h3>
+      <p>${g3Score} / 5</p>
+      <button onclick="startFindSurah(); this.closest('.game-finish').remove();">${t('playAgain')}</button>
+      <button onclick="closeGame('game3Screen')">${t('backToGames')}</button>
+    </div>
+  `;
+  area.appendChild(finish);
+  if (g3Score >= 4) { confetti(); cheerSound(); speak(t('wellDone')); }
+}
+
+/* ============ WHITEBOARD ============ */
+const whiteboard = document.getElementById('whiteboard');
+const wbCanvas = document.getElementById('wbCanvas');
+const wbCanvasWrap = document.getElementById('wbCanvasWrap');
+const stickerPicker = document.getElementById('stickerPicker');
+const wbHint = document.getElementById('wbHint');
+
+let wbCtx = wbCanvas.getContext('2d');
+let wbColor = '#e53935';
+let wbSize = 6;
+let wbTool = 'pen'; // 'pen' | 'eraser' | 'sticker'
+let wbSticker = '⭐';
+let wbDrawing = false;
+let wbLastX = 0, wbLastY = 0;
+let wbHistory = []; // store image data for undo
+
+/* Resize canvas to fit container */
+function resizeWbCanvas() {
+  const rect = wbCanvasWrap.getBoundingClientRect();
+  const dpr = window.devicePixelRatio || 1;
+  // Save current image
+  const prev = wbCanvas.width > 0 ? wbCtx.getImageData(0, 0, wbCanvas.width, wbCanvas.height) : null;
+
+  wbCanvas.width = rect.width * dpr;
+  wbCanvas.height = rect.height * dpr;
+  wbCanvas.style.width = rect.width + 'px';
+  wbCanvas.style.height = rect.height + 'px';
+
+  wbCtx.setTransform(1, 0, 0, 1, 0, 0);
+  wbCtx.scale(dpr, dpr);
+  wbCtx.fillStyle = '#fff';
+  wbCtx.fillRect(0, 0, rect.width, rect.height);
+
+  // Restore previous
+  if (prev && prev.width > 0) {
+    // draw old onto new at native scale
+    wbCtx.setTransform(1, 0, 0, 1, 0, 0);
+    // we only kept a scaled version, skip precise restore; fine for MVP
+  }
+
+  wbCtx.lineCap = 'round';
+  wbCtx.lineJoin = 'round';
+}
+window.addEventListener('resize', () => {
+  if (whiteboard.classList.contains('open')) resizeWbCanvas();
+});
+
+function openWhiteboard() {
+  whiteboard.classList.add('open');
+  // wait for layout
+  setTimeout(resizeWbCanvas, 30);
+  wbHistory = [];
+  wbHint.textContent = t('wbHint');
+  wbHint.classList.remove('hide');
+  setTimeout(() => wbHint.classList.add('hide'), 3000);
+}
+document.getElementById('btnBoard').onclick = openWhiteboard;
+document.getElementById('btnCloseBoard').onclick = () => whiteboard.classList.remove('open');
+
+/* Color swatches */
+document.querySelectorAll('.color-swatch').forEach(sw => {
+  sw.addEventListener('click', () => {
+    document.querySelectorAll('.color-swatch').forEach(x => x.classList.remove('active'));
+    sw.classList.add('active');
+    wbColor = sw.dataset.color;
+    setTool('pen');
+  });
+});
+
+/* Size buttons */
+document.querySelectorAll('[data-size]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('[data-size]').forEach(x => x.classList.remove('active'));
+    btn.classList.add('active');
+    wbSize = parseInt(btn.dataset.size, 10);
+  });
+});
+
+/* Tool buttons */
+document.getElementById('wbPen').onclick = () => setTool('pen');
+document.getElementById('wbEraser').onclick = () => setTool('eraser');
+document.getElementById('wbStickers').onclick = () => {
+  const isOpen = stickerPicker.classList.toggle('open');
+  if (isOpen) {
+    setTool('sticker');
+    wbHint.textContent = t('wbHintSticker');
+    wbHint.classList.remove('hide');
+    setTimeout(() => wbHint.classList.add('hide'), 3000);
+  } else {
+    setTool('pen');
+  }
+};
+
+document.getElementById('wbUndo').onclick = undoWb;
+document.getElementById('wbClear').onclick = () => {
+  const rect = wbCanvasWrap.getBoundingClientRect();
+  saveWbHistory();
+  wbCtx.fillStyle = '#fff';
+  wbCtx.fillRect(0, 0, rect.width, rect.height);
+};
+
+function setTool(tool) {
+  wbTool = tool;
+  ['wbPen','wbEraser'].forEach(id => document.getElementById(id).classList.remove('active'));
+  if (tool === 'pen') document.getElementById('wbPen').classList.add('active');
+  if (tool === 'eraser') document.getElementById('wbEraser').classList.add('active');
+  if (tool !== 'sticker') {
+    stickerPicker.classList.remove('open');
+  }
+}
+
+/* Sticker picker */
+document.querySelectorAll('.sticker-picker .stick').forEach(st => {
+  st.addEventListener('click', () => {
+    document.querySelectorAll('.sticker-picker .stick').forEach(x => x.classList.remove('active'));
+    st.classList.add('active');
+    wbSticker = st.dataset.sticker;
+    wbTool = 'sticker';
+    stickerPicker.classList.add('open');
+  });
+});
+
+/* History (undo) */
+function saveWbHistory() {
+  try {
+    wbHistory.push(wbCanvas.toDataURL());
+    if (wbHistory.length > 15) wbHistory.shift();
+  } catch(e) {}
+}
+function undoWb() {
+  if (wbHistory.length === 0) return;
+  const dataUrl = wbHistory.pop();
+  const img = new Image();
+  img.onload = () => {
+    const rect = wbCanvasWrap.getBoundingClientRect();
+    wbCtx.clearRect(0, 0, rect.width, rect.height);
+    wbCtx.drawImage(img, 0, 0, rect.width, rect.height);
+  };
+  img.src = dataUrl;
+}
+
+/* Pointer events for drawing */
+function getPointerPos(e) {
+  const rect = wbCanvas.getBoundingClientRect();
+  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+  const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+  return { x: clientX - rect.left, y: clientY - rect.top };
+}
+
+function startDraw(e) {
+  if (wbTool === 'sticker') {
+    const pos = getPointerPos(e);
+    saveWbHistory();
+    placeSticker(pos.x, pos.y);
+    return;
+  }
+  saveWbHistory();
+  wbDrawing = true;
+  const pos = getPointerPos(e);
+  wbLastX = pos.x;
+  wbLastY = pos.y;
+  // dot on tap
+  wbCtx.beginPath();
+  wbCtx.fillStyle = wbTool === 'eraser' ? '#fff' : wbColor;
+  wbCtx.arc(pos.x, pos.y, (wbTool === 'eraser' ? wbSize * 2 : wbSize) / 2, 0, Math.PI * 2);
+  wbCtx.fill();
+}
+
+function moveDraw(e) {
+  if (!wbDrawing || wbTool === 'sticker') return;
+  const pos = getPointerPos(e);
+  wbCtx.beginPath();
+  wbCtx.moveTo(wbLastX, wbLastY);
+  wbCtx.lineTo(pos.x, pos.y);
+  if (wbTool === 'eraser') {
+    wbCtx.strokeStyle = '#fff';
+    wbCtx.lineWidth = wbSize * 2.5;
+  } else {
+    wbCtx.strokeStyle = wbColor;
+    wbCtx.lineWidth = wbSize;
+  }
+  wbCtx.lineCap = 'round';
+  wbCtx.lineJoin = 'round';
+  wbCtx.stroke();
+  wbLastX = pos.x;
+  wbLastY = pos.y;
+}
+
+function endDraw() {
+  wbDrawing = false;
+}
+
+function placeSticker(x, y) {
+  wbCtx.font = '48px serif';
+  wbCtx.textAlign = 'center';
+  wbCtx.textBaseline = 'middle';
+  wbCtx.fillText(wbSticker, x, y);
+  beep(880, 0, 0.08);
+}
+
+wbCanvas.addEventListener('mousedown', startDraw);
+wbCanvas.addEventListener('mousemove', moveDraw);
+window.addEventListener('mouseup', endDraw);
+
+wbCanvas.addEventListener('touchstart', e => { e.preventDefault(); startDraw(e); }, { passive: false });
+wbCanvas.addEventListener('touchmove', e => { e.preventDefault(); moveDraw(e); }, { passive: false });
+wbCanvas.addEventListener('touchend', e => { e.preventDefault(); endDraw(); }, { passive: false });
+
+applyI18n();
+</script>
+</body>
+</html>
