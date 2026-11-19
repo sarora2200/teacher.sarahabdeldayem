@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Arabic Letters! 🎈</title>
+<link rel="icon" type="image/png" href="../../../images/quran.png">
+  <link rel="apple-touch-icon" href="images/quran.png">
+<style>
+  :root {
+    --bg: #fff9f0;
+    --card: #ffffff;
+    --ink: #3a2e2a;
+    --pink: #ff8fab;
+    --pink-soft: #ffe3ea;
+    --yellow: #ffd166;
+    --yellow-soft: #fff3d1;
+    --blue: #6ec6ff;
+    --blue-soft: #e0f3ff;
+    --green: #7bd389;
+    --green-soft: #e3f8e6;
+    --purple: #b39ddb;
+    --purple-soft: #f0eaff;
+    --orange: #ffab76;
+    --orange-soft: #ffe8d9;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Comic Sans MS", "Baloo 2", "Fredoka", "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+  }
+  header {
+    background: linear-gradient(135deg, #ffb3c6, #ffd166, #6ec6ff);
+    padding: 2.5rem 1rem 2rem;
+    text-align: center;
+    border-bottom: 6px dashed #fff;
+  }
+  header h1 {
+    margin: 0 0 .5rem;
+    font-size: 2.2rem;
+    color: #fff;
+    text-shadow: 2px 2px 0 #e07a9a, 4px 4px 0 rgba(0,0,0,.08);
+    letter-spacing: .5px;
+  }
+  header p {
+    margin: 0;
+    font-size: 1.15rem;
+    color: #fff;
+    text-shadow: 1px 1px 0 rgba(0,0,0,.12);
+    max-width: 620px;
+    margin-inline: auto;
+  }
+  main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 2rem 1rem 4rem;
+  }
+  section {
+    background: var(--card);
+    border-radius: 26px;
+    padding: 1.5rem 1.25rem;
+    margin-bottom: 1.75rem;
+    box-shadow: 0 6px 0 rgba(0,0,0,.06), 0 10px 24px rgba(0,0,0,.06);
+    border: 4px solid #fff;
+  }
+  h2 {
+    margin: 0 0 1rem;
+    font-size: 1.6rem;
+    text-align: center;
+    color: #e07a9a;
+  }
+  .letters {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: .5rem;
+  }
+  .letter-card {
+    border-radius: 22px;
+    text-align: center;
+    padding: 1rem .4rem .85rem;
+    border: 4px solid #fff;
+    box-shadow: 0 4px 0 rgba(0,0,0,.07);
+    transition: transform .15s ease;
+  }
+  .letter-card:nth-child(1) { background: var(--pink-soft); }
+  .letter-card:nth-child(2) { background: var(--yellow-soft); }
+  .letter-card:nth-child(3) { background: var(--blue-soft); }
+  .letter-card:nth-child(4) { background: var(--green-soft); }
+  .letter-card:nth-child(5) { background: var(--purple-soft); }
+  .letter-card:nth-child(6) { background: var(--orange-soft); }
+  .letter-card:hover { transform: scale(1.05) rotate(-1deg); }
+  .letter-card .glyph {
+    display: block;
+    font-size: 4.5rem;
+    line-height: 1;
+    font-family: "Traditional Arabic", "Amiri", "Scheherazade New", serif;
+    color: #3a2e2a;
+  }
+  .letter-card .name {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-top: .3rem;
+  }
+  .letter-card .sound {
+    display: block;
+    font-size: .95rem;
+    color: #8a7a74;
+  }
+  .big-rule {
+    background: var(--yellow-soft);
+    border: 4px dashed var(--yellow);
+    border-radius: 22px;
+    padding: 1.1rem 1.25rem;
+    text-align: center;
+    font-size: 1.15rem;
+    margin-top: 1rem;
+  }
+  .big-rule .arabic {
+    font-family: "Traditional Arabic", "Amiri", "Scheherazade New", serif;
+    font-size: 2rem;
+    display: block;
+    margin-top: .4rem;
+  }
+  .video-card {
+    background: #fff;
+    border-radius: 22px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border: 4px solid #fff;
+    box-shadow: 0 4px 0 rgba(0,0,0,.06);
+  }
+  .video-card h3 {
+    margin: 0 0 .25rem;
+    font-size: 1.25rem;
+    color: #e07a9a;
+    text-align: center;
+  }
+  .video-card p {
+    margin: 0 0 .85rem;
+    text-align: center;
+    color: #7a6a64;
+    font-size: 1rem;
+  }
+  .video-wrap {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 4px solid #f3ece6;
+  }
+  .video-wrap iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  .short-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+    padding-top: calc(min(100%, 300px) * 16 / 9);
+    border-radius: 18px;
+    overflow: hidden;
+    border: 4px solid #f3ece6;
+    background: #000;
+  }
+  .short-wrap iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  .btn {
+    display: block;
+    width: fit-content;
+    margin: .85rem auto 0;
+    background: var(--pink);
+    color: #fff;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: .55rem 1.25rem;
+    border-radius: 999px;
+    text-decoration: none;
+    box-shadow: 0 4px 0 #d9688a;
+    transition: transform .1s ease;
+  }
+  .btn:hover { transform: translateY(1px); }
+  .note {
+    background: var(--blue-soft);
+    border-radius: 18px;
+    padding: .9rem 1.1rem;
+    font-size: 1rem;
+    text-align: center;
+    border: 3px dashed var(--blue);
+    margin-top: 1rem;
+  }
+  footer {
+    text-align: center;
+    font-size: 1rem;
+    color: #a08f88;
+    padding: 1rem 1rem 3rem;
+  }
+  @media (max-width: 480px) {
+    header h1 { font-size: 1.7rem; }
+    header p { font-size: 1rem; }
+    .letter-card .glyph { font-size: 3.4rem; }
+    .letter-card .name { font-size: .95rem; }
+    .letter-card .sound { font-size: .8rem; }
+    h2 { font-size: 1.35rem; }
+    section { padding: 1.1rem .85rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>My Arabic Letters! 🎈</h1>
+  <p>These 6 letters are super special! They hold hands with the letter before them… but NOT the letter after! 🤭</p>
+</header>
+
+<main>
+
+  <section>
+    <h2>Meet the 6 Special Letters 👋</h2>
+    <div class="letters">
+      <div class="letter-card">
+        <span class="glyph">ا</span>
+        <span class="name">Alif</span>
+        <span class="sound">“aa”</span>
+      </div>
+      <div class="letter-card">
+        <span class="glyph">و</span>
+        <span class="name">Waw</span>
+        <span class="sound">“w”</span>
+      </div>
+      <div class="letter-card">
+        <span class="glyph">ر</span>
+        <span class="name">Ra</span>
+        <span class="sound">“r”</span>
+      </div>
+      <div class="letter-card">
+        <span class="glyph">ز</span>
+        <span class="name">Zay</span>
+        <span class="sound">“z”</span>
+      </div>
+      <div class="letter-card">
+        <span class="glyph">د</span>
+        <span class="name">Dal</span>
+        <span class="sound">“d”</span>
+      </div>
+      <div class="letter-card">
+        <span class="glyph">ذ</span>
+        <span class="name">Dhal</span>
+        <span class="sound">“dh”</span>
+      </div>
+    </div>
+
+    <div class="big-rule">
+      <strong>🫶 The Special Rule 🫶</strong><br>
+      These letters hold hands with the letter <strong>before</strong> them… but they <strong>let go</strong> of the letter after!
+      <span class="arabic">ا و ر ز د ذ</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>Watch &amp; Learn 🎬</h2>
+
+    <div class="video-card">
+      <h3>Lesson 1: Naughty Letters</h3>
+      <p>A nice teacher shows us these 6 letters 👀</p>
+      <div class="video-wrap">
+        <iframe
+          src="https://www.youtube.com/embed/8azLNS_ZNY4"
+          title="Arabic for Beginners - Naughty Letters - Lesson 3"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+          loading="lazy">
+        </iframe>
+      </div>
+    </div>
+
+    <div class="video-card">
+      <h3>Lesson 2: The “Selfish” Letters</h3>
+      <p>They only hold hands one way! 🫱</p>
+      <div class="video-wrap">
+        <iframe
+          src="https://www.youtube.com/embed/Bl7wFHGJVB8"
+          title="All about Selfish Arabic letters | Naughty Arabic Letters | How to Join/Connect Arabic Letters Join"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+          loading="lazy">
+        </iframe>
+      </div>
+    </div>
+
+    <div class="video-card">
+      <h3>Fun Short: Why “Selfish”? 😱</h3>
+      <p>A quick cartoon about our 6 letters 🎈</p>
+      <div class="short-wrap">
+        <iframe
+          src="https://www.youtube.com/embed/tK0hNxklPKI"
+          title="Why Are These 6 Arabic Letters Called SELFISH?! #Shorts"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+          loading="lazy">
+        </iframe>
+      </div>
+    </div>
+
+    <div class="video-card">
+      <h3>Story Time: The “Ouch” Letters 📖</h3>
+      <p>A fun story with the special letters!</p>
+      <div class="video-wrap" style="margin-top:.85rem;">
+        <iframe
+          src="https://www.youtube.com/embed/mxoFeCNh7R4"
+          title="Story of the 7 Ouch Letters | Quran o'Phonics | Reading Level 3.1"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+          loading="lazy">
+        </iframe>
+      </div>
+    </div>
+
+    <a class="btn" href="https://www.youtube.com/watch?v=8azLNS_ZNY4" target="_blank" rel="noopener noreferrer">▶ Watch on YouTube</a>
+  </section>
+
+  <section>
+    <h2>Can You Say Them? 🗣️</h2>
+    <div class="big-rule">
+      Alif… Waw… Ra… Zay… Dal… Dhal! 🎉<br>
+      <span class="arabic">ا • و • ر • ز • د • ذ</span>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Made with 💖 for little learners!
+</footer>
+
+</body>
+</html>
