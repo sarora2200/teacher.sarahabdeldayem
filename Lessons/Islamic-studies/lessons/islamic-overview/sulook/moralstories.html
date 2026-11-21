@@ -1,0 +1,1103 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moral Stories · قصص أخلاقية</title>
+<link rel="icon" type="image/png" href="../../../../../images/quran.png">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; min-height: 100%; }
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    padding: 20px 20px 60px;
+    color: #2d2a1f;
+    user-select: none;
+  }
+
+  /* ===== Header ===== */
+  header { text-align: center; padding: 10px 0 20px; }
+  header h1 {
+    margin: 0 0 6px;
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(26px, 6vw, 46px);
+    color: #fff;
+    text-shadow: 3px 3px 0 rgba(0,0,0,0.12), 0 0 24px rgba(255,255,255,0.35);
+    letter-spacing: 1px;
+  }
+  header p {
+    margin: 0;
+    color: #fff;
+    font-weight: 700;
+    font-size: clamp(13px, 3.5vw, 17px);
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+  }
+
+  /* ===== Language Toggle ===== */
+  .lang-toggle-wrap { display: flex; justify-content: center; margin-bottom: 22px; }
+  .lang-toggle {
+    display: flex;
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(5px);
+    border-radius: 30px;
+    padding: 5px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+  }
+  .lang-btn {
+    padding: 10px 28px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 25px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 15px;
+    color: #7a4a1a;
+    transition: all 0.3s ease;
+  }
+  .lang-btn.active {
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.12);
+    box-shadow: 0 4px 12px rgba(255,154,158,0.5);
+  }
+
+  /* ===== Search ===== */
+  .search-wrap { max-width: 620px; margin: 0 auto 22px; padding: 0 4px; }
+  #searchInput {
+    width: 100%;
+    padding: 14px 22px;
+    border-radius: 999px;
+    border: 3px solid #fff;
+    background: rgba(255,255,255,0.85);
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    outline: none;
+    text-align: center;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.06), 0 8px 20px rgba(0,0,0,0.08);
+    user-select: text;
+  }
+  #searchInput::placeholder { color: #999; }
+
+  /* ===== Grid ===== */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .story-card {
+    background: #fff;
+    border-radius: 22px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 6px 0 rgba(0,0,0,0.08), 0 10px 24px rgba(0,0,0,0.12);
+    border: 3px solid transparent;
+    transition: transform 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s, border-color 0.2s;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    animation: fadeUp 0.4s ease backwards;
+  }
+  @keyframes fadeUp {
+    from { transform: translateY(24px); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+  }
+  .story-card:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 12px 0 rgba(0,0,0,0.06), 0 18px 32px rgba(0,0,0,0.18);
+    border-color: #ffd700;
+  }
+
+  /* Card top colored area with thumbnail */
+  .card-top {
+    height: 120px;
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    font-size: 60px;
+  }
+  .card-top::after {
+    content: '';
+    position: absolute;
+    top: -60%;
+    left: -60%;
+    width: 220%;
+    height: 220%;
+    background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.5) 50%, transparent 60%);
+    transform: rotate(45deg);
+    transition: all 0.7s ease;
+    opacity: 0;
+    z-index: 2;
+  }
+  .story-card:hover .card-top::after { opacity: 1; transform: rotate(45deg) translate(20%, 20%); }
+
+  .card-top .thumb-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+  }
+  .card-top .thumb-emoji {
+    position: relative;
+    z-index: 1;
+  }
+
+  .card-top .play-icon {
+    position: absolute;
+    bottom: 8px;
+    inset-inline-end: 10px;
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: #fff;
+    color: #e03e3e;
+    display: grid; place-items: center;
+    font-size: 15px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+    padding-inline-start: 3px;
+    z-index: 3;
+    transition: transform 0.2s;
+  }
+  .story-card:hover .play-icon { transform: scale(1.18); }
+
+  .card-body {
+    padding: 14px 16px 18px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .card-title {
+    margin: 0;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.02em;
+    color: #2c3e50;
+    line-height: 1.25;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .card-desc {
+    margin: 0;
+    font-size: 0.82em;
+    color: #6b6b7a;
+    font-weight: 600;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .card-moral {
+    margin-top: auto;
+    padding-top: 8px;
+    font-size: 0.78em;
+    font-weight: 800;
+    color: #b8860b;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  /* Color variants by nth-child (fallback when no thumbnail) */
+  .story-card:nth-child(6n+1) .card-top { background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%); }
+  .story-card:nth-child(6n+2) .card-top { background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%); }
+  .story-card:nth-child(6n+3) .card-top { background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%); }
+  .story-card:nth-child(6n+4) .card-top { background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); }
+  .story-card:nth-child(6n+5) .card-top { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); }
+  .story-card:nth-child(6n+6) .card-top { background: linear-gradient(135deg, #f6d365 0%, #fda085 100%); }
+
+  .empty {
+    text-align: center;
+    padding: 50px 20px;
+    color: #fff;
+    font-weight: 800;
+    font-size: 18px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+    display: none;
+  }
+  .empty.show { display: block; }
+
+  /* Loading state */
+  .loading-bar {
+    text-align: center;
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 10px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .loading-bar.show { opacity: 1; }
+
+  /* ===== Video Modal ===== */
+  .video-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    background: rgba(20, 20, 40, 0.88);
+    display: none;
+    place-items: center;
+    padding: 16px;
+    backdrop-filter: blur(6px);
+  }
+  .video-modal.open { display: grid; animation: fadein 0.25s; }
+  @keyframes fadein { from { opacity: 0; } }
+
+  .video-box {
+    width: 100%;
+    max-width: 900px;
+    background: #fff;
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 24px 70px rgba(0,0,0,0.5);
+    border: 4px solid #ffd700;
+    animation: popin 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+  }
+  @keyframes popin { from { transform: scale(0.85); opacity: 0; } }
+
+  .video-box .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 18px;
+    background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+  }
+  .modal-header .modal-title {
+    margin: 0;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1em;
+    color: #fff;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+    line-height: 1.2;
+  }
+  .modal-close {
+    flex-shrink: 0;
+    width: 40px; height: 40px;
+    border: none;
+    border-radius: 50%;
+    background: #fff;
+    color: #e03e3e;
+    font-size: 22px;
+    font-weight: 900;
+    cursor: pointer;
+    display: grid; place-items: center;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    transition: transform 0.2s;
+    line-height: 1;
+  }
+  .modal-close:hover { transform: rotate(90deg) scale(1.1); }
+
+  .video-frame-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000;
+  }
+  .video-frame-wrap iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  .modal-footer {
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    background: #fef9f0;
+  }
+  .modal-moral {
+    font-weight: 800;
+    color: #b8860b;
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .modal-open-yt {
+    margin-inline-start: auto;
+    text-decoration: none;
+    background: #ff0000;
+    color: #fff;
+    font-weight: 800;
+    font-size: 0.82em;
+    padding: 8px 14px;
+    border-radius: 999px;
+    box-shadow: 0 3px 0 #b00;
+    transition: transform 0.12s;
+  }
+  .modal-open-yt:active { transform: scale(0.95); }
+
+  footer {
+    text-align: center;
+    color: #fff;
+    font-weight: 700;
+    font-size: 13px;
+    margin-top: 40px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+    padding: 0 20px;
+  }
+
+  @media (max-width: 520px) {
+    .grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .card-top { height: 90px; font-size: 44px; }
+    .card-title { font-size: 0.88em; }
+    .card-desc { font-size: 0.72em; }
+    .modal-header .modal-title { font-size: 0.9em; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1 id="pageTitle">📚 Moral Stories</h1>
+  <p id="pageSubtitle">Click on any story to watch its video</p>
+</header>
+
+<!-- Language Toggle -->
+<div class="lang-toggle-wrap">
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="btnEn" onclick="setLanguage('en')">English</button>
+    <button class="lang-btn" id="btnAr" onclick="setLanguage('ar')">العربية</button>
+  </div>
+</div>
+
+<!-- Search -->
+<div class="search-wrap">
+  <input id="searchInput" type="search" placeholder="🔍 Search for a story..." autocomplete="off">
+</div>
+
+<div class="loading-bar" id="loadingBar">Loading video titles…</div>
+
+<!-- Grid -->
+<div class="grid" id="storyGrid"></div>
+<div class="empty" id="empty">No matching stories found 😊</div>
+
+<footer id="footer">Watch, learn, and grow — one story at a time 🌟</footer>
+
+<!-- Video Modal -->
+<div class="video-modal" id="videoModal">
+  <div class="video-box">
+    <div class="modal-header">
+      <h2 class="modal-title" id="modalTitle">Story Title</h2>
+      <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+    </div>
+    <div class="video-frame-wrap">
+      <iframe id="videoFrame" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <div class="modal-footer">
+      <span class="modal-moral" id="modalMoral">💡 Moral</span>
+      <a class="modal-open-yt" id="openYtLink" href="#" target="_blank" rel="noopener noreferrer">▶ Open on YouTube</a>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   STORY DATA
+   Each story now has TWO video IDs:
+   - youtubeIdEn: the English video (plays in English mode)
+   - youtubeIdAr: the Arabic video (plays in Arabic mode)
+   
+   You can also set fallback titles per language:
+   - fallbackEn / fallbackAr
+   - descEn / descAr
+   - moralEn / moralAr
+   - emoji: fallback icon if no thumbnail
+   
+   If the oEmbed title fetch fails, the fallback title is used.
+   ============================================================ */
+const STORIES = [
+  {
+    id: 1,
+    emoji: "🦁",
+    fallbackEn: "Story 1",
+    fallbackAr: "القصة ١",
+    moralEn: "",
+    moralAr: "",
+    descEn: "",
+    descAr: "",
+    youtubeIdEn: "zIpeoZvbIv4",
+    youtubeIdAr: "#"
+  },
+  {
+    id: 2,
+    emoji: "🐢",
+    fallbackEn: "Story 2",
+    fallbackAr: "القصة ٢",
+    moralEn: "",
+    moralAr: "",
+    descEn: "",
+    descAr: "",
+    youtubeIdEn: "pINTdWi31pw",
+    youtubeIdAr: "#"
+  },
+  {
+    id: 3,
+    emoji: "🐺",
+    fallbackEn: "Story 3",
+    fallbackAr: "القصة ٣",
+    moralEn: "",
+    moralAr: "",
+    descEn: "",
+    descAr: "",
+    youtubeIdEn: "AQatbxUFMVk",
+    youtubeIdAr: "#"
+  },
+  {
+    id: 4,
+    emoji: "🦊",
+    fallbackEn: "Story 4",
+    fallbackAr: "القصة ٤",
+    moralEn: "",
+    moralAr: "",
+    descEn: "",
+    descAr: "",
+    youtubeIdEn: "YjvMKyfouyU",
+    youtubeIdAr: "#"
+  },
+  {
+    id: 5,
+    emoji: "🐜",
+    fallbackEn: "Story 5",
+    fallbackAr: "القصة ٥",
+    moralEn: "",
+    moralAr: "",
+    descEn: "",
+    descAr: "",
+    youtubeIdEn: "1FPG6So0byA",
+    youtubeIdAr: "#"
+  },
+  {
+    id: 6,
+    emoji: "🐦",
+    fallbackEn: "Story 6",
+    fallbackAr: "القصة ٦",
+    moralEn: "",
+    moralAr: "",
+    descEn: "",
+    descAr: "",
+    youtubeIdEn: "dcMvO3qh3Wc",
+    youtubeIdAr: "#"
+  },
+  {
+    id: 7,
+    emoji: "🐦",
+    fallbackEn: "Story 7",
+    fallbackAr: "القصة ٧",
+    moralEn: "",
+    moralAr: "",
+    descEn: "",
+    descAr: "",
+    youtubeIdEn: "lUdQFDVdr6A",
+    youtubeIdAr: "#"
+  },
+  {
+    id: 8,
+    emoji: "🐦",
+    fallbackEn: "Story 8",
+    fallbackAr: "القصة ٨",
+    moralEn: "",
+    moralAr: "",
+    descEn: "",
+    descAr: "",
+    youtubeIdEn: "duJ7gAfv0OY",
+    youtubeIdAr: "#"
+  },
+  {
+    id: 9,
+    emoji: "🐦",
+    fallbackEn: "Story 9",
+    fallbackAr: "القصة ٩",
+    moralEn: "",
+    moralAr: "",
+    descEn: "",
+    descAr: "",
+    youtubeIdEn: "T9av6Pm2UUY",
+    youtubeIdAr: "#"
+  },
+  {
+    id: 10,
+    emoji: "🐦",
+    fallbackEn: "Story 10",
+    fallbackAr: "القصة ١٠",
+    moralEn: "",
+    moralAr: "",
+    descEn: "",
+    descAr: "",
+    youtubeIdEn: "miwOm9L1vYQ",
+    youtubeIdAr: "#"
+  },
+  {
+    id: 11,
+    emoji: "🐦",
+    fallbackEn: "Story 11",
+    fallbackAr: "القصة ١١",
+    moralEn: "",
+    moralAr: "",
+    descEn: "",
+    descAr: "",
+    youtubeIdEn: "5KYAtnlu7kA",
+    youtubeIdAr: "#"
+  },
+  {
+    id: 12,
+    emoji: "🐦",
+    fallbackEn: "Story 12",
+    fallbackAr: "القصة ١٢",
+    moralEn: "",
+    moralAr: "",
+    descEn: "",
+    descAr: "",
+    youtubeIdEn: "m6YYlCOVy3A",
+    youtubeIdAr: "#"
+  },
+  {
+    id: 13,
+    emoji: "🐦",
+    fallbackEn: "Story 13",
+    fallbackAr: "القصة ١٣",
+    moralEn: "",
+    moralAr: "",
+    descEn: "",
+    descAr: "",
+    youtubeIdEn: "QRjZFhTwKm4",
+    youtubeIdAr: "#"
+  },
+  {
+    id: 14,
+    emoji: "🐦",
+    fallbackEn: "Story 14",
+    fallbackAr: "القصة ١٤",
+    moralEn: "",
+    moralAr: "",
+    descEn: "",
+    descAr: "",
+    youtubeIdEn: "PmtBEbjmCmg",
+    youtubeIdAr: "#"
+  },
+  {
+    id: 15,
+    emoji: "🐦",
+    fallbackEn: "Story 15",
+    fallbackAr: "القصة ١٥",
+    moralEn: "",
+    moralAr: "",
+    descEn: "",
+    descAr: "",
+    youtubeIdEn: "eUIavzFKsu4",
+    youtubeIdAr: "#"
+  },
+  {
+    id: 16,
+    emoji: "🐦",
+    fallbackEn: "Story 16",
+    fallbackAr: "القصة ١٦",
+    moralEn: "",
+    moralAr: "",
+    descEn: "",
+    descAr: "",
+    youtubeIdEn: "05cNmC2c12U",
+    youtubeIdAr: "#"
+  },
+  {
+    id: 17,
+    emoji: "🐦",
+    fallbackEn: "Story 17",
+    fallbackAr: "القصة ١٧",
+    moralEn: "",
+    moralAr: "",
+    descEn: "",
+    descAr: "",
+    youtubeIdEn: "xMbIPENOz_Y",
+    youtubeIdAr: "#"
+  },
+  {
+    id: 18,
+    emoji: "🐦",
+    fallbackEn: "Story 18",
+    fallbackAr: "القصة ١٨",
+    moralEn: "",
+    moralAr: "",
+    descEn: "",
+    descAr: "",
+    youtubeIdEn: "574ostPpoKw",
+    youtubeIdAr: "#"
+  },
+  {
+    id: 19,
+    emoji: "🐦",
+    fallbackEn: "Story 19",
+    fallbackAr: "القصة ١٩",
+    moralEn: "",
+    moralAr: "",
+    descEn: "",
+    descAr: "",
+    youtubeIdEn: "xott1I59gM0",
+    youtubeIdAr: "#"
+  },
+  {
+    id: 20,
+    emoji: "🐦",
+    fallbackEn: "Story 20",
+    fallbackAr: "القصة ٢٠",
+    moralEn: "",
+    moralAr: "",
+    descEn: "",
+    descAr: "",
+    youtubeIdEn: "zo_ZYM1QqaU",
+    youtubeIdAr: "#"
+  },
+  {
+    id: 21,
+    emoji: "🐦",
+    fallbackEn: "Story 21",
+    fallbackAr: "القصة ٢١",
+    moralEn: "",
+    moralAr: "",
+    descEn: "",
+    descAr: "",
+    youtubeIdEn: "CxMJ3m-NyW8",
+    youtubeIdAr: "#"
+  },
+  {
+    id: 22,
+    emoji: "🐦",
+    fallbackEn: "Story 22",
+    fallbackAr: "القصة ٢٢",
+    moralEn: "",
+    moralAr: "",
+    descEn: "",
+    descAr: "",
+    youtubeIdEn: "We4Cxt3Ux34",
+    youtubeIdAr: "#"
+  },
+  {
+    id: 23,
+    emoji: "🐦",
+    fallbackEn: "Story 23",
+    fallbackAr: "القصة ٢٣",
+    moralEn: "",
+    moralAr: "",
+    descEn: "",
+    descAr: "",
+    youtubeIdEn: "xIpYuuhPQGU",
+    youtubeIdAr: "#"
+  },
+  {
+    id: 24,
+    emoji: "🐦",
+    fallbackEn: "Story 24",
+    fallbackAr: "القصة ٢٤",
+    moralEn: "",
+    moralAr: "",
+    descEn: "",
+    descAr: "",
+    youtubeIdEn: "YFAjvUwPQxM",
+    youtubeIdAr: "#"
+  },
+  {
+    id: 25,
+    emoji: "🐦",
+    fallbackEn: "Story 25",
+    fallbackAr: "القصة ٢٥",
+    moralEn: "",
+    moralAr: "",
+    descEn: "",
+    descAr: "",
+    youtubeIdEn: "5wj04gzVeTM",
+    youtubeIdAr: "#"
+  },
+  {
+    id: 26,
+    emoji: "🐦",
+    fallbackEn: "Story 26",
+    fallbackAr: "القصة ٢٦",
+    moralEn: "",
+    moralAr: "",
+    descEn: "",
+    descAr: "",
+    youtubeIdEn: "#",
+    youtubeIdAr: "#"
+  },
+  {
+    id: 27,
+    emoji: "🐦",
+    fallbackEn: "Story 27",
+    fallbackAr: "القصة ٢٧",
+    moralEn: "",
+    moralAr: "",
+    descEn: "",
+    descAr: "",
+    youtubeIdEn: "#",
+    youtubeIdAr: "#"
+  },
+  {
+    id: 28,
+    emoji: "🐦",
+    fallbackEn: "Story 28",
+    fallbackAr: "القصة ٢٨",
+    moralEn: "",
+    moralAr: "",
+    descEn: "",
+    descAr: "",
+    youtubeIdEn: "#",
+    youtubeIdAr: "#"
+  },
+  {
+    id: 29,
+    emoji: "🐦",
+    fallbackEn: "Story 29",
+    fallbackAr: "القصة ٢٩",
+    moralEn: "",
+    moralAr: "",
+    descEn: "",
+    descAr: "",
+    youtubeIdEn: "#",
+    youtubeIdAr: "#"
+  },
+  {
+    id: 30,
+    emoji: "🐦",
+    fallbackEn: "Story 30",
+    fallbackAr: "القصة ٣٠",
+    moralEn: "",
+    moralAr: "",
+    descEn: "",
+    descAr: "",
+    youtubeIdEn: "#",
+    youtubeIdAr: "#"
+  }
+];
+
+/* ============================================================
+   TRANSLATIONS
+   ============================================================ */
+const TRANSLATIONS = {
+  en: {
+    pageTitle: "📚 Moral Stories",
+    pageSubtitle: "Click on any story to watch its video",
+    searchPlaceholder: "🔍 Search for a story...",
+    empty: "No matching stories found 😊",
+    footer: "Watch, learn, and grow — one story at a time 🌟",
+    moral: "💡 Moral",
+    openYt: "▶ Open on YouTube",
+    loadingTitles: "Loading video titles…"
+  },
+  ar: {
+    pageTitle: "📚 قصص أخلاقية",
+    pageSubtitle: "اضغط على أي قصة لمشاهدة الفيديو",
+    searchPlaceholder: "🔍 ابحث عن قصة...",
+    empty: "لا توجد قصص مطابقة 😊",
+    footer: "شاهد، تعلم، وانمُ — قصة واحدة في كل مرة 🌟",
+    moral: "💡 العبرة",
+    openYt: "▶ فتح على يوتيوب",
+    loadingTitles: "جاري تحميل عناوين الفيديوهات…"
+  }
+};
+
+/* ============================================================
+   STATE & ELEMENTS
+   ============================================================ */
+let currentLang = 'en';
+let searchQuery = '';
+
+// Cache of fetched video titles keyed by video ID
+const videoCache = {};
+
+const storyGrid   = document.getElementById('storyGrid');
+const emptyState  = document.getElementById('empty');
+const searchInput = document.getElementById('searchInput');
+const pageTitle   = document.getElementById('pageTitle');
+const pageSubtitle= document.getElementById('pageSubtitle');
+const footer      = document.getElementById('footer');
+const loadingBar  = document.getElementById('loadingBar');
+
+const videoModal  = document.getElementById('videoModal');
+const modalTitle  = document.getElementById('modalTitle');
+const modalMoral  = document.getElementById('modalMoral');
+const videoFrame  = document.getElementById('videoFrame');
+const modalClose  = document.getElementById('modalClose');
+const openYtLink  = document.getElementById('openYtLink');
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+function t(key) { return TRANSLATIONS[currentLang][key]; }
+
+// Get the correct video ID for a story and current language
+function getVideoId(story) {
+  return currentLang === 'ar' ? story.youtubeIdAr : story.youtubeIdEn;
+}
+
+// Get the correct fallback title for the current language
+function getFallbackTitle(story) {
+  return currentLang === 'ar' ? story.fallbackAr : story.fallbackEn;
+}
+
+// Get the correct description for the current language
+function getDesc(story) {
+  return currentLang === 'ar' ? story.descAr : story.descEn;
+}
+
+// Get the correct moral for the current language
+function getMoral(story) {
+  return currentLang === 'ar' ? story.moralAr : story.moralEn;
+}
+
+/* ============================================================
+   FETCH YOUTUBE VIDEO TITLE + THUMBNAIL
+   Uses YouTube's oEmbed endpoint (no API key required).
+   Caches results by video ID so English and Arabic videos
+   each get their own title/thumbnail.
+   ============================================================ */
+async function fetchVideoInfo(youtubeId) {
+  if (!youtubeId || youtubeId === '#' || videoCache[youtubeId]) {
+    return videoCache[youtubeId] || { title: '', thumbnail: '' };
+  }
+
+  const watchUrl = 'https://www.youtube.com/watch?v=' + youtubeId;
+  const oembedUrl = 'https://www.youtube.com/oembed?url=' + encodeURIComponent(watchUrl) + '&format=json';
+
+  try {
+    const res = await fetch(oembedUrl);
+    if (!res.ok) throw new Error('oembed failed');
+    const data = await res.json();
+    const info = {
+      title: data.title || '',
+      thumbnail: data.thumbnail_url || ('https://i.ytimg.com/vi/' + youtubeId + '/hqdefault.jpg')
+    };
+    videoCache[youtubeId] = info;
+    return info;
+  } catch (e) {
+    const fallback = {
+      title: '',
+      thumbnail: 'https://i.ytimg.com/vi/' + youtubeId + '/hqdefault.jpg'
+    };
+    videoCache[youtubeId] = fallback;
+    return fallback;
+  }
+}
+
+async function loadAllVideoInfo() {
+  loadingBar.classList.add('show');
+  // Collect every unique English AND Arabic video ID
+  const ids = [];
+  STORIES.forEach(s => {
+    if (s.youtubeIdEn && s.youtubeIdEn !== '#') ids.push(s.youtubeIdEn);
+    if (s.youtubeIdAr && s.youtubeIdAr !== '#') ids.push(s.youtubeIdAr);
+  });
+  const uniqueIds = [...new Set(ids)];
+  await Promise.all(uniqueIds.map(id => fetchVideoInfo(id)));
+  loadingBar.classList.remove('show');
+  renderStories();
+}
+
+/* ============================================================
+   LANGUAGE HANDLING
+   ============================================================ */
+function setLanguage(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.documentElement.dir  = lang === 'ar' ? 'rtl' : 'ltr';
+
+  document.getElementById('btnEn').classList.toggle('active', lang === 'en');
+  document.getElementById('btnAr').classList.toggle('active', lang === 'ar');
+
+  pageTitle.textContent   = t('pageTitle');
+  pageSubtitle.textContent= t('pageSubtitle');
+  searchInput.placeholder = t('searchPlaceholder');
+  emptyState.textContent  = t('empty');
+  footer.textContent      = t('footer');
+  loadingBar.textContent  = t('loadingTitles');
+  openYtLink.textContent  = t('openYt');
+
+  // If a video is currently open, switch to the matching language video
+  if (videoModal.classList.contains('open')) {
+    const openStoryId = videoModal.getAttribute('data-story-id');
+    if (openStoryId) {
+      const story = STORIES.find(s => String(s.id) === openStoryId);
+      if (story) {
+        const newId = getVideoId(story);
+        if (newId && newId !== '#') {
+          videoFrame.src = 'https://www.youtube.com/embed/' + newId + '?autoplay=1&rel=0';
+          openYtLink.href = 'https://www.youtube.com/watch?v=' + newId;
+          const info = videoCache[newId] || {};
+          modalTitle.textContent = info.title || getFallbackTitle(story);
+          modalMoral.textContent = t('moral') + ' ' + getMoral(story);
+        }
+      }
+    }
+  }
+
+  renderStories();
+}
+
+/* ============================================================
+   RENDER STORIES
+   Uses the CURRENT language's video ID for title, thumbnail,
+   description, and moral.
+   ============================================================ */
+function renderStories() {
+  storyGrid.innerHTML = '';
+  const q = searchQuery.trim().toLowerCase();
+
+  const filtered = STORIES.filter(s => {
+    if (!q) return true;
+    const vidId = getVideoId(s);
+    const info = videoCache[vidId] || {};
+    const haystack = [
+      info.title || '',
+      s.fallbackEn, s.fallbackAr,
+      s.descEn, s.descAr,
+      s.moralEn, s.moralAr
+    ].join(' ').toLowerCase();
+    return haystack.includes(q);
+  });
+
+  if (filtered.length === 0) {
+    emptyState.classList.add('show');
+    return;
+  }
+  emptyState.classList.remove('show');
+
+  filtered.forEach((story, i) => {
+    const vidId = getVideoId(story);
+    const info = videoCache[vidId] || {};
+    // HEADLINE = YouTube video title (fallback to local language title)
+    const headline = info.title || getFallbackTitle(story);
+    const desc  = getDesc(story);
+    const moral = getMoral(story);
+
+    // Thumbnail: prefer oEmbed thumbnail, else YouTube's hqdefault by ID
+    let thumb = info.thumbnail;
+    if (!thumb && vidId && vidId !== '#') {
+      thumb = 'https://i.ytimg.com/vi/' + vidId + '/hqdefault.jpg';
+    }
+
+    const card = document.createElement('div');
+    card.className = 'story-card';
+    card.style.animationDelay = (i * 0.04) + 's';
+
+    const thumbHtml = thumb
+      ? `<img class="thumb-img" src="${thumb}" alt="" loading="lazy"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
+         <span class="thumb-emoji" style="display:none;">${story.emoji}</span>`
+      : `<span class="thumb-emoji">${story.emoji}</span>`;
+
+    card.innerHTML = `
+      <div class="card-top">
+        ${thumbHtml}
+        <div class="play-icon">▶</div>
+      </div>
+      <div class="card-body">
+        <h3 class="card-title">${escapeHtml(headline)}</h3>
+        <p class="card-desc">${escapeHtml(desc)}</p>
+        <div class="card-moral">💡 ${escapeHtml(moral)}</div>
+      </div>
+    `;
+
+    // If thumbnail fails, show emoji
+    const img = card.querySelector('.thumb-img');
+    const emojiSpan = card.querySelector('.thumb-emoji');
+    if (img && emojiSpan) {
+      img.addEventListener('error', () => {
+        img.style.display = 'none';
+        emojiSpan.style.display = 'grid';
+      });
+      img.addEventListener('load', () => {
+        emojiSpan.style.display = 'none';
+      });
+    }
+
+    card.addEventListener('click', () => openVideo(story));
+    storyGrid.appendChild(card);
+  });
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]));
+}
+
+/* ============================================================
+   VIDEO MODAL
+   Plays the CURRENT language's video for the clicked story.
+   ============================================================ */
+function openVideo(story) {
+  const vidId = getVideoId(story);
+
+  if (!vidId || vidId === '#') {
+    alert(currentLang === 'ar'
+      ? 'هذا الفيديو غير متوفر بعد بهذه اللغة.'
+      : 'This video is not available yet in this language.');
+    return;
+  }
+
+  const info = videoCache[vidId] || {};
+  const headline = info.title || getFallbackTitle(story);
+  const moral = getMoral(story);
+
+  modalTitle.textContent = headline;
+  modalMoral.textContent = t('moral') + ' ' + moral;
+  openYtLink.href = 'https://www.youtube.com/watch?v=' + vidId;
+  openYtLink.textContent = t('openYt');
+
+  videoFrame.src = 'https://www.youtube.com/embed/' + vidId + '?autoplay=1&rel=0';
+
+  videoModal.setAttribute('data-story-id', story.id);
+  videoModal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeVideo() {
+  videoModal.classList.remove('open');
+  videoModal.removeAttribute('data-story-id');
+  videoFrame.src = '';
+  document.body.style.overflow = '';
+}
+
+modalClose.addEventListener('click', closeVideo);
+videoModal.addEventListener('click', e => {
+  if (e.target === videoModal) closeVideo();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeVideo();
+});
+
+/* ============================================================
+   SEARCH
+   ============================================================ */
+searchInput.addEventListener('input', e => {
+  searchQuery = e.target.value;
+  renderStories();
+});
+
+/* ============================================================
+   INIT
+   ============================================================ */
+setLanguage('en');
+loadAllVideoInfo();
+</script>
+
+</body>
+</html>

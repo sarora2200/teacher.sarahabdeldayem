@@ -1,193 +1,627 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" id="htmlRoot">
+<html lang="en" id="htmlRoot">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tafsir (Quran) | التفسير</title>
-<link rel="icon" type="image/png" href="../../../../../images/quran.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Poppins:wght@400;500;700;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
-<style>
-  :root { --bg-dark: #0a1628; --gold: #f5c542; --gold-dark: #d4a24c; --gold-soft: #ffe08a; --text: #eaf2ff; --text-soft: #b8cce6; --card-bg: rgba(255, 255, 255, 0.06); --card-border: rgba(245, 197, 66, 0.25); --nav-bg: rgba(10, 22, 40, 0.92); }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html[lang="ar"] body { font-family: 'Tajawal', sans-serif; }
-  html[lang="en"] body { font-family: 'Poppins', sans-serif; }
-  .font-ar { font-family: 'Amiri', serif; }
-  body { background: radial-gradient(circle at 20% 10%, #1a3355 0%, var(--bg-dark) 55%, #050b14 100%); color: var(--text); min-height: 100vh; line-height: 1.7; overflow-x: hidden; padding-top: 70px; }
-  html[lang="ar"] .en-only { display: none !important; }
-  html[lang="en"] .ar-only { display: none !important; }
-  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
-  .top-toolbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: var(--nav-bg); border-bottom: 1px solid var(--card-border); backdrop-filter: blur(12px); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); }
-  .toolbar-inner { max-width: 1100px; margin: 0 auto; padding: 0 24px; height: 70px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-  .toolbar-brand { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 1.1rem; color: var(--gold); text-decoration: none; white-space: nowrap; }
-  .toolbar-brand .brand-mark { width: 34px; height: 34px; background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: #1a1200; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-family: 'Amiri', serif; font-weight: 700; font-size: 1.1rem; flex-shrink: 0; }
-  .toolbar-nav { display: flex; align-items: center; gap: 6px; flex: 1; justify-content: center; }
-  .toolbar-nav a { color: var(--text-soft); text-decoration: none; font-weight: 700; font-size: 0.88rem; padding: 8px 14px; border-radius: 50px; transition: all 0.25s; white-space: nowrap; }
-  .toolbar-nav a:hover { background: rgba(245, 197, 66, 0.12); color: var(--gold); }
-  .lang-toggle { display: flex; background: rgba(255, 255, 255, 0.06); border: 1px solid var(--card-border); border-radius: 50px; padding: 3px; flex-shrink: 0; }
-  .lang-toggle button { border: none; background: transparent; color: var(--text-soft); font-family: inherit; font-weight: 700; font-size: 0.82rem; padding: 6px 14px; border-radius: 50px; cursor: pointer; transition: all 0.3s; white-space: nowrap; }
-  .lang-toggle button.active { background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: #1a1200; box-shadow: 0 3px 10px rgba(245, 197, 66, 0.4); }
-  .mobile-menu-btn { display: none; background: transparent; border: 1px solid var(--card-border); color: var(--gold); font-size: 1.3rem; padding: 6px 12px; border-radius: 12px; cursor: pointer; }
-  header { text-align: center; padding: 40px 20px 20px; position: relative; }
-  .brand-badge { display: inline-block; background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: #1a1200; font-weight: 700; padding: 8px 22px; border-radius: 50px; font-size: 0.9rem; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(245, 197, 66, 0.4); letter-spacing: 0.5px; }
-  h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 900; background: linear-gradient(135deg, #fff, var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 16px; line-height: 1.2; }
-  .subtitle { color: var(--text-soft); font-size: 1.1rem; max-width: 680px; margin: 0 auto 20px; }
-  .btn { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; padding: 12px 28px; border-radius: 50px; text-decoration: none; cursor: pointer; border: none; transition: all 0.3s; font-family: inherit; font-size: 0.95rem; }
-  .btn-quiet { background: transparent; color: var(--text); border: 2px solid var(--card-border); }
-  .btn-quiet:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
-  .sections-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin: 40px 0; }
-  .section-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 24px; padding: 32px 26px; text-decoration: none; color: var(--text); transition: all 0.35s ease; position: relative; overflow: hidden; display: flex; flex-direction: column; backdrop-filter: blur(10px); }
-  .section-card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 5px; background: var(--accent, var(--gold)); transition: height 0.3s; }
-  .section-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4); border-color: var(--accent, var(--gold)); background: rgba(255, 255, 255, 0.09); }
-  .section-card:hover::before { height: 6px; }
-  .section-card .icon { font-size: 3rem; margin-bottom: 18px; display: block; line-height: 1; font-family: 'Amiri', serif; color: var(--accent, var(--gold)); }
-  .section-card h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: 10px; line-height: 1.3; }
-  .section-card .ar-name { display: block; font-family: 'Amiri', serif; font-size: 1.5rem; color: var(--accent, var(--gold)); font-weight: 700; margin-top: 2px; }
-  .section-card p { color: var(--text-soft); font-size: 0.95rem; margin-bottom: 20px; flex-grow: 1; }
-  .section-card .meta { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 0.88rem; font-weight: 700; color: var(--accent, var(--gold)); padding-top: 16px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
-  .section-card .meta .arrow { font-size: 1.2rem; transition: transform 0.3s; }
-  .section-card:hover .meta .arrow { transform: translateX(6px); }
-  html[lang="ar"] .section-card:hover .meta .arrow { transform: translateX(-6px); }
-  .card-teal { --accent: #2dd4bf; } .card-gold { --accent: #f5c542; } .card-purple { --accent: #a78bfa; } .card-rose { --accent: #fb7185; } .card-sky { --accent: #38bdf8; } .card-emerald { --accent: #34d399; }
-  .games-section { padding: 40px 0 80px; }
-  .games-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
-  .game-card { background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02)); border: 2px solid var(--card-border); border-radius: 24px; padding: 30px 24px; text-decoration: none; color: var(--text); transition: all 0.3s; text-align: center; backdrop-filter: blur(10px); display: flex; flex-direction: column; align-items: center; }
-  .game-card:hover { transform: scale(1.03); border-color: var(--gold); box-shadow: 0 15px 35px rgba(245, 197, 66, 0.15); }
-  .game-card .game-icon { font-size: 3.5rem; margin-bottom: 15px; }
-  .game-card h4 { font-size: 1.3rem; font-weight: 800; color: var(--gold-soft); margin-bottom: 8px; }
-  .game-card p { font-size: 0.95rem; color: var(--text-soft); margin-bottom: 20px; flex-grow: 1; }
-  .game-btn { background: var(--gold); color: #1a1200; font-weight: 800; padding: 10px 24px; border-radius: 50px; font-size: 0.9rem; transition: all 0.2s; display: inline-block; }
-  .game-card:hover .game-btn { background: var(--gold-soft); transform: translateY(-2px); }
-  footer { text-align: center; padding: 40px 24px; color: var(--text-soft); font-size: 0.9rem; border-top: 1px solid rgba(255, 255, 255, 0.08); }
-  footer strong { color: var(--gold); }
-  .zoom-controls { position: fixed; bottom: 24px; right: 24px; z-index: 90; display: flex; flex-direction: column; gap: 8px; background: rgba(10, 22, 40, 0.85); border: 1px solid rgba(245, 197, 66, 0.35); border-radius: 18px; padding: 8px; backdrop-filter: blur(10px); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4); }
-  .zoom-btn { width: 44px; height: 44px; border-radius: 12px; border: 1px solid rgba(245, 197, 66, 0.2); background: rgba(255, 255, 255, 0.06); color: #ffe08a; font-size: 1.2rem; font-weight: 700; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s ease; user-select: none; -webkit-tap-highlight-color: transparent; }
-  .zoom-btn:hover { background: rgba(245, 197, 66, 0.2); border-color: rgba(245, 197, 66, 0.6); color: #f5c542; transform: scale(1.08); }
-  .zoom-btn:active { transform: scale(0.94); }
-  .zoom-btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; background: rgba(255, 255, 255, 0.03); }
-  .zoom-level-badge { text-align: center; font-size: 0.65rem; font-weight: 700; color: #94a3b8; letter-spacing: 0.5px; padding: 2px 0; min-width: 44px; }
-  .zoom-level-badge.zoom-active { color: #2dd4bf; }
-  @media (max-width: 640px) { .zoom-controls { bottom: 16px; right: 16px; padding: 6px; } .zoom-btn { width: 40px; height: 40px; font-size: 1.1rem; } }
-  #zoomTarget { transform-origin: top center; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); will-change: transform; }
-  @media (max-width: 850px) { .toolbar-nav { display: none; position: absolute; top: 70px; left: 0; right: 0; background: var(--nav-bg); flex-direction: column; padding: 12px 24px; border-bottom: 1px solid var(--card-border); gap: 4px; align-items: stretch; } .toolbar-nav.open { display: flex; } .toolbar-nav a { padding: 12px 16px; text-align: center; } .mobile-menu-btn { display: inline-block; } .toolbar-brand .brand-text { display: none; } }
-  @media (max-width: 640px) { header { padding: 30px 16px 20px; } .section-card { padding: 26px 22px; } .toolbar-inner { padding: 0 16px; } }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quran Surah Tafsir Index | فهرس تفسير السور</title>
+    <link rel="icon" type="image/png" href="../../../../../images/quran.png">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+        body { 
+            font-family: 'Nunito', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+            background-attachment: fixed;
+            padding: 20px; 
+            margin: 0; 
+            transition: direction 0.3s;
+            min-height: 100vh;
+        }
+        
+        /* Language Toggle Styles */
+        .lang-toggle-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .lang-toggle {
+            display: flex;
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(5px);
+            border-radius: 30px;
+            padding: 5px;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .lang-btn {
+            padding: 10px 28px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            border-radius: 25px;
+            font-weight: 800;
+            font-size: 15px;
+            color: #7a5c3a;
+            transition: all 0.3s ease;
+            z-index: 1;
+            font-family: 'Nunito', sans-serif;
+        }
+        .lang-btn.active {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            color: #fff;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(255,154,158,0.5);
+        }
+
+        /* Header */
+        h1 { 
+            text-align: center; 
+            color: #fff; 
+            margin-bottom: 5px; 
+            font-family: 'Fredoka One', cursive;
+            font-size: 2.2em;
+            text-shadow: 3px 3px 0 rgba(0,0,0,0.1), 0 0 20px rgba(255,255,255,0.3);
+            letter-spacing: 1px;
+        }
+        .subtitle { 
+            text-align: center; 
+            color: #fff; 
+            margin-bottom: 30px; 
+            font-size: 1.15em; 
+            font-weight: 600;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+        }
+        
+        /* Grid */
+        .grid-container { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); 
+            gap: 18px; 
+            max-width: 1300px; 
+            margin: 0 auto; 
+        }
+        .surah-card {
+            background: #fff; 
+            border-radius: 20px; 
+            padding: 18px 12px; 
+            text-align: center;
+            box-shadow: 0 6px 0 rgba(0,0,0,0.08), 0 8px 20px rgba(0,0,0,0.1);
+            cursor: pointer; 
+            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 3px solid transparent;
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center;
+            min-height: 95px;
+            position: relative;
+            overflow: hidden;
+        }
+        .surah-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.6) 50%, transparent 60%);
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+            opacity: 0;
+        }
+        .surah-card:hover::before { opacity: 1; transform: rotate(45deg) translate(20%, 20%); }
+        .surah-card:hover { 
+            transform: translateY(-6px) scale(1.03); 
+            box-shadow: 0 10px 0 rgba(0,0,0,0.08), 0 15px 30px rgba(0,0,0,0.18); 
+            border-color: #ffd700;
+        }
+        .surah-card:nth-child(6n+1) { background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%); }
+        .surah-card:nth-child(6n+2) { background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%); }
+        .surah-card:nth-child(6n+3) { background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%); }
+        .surah-card:nth-child(6n+4) { background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); }
+        .surah-card:nth-child(6n+5) { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); }
+        .surah-card:nth-child(6n+6) { background: linear-gradient(135deg, #f6d365 0%, #fda085 100%); }
+
+        .surah-number { 
+            font-size: 0.85em; 
+            color: #fff; 
+            font-weight: 800; 
+            margin-bottom: 6px; 
+            background: rgba(0,0,0,0.18);
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 12px;
+            align-self: center;
+        }
+        .surah-name { font-weight: 800; color: #2c3e50; font-size: 1.05em; }
+        .surah-meaning { font-size: 0.78em; color: #555; font-style: italic; margin-top: 3px; font-weight: 600; }
+        .surah-name-ar { font-weight: 700; color: #1a5276; font-size: 1.4em; margin-top: 5px; font-family: 'Traditional Arabic', 'Amiri', serif; }
+
+        /* Modal */
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(44, 62, 80, 0.85); z-index: 1000; justify-content: center; align-items: center;
+            backdrop-filter: blur(4px);
+        }
+        .modal-content {
+            background: linear-gradient(160deg, #ffffff 0%, #fef9e7 100%);
+            padding: 30px 25px; 
+            border-radius: 25px; 
+            width: 90%; 
+            max-width: 850px;
+            position: relative; 
+            text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+            border: 5px solid #ffd700;
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .close-btn { 
+            position: absolute; 
+            top: 10px; 
+            right: 20px; 
+            font-size: 32px; 
+            cursor: pointer; 
+            color: #e74c3c; 
+            font-weight: bold;
+            line-height: 1;
+            transition: transform 0.2s;
+        }
+        .close-btn:hover { transform: rotate(90deg) scale(1.2); }
+        .modal-title-en { 
+            margin-bottom: 5px; 
+            color: #2c3e50; 
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.8em;
+        }
+        .modal-title-ar { 
+            margin-bottom: 20px; 
+            color: #2980b9; 
+            font-size: 1.8em; 
+            font-family: 'Traditional Arabic', 'Amiri', serif; 
+        }
+        
+        .option-buttons { display: flex; gap: 20px; justify-content: center; margin-top: 25px; flex-wrap: wrap; }
+        .btn {
+            padding: 16px 34px; 
+            border: none; 
+            border-radius: 15px; 
+            font-size: 17px; 
+            cursor: pointer;
+            text-decoration: none; 
+            color: white; 
+            display: inline-block; 
+            font-weight: 800; 
+            transition: all 0.2s;
+            min-width: 190px;
+            font-family: 'Nunito', sans-serif;
+            box-shadow: 0 5px 0 rgba(0,0,0,0.15);
+        }
+        .btn-adult { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .btn-kids { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 0 rgba(0,0,0,0.15); filter: brightness(1.05); }
+        .btn:active { transform: translateY(2px); box-shadow: 0 2px 0 rgba(0,0,0,0.15); }
+        
+        /* Video Container */
+        #videoContainer { margin-top: 20px; display: none; }
+        iframe { width: 100%; height: 450px; border-radius: 15px; border: 4px solid #ffd700; }
+        .back-btn { 
+            background: linear-gradient(135deg, #7f8c8d 0%, #95a5a6 100%); 
+            margin-top: 15px; 
+            padding: 12px 24px; 
+            font-size: 15px; 
+            min-width: auto;
+        }
+        
+        @media (max-width: 600px) {
+            iframe { height: 250px; }
+            .grid-container { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+            h1 { font-size: 1.6em; }
+        }
+
+        /* Arabic Layout Overrides */
+        body.ar { direction: rtl; }
+        body.ar .close-btn { right: auto; left: 20px; }
+        body.ar .surah-name { display: none; }
+        body.ar .surah-meaning { display: none; }
+        body.ar .surah-name-ar { display: block; }
+        body.en .surah-name-ar { display: none; }
+        body.en .surah-name { display: block; }
+        body.en .surah-meaning { display: block; }
+        body.ar h1, body.ar .subtitle { font-family: 'Traditional Arabic', 'Amiri', serif; }
+    </style>
 </head>
-<body>
-<div class="top-toolbar">
-  <div class="toolbar-inner">
-    <a href="islamic-studies.html" class="toolbar-brand">
-      <span class="brand-mark">ن</span>
-      <span class="brand-text"><span class="en-only">Learning with Sarah</span><span class="ar-only">سارة للتعلّم</span></span>
-    </a>
-    <nav class="toolbar-nav" id="toolbarNav">
-      <a href="#topics"><span class="en-only">Lessons</span><span class="ar-only">الدروس</span></a>
-      <a href="#games"><span class="en-only">Games</span><span class="ar-only">الألعاب</span></a>
-      <a href="islamic-studies.html"><span class="en-only">Home</span><span class="ar-only">الرئيسية</span></a>
-    </nav>
-    <div class="lang-toggle">
-      <button id="btnEn" class="active" onclick="setLang('en')">🇬🇧 EN</button>
-      <button id="btnAr" onclick="setLang('ar')">🇪🇬 ع</button>
+<body class="en" id="bodyRoot">
+
+    <!-- Language Toggle -->
+    <div class="lang-toggle-container">
+        <div class="lang-toggle">
+            <button class="lang-btn active" id="btnEn" onclick="setLanguage('en')">English</button>
+            <button class="lang-btn" id="btnAr" onclick="setLanguage('ar')">العربية</button>
+        </div>
     </div>
-    <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
-  </div>
-</div>
 
-<div class="zoom-controls" id="zoomControls">
-  <button class="zoom-btn" id="zoomInBtn" onclick="zoomIn()">＋</button>
-  <div class="zoom-level-badge" id="zoomLevelBadge">100%</div>
-  <button class="zoom-btn" id="zoomOutBtn" onclick="zoomOut()">−</button>
-  <button class="zoom-btn" id="zoomResetBtn" onclick="resetZoom()" style="font-size:0.9rem;">↺</button>
-</div>
+    <!-- Header -->
+    <h1 id="pageTitle">📖 Quran Surah Tafsir Index</h1>
+    <div class="subtitle" id="pageSubtitle">Click on any Surah to choose Tafsir for Adults or Kids</div>
+    
+    <!-- Grid -->
+    <div class="grid-container" id="surahGrid"></div>
 
-<div class="container" id="zoomTarget">
-  <header>
-    <div class="brand-badge"><span class="en-only">📖 Topic 5</span><span class="ar-only">📖 الموضوع الخامس</span></div>
-    <h1><span class="en-only">Tafsir (Quran)</span><span class="ar-only">التَّفْسِير</span></h1>
-    <p class="subtitle">
-      <span class="en-only">Understand the meaning of the Quran, starting with short Surahs and the stories within them.</span>
-      <span class="ar-only">اِفْهَمْ مَعَانِيَ الْقُرْآنِ الْكَرِيم، بِدْءًا مِنَ السُّوَرِ الْقَصِيرَةِ وَالْقِصَصِ الَّتِي فِيهَا.</span>
-    </p>
-    <a class="btn btn-quiet" href="islamic-studies.html"><span class="en-only">← Back to Topics</span><span class="ar-only">العودة للمواضيع →</span></a>
-  </header>
+    <!-- Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            
+            <h2 class="modal-title-en" id="modalTitleEn">Surah Name</h2>
+            <h3 class="modal-title-ar" id="modalTitleAr">اسم السورة</h3>
+            
+            <div id="selectionArea">
+                <p style="color: #555; font-weight: 700; font-size: 1.1em;" id="chooseText">Choose Tafsir Type:</p>
+                <div class="option-buttons">
+                    <button class="btn btn-adult" id="adultBtn" onclick="playVideo('adult')">👨‍🏫 Adults Tafsir</button>
+                    <button class="btn btn-kids" id="kidsBtn" onclick="playVideo('kids')">🧒 Kids Tafsir</button>
+                </div>
+            </div>
 
-  <section class="sections-grid" id="topics">
-    <a class="section-card card-sky" href="#">
-      <span class="icon">📖</span>
-      <h3><span class="en-only">Surah Al-Fatihah</span><span class="ar-name">سُورَةُ الْفَاتِحَة</span></h3>
-      <p><span class="en-only">The opening of the Book. Learn why it is the greatest Surah and its deep meanings.</span><span class="ar-only">فَاتِحَةُ الْكِتَاب. تعلَّمْ لِمَاذَا هِيَ أَعْظَمُ سُورَةٍ وَمَعَانِيهَا الْعَمِيقَة.</span></p>
-      <span class="meta"><span class="en-only">Explore Lesson</span><span class="ar-only">اِسْتَكْشِفِ الدَّرْس</span><span class="arrow">→</span></span>
-    </a>
-    <a class="section-card card-sky" href="#">
-      <span class="icon">🔍</span>
-      <h3><span class="en-only">Surah Al-Ikhlas</span><span class="ar-name">سُورَةُ الْإِخْلَاص</span></h3>
-      <p><span class="en-only">The Surah of Pure Monotheism. It equals one-third of the Quran.</span><span class="ar-only">سُورَةُ التَّوْحِيدِ الْخَالِص. تَعْدِلُ ثُلُثَ الْقُرْآن.</span></p>
-      <span class="meta"><span class="en-only">Explore Lesson</span><span class="ar-only">اِسْتَكْشِفِ الدَّرْس</span><span class="arrow">→</span></span>
-    </a>
-    <a class="section-card card-sky" href="#">
-      <span class="icon">🛡️</span>
-      <h3><span class="en-only">Al-Mu'awwidhatayn</span><span class="ar-name">الْمُعَوِّذَتَان</span></h3>
-      <p><span class="en-only">Surah Al-Falaq and An-Nas. Learn how to protect yourself with these powerful words.</span><span class="ar-only">سُورَتَا الْفَلَقِ وَالنَّاس. تعلَّمْ كَيْفَ تَحْمِي نَفْسَكَ بِهَذِهِ الْكَلِمَاتِ الْقَوِيَّة.</span></p>
-      <span class="meta"><span class="en-only">Explore Lesson</span><span class="ar-only">اِسْتَكْشِفِ الدَّرْس</span><span class="arrow">→</span></span>
-    </a>
-    <a class="section-card card-sky" href="#">
-      <span class="icon">⚖️</span>
-      <h3><span class="en-only">Surah Al-Asr</span><span class="ar-name">سُورَةُ الْعَصْر</span></h3>
-      <p><span class="en-only">A short Surah that summarizes the whole Quran: Faith, Good Deeds, and Patience.</span><span class="ar-only">سُورَةٌ قَصِيرَةٌ تُلَخِّصُ الْقُرْآنَ كُلَّهُ: الْإِيمَان، وَالْعَمَلُ الصَّالِح، وَالصَّبْر.</span></p>
-      <span class="meta"><span class="en-only">Explore Lesson</span><span class="ar-only">اِسْتَكْشِفِ الدَّرْس</span><span class="arrow">→</span></span>
-    </a>
-    <a class="section-card card-sky" href="#">
-      <span class="icon">🎁</span>
-      <h3><span class="en-only">Surah Al-Kawthar</span><span class="ar-name">سُورَةُ الْكَوْثَر</span></h3>
-      <p><span class="en-only">The shortest Surah, revealing the abundant good given to the Prophet ﷺ.</span><span class="ar-only">أَقْصَرُ سُورَة، تُبَيِّنُ الْخَيْرَ الْكَثِيرَ الَّذِي أُعْطِيَ لِلنَّبِيِّ ﷺ.</span></p>
-      <span class="meta"><span class="en-only">Explore Lesson</span><span class="ar-only">اِسْتَكْشِفِ الدَّرْس</span><span class="arrow">→</span></span>
-    </a>
-    <a class="section-card card-sky" href="#">
-      <span class="icon">🕋</span>
-      <h3><span class="en-only">Ayat Al-Kursi</span><span class="ar-name">آيَةُ الْكُرْسِي</span></h3>
-      <p><span class="en-only">The greatest verse in the Quran. Learn it for protection before sleeping.</span><span class="ar-only">أَعْظَمُ آيَةٍ فِي الْقُرْآن. تعلَّمْهَا لِلْحِمَايَةِ قَبْلَ النَّوْم.</span></p>
-      <span class="meta"><span class="en-only">Explore Lesson</span><span class="ar-only">اِسْتَكْشِفِ الدَّرْس</span><span class="arrow">→</span></span>
-    </a>
-  </section>
-
-  <section class="games-section" id="games">
-    <div class="text-center mb-10">
-      <span class="text-amber-400 font-bold tracking-widest text-sm uppercase"><span class="en-only">Interactive Learning</span><span class="ar-only">تَعَلُّمٌ تَفَاعُلِيّ</span></span>
-      <h2 class="text-3xl font-black text-white mt-2"><span class="en-only">Play & Learn! 🎮</span><span class="ar-only">الْعَبْ وَتَعَلَّم! 🎮</span></h2>
+            <div id="videoContainer">
+                <iframe id="videoFrame" src="" allowfullscreen></iframe>
+                <br>
+                <button class="btn back-btn" id="backBtn" onclick="resetModal()">🔙 Back to Selection</button>
+            </div>
+        </div>
     </div>
-    <div class="games-grid">
-      <a class="game-card" href="#">
-        <span class="game-icon">📖</span>
-        <h4><span class="en-only">Surah Order</span><span class="ar-only">تَرْتِيبُ السُّوَر</span></h4>
-        <p><span class="en-only">Put the short Surahs in the correct order from the Quran.</span><span class="ar-only">رَتِّبِ السُّوَرَ الْقَصِيرَةَ بِالتَّرْتِيبِ الصَّحِيحِ مِنَ الْقُرْآن.</span></p>
-        <span class="game-btn"><span class="en-only">Play →</span><span class="ar-only">اِلْعَب →</span></span>
-      </a>
-      <a class="game-card" href="#">
-        <span class="game-icon">🧩</span>
-        <h4><span class="en-only">Verse Match</span><span class="ar-only">مُطَابَقَةُ الْآيَات</span></h4>
-        <p><span class="en-only">Match the beginning of the verse with its ending.</span><span class="ar-only">طَابِقْ بَيْنَ بِدَايَةِ الْآيَةِ وَنِهَايَتِهَا.</span></p>
-        <span class="game-btn"><span class="en-only">Play →</span><span class="ar-only">اِلْعَب →</span></span>
-      </a>
-    </div>
-  </section>
-</div>
-<footer>
-  <p>© <span id="year"></span> — <span class="en-only">Learning with Sarah</span><span class="ar-only">سارة للتعلّم</span></p>
-  <p style="margin-top: 6px;">Quran • Arabic • Islamic Studies</p>
-</footer>
-<script>
-  const ZOOM_MIN = 0.5; const ZOOM_MAX = 2.0; const ZOOM_STEP = 0.1; let currentZoom = 1.0;
-  function applyZoom(level) { currentZoom = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, level)); const target = document.getElementById("zoomTarget"); if (target) target.style.transform = `scale(${currentZoom})`; const badge = document.getElementById("zoomLevelBadge"); if (badge) { badge.textContent = Math.round(currentZoom * 100) + "%"; badge.classList.toggle("zoom-active", Math.abs(currentZoom - 1.0) > 0.01); } const zoomInBtn = document.getElementById("zoomInBtn"); const zoomOutBtn = document.getElementById("zoomOutBtn"); if (zoomInBtn) zoomInBtn.disabled = currentZoom >= ZOOM_MAX - 0.001; if (zoomOutBtn) zoomOutBtn.disabled = currentZoom <= ZOOM_MIN + 0.001; try { localStorage.setItem("tafsirZoom", currentZoom); } catch (e) {} }
-  function zoomIn() { applyZoom(currentZoom + ZOOM_STEP); } function zoomOut() { applyZoom(currentZoom - ZOOM_STEP); } function resetZoom() { applyZoom(1.0); }
-  try { const savedZoom = parseFloat(localStorage.getItem("tafsirZoom")); if (!isNaN(savedZoom) && savedZoom >= ZOOM_MIN && savedZoom <= ZOOM_MAX) { currentZoom = savedZoom; } } catch (e) {}
-  document.addEventListener("DOMContentLoaded", function () { applyZoom(currentZoom); });
-  let currentLang = "en";
-  function setLang(lang) { currentLang = lang; const html = document.getElementById("htmlRoot"); html.lang = lang; html.dir = lang === "ar" ? "rtl" : "ltr"; document.getElementById("btnEn").classList.toggle("active", lang === "en"); document.getElementById("btnAr").classList.toggle("active", lang === "ar"); try { localStorage.setItem("preferredLangTafsir", lang); } catch(e) {} }
-  try { const saved = localStorage.getItem("preferredLangTafsir"); if (saved === "ar") setLang("ar"); } catch(e) {}
-  function toggleMenu() { const nav = document.getElementById("toolbarNav"); nav.classList.toggle("open"); }
-  document.querySelectorAll(".toolbar-nav a").forEach(link => { link.addEventListener("click", () => { document.getElementById("toolbarNav").classList.remove("open"); }); });
-  document.getElementById("year").textContent = new Date().getFullYear();
-</script>
+
+    <script>
+        // Complete 114 Surahs Data.
+        // Each surah has SEPARATE English and Arabic video links:
+        //   adultUrlEn / adultUrlAr  (Adults Tafsir)
+        //   kidsUrlEn  / kidsUrlAr   (Kids Tafsir)
+        // Leave a field as "" if that language's video is not available yet.
+        const surahData = [
+            { id: 1, en: "Al-Fatihah", ar: "الفاتحة", meaning: "The Opening", adultUrlEn: "https://www.youtube.com/embed/EN_ADULT_1", adultUrlAr: "https://www.youtube.com/embed/AR_ADULT_1", kidsUrlEn: "https://www.youtube.com/embed/EN_KIDS_1", kidsUrlAr: "https://www.youtube.com/embed/AR_KIDS_1" },
+            { id: 2, en: "Al-Baqarah", ar: "البقرة", meaning: "The Cow", adultUrlEn: "https://www.youtube.com/embed/EN_ADULT_2", adultUrlAr: "https://www.youtube.com/embed/AR_ADULT_2", kidsUrlEn: "https://www.youtube.com/embed/EN_KIDS_2", kidsUrlAr: "https://www.youtube.com/embed/AR_KIDS_2" },
+            { id: 3, en: "Ali 'Imran", ar: "آل عمران", meaning: "The Family of Imran", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 4, en: "An-Nisa", ar: "النساء", meaning: "The Women", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 5, en: "Al-Ma'idah", ar: "المائدة", meaning: "The Table Spread", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 6, en: "Al-An'am", ar: "الأنعام", meaning: "The Cattle", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 7, en: "Al-A'raf", ar: "الأعراف", meaning: "The Heights", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 8, en: "Al-Anfal", ar: "الأنفال", meaning: "The Spoils of War", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 9, en: "At-Tawbah", ar: "التوبة", meaning: "The Repentance", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 10, en: "Yunus", ar: "يونس", meaning: "Jonah", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 11, en: "Hud", ar: "هود", meaning: "Hud", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 12, en: "Yusuf", ar: "يوسف", meaning: "Joseph", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 13, en: "Ar-Ra'd", ar: "الرعد", meaning: "The Thunder", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 14, en: "Ibrahim", ar: "إبراهيم", meaning: "Abraham", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 15, en: "Al-Hijr", ar: "الحجر", meaning: "The Rocky Tract", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 16, en: "An-Nahl", ar: "النحل", meaning: "The Bee", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 17, en: "Al-Isra", ar: "الإسراء", meaning: "The Night Journey", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 18, en: "Al-Kahf", ar: "الكهف", meaning: "The Cave", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 19, en: "Maryam", ar: "مريم", meaning: "Mary", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 20, en: "Taha", ar: "طه", meaning: "Ta-Ha", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 21, en: "Al-Anbya", ar: "الأنبياء", meaning: "The Prophets", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 22, en: "Al-Hajj", ar: "الحج", meaning: "The Pilgrimage", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 23, en: "Al-Mu'minun", ar: "المؤمنون", meaning: "The Believers", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 24, en: "An-Nur", ar: "النور", meaning: "The Light", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 25, en: "Al-Furqan", ar: "الفرقان", meaning: "The Criterion", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 26, en: "Ash-Shu'ara", ar: "الشعراء", meaning: "The Poets", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 27, en: "An-Naml", ar: "النمل", meaning: "The Ant", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 28, en: "Al-Qasas", ar: "القصص", meaning: "The Stories", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 29, en: "Al-'Ankabut", ar: "العنكبوت", meaning: "The Spider", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 30, en: "Ar-Rum", ar: "الروم", meaning: "The Romans", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 31, en: "Luqman", ar: "لقمان", meaning: "Luqman", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 32, en: "As-Sajdah", ar: "السجدة", meaning: "The Prostration", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 33, en: "Al-Ahzab", ar: "الأحزاب", meaning: "The Combined Forces", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 34, en: "Saba", ar: "سبأ", meaning: "Sheba", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 35, en: "Fatir", ar: "فاطر", meaning: "Originator", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 36, en: "Ya-Sin", ar: "يس", meaning: "Ya Sin", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 37, en: "As-Saffat", ar: "الصافات", meaning: "Those Who Set the Ranks", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 38, en: "Sad", ar: "ص", meaning: "Sad", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 39, en: "Az-Zumar", ar: "الزمر", meaning: "The Troops", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 40, en: "Ghafir", ar: "غافر", meaning: "The Forgiver", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 41, en: "Fussilat", ar: "فصلت", meaning: "Explained in Detail", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 42, en: "Ash-Shuraa", ar: "الشورى", meaning: "The Consultation", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 43, en: "Az-Zukhruf", ar: "الزخرف", meaning: "The Ornaments of Gold", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 44, en: "Ad-Dukhan", ar: "الدخان", meaning: "The Smoke", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 45, en: "Al-Jathiyah", ar: "الجاثية", meaning: "The Crouching", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 46, en: "Al-Ahqaf", ar: "الأحقاف", meaning: "The Wind-Curved Sandhills", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 47, en: "Muhammad", ar: "محمد", meaning: "Muhammad", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 48, en: "Al-Fath", ar: "الفتح", meaning: "The Victory", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 49, en: "Al-Hujurat", ar: "الحجرات", meaning: "The Rooms", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 50, en: "Qaf", ar: "ق", meaning: "Qaf", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 51, en: "Adh-Dhariyat", ar: "الذاريات", meaning: "The Winnowing Winds", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 52, en: "At-Tur", ar: "الطور", meaning: "The Mount", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 53, en: "An-Najm", ar: "النجم", meaning: "The Star", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 54, en: "Al-Qamar", ar: "القمر", meaning: "The Moon", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 55, en: "Ar-Rahman", ar: "الرحمن", meaning: "The Beneficent", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 56, en: "Al-Waqi'ah", ar: "الواقعة", meaning: "The Inevitable", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 57, en: "Al-Hadid", ar: "الحديد", meaning: "The Iron", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 58, en: "Al-Mujadila", ar: "المجادلة", meaning: "The Pleading Woman", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 59, en: "Al-Hashr", ar: "الحشر", meaning: "The Exile", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 60, en: "Al-Mumtahanah", ar: "الممتحنة", meaning: "She That is to be Examined", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 61, en: "As-Saf", ar: "الصف", meaning: "The Ranks", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 62, en: "Al-Jumu'ah", ar: "الجمعة", meaning: "The Congregation, Friday", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 63, en: "Al-Munafiqun", ar: "المنافقون", meaning: "The Hypocrites", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 64, en: "At-Taghabun", ar: "التغابن", meaning: "The Mutual Disillusion", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 65, en: "At-Talaq", ar: "الطلاق", meaning: "The Divorce", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 66, en: "At-Tahrim", ar: "التحريم", meaning: "The Prohibition", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 67, en: "Al-Mulk", ar: "الملك", meaning: "The Sovereignty", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 68, en: "Al-Qalam", ar: "القلم", meaning: "The Pen", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 69, en: "Al-Haqqah", ar: "الحاقة", meaning: "The Reality", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 70, en: "Al-Ma'arij", ar: "المعارج", meaning: "The Ascending Stairways", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 71, en: "Nuh", ar: "نوح", meaning: "Noah", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 72, en: "Al-Jinn", ar: "الجن", meaning: "The Jinn", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 73, en: "Al-Muzzammil", ar: "المزمل", meaning: "The Enshrouded One", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 74, en: "Al-Muddaththir", ar: "المدثر", meaning: "The Cloaked One", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 75, en: "Al-Qiyamah", ar: "القيامة", meaning: "The Resurrection", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 76, en: "Al-Insan", ar: "الإنسان", meaning: "Man", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 77, en: "Al-Mursalat", ar: "المرسلات", meaning: "The Emissaries", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 78, en: "An-Naba", ar: "النبأ", meaning: "The Tidings", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 79, en: "An-Nazi'at", ar: "النازعات", meaning: "Those Who Drag Forth", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 80, en: "Abasa", ar: "عبس", meaning: "He Frowned", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "https://www.youtube.com/embed/DMwlD2EzTLk", kidsUrlAr: "https://www.youtube.com/embed/#" },
+            { id: 81, en: "At-Takwir", ar: "التكوير", meaning: "The Overthrowing", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "https://www.youtube.com/embed/ItrS5xc0ZVE", kidsUrlAr: "" },
+            { id: 82, en: "Al-Infitar", ar: "الانفطار", meaning: "The Cleaving", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "https://www.youtube.com/embed/0__nc98TbHY", kidsUrlAr: "" },
+            { id: 83, en: "Al-Mutaffifin", ar: "المطففين", meaning: "The Defrauding", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "https://www.youtube.com/embed/qVDg6Qy5J6Y", kidsUrlAr: "https://www.youtube.com/embed/#" },
+            { id: 84, en: "Al-Inshiqaq", ar: "الانشقاق", meaning: "The Splitting Open", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "https://www.youtube.com/embed/dWqPnbtEwwg", kidsUrlAr: "https://www.youtube.com/embed/#" },
+            { id: 85, en: "Al-Buruj", ar: "البروج", meaning: "The Mansions of the Stars", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "https://www.youtube.com/embed/XOMa8tP_pmo", kidsUrlAr: "" },
+            { id: 86, en: "At-Tariq", ar: "الطارق", meaning: "The Morning Star", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 87, en: "Al-A'la", ar: "الأعلى", meaning: "The Most High", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 88, en: "Al-Ghashiyah", ar: "الغاشية", meaning: "The Overwhelming", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 89, en: "Al-Fajr", ar: "الفجر", meaning: "The Dawn", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 90, en: "Al-Balad", ar: "البلد", meaning: "The City", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 91, en: "Ash-Shams", ar: "الشمس", meaning: "The Sun", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 92, en: "Al-Layl", ar: "الليل", meaning: "The Night", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 93, en: "Ad-Duhaa", ar: "الضحى", meaning: "The Morning Hours", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 94, en: "Ash-Sharh", ar: "الشرح", meaning: "The Relief", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 95, en: "At-Tin", ar: "التين", meaning: "The Fig", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 96, en: "Al-'Alaq", ar: "العلق", meaning: "The Clot", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 97, en: "Al-Qadr", ar: "القدر", meaning: "The Power, Fate", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 98, en: "Al-Bayyinah", ar: "البينة", meaning: "The Clear Proof", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 99, en: "Az-Zalzalah", ar: "الزلزلة", meaning: "The Earthquake", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 100, en: "Al-'Adiyat", ar: "العاديات", meaning: "The Courser", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 101, en: "Al-Qari'ah", ar: "القارعة", meaning: "The Calamity", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 102, en: "At-Takathur", ar: "التكاثر", meaning: "The Rivalry in world increase", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 103, en: "Al-'Asr", ar: "العصر", meaning: "The Declining Day, Epoch", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 104, en: "Al-Humazah", ar: "الهمزة", meaning: "The Traducer", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 105, en: "Al-Fil", ar: "الفيل", meaning: "The Elephant", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 106, en: "Quraysh", ar: "قريش", meaning: "Quraysh", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 107, en: "Al-Ma'un", ar: "الماعون", meaning: "The Small Kindnesses", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 108, en: "Al-Kawthar", ar: "الكوثر", meaning: "The Abundance", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 109, en: "Al-Kafirun", ar: "الكافرون", meaning: "The Disbelievers", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 110, en: "An-Nasr", ar: "النصر", meaning: "The Divine Support", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 111, en: "Al-Masad", ar: "المسد", meaning: "The Palm Fibre", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 112, en: "Al-Ikhlas", ar: "الإخلاص", meaning: "The Sincerity", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 113, en: "Al-Falaq", ar: "الفلق", meaning: "The Daybreak", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" },
+            { id: 114, en: "An-Nas", ar: "الناس", meaning: "Mankind", adultUrlEn: "", adultUrlAr: "", kidsUrlEn: "", kidsUrlAr: "" }
+        ];
+
+        // UI Text Translations
+        const translations = {
+            en: {
+                pageTitle: "📖 Quran Surah Tafsir Index",
+                pageSubtitle: "Click on any Surah to choose Tafsir for Adults or Kids",
+                chooseText: "Choose Tafsir Type:",
+                adultBtn: "👨‍🏫 Adults Tafsir",
+                kidsBtn: "🧒 Kids Tafsir",
+                backBtn: "🔙 Back to Selection",
+                noVideo: "Videos not added yet for this Surah.",
+                alertNoLink: "Video link not available yet in this language."
+            },
+            ar: {
+                pageTitle: "📖 فهرس تفسير سور القرآن الكريم",
+                pageSubtitle: "اضغط على اسم السورة لاختيار التفسير (للكبار أو للأطفال)",
+                chooseText: "اختر نوع التفسير:",
+                adultBtn: "👨‍🏫 تفسير للكبار",
+                kidsBtn: "🧒 تفسير للأطفال",
+                backBtn: "🔙 العودة للاختيار",
+                noVideo: "لم تتم إضافة الفيديوهات لهذه السورة بعد.",
+                alertNoLink: "رابط الفيديو غير متوفر بعد بهذه اللغة."
+            }
+        };
+
+        let currentLang = 'en';
+        let currentSurah = null;
+        
+        const grid = document.getElementById('surahGrid');
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalTitleEn = document.getElementById('modalTitleEn');
+        const modalTitleAr = document.getElementById('modalTitleAr');
+        const selectionArea = document.getElementById('selectionArea');
+        const videoContainer = document.getElementById('videoContainer');
+        const videoFrame = document.getElementById('videoFrame');
+        const bodyRoot = document.getElementById('bodyRoot');
+        
+        // Elements to translate
+        const pageTitle = document.getElementById('pageTitle');
+        const pageSubtitle = document.getElementById('pageSubtitle');
+        const chooseText = document.getElementById('chooseText');
+        const adultBtn = document.getElementById('adultBtn');
+        const kidsBtn = document.getElementById('kidsBtn');
+        const backBtn = document.getElementById('backBtn');
+
+        // Helper: get the video link for the CURRENT language and type
+        function getVideoUrl(surah, type, lang) {
+            if (!surah) return "";
+            if (type === 'adult') {
+                return lang === 'ar' ? surah.adultUrlAr : surah.adultUrlEn;
+            } else {
+                return lang === 'ar' ? surah.kidsUrlAr : surah.kidsUrlEn;
+            }
+        }
+
+        // Change Language
+        function setLanguage(lang) {
+            currentLang = lang;
+            
+            // Toggle body class for direction and display logic
+            bodyRoot.className = lang;
+            
+            // Update toggle buttons
+            document.getElementById('btnEn').classList.toggle('active', lang === 'en');
+            document.getElementById('btnAr').classList.toggle('active', lang === 'ar');
+            
+            // Update text content
+            pageTitle.textContent = translations[lang].pageTitle;
+            pageSubtitle.textContent = translations[lang].pageSubtitle;
+            chooseText.textContent = translations[lang].chooseText;
+            adultBtn.textContent = translations[lang].adultBtn;
+            kidsBtn.textContent = translations[lang].kidsBtn;
+            backBtn.textContent = translations[lang].backBtn;
+            
+            // Modal titles: In Arabic mode, show Arabic title prominently
+            if (lang === 'ar') {
+                modalTitleEn.style.display = 'none';
+                modalTitleAr.style.display = 'block';
+            } else {
+                modalTitleEn.style.display = 'block';
+                modalTitleAr.style.display = 'none';
+            }
+
+            // Re-render grid to show correct names
+            renderGrid();
+            
+            // If modal is open, refresh its content & switch video source
+            if (currentSurah) {
+                modalTitleEn.textContent = currentSurah.en;
+                modalTitleAr.textContent = currentSurah.ar;
+
+                // If a video is currently playing, swap to the new language's video
+                if (videoContainer.style.display === 'block') {
+                    const playingType = videoContainer.getAttribute('data-playing-type') || 'adult';
+                    const newUrl = getVideoUrl(currentSurah, playingType, currentLang);
+                    if (newUrl && newUrl.trim() !== "") {
+                        videoFrame.src = newUrl;
+                    } else {
+                        resetModal();
+                    }
+                } else {
+                    resetModal();
+                }
+            }
+        }
+
+        // Render Grid
+        function renderGrid() {
+            grid.innerHTML = surahData.map(surah => {
+                const displayName = currentLang === 'en' ? surah.en : surah.ar;
+                const nameClass = currentLang === 'en' ? 'surah-name' : 'surah-name-ar';
+                
+                const meaningHtml = currentLang === 'en' 
+                    ? `<div class="surah-meaning">${surah.meaning}</div>` 
+                    : '';
+                
+                return `
+                    <div class="surah-card" onclick="openModal(${surah.id})">
+                        <span class="surah-number">${surah.id}</span>
+                        <div class="${nameClass}">${displayName}</div>
+                        ${meaningHtml}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Open Modal
+        function openModal(id) {
+            currentSurah = surahData.find(s => s.id === id);
+            if (!currentSurah) return;
+            
+            modalTitleEn.textContent = currentSurah.en;
+            modalTitleAr.textContent = currentSurah.ar;
+            
+            // Reset View
+            selectionArea.style.display = 'block';
+            videoContainer.style.display = 'none';
+            videoFrame.src = ''; 
+            videoContainer.removeAttribute('data-playing-type');
+            
+            // Show appropriate title based on language
+            if (currentLang === 'ar') {
+                modalTitleEn.style.display = 'none';
+                modalTitleAr.style.display = 'block';
+            } else {
+                modalTitleEn.style.display = 'block';
+                modalTitleAr.style.display = 'none';
+            }
+            
+            // Check links for the CURRENT language
+            const adultUrl = getVideoUrl(currentSurah, 'adult', currentLang);
+            const kidsUrl  = getVideoUrl(currentSurah, 'kids',  currentLang);
+            const hasAdult = adultUrl && adultUrl.trim() !== "";
+            const hasKids  = kidsUrl  && kidsUrl.trim()  !== "";
+            
+            adultBtn.style.display = hasAdult ? 'inline-block' : 'none';
+            kidsBtn.style.display = hasKids ? 'inline-block' : 'none';
+            
+            if (!hasAdult && !hasKids) {
+                selectionArea.innerHTML = `<p style="color:#e74c3c; font-weight:800; font-size:1.1em;">${translations[currentLang].noVideo}</p>`;
+            } else {
+                selectionArea.innerHTML = `
+                    <p style="color: #555; font-weight:700; font-size:1.1em;" id="chooseText">${translations[currentLang].chooseText}</p>
+                    <div class="option-buttons">
+                        <button class="btn btn-adult" id="adultBtn" onclick="playVideo('adult')" style="display:${hasAdult ? 'inline-block' : 'none'}">${translations[currentLang].adultBtn}</button>
+                        <button class="btn btn-kids" id="kidsBtn" onclick="playVideo('kids')" style="display:${hasKids ? 'inline-block' : 'none'}">${translations[currentLang].kidsBtn}</button>
+                    </div>
+                `;
+            }
+            
+            modalOverlay.style.display = 'flex';
+        }
+
+        // Play Video
+        function playVideo(type) {
+            if (!currentSurah) return;
+            const url = getVideoUrl(currentSurah, type, currentLang);
+            
+            if (url && url.trim() !== "") {
+                selectionArea.style.display = 'none';
+                videoContainer.style.display = 'block';
+                videoContainer.setAttribute('data-playing-type', type);
+                videoFrame.src = url;
+            } else {
+                alert(translations[currentLang].alertNoLink);
+            }
+        }
+
+        // Reset Modal (Back to selection)
+        function resetModal() {
+            selectionArea.style.display = 'block';
+            videoContainer.style.display = 'none';
+            videoFrame.src = '';
+            videoContainer.removeAttribute('data-playing-type');
+            
+            if (currentSurah) {
+                const adultUrl = getVideoUrl(currentSurah, 'adult', currentLang);
+                const kidsUrl  = getVideoUrl(currentSurah, 'kids',  currentLang);
+                const hasAdult = adultUrl && adultUrl.trim() !== "";
+                const hasKids  = kidsUrl  && kidsUrl.trim()  !== "";
+                
+                selectionArea.innerHTML = `
+                    <p style="color: #555; font-weight:700; font-size:1.1em;" id="chooseText">${translations[currentLang].chooseText}</p>
+                    <div class="option-buttons">
+                        <button class="btn btn-adult" id="adultBtn" onclick="playVideo('adult')" style="display:${hasAdult ? 'inline-block' : 'none'}">${translations[currentLang].adultBtn}</button>
+                        <button class="btn btn-kids" id="kidsBtn" onclick="playVideo('kids')" style="display:${hasKids ? 'inline-block' : 'none'}">${translations[currentLang].kidsBtn}</button>
+                    </div>
+                `;
+            }
+        }
+
+        // Close Modal
+        function closeModal() {
+            modalOverlay.style.display = 'none';
+            videoFrame.src = '';
+            videoContainer.removeAttribute('data-playing-type');
+            currentSurah = null;
+        }
+
+        // Click overlay to close
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) closeModal();
+        });
+
+        // Initialize
+        setLanguage('en');
+    </script>
 </body>
 </html>

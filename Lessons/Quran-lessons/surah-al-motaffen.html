@@ -1,518 +1,326 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌟 لعبة سورة المطففين الصغيرة 🌟</title>
+    <title>Memorize Surah Al-Mutaffifin</title>
+    <link rel="icon" type="image/png" href="../../images/quran.png">
     <style>
-        * {
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
         body {
-            margin: 0;
-            font-family: 'Comic Sans MS', 'Segoe UI', system-ui, sans-serif;
-            background: linear-gradient(160deg, #ffe6f0 0%, #e6f7ff 50%, #fff9e6 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 12px;
-            overflow-x: hidden;
-        }
-
-        .card {
-            background: #fff;
-            border-radius: 32px;
-            padding: 22px 18px 26px;
-            max-width: 520px;
-            width: 100%;
-            box-shadow: 0 12px 40px rgba(255, 150, 200, 0.35);
-            border: 6px solid #ffd1e8;
-            text-align: center;
-            position: relative;
-        }
-
-        h1 {
-            font-size: 1.5rem;
-            color: #e0568a;
-            margin: 0 0 4px;
-        }
-
-        .mascot {
-            font-size: 2.6rem;
-            line-height: 1;
-            margin-bottom: 6px;
-        }
-
-        .stars-row {
-            font-size: 1.5rem;
-            letter-spacing: 4px;
-            margin-bottom: 12px;
-            min-height: 30px;
-        }
-
-        /* Big listen button */
-        .listen-btn {
-            background: linear-gradient(145deg, #ffb3d1, #ff7eb3);
-            border: none;
-            color: #fff;
-            font-size: 2.6rem;
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 8px 0 #e0568a, 0 10px 20px rgba(224, 86, 138, 0.4);
-            transition: transform 0.1s, box-shadow 0.1s;
-            margin: 6px auto 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .listen-btn:active {
-            transform: translateY(6px);
-            box-shadow: 0 2px 0 #e0568a, 0 4px 10px rgba(224, 86, 138, 0.4);
-        }
-
-        .listen-btn.playing {
-            animation: pulse 0.7s infinite;
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.08);
-            }
-        }
-
-        .listen-hint {
-            font-size: 1rem;
-            color: #a06a85;
-            margin-bottom: 14px;
-        }
-
-        .prompt-emoji {
-            font-size: 4rem;
-            margin: 4px 0 10px;
-            min-height: 64px;
-        }
-
-        .question {
-            font-size: 1.25rem;
-            color: #6a4c93;
-            font-weight: bold;
-            margin-bottom: 14px;
-            min-height: 28px;
-        }
-
-        .choices {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-            margin-bottom: 10px;
-        }
-
-        .choice {
-            background: linear-gradient(145deg, #e6f7ff, #cceeff);
-            border: 4px solid #b3e0ff;
-            border-radius: 24px;
-            padding: 16px 10px;
-            cursor: pointer;
-            font-family: inherit;
-            font-size: 1.1rem;
-            color: #2a6f97;
-            font-weight: bold;
-            transition: transform 0.15s, background 0.15s;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: #1a1a2e;
+            color: #eee;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 8px;
-            min-height: 130px;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        h1 {
+            color: #f0c040;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        #progress {
+            width: 90%;
+            max-width: 600px;
+            background: #16213e;
+            border-radius: 20px;
+            padding: 10px 20px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        #progress-bar {
+            flex: 1;
+            height: 20px;
+            background: #0f3460;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        #progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #e94560, #f0c040);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        #ayah-display {
+            background: #16213e;
+            border: 2px solid #0f3460;
+            border-radius: 20px;
+            padding: 30px 20px;
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            font-family: 'Amiri', 'Traditional Arabic', serif;
+            font-size: 2.2rem;
+            line-height: 1.6;
+            direction: rtl;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
             justify-content: center;
         }
 
-        .choice .big-emoji {
-            font-size: 2.6rem;
-        }
-
-        .choice .choice-text {
-            font-size: 0.95rem;
-            line-height: 1.4;
-        }
-
-        .choice:hover:not(:disabled) {
-            transform: scale(1.04);
-        }
-
-        .choice:disabled {
-            cursor: default;
-            opacity: 0.85;
-        }
-
-        .choice.correct {
-            background: linear-gradient(145deg, #d4f8e0, #a8ecc4);
-            border-color: #6fe39b;
-            animation: bounce 0.5s;
-        }
-
-        .choice.soft-wrong {
-            background: linear-gradient(145deg, #fff0d4, #ffe0a8);
-            border-color: #ffd166;
-            animation: wiggle 0.5s;
-        }
-
-        @keyframes bounce {
-
-            0%,
-            100% {
-                transform: scale(1);
-            }
-
-            40% {
-                transform: scale(1.12);
-            }
-
-            70% {
-                transform: scale(0.97);
-            }
-        }
-
-        @keyframes wiggle {
-
-            0%,
-            100% {
-                transform: rotate(0);
-            }
-
-            25% {
-                transform: rotate(-4deg);
-            }
-
-            75% {
-                transform: rotate(4deg);
-            }
-        }
-
-        .feedback {
-            font-size: 1.2rem;
-            min-height: 30px;
-            margin-top: 8px;
+        #blank-text {
+            color: #4ecca3;
             font-weight: bold;
         }
 
-        .next-btn {
-            display: none;
-            margin: 14px auto 0;
-            padding: 14px 34px;
-            background: linear-gradient(145deg, #ffd166, #ffb703);
-            color: #6a4c93;
+        #input-area {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            width: 90%;
+            max-width: 600px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            min-width: 200px;
+            padding: 15px;
+            font-size: 1.3rem;
+            border-radius: 12px;
+            border: 2px solid #0f3460;
+            background: #16213e;
+            color: #eee;
+            font-family: 'Amiri', serif;
+            direction: rtl;
+            text-align: center;
+        }
+
+        button {
+            padding: 15px 25px;
+            font-size: 1.1rem;
+            border-radius: 12px;
             border: none;
-            border-radius: 20px;
-            font-size: 1.25rem;
-            font-weight: bold;
             cursor: pointer;
-            font-family: inherit;
-            box-shadow: 0 5px 0 #e09b00;
+            font-weight: bold;
             transition: transform 0.1s;
         }
 
-        .next-btn:active {
-            transform: translateY(4px);
-            box-shadow: 0 1px 0 #e09b00;
+        button:active {
+            transform: scale(0.95);
         }
 
-        /* floating confetti hearts */
-        .heart {
-            position: fixed;
-            font-size: 1.6rem;
-            pointer-events: none;
-            animation: floatUp 1.6s ease-out forwards;
-            z-index: 999;
+        #check-btn {
+            background: #4ecca3;
+            color: #1a1a2e;
         }
 
-        @keyframes floatUp {
-            0% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-
-            100% {
-                opacity: 0;
-                transform: translateY(-160px) scale(1.5);
-            }
+        #hint-btn {
+            background: #f0c040;
+            color: #1a1a2e;
         }
 
-        .progress-dots {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 10px;
+        #listen-btn {
+            background: #e94560;
+            color: white;
         }
 
-        .dot {
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: #ffd1e8;
-        }
-
-        .dot.done {
-            background: #ff7eb3;
-        }
-
-        .dot.now {
-            background: #6a4c93;
-            transform: scale(1.25);
-        }
-
-        .start-screen .start-btn {
-            font-size: 1.6rem;
-            padding: 20px 40px;
-            border-radius: 28px;
-            border: none;
-            background: linear-gradient(145deg, #a8ecc4, #6fe39b);
-            color: #1b5e3f;
-            font-family: inherit;
+        #feedback {
+            font-size: 1.3rem;
+            margin-top: 15px;
+            min-height: 30px;
             font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 6px 0 #3fae77;
-            margin-top: 16px;
         }
 
-        .start-screen .start-btn:active {
-            transform: translateY(5px);
-            box-shadow: 0 1px 0 #3fae77;
+        .correct {
+            color: #4ecca3;
+        }
+
+        .wrong {
+            color: #e94560;
+        }
+
+        #loading {
+            color: #f0c040;
+            font-size: 1.2rem;
         }
     </style>
 </head>
 
 <body>
-    <div class="card" id="card">
-        <!-- START SCREEN -->
-        <div class="start-screen" id="startScreen">
-            <div class="mascot">🧕🏻🌸</div>
-            <h1>سورة المطففين</h1>
-            <div style="font-size:1.1rem;color:#a06a85;margin-bottom:8px;">
-                هيا نلعب مع آيات القرآن! 🎈
-            </div>
-            <div style="font-size:3rem;margin:14px 0;">📖✨🎀</div>
-            <button class="start-btn" id="startBtn">هيا نبدأ! ▶️</button>
+
+    <h1>📖 Surah Al-Mutaffifin</h1>
+    <p style="color:#888; margin-top:0;">Fill in the missing word!</p>
+
+    <div id="progress">
+        <span>⭐</span>
+        <div id="progress-bar">
+            <div id="progress-fill"></div>
         </div>
-
-        <!-- GAME SCREEN -->
-        <div id="gameScreen" style="display:none;">
-            <div class="mascot" id="mascot">🧕🏻</div>
-            <div class="progress-dots" id="dots"></div>
-
-            <div class="prompt-emoji" id="promptEmoji">🌸</div>
-
-            <button class="listen-btn" id="listenBtn" aria-label="اسمع الآية">🔊</button>
-            <div class="listen-hint" id="listenHint">اضغطي لتسمعي الآية 🎧</div>
-
-            <div class="question" id="question">—</div>
-
-            <div class="choices" id="choices"></div>
-
-            <div class="feedback" id="feedback"></div>
-            <button class="next-btn" id="nextBtn">التالي ➡️</button>
-        </div>
+        <span id="progress-text">0 / 36</span>
     </div>
 
+    <div id="ayah-display">
+        <div id="ayah-content"><span id="loading">Loading the surah...</span></div>
+    </div>
+
+    <div id="input-area">
+        <input type="text" id="answer-input" placeholder="Type the missing word..." autocomplete="off" disabled>
+        <button id="check-btn" disabled>Check</button>
+        <button id="hint-btn" disabled>💡 Hint</button>
+        <button id="listen-btn" disabled>🔊 Listen</button>
+    </div>
+
+    <div id="feedback"></div>
+
     <script>
-        /* ============================================================
-           ⚠️ VERIFY all Arabic text + audio with a trusted source.
-           Audio below uses everyayah.com (Al-Mutaffifin = 083).
-           Reciter: Husary (001) — clear & slow, good for kids.
-           ============================================================ */
+        // ============================================================
+        // FETCH THE WHOLE SURAH (36 AYAHS) AUTOMATICALLY
+        // ============================================================
+        let AYAHS = []; // Will hold all 36 ayahs after fetching
 
-        const SURAH_NUM = "083";
-        const RECITER = "Husary_128kbps"; // clear, gentle voice
+        const ayahContent = document.getElementById('ayah-content');
+        const answerInput = document.getElementById('answer-input');
+        const feedback = document.getElementById('feedback');
+        const progressFill = document.getElementById('progress-fill');
+        const progressText = document.getElementById('progress-text');
+        const checkBtn = document.getElementById('check-btn');
+        const hintBtn = document.getElementById('hint-btn');
+        const listenBtn = document.getElementById('listen-btn');
 
-        // Ayat used in the kid game (first 10 — short & gentle)
-        // ⚠️ Verify text against quran.com/83
-        const ayat = [
-            { n: 1, text: "وَيْلٌ لِّلْمُطَفِّفِينَ", emoji: "⚠️" },
-            { n: 2, text: "الَّذِينَ إِذَا اكْتَالُوا عَلَى النَّاسِ يَسْتَوْفُونَ", emoji: "⚖️" },
-            { n: 3, text: "وَإِذَا كَالُوا أَوْ وَزَنُوا يُخْسِرُونَ", emoji: "🥣" },
-            { n: 4, text: "أَلَا يَظُنُّ أُولَٰئِكَ أَنَّهُم مَّبْعُوثُونَ", emoji: "🤔" },
-            { n: 5, text: "لِيَوْمٍ عَظِيمٍ", emoji: "🌅" },
-            { n: 6, text: "يَوْمَ يَقُومُ النَّاسُ لِرَبِّ الْعَالَمِينَ", emoji: "🌍" },
-            { n: 7, text: "كَلَّا إِنَّ كِتَابَ الْفُجَّارِ لَفِي سِجِّينٍ", emoji: "📕" },
-            { n: 8, text: "وَمَا أَدْرَاكَ مَا سِجِّينٌ", emoji: "❓" },
-            { n: 9, text: "كِتَابٌ مَّرْقُومٌ", emoji: "📗" },
-            { n: 10, text: "وَيْلٌ يَوْمَئِذٍ لِّلْمُكَذِّبِينَ", emoji: "😢" }
-        ];
+        // Fetch full surah text + audio from AlQuran Cloud API
+        async function loadSurah() {
+            try {
+                // Fetch Arabic text (Uthmani script) and audio for each ayah
+                const response = await fetch('https://api.alquran.cloud/v1/surah/83/ar.alafasy');
+                const data = await response.json();
 
-        const TOTAL_ROUNDS = 5;
+                if (data.code !== 200) throw new Error('API error');
+
+                // Map the API response into our game format
+                AYAHS = data.data.ayahs.map(ayah => ({
+                    number: ayah.numberInSurah,
+                    text: ayah.text,
+                    audio: ayah.audio
+                }));
+
+                // Now start the game
+                enableControls();
+                loadAyah();
+            } catch (err) {
+                console.error(err);
+                ayahContent.innerHTML = '<span style="color:#e94560;">Could not load the surah. Please check your internet connection and refresh.</span>';
+            }
+        }
+
+        function enableControls() {
+            answerInput.disabled = false;
+            checkBtn.disabled = false;
+            hintBtn.disabled = false;
+            listenBtn.disabled = false;
+        }
+
+        // ============================================================
+        // GAME LOGIC
+        // ============================================================
+        let currentIndex = 0;
+        let currentAnswer = "";
         let score = 0;
-        let round = 0;
-        let currentQ = null;
+        let hintUsed = false;
 
-        const startScreen = document.getElementById('startScreen');
-        const gameScreen = document.getElementById('gameScreen');
-        const startBtn = document.getElementById('startBtn');
-        const listenBtn = document.getElementById('listenBtn');
-        const listenHint = document.getElementById('listenHint');
-        const promptEmoji = document.getElementById('promptEmoji');
-        const questionEl = document.getElementById('question');
-        const choicesEl = document.getElementById('choices');
-        const feedbackEl = document.getElementById('feedback');
-        const nextBtn = document.getElementById('nextBtn');
-        const dotsEl = document.getElementById('dots');
-        const mascot = document.getElementById('mascot');
-
-        const audioEl = new Audio();
-
-        function audioUrl(ayahNum) {
-            const n3 = String(ayahNum).padStart(3, '0');
-            return `https://everyayah.com/data/${RECITER}/${SURAH_NUM}${n3}.mp3`;
-        }
-
-        function playAyah(ayahNum) {
-            audioEl.src = audioUrl(ayahNum);
-            audioEl.play().catch(() => { });
-            listenBtn.classList.add('playing');
-            audioEl.onended = () => listenBtn.classList.remove('playing');
-        }
-
-        function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[a[i], a[j]] = [a[j], a[i]]; } return a; }
-
-        /* Pick a round: "what comes after ayah X?" with 2 picture choices */
-        function pickRound() {
-            // pick a base index such that next exists (0..ayat.length-2)
-            const baseIdx = Math.floor(Math.random() * (ayat.length - 1));
-            const base = ayat[baseIdx];
-            const correct = ayat[baseIdx + 1];
-
-            // distractor = any other ayah that isn't base or correct
-            const pool = ayat.filter((a, i) => i !== baseIdx && i !== baseIdx + 1);
-            const distractor = pool[Math.floor(Math.random() * pool.length)];
-
-            const options = shuffle([correct, distractor]);
-            return { base, correct, options };
-        }
-
-        function renderDots() {
-            dotsEl.innerHTML = '';
-            for (let i = 0; i < TOTAL_ROUNDS; i++) {
-                const d = document.createElement('div');
-                d.className = 'dot' + (i < round ? ' done' : i === round ? ' now' : '');
-                dotsEl.appendChild(d);
+        function prepareAyah(ayah) {
+            const words = ayah.text.split(/\s+/);
+            if (words.length < 2) {
+                currentAnswer = words[0];
+                return '<span id="blank-text">___</span>';
             }
-        }
-
-        function renderRound() {
-            feedbackEl.textContent = '';
-            nextBtn.style.display = 'none';
-            renderDots();
-
-            currentQ = pickRound();
-
-            // Show the BASE ayah's emoji as the prompt clue
-            promptEmoji.textContent = currentQ.base.emoji;
-            questionEl.textContent = '🎧 اسمعي الآية… ثم اختاري الآية التالية';
-
-            // Load base ayah audio
-            audioEl.src = audioUrl(currentQ.base.n);
-            listenHint.textContent = 'اضغطي على الزر الأزرق لتسمعي الآية 🎧';
-
-            // Build the 2 picture choices
-            choicesEl.innerHTML = '';
-            currentQ.options.forEach(opt => {
-                const btn = document.createElement('button');
-                btn.className = 'choice';
-                btn.innerHTML = `<span class="big-emoji">${opt.emoji}</span><span class="choice-text">${opt.text}</span>`;
-                btn.addEventListener('click', () => handleChoice(btn, opt));
-                choicesEl.appendChild(btn);
-            });
-        }
-
-        function handleChoice(btn, chosen) {
-            const allBtns = choicesEl.querySelectorAll('.choice');
-            allBtns.forEach(b => b.disabled = true);
-
-            if (chosen.n === currentQ.correct.n) {
-                btn.classList.add('correct');
-                score++;
-                feedbackEl.textContent = ['🎉 أحسنتِ!', '🌟 ممتازة!', '💖 رائعة!', '🎈 بارك الله فيكِ!'][Math.floor(Math.random() * 4)];
-                feedbackEl.style.color = '#3fae77';
-                mascot.textContent = '🧕🏻💖';
-                sprinkleHearts();
-                // play the correct ayah so she hears it again
-                setTimeout(() => playAyah(currentQ.correct.n), 400);
+            // Hide the LAST word (or a middle word for longer ayahs)
+            let blankIdx;
+            if (words.length <= 4) {
+                blankIdx = words.length - 1;
             } else {
-                btn.classList.add('soft-wrong');
-                // highlight the correct one gently
-                allBtns.forEach(b => {
-                    if (b.querySelector('.big-emoji').textContent === currentQ.correct.emoji) {
-                        b.classList.add('correct');
-                    }
-                });
-                feedbackEl.textContent = '🎧 لا بأس! هذه هي الآية التالية';
-                feedbackEl.style.color = '#e09b00';
-                mascot.textContent = '🧕🏻🤗';
-                setTimeout(() => playAyah(currentQ.correct.n), 400);
+                blankIdx = Math.floor(Math.random() * (words.length - 1)) + 1;
             }
-
-            nextBtn.style.display = 'block';
-            nextBtn.textContent = (round + 1 >= TOTAL_ROUNDS) ? 'انتهينا! 🎉' : 'التالي ➡️';
+            currentAnswer = words[blankIdx];
+            const displayWords = words.map((w, i) => i === blankIdx ? '<span id="blank-text">___</span>' : w);
+            return displayWords.join(' ');
         }
 
-        listenBtn.addEventListener('click', () => {
-            if (currentQ) playAyah(currentQ.base.n);
-        });
+        function loadAyah() {
+            if (currentIndex >= AYAHS.length) {
+                // WIN!
+                ayahContent.innerHTML = "🎉 <span style='color:#f0c040;'>MashaAllah! You finished the whole surah!</span> 🎉";
+                answerInput.style.display = 'none';
+                checkBtn.style.display = 'none';
+                hintBtn.style.display = 'none';
+                listenBtn.style.display = 'none';
+                feedback.textContent = "You are a Hafidh!";
+                feedback.className = "correct";
+                progressFill.style.width = '100%';
+                progressText.textContent = "36 / 36";
+                return;
+            }
 
-        nextBtn.addEventListener('click', () => {
-            round++;
-            if (round >= TOTAL_ROUNDS) {
-                endGame();
+            const ayah = AYAHS[currentIndex];
+            const displayText = prepareAyah(ayah);
+            ayahContent.innerHTML = displayText;
+            answerInput.value = "";
+            answerInput.focus();
+            feedback.textContent = "";
+            hintUsed = false;
+
+            // Update progress
+            const pct = (currentIndex / AYAHS.length) * 100;
+            progressFill.style.width = pct + '%';
+            progressText.textContent = currentIndex + " / " + AYAHS.length;
+        }
+
+        function checkAnswer() {
+            const userAnswer = answerInput.value.trim();
+            const normalize = (s) => s.replace(/[\u064B-\u065F\u0670]/g, '').replace(/[أإآ]/g, 'ا').replace(/ة/g, 'ه');
+
+            if (normalize(userAnswer) === normalize(currentAnswer)) {
+                feedback.textContent = hintUsed ? "✅ Correct! (with hint)" : "✅ Excellent!";
+                feedback.className = "correct";
+                if (!hintUsed) score++;
+                currentIndex++;
+                setTimeout(loadAyah, 1000);
             } else {
-                renderRound();
+                feedback.textContent = "❌ Try again!";
+                feedback.className = "wrong";
+                answerInput.select();
             }
-        });
-
-        function endGame() {
-            gameScreen.innerHTML = `
-    <div style="text-align:center;padding:20px 6px;">
-      <div style="font-size:4rem;">🧕🏻🌟🎀</div>
-      <h1 style="color:#e0568a;">أحسنتِ يا بطلة!</h1>
-      <div style="font-size:1.4rem;color:#6a4c93;margin:16px 0;">
-        لقد تعلمتِ ${TOTAL_ROUNDS} آيات من سورة المطففين 📖
-      </div>
-      <div style="font-size:3rem;letter-spacing:6px;">⭐️⭐️⭐️⭐️⭐️</div>
-      <button class="next-btn" style="display:block;" onclick="location.reload()">العبي مرة أخرى 🔁</button>
-    </div>`;
-            // celebratory hearts
-            for (let i = 0; i < 20; i++) setTimeout(sprinkleHearts, i * 120);
         }
 
-        function sprinkleHearts() {
-            const symbols = ['💖', '🌸', '⭐', '🎀', '✨', '💕'];
-            const h = document.createElement('div');
-            h.className = 'heart';
-            h.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-            h.style.left = (Math.random() * 90 + 5) + 'vw';
-            h.style.top = (Math.random() * 40 + 40) + 'vh';
-            document.body.appendChild(h);
-            setTimeout(() => h.remove(), 1700);
+        function giveHint() {
+            hintUsed = true;
+            feedback.textContent = "💡 Starts with: " + currentAnswer.charAt(0);
+            feedback.className = "";
+            feedback.style.color = "#f0c040";
         }
 
-        startBtn.addEventListener('click', () => {
-            startScreen.style.display = 'none';
-            gameScreen.style.display = 'block';
-            round = 0; score = 0;
-            renderRound();
-            // auto-play first ayah after a short delay (browser gesture already satisfied)
-            setTimeout(() => { if (currentQ) playAyah(currentQ.base.n); }, 300);
+        function playAudio() {
+            const ayah = AYAHS[currentIndex];
+            if (ayah && ayah.audio) {
+                new Audio(ayah.audio).play();
+            } else {
+                feedback.textContent = "🔊 Audio not available.";
+                feedback.className = "";
+                feedback.style.color = "#888";
+            }
+        }
+
+        checkBtn.addEventListener('click', checkAnswer);
+        hintBtn.addEventListener('click', giveHint);
+        listenBtn.addEventListener('click', playAudio);
+        answerInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') checkAnswer();
         });
+
+        // Start by fetching the whole surah
+        loadSurah();
     </script>
 </body>
 
