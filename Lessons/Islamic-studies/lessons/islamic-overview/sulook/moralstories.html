@@ -170,6 +170,20 @@
   }
   .story-card:hover .play-icon { transform: scale(1.18); }
 
+  .duration-badge {
+    position: absolute;
+    bottom: 8px;
+    inset-inline-start: 10px;
+    background: rgba(0,0,0,0.75);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 2px 7px;
+    border-radius: 8px;
+    z-index: 3;
+    font-family: 'Nunito', sans-serif;
+  }
+
   .card-body {
     padding: 14px 16px 18px;
     flex: 1;
@@ -242,95 +256,110 @@
   }
   .loading-bar.show { opacity: 1; }
 
-  /* ===== Video Modal ===== */
+  /* ===== Video Modal (FULL SCREEN) ===== */
   .video-modal {
     position: fixed;
-    inset: 0;
-    z-index: 500;
-    background: rgba(20, 20, 40, 0.88);
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    background: #000; /* Solid black background for full screen */
     display: none;
-    place-items: center;
-    padding: 16px;
-    backdrop-filter: blur(6px);
+    flex-direction: column;
   }
-  .video-modal.open { display: grid; animation: fadein 0.25s; }
+  .video-modal.open { display: flex; animation: fadein 0.25s; }
   @keyframes fadein { from { opacity: 0; } }
 
   .video-box {
     width: 100%;
-    max-width: 900px;
-    background: #fff;
-    border-radius: 22px;
-    overflow: hidden;
-    box-shadow: 0 24px 70px rgba(0,0,0,0.5);
-    border: 4px solid #ffd700;
-    animation: popin 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
     position: relative;
   }
-  @keyframes popin { from { transform: scale(0.85); opacity: 0; } }
 
+  /* Overlay Header (fixed over video) */
   .video-box .modal-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    padding: 14px 18px;
-    background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+    padding: 15px 20px;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
   }
   .modal-header .modal-title {
     margin: 0;
     font-family: 'Fredoka One', cursive;
-    font-size: 1.1em;
+    font-size: 1.2em;
     color: #fff;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
     line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .modal-close {
     flex-shrink: 0;
-    width: 40px; height: 40px;
+    width: 44px; height: 44px;
     border: none;
     border-radius: 50%;
-    background: #fff;
-    color: #e03e3e;
-    font-size: 22px;
+    background: rgba(255,255,255,0.2);
+    color: #fff;
+    font-size: 24px;
     font-weight: 900;
     cursor: pointer;
     display: grid; place-items: center;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-    transition: transform 0.2s;
+    transition: all 0.2s;
     line-height: 1;
   }
-  .modal-close:hover { transform: rotate(90deg) scale(1.1); }
+  .modal-close:hover { background: #e03e3e; transform: scale(1.1); }
 
+  /* Center the Video iframe */
   .video-frame-wrap {
-    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
-    aspect-ratio: 16 / 9;
+    height: 100%;
     background: #000;
   }
   .video-frame-wrap iframe {
-    position: absolute;
-    inset: 0;
     width: 100%;
     height: 100%;
     border: none;
+    max-width: 100%;
+    max-height: 100%;
   }
 
+  /* Overlay Footer (fixed over video) */
   .modal-footer {
-    padding: 14px 18px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    padding: 15px 20px;
     display: flex;
     align-items: center;
     gap: 10px;
     flex-wrap: wrap;
-    background: #fef9f0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
   }
   .modal-moral {
     font-weight: 800;
-    color: #b8860b;
-    font-size: 0.9em;
+    color: #ffd700;
+    font-size: 0.95em;
     display: flex;
     align-items: center;
     gap: 6px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
   }
   .modal-open-yt {
     margin-inline-start: auto;
@@ -338,8 +367,8 @@
     background: #ff0000;
     color: #fff;
     font-weight: 800;
-    font-size: 0.82em;
-    padding: 8px 14px;
+    font-size: 0.85em;
+    padding: 10px 18px;
     border-radius: 999px;
     box-shadow: 0 3px 0 #b00;
     transition: transform 0.12s;
@@ -361,7 +390,9 @@
     .card-top { height: 90px; font-size: 44px; }
     .card-title { font-size: 0.88em; }
     .card-desc { font-size: 0.72em; }
-    .modal-header .modal-title { font-size: 0.9em; }
+    .modal-header .modal-title { font-size: 1em; }
+    .modal-moral { font-size: 0.8em; }
+    .modal-open-yt { font-size: 0.75em; padding: 8px 12px; }
   }
 </style>
 </head>
@@ -400,9 +431,11 @@
       <h2 class="modal-title" id="modalTitle">Story Title</h2>
       <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
     </div>
+    
     <div class="video-frame-wrap">
       <iframe id="videoFrame" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
+    
     <div class="modal-footer">
       <span class="modal-moral" id="modalMoral">💡 Moral</span>
       <a class="modal-open-yt" id="openYtLink" href="#" target="_blank" rel="noopener noreferrer">▶ Open on YouTube</a>
@@ -410,382 +443,60 @@
   </div>
 </div>
 
+<!-- Load Secret Keys from config.js (5 levels up) -->
+<script src="../../../../../config.js"></script>
+
 <script>
 /* ============================================================
+   YOUTUBE DATA API KEY
+   ============================================================ */
+const YT_API_KEY = window.APP_CONFIG?.YOUTUBE_CONFIG?.apiKey || '{{YT_API_KEY}}';
+
+/* ============================================================
    STORY DATA
-   Each story now has TWO video IDs:
-   - youtubeIdEn: the English video (plays in English mode)
-   - youtubeIdAr: the Arabic video (plays in Arabic mode)
-   
-   You can also set fallback titles per language:
-   - fallbackEn / fallbackAr
-   - descEn / descAr
-   - moralEn / moralAr
-   - emoji: fallback icon if no thumbnail
-   
-   If the oEmbed title fetch fails, the fallback title is used.
    ============================================================ */
 const STORIES = [
-  {
-    id: 1,
-    emoji: "🦁",
-    fallbackEn: "Story 1",
-    fallbackAr: "القصة ١",
-    moralEn: "",
-    moralAr: "",
-    descEn: "",
-    descAr: "",
-    youtubeIdEn: "zIpeoZvbIv4",
-    youtubeIdAr: "#"
-  },
-  {
-    id: 2,
-    emoji: "🐢",
-    fallbackEn: "Story 2",
-    fallbackAr: "القصة ٢",
-    moralEn: "",
-    moralAr: "",
-    descEn: "",
-    descAr: "",
-    youtubeIdEn: "pINTdWi31pw",
-    youtubeIdAr: "#"
-  },
-  {
-    id: 3,
-    emoji: "🐺",
-    fallbackEn: "Story 3",
-    fallbackAr: "القصة ٣",
-    moralEn: "",
-    moralAr: "",
-    descEn: "",
-    descAr: "",
-    youtubeIdEn: "AQatbxUFMVk",
-    youtubeIdAr: "#"
-  },
-  {
-    id: 4,
-    emoji: "🦊",
-    fallbackEn: "Story 4",
-    fallbackAr: "القصة ٤",
-    moralEn: "",
-    moralAr: "",
-    descEn: "",
-    descAr: "",
-    youtubeIdEn: "YjvMKyfouyU",
-    youtubeIdAr: "#"
-  },
-  {
-    id: 5,
-    emoji: "🐜",
-    fallbackEn: "Story 5",
-    fallbackAr: "القصة ٥",
-    moralEn: "",
-    moralAr: "",
-    descEn: "",
-    descAr: "",
-    youtubeIdEn: "1FPG6So0byA",
-    youtubeIdAr: "#"
-  },
-  {
-    id: 6,
-    emoji: "🐦",
-    fallbackEn: "Story 6",
-    fallbackAr: "القصة ٦",
-    moralEn: "",
-    moralAr: "",
-    descEn: "",
-    descAr: "",
-    youtubeIdEn: "dcMvO3qh3Wc",
-    youtubeIdAr: "#"
-  },
-  {
-    id: 7,
-    emoji: "🐦",
-    fallbackEn: "Story 7",
-    fallbackAr: "القصة ٧",
-    moralEn: "",
-    moralAr: "",
-    descEn: "",
-    descAr: "",
-    youtubeIdEn: "lUdQFDVdr6A",
-    youtubeIdAr: "#"
-  },
-  {
-    id: 8,
-    emoji: "🐦",
-    fallbackEn: "Story 8",
-    fallbackAr: "القصة ٨",
-    moralEn: "",
-    moralAr: "",
-    descEn: "",
-    descAr: "",
-    youtubeIdEn: "duJ7gAfv0OY",
-    youtubeIdAr: "#"
-  },
-  {
-    id: 9,
-    emoji: "🐦",
-    fallbackEn: "Story 9",
-    fallbackAr: "القصة ٩",
-    moralEn: "",
-    moralAr: "",
-    descEn: "",
-    descAr: "",
-    youtubeIdEn: "T9av6Pm2UUY",
-    youtubeIdAr: "#"
-  },
-  {
-    id: 10,
-    emoji: "🐦",
-    fallbackEn: "Story 10",
-    fallbackAr: "القصة ١٠",
-    moralEn: "",
-    moralAr: "",
-    descEn: "",
-    descAr: "",
-    youtubeIdEn: "miwOm9L1vYQ",
-    youtubeIdAr: "#"
-  },
-  {
-    id: 11,
-    emoji: "🐦",
-    fallbackEn: "Story 11",
-    fallbackAr: "القصة ١١",
-    moralEn: "",
-    moralAr: "",
-    descEn: "",
-    descAr: "",
-    youtubeIdEn: "5KYAtnlu7kA",
-    youtubeIdAr: "#"
-  },
-  {
-    id: 12,
-    emoji: "🐦",
-    fallbackEn: "Story 12",
-    fallbackAr: "القصة ١٢",
-    moralEn: "",
-    moralAr: "",
-    descEn: "",
-    descAr: "",
-    youtubeIdEn: "m6YYlCOVy3A",
-    youtubeIdAr: "#"
-  },
-  {
-    id: 13,
-    emoji: "🐦",
-    fallbackEn: "Story 13",
-    fallbackAr: "القصة ١٣",
-    moralEn: "",
-    moralAr: "",
-    descEn: "",
-    descAr: "",
-    youtubeIdEn: "QRjZFhTwKm4",
-    youtubeIdAr: "#"
-  },
-  {
-    id: 14,
-    emoji: "🐦",
-    fallbackEn: "Story 14",
-    fallbackAr: "القصة ١٤",
-    moralEn: "",
-    moralAr: "",
-    descEn: "",
-    descAr: "",
-    youtubeIdEn: "PmtBEbjmCmg",
-    youtubeIdAr: "#"
-  },
-  {
-    id: 15,
-    emoji: "🐦",
-    fallbackEn: "Story 15",
-    fallbackAr: "القصة ١٥",
-    moralEn: "",
-    moralAr: "",
-    descEn: "",
-    descAr: "",
-    youtubeIdEn: "eUIavzFKsu4",
-    youtubeIdAr: "#"
-  },
-  {
-    id: 16,
-    emoji: "🐦",
-    fallbackEn: "Story 16",
-    fallbackAr: "القصة ١٦",
-    moralEn: "",
-    moralAr: "",
-    descEn: "",
-    descAr: "",
-    youtubeIdEn: "05cNmC2c12U",
-    youtubeIdAr: "#"
-  },
-  {
-    id: 17,
-    emoji: "🐦",
-    fallbackEn: "Story 17",
-    fallbackAr: "القصة ١٧",
-    moralEn: "",
-    moralAr: "",
-    descEn: "",
-    descAr: "",
-    youtubeIdEn: "xMbIPENOz_Y",
-    youtubeIdAr: "#"
-  },
-  {
-    id: 18,
-    emoji: "🐦",
-    fallbackEn: "Story 18",
-    fallbackAr: "القصة ١٨",
-    moralEn: "",
-    moralAr: "",
-    descEn: "",
-    descAr: "",
-    youtubeIdEn: "574ostPpoKw",
-    youtubeIdAr: "#"
-  },
-  {
-    id: 19,
-    emoji: "🐦",
-    fallbackEn: "Story 19",
-    fallbackAr: "القصة ١٩",
-    moralEn: "",
-    moralAr: "",
-    descEn: "",
-    descAr: "",
-    youtubeIdEn: "xott1I59gM0",
-    youtubeIdAr: "#"
-  },
-  {
-    id: 20,
-    emoji: "🐦",
-    fallbackEn: "Story 20",
-    fallbackAr: "القصة ٢٠",
-    moralEn: "",
-    moralAr: "",
-    descEn: "",
-    descAr: "",
-    youtubeIdEn: "zo_ZYM1QqaU",
-    youtubeIdAr: "#"
-  },
-  {
-    id: 21,
-    emoji: "🐦",
-    fallbackEn: "Story 21",
-    fallbackAr: "القصة ٢١",
-    moralEn: "",
-    moralAr: "",
-    descEn: "",
-    descAr: "",
-    youtubeIdEn: "CxMJ3m-NyW8",
-    youtubeIdAr: "#"
-  },
-  {
-    id: 22,
-    emoji: "🐦",
-    fallbackEn: "Story 22",
-    fallbackAr: "القصة ٢٢",
-    moralEn: "",
-    moralAr: "",
-    descEn: "",
-    descAr: "",
-    youtubeIdEn: "We4Cxt3Ux34",
-    youtubeIdAr: "#"
-  },
-  {
-    id: 23,
-    emoji: "🐦",
-    fallbackEn: "Story 23",
-    fallbackAr: "القصة ٢٣",
-    moralEn: "",
-    moralAr: "",
-    descEn: "",
-    descAr: "",
-    youtubeIdEn: "xIpYuuhPQGU",
-    youtubeIdAr: "#"
-  },
-  {
-    id: 24,
-    emoji: "🐦",
-    fallbackEn: "Story 24",
-    fallbackAr: "القصة ٢٤",
-    moralEn: "",
-    moralAr: "",
-    descEn: "",
-    descAr: "",
-    youtubeIdEn: "YFAjvUwPQxM",
-    youtubeIdAr: "#"
-  },
-  {
-    id: 25,
-    emoji: "🐦",
-    fallbackEn: "Story 25",
-    fallbackAr: "القصة ٢٥",
-    moralEn: "",
-    moralAr: "",
-    descEn: "",
-    descAr: "",
-    youtubeIdEn: "5wj04gzVeTM",
-    youtubeIdAr: "#"
-  },
-  {
-    id: 26,
-    emoji: "🐦",
-    fallbackEn: "Story 26",
-    fallbackAr: "القصة ٢٦",
-    moralEn: "",
-    moralAr: "",
-    descEn: "",
-    descAr: "",
-    youtubeIdEn: "#",
-    youtubeIdAr: "#"
-  },
-  {
-    id: 27,
-    emoji: "🐦",
-    fallbackEn: "Story 27",
-    fallbackAr: "القصة ٢٧",
-    moralEn: "",
-    moralAr: "",
-    descEn: "",
-    descAr: "",
-    youtubeIdEn: "#",
-    youtubeIdAr: "#"
-  },
-  {
-    id: 28,
-    emoji: "🐦",
-    fallbackEn: "Story 28",
-    fallbackAr: "القصة ٢٨",
-    moralEn: "",
-    moralAr: "",
-    descEn: "",
-    descAr: "",
-    youtubeIdEn: "#",
-    youtubeIdAr: "#"
-  },
-  {
-    id: 29,
-    emoji: "🐦",
-    fallbackEn: "Story 29",
-    fallbackAr: "القصة ٢٩",
-    moralEn: "",
-    moralAr: "",
-    descEn: "",
-    descAr: "",
-    youtubeIdEn: "#",
-    youtubeIdAr: "#"
-  },
-  {
-    id: 30,
-    emoji: "🐦",
-    fallbackEn: "Story 30",
-    fallbackAr: "القصة ٣٠",
-    moralEn: "",
-    moralAr: "",
-    descEn: "",
-    descAr: "",
-    youtubeIdEn: "#",
-    youtubeIdAr: "#"
-  }
+  { id: 1, emoji: "🦁", fallbackEn: "Story 1", fallbackAr: "القصة ١", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "zIpeoZvbIv4", youtubeIdAr: "#" },
+  { id: 2, emoji: "🐢", fallbackEn: "Story 2", fallbackAr: "القصة ٢", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "pINTdWi31pw", youtubeIdAr: "#" },
+  { id: 3, emoji: "🐺", fallbackEn: "Story 3", fallbackAr: "القصة ٣", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "AQatbxUFMVk", youtubeIdAr: "#" },
+  { id: 4, emoji: "🦊", fallbackEn: "Story 4", fallbackAr: "القصة ٤", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "YjvMKyfouyU", youtubeIdAr: "#" },
+  { id: 5, emoji: "🐜", fallbackEn: "Story 5", fallbackAr: "القصة ٥", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "1FPG6So0byA", youtubeIdAr: "#" },
+  { id: 6, emoji: "🐦", fallbackEn: "Story 6", fallbackAr: "القصة ٦", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "dcMvO3qh3Wc", youtubeIdAr: "#" },
+  { id: 7, emoji: "🐦", fallbackEn: "Story 7", fallbackAr: "القصة ٧", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "lUdQFDVdr6A", youtubeIdAr: "#" },
+  { id: 8, emoji: "🐦", fallbackEn: "Story 8", fallbackAr: "القصة ٨", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "duJ7gAfv0OY", youtubeIdAr: "#" },
+  { id: 9, emoji: "🐦", fallbackEn: "Story 9", fallbackAr: "القصة ٩", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "T9av6Pm2UUY", youtubeIdAr: "#" },
+  { id: 10, emoji: "🐦", fallbackEn: "Story 10", fallbackAr: "القصة ١٠", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "miwOm9L1vYQ", youtubeIdAr: "#" },
+  { id: 11, emoji: "🐦", fallbackEn: "Story 11", fallbackAr: "القصة ١١", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "5KYAtnlu7kA", youtubeIdAr: "#" },
+  { id: 12, emoji: "🐦", fallbackEn: "Story 12", fallbackAr: "القصة ١٢", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "m6YYlCOVy3A", youtubeIdAr: "#" },
+  { id: 13, emoji: "🐦", fallbackEn: "Story 13", fallbackAr: "القصة ١٣", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "QRjZFhTwKm4", youtubeIdAr: "#" },
+  { id: 14, emoji: "🐦", fallbackEn: "Story 14", fallbackAr: "القصة ١٤", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "PmtBEbjmCmg", youtubeIdAr: "#" },
+  { id: 15, emoji: "🐦", fallbackEn: "Story 15", fallbackAr: "القصة ١٥", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "eUIavzFKsu4", youtubeIdAr: "#" },
+  { id: 16, emoji: "🐦", fallbackEn: "Story 16", fallbackAr: "القصة ١٦", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "05cNmC2c12U", youtubeIdAr: "#" },
+  { id: 17, emoji: "🐦", fallbackEn: "Story 17", fallbackAr: "القصة ١٧", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "xMbIPENOz_Y", youtubeIdAr: "#" },
+  { id: 18, emoji: "🐦", fallbackEn: "Story 18", fallbackAr: "القصة ١٨", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "574ostPpoKw", youtubeIdAr: "#" },
+  { id: 19, emoji: "🐦", fallbackEn: "Story 19", fallbackAr: "القصة ١٩", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "xott1I59gM0", youtubeIdAr: "#" },
+  { id: 20, emoji: "🐦", fallbackEn: "Story 20", fallbackAr: "القصة ٢٠", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "zo_ZYM1QqaU", youtubeIdAr: "#" },
+  { id: 21, emoji: "🐦", fallbackEn: "Story 21", fallbackAr: "القصة ٢١", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "CxMJ3m-NyW8", youtubeIdAr: "#" },
+  { id: 22, emoji: "🐦", fallbackEn: "Story 22", fallbackAr: "القصة ٢٢", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "We4Cxt3Ux34", youtubeIdAr: "#" },
+  { id: 23, emoji: "🐦", fallbackEn: "Story 23", fallbackAr: "القصة ٢٣", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "xIpYuuhPQGU", youtubeIdAr: "#" },
+  { id: 24, emoji: "🐦", fallbackEn: "Story 24", fallbackAr: "القصة ٢٤", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "YFAjvUwPQxM", youtubeIdAr: "#" },
+  { id: 25, emoji: "🐦", fallbackEn: "Story 25", fallbackAr: "القصة ٢٥", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "5wj04gzVeTM", youtubeIdAr: "#" },
+  { id: 26, emoji: "🐦", fallbackEn: "Story 26", fallbackAr: "القصة ٢٦", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "9f6Sroh1WCQ", youtubeIdAr: "#" },
+  { id: 27, emoji: "🐦", fallbackEn: "Story 27", fallbackAr: "القصة ٢٧", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "C5mq4hAnX9g", youtubeIdAr: "#" },
+  { id: 28, emoji: "🐦", fallbackEn: "Story 28", fallbackAr: "القصة ٢٨", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "4OFlXODf37o", youtubeIdAr: "#" },
+  { id: 29, emoji: "🐦", fallbackEn: "Story 29", fallbackAr: "القصة ٢٩", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "h9x4OeQGtPI", youtubeIdAr: "#" },
+  { id: 30, emoji: "🐦", fallbackEn: "Story 30", fallbackAr: "القصة ٣٠", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "j01uKnvs0yE", youtubeIdAr: "#" },
+  { id: 31, emoji: "🐦", fallbackEn: "Story 31", fallbackAr: "القصة ٣١", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "xjjAwAd65Z8", youtubeIdAr: "#" },
+  { id: 32, emoji: "🐦", fallbackEn: "Story 32", fallbackAr: "القصة ٣٢", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "#", youtubeIdAr: "#" },
+  { id: 33, emoji: "🐦", fallbackEn: "Story 33", fallbackAr: "القصة ٣٣", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "#", youtubeIdAr: "#" },
+  { id: 34, emoji: "🐦", fallbackEn: "Story 34", fallbackAr: "القصة ٣٤", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "#", youtubeIdAr: "#" },
+  { id: 35, emoji: "🐦", fallbackEn: "Story 35", fallbackAr: "القصة ٣٥", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "#", youtubeIdAr: "#" },
+  { id: 36, emoji: "🐦", fallbackEn: "Story 36", fallbackAr: "القصة ٣٦", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "#", youtubeIdAr: "#" },
+  { id: 37, emoji: "🐦", fallbackEn: "Story 37", fallbackAr: "القصة ٣٧", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "#", youtubeIdAr: "#" },
+  { id: 38, emoji: "🐦", fallbackEn: "Story 38", fallbackAr: "القصة ٣٨", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "#", youtubeIdAr: "#" },
+  { id: 39, emoji: "🐦", fallbackEn: "Story 39", fallbackAr: "القصة ٣٩", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "#", youtubeIdAr: "#" },
+  { id: 40, emoji: "🐦", fallbackEn: "Story 40", fallbackAr: "القصة ٤٠", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "#", youtubeIdAr: "#" },
+  { id: 41, emoji: "🐦", fallbackEn: "Story 41", fallbackAr: "القصة ٤١", moralEn: "", moralAr: "", descEn: "", descAr: "", youtubeIdEn: "#", youtubeIdAr: "#" }
 ];
 
 /* ============================================================
@@ -820,8 +531,8 @@ const TRANSLATIONS = {
 let currentLang = 'en';
 let searchQuery = '';
 
-// Cache of fetched video titles keyed by video ID
 const videoCache = {};
+const durationCache = {};
 
 const storyGrid   = document.getElementById('storyGrid');
 const emptyState  = document.getElementById('empty');
@@ -843,31 +554,21 @@ const openYtLink  = document.getElementById('openYtLink');
    ============================================================ */
 function t(key) { return TRANSLATIONS[currentLang][key]; }
 
-// Get the correct video ID for a story and current language
-function getVideoId(story) {
-  return currentLang === 'ar' ? story.youtubeIdAr : story.youtubeIdEn;
-}
+function getVideoId(story) { return currentLang === 'ar' ? story.youtubeIdAr : story.youtubeIdEn; }
+function getFallbackTitle(story) { return currentLang === 'ar' ? story.fallbackAr : story.fallbackEn; }
+function getDesc(story) { return currentLang === 'ar' ? story.descAr : story.descEn; }
+function getMoral(story) { return currentLang === 'ar' ? story.moralAr : story.moralEn; }
 
-// Get the correct fallback title for the current language
-function getFallbackTitle(story) {
-  return currentLang === 'ar' ? story.fallbackAr : story.fallbackEn;
-}
-
-// Get the correct description for the current language
-function getDesc(story) {
-  return currentLang === 'ar' ? story.descAr : story.descEn;
-}
-
-// Get the correct moral for the current language
-function getMoral(story) {
-  return currentLang === 'ar' ? story.moralAr : story.moralEn;
+function formatDuration(sec) {
+  const h = Math.floor(sec / 3600);
+  const m = Math.floor((sec % 3600) / 60);
+  const s = sec % 60;
+  if (h > 0) return `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  return `${m}:${String(s).padStart(2,'0')}`;
 }
 
 /* ============================================================
    FETCH YOUTUBE VIDEO TITLE + THUMBNAIL
-   Uses YouTube's oEmbed endpoint (no API key required).
-   Caches results by video ID so English and Arabic videos
-   each get their own title/thumbnail.
    ============================================================ */
 async function fetchVideoInfo(youtubeId) {
   if (!youtubeId || youtubeId === '#' || videoCache[youtubeId]) {
@@ -897,16 +598,66 @@ async function fetchVideoInfo(youtubeId) {
   }
 }
 
+/* ============================================================
+   FETCH VIDEO DURATIONS
+   ============================================================ */
+function parseISO8601Duration(iso) {
+  const m = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+  if (!m) return 0;
+  const h = parseInt(m[1] || 0, 10);
+  const min = parseInt(m[2] || 0, 10);
+  const s = parseInt(m[3] || 0, 10);
+  return h * 3600 + min * 60 + s;
+}
+
+async function fetchDurations(ids) {
+  const toFetch = [...new Set(ids)].filter(id => id && id !== '#' && !(id in durationCache));
+  if (toFetch.length === 0) return;
+
+  const chunks = [];
+  for (let i = 0; i < toFetch.length; i += 50) {
+    chunks.push(toFetch.slice(i, i + 50));
+  }
+
+  await Promise.all(chunks.map(async chunk => {
+    const url = 'https://www.googleapis.com/youtube/v3/videos'
+      + '?part=contentDetails'
+      + '&id=' + chunk.join(',')
+      + '&key=' + YT_API_KEY;
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('API error ' + res.status);
+      const data = await res.json();
+      (data.items || []).forEach(item => {
+        const dur = parseISO8601Duration(item.contentDetails.duration);
+        durationCache[item.id] = dur;
+      });
+      chunk.forEach(id => {
+        if (!(id in durationCache)) durationCache[id] = 0;
+      });
+    } catch (e) {
+      console.warn('Duration fetch failed for chunk:', e);
+      chunk.forEach(id => { durationCache[id] = 0; });
+    }
+  }));
+}
+
 async function loadAllVideoInfo() {
   loadingBar.classList.add('show');
-  // Collect every unique English AND Arabic video ID
+  loadingBar.textContent = t('loadingTitles');
+
   const ids = [];
   STORIES.forEach(s => {
     if (s.youtubeIdEn && s.youtubeIdEn !== '#') ids.push(s.youtubeIdEn);
     if (s.youtubeIdAr && s.youtubeIdAr !== '#') ids.push(s.youtubeIdAr);
   });
   const uniqueIds = [...new Set(ids)];
-  await Promise.all(uniqueIds.map(id => fetchVideoInfo(id)));
+
+  await Promise.all([
+    Promise.all(uniqueIds.map(id => fetchVideoInfo(id))),
+    fetchDurations(uniqueIds)
+  ]);
+
   loadingBar.classList.remove('show');
   renderStories();
 }
@@ -930,7 +681,6 @@ function setLanguage(lang) {
   loadingBar.textContent  = t('loadingTitles');
   openYtLink.textContent  = t('openYt');
 
-  // If a video is currently open, switch to the matching language video
   if (videoModal.classList.contains('open')) {
     const openStoryId = videoModal.getAttribute('data-story-id');
     if (openStoryId) {
@@ -953,8 +703,6 @@ function setLanguage(lang) {
 
 /* ============================================================
    RENDER STORIES
-   Uses the CURRENT language's video ID for title, thumbnail,
-   description, and moral.
    ============================================================ */
 function renderStories() {
   storyGrid.innerHTML = '';
@@ -973,6 +721,12 @@ function renderStories() {
     return haystack.includes(q);
   });
 
+  filtered.sort((a, b) => {
+    const durA = durationCache[getVideoId(a)] || Infinity;
+    const durB = durationCache[getVideoId(b)] || Infinity;
+    return durA - durB;
+  });
+
   if (filtered.length === 0) {
     emptyState.classList.add('show');
     return;
@@ -982,12 +736,12 @@ function renderStories() {
   filtered.forEach((story, i) => {
     const vidId = getVideoId(story);
     const info = videoCache[vidId] || {};
-    // HEADLINE = YouTube video title (fallback to local language title)
     const headline = info.title || getFallbackTitle(story);
     const desc  = getDesc(story);
     const moral = getMoral(story);
+    const durSec = durationCache[vidId] || 0;
+    const durLabel = durSec > 0 ? formatDuration(durSec) : '';
 
-    // Thumbnail: prefer oEmbed thumbnail, else YouTube's hqdefault by ID
     let thumb = info.thumbnail;
     if (!thumb && vidId && vidId !== '#') {
       thumb = 'https://i.ytimg.com/vi/' + vidId + '/hqdefault.jpg';
@@ -1007,6 +761,7 @@ function renderStories() {
       <div class="card-top">
         ${thumbHtml}
         <div class="play-icon">▶</div>
+        ${durLabel ? `<div class="duration-badge">${durLabel}</div>` : ''}
       </div>
       <div class="card-body">
         <h3 class="card-title">${escapeHtml(headline)}</h3>
@@ -1015,7 +770,6 @@ function renderStories() {
       </div>
     `;
 
-    // If thumbnail fails, show emoji
     const img = card.querySelector('.thumb-img');
     const emojiSpan = card.querySelector('.thumb-emoji');
     if (img && emojiSpan) {
@@ -1041,7 +795,6 @@ function escapeHtml(s) {
 
 /* ============================================================
    VIDEO MODAL
-   Plays the CURRENT language's video for the clicked story.
    ============================================================ */
 function openVideo(story) {
   const vidId = getVideoId(story);
@@ -1066,7 +819,7 @@ function openVideo(story) {
 
   videoModal.setAttribute('data-story-id', story.id);
   videoModal.classList.add('open');
-  document.body.style.overflow = 'hidden';
+  document.body.style.overflow = 'hidden'; // Prevent background scrolling
 }
 
 function closeVideo() {
