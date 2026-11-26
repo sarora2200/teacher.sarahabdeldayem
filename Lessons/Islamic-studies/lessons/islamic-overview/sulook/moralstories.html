@@ -443,14 +443,18 @@
   </div>
 </div>
 
-<!-- Load Secret Keys from config.js (same folder) -->
-<script src="./config.js"></script>
+<!-- Load Secret Keys from config.js (safe to fail if gitignored) -->
+<script src="./config.js" onerror="void 0"></script>
 
 <script>
 /* ============================================================
    YOUTUBE DATA API KEY
    ============================================================ */
-const YT_API_KEY = (window.APP_CONFIG && window.APP_CONFIG.YOUTUBE_CONFIG && window.APP_CONFIG.YOUTUBE_CONFIG.apiKey) || '';
+// Use config.js if available, otherwise use the inline key below.
+// IMPORTANT: Restrict this key to your GitHub Pages domain in Google Cloud Console!
+const YT_API_KEY = 
+  (window.APP_CONFIG && window.APP_CONFIG.YOUTUBE_CONFIG && window.APP_CONFIG.YOUTUBE_CONFIG.apiKey)
+  || 'AIzaSyCEXqjSI9ASF4MeIxweSMA04hGSJQBw5Qs';
 
 /* ============================================================
    STORY DATA
@@ -654,7 +658,7 @@ async function loadAllVideoInfo() {
   const uniqueIds = [...new Set(ids)];
 
   // If no API key, skip duration fetching entirely — page still works
-  if (!YT_API_KEY) {
+  if (!YT_API_KEY || YT_API_KEY === 'PASTE_YOUR_RESTRICTED_API_KEY_HERE') {
     await Promise.all(uniqueIds.map(id => fetchVideoInfo(id)));
     loadingBar.classList.remove('show');
     renderStories();
