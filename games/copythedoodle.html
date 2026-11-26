@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎨 Copy That Doodle · 2‑Minute Art Duel</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            background: linear-gradient(145deg, #fff5e0 0%, #e0f0ff 40%, #e8ffe8 100%);
+            background-attachment: fixed;
+            font-family: 'Comic Sans MS', 'Chalkboard SE', 'Segoe UI', cursive, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 10px;
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            color: #2e2a4a;
+            text-shadow: 2px 2px 0 #ffefb0, 4px 4px 0 #ffb08a;
+            letter-spacing: 1px;
+            text-align: center;
+            margin: 0 0 4px 0;
+        }
+
+        .game-card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(4px);
+            padding: 10px 12px 12px;
+            border-radius: 36px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15), 0 0 0 5px #ffea80, 0 0 0 8px #c4b5fd, 0 0 0 10px #a0d8ff;
+            border: 3px solid white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 96vw;
+        }
+
+        .scoreboard {
+            display: flex;
+            gap: 28px;
+            margin-bottom: 4px;
+            font-weight: 800;
+            font-size: 1.15rem;
+        }
+
+        .score-p1 {
+            color: #c0392b;
+        }
+
+        .score-p2 {
+            color: #1f6c9e;
+        }
+
+        .timer-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 2px;
+        }
+
+        .timer-badge {
+            background: #1e2b3a;
+            color: #f0e68c;
+            padding: 3px 16px;
+            border-radius: 40px;
+            font-weight: 900;
+            font-size: 1.25rem;
+            letter-spacing: 2px;
+            border: 3px solid #ffd966;
+            box-shadow: 0 4px 0 #0f1a24;
+            font-family: monospace;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            max-width: 380px;
+            height: auto;
+            border-radius: 24px;
+            box-shadow: 0 0 0 4px #ffe680, 0 0 0 7px #c4b5fd, 0 0 0 10px #b5e8b0, 0 10px 20px -5px #00000055;
+            cursor: crosshair;
+            background: #ffffff;
+            touch-action: none;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        .game-info {
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #3a2e4a;
+            margin-top: 8px;
+            text-shadow: 1px 1px 0 white;
+            min-height: 1.8rem;
+            max-width: 360px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 8px;
+            margin-top: 6px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .game-btn {
+            background: #ffb86b;
+            border: none;
+            border-radius: 40px;
+            padding: 7px 20px;
+            font-weight: 900;
+            font-size: 0.9rem;
+            color: #2d1e10;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #b87d2e, 0 8px 12px -4px black;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 2px solid white;
+            font-family: inherit;
+            text-transform: uppercase;
+        }
+
+        .game-btn:hover {
+            background: #ffc98a;
+        }
+
+        .game-btn:active {
+            box-shadow: 0 2px 0 #b87d2e, 0 5px 8px -3px black;
+        }
+
+        .game-btn.secondary {
+            background: #b8c6ff;
+            box-shadow: 0 5px 0 #6a7acd, 0 8px 12px -4px black;
+        }
+
+        .game-btn.secondary:hover {
+            background: #c7d4ff;
+        }
+
+        .game-btn.secondary:active {
+            box-shadow: 0 2px 0 #6a7acd, 0 5px 8px -3px black;
+        }
+
+        .game-btn:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+            box-shadow: 0 5px 0 #888, 0 8px 12px -4px black;
+        }
+
+        .footer-note {
+            text-align: center;
+            color: #3d2e1f;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-shadow: 1px 1px 0 white;
+            background: rgba(255, 255, 200, 0.9);
+            padding: 4px 14px;
+            border-radius: 20px;
+            display: inline-block;
+            border: 2px dashed #ffb86b;
+            margin-top: 8px;
+        }
+
+        @media (max-width: 500px) {
+            h1 {
+                font-size: 1.2rem;
+            }
+
+            .game-card {
+                padding: 6px 8px 8px;
+            }
+
+            canvas {
+                max-width: 290px;
+            }
+
+            .game-info {
+                font-size: 0.88rem;
+                max-width: 290px;
+            }
+
+            .game-btn {
+                padding: 5px 14px;
+                font-size: 0.8rem;
+            }
+
+            .scoreboard {
+                font-size: 0.95rem;
+                gap: 16px;
+            }
+
+            .timer-badge {
+                font-size: 1.05rem;
+                padding: 2px 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🎨 Copy That Doodle 🎨</h1>
+    <div class="game-card">
+        <div class="scoreboard">
+            <span class="score-p1" id="score1">🔴 P1: 0</span>
+            <span class="score-p2" id="score2">🔵 P2: 0</span>
+        </div>
+        <div class="timer-area">
+            <span class="timer-badge" id="timerDisplay">2:00</span>
+        </div>
+        <canvas id="drawCanvas" width="420" height="420"></canvas>
+        <div id="drawInfo" class="game-info">🔴 Player 1: get ready to memorize!</div>
+        <div class="controls">
+            <button id="btnDone" class="game-btn" disabled>✅ Done</button>
+            <button id="btnReset" class="game-btn secondary">🔄 New Duel</button>
+        </div>
+    </div>
+    <div class="footer-note">👀 Watch the doodle → then redraw it from memory! 🖌️</div>
+
+    <script>
+        (function () {
+            const canvas = document.getElementById('drawCanvas');
+            const ctx = canvas.getContext('2d');
+            const info = document.getElementById('drawInfo');
+            const btnDone = document.getElementById('btnDone');
+            const btnReset = document.getElementById('btnReset');
+            const score1 = document.getElementById('score1');
+            const score2 = document.getElementById('score2');
+            const timerDisplay = document.getElementById('timerDisplay');
+            const W = 420, H = 420;
+
+            // ---------- GAME STATE ----------
+            // phases: 'memorize' -> 'draw' -> 'reveal' -> next round / gameover
+            let phase = 'idle';
+            let currentPlayer = 1;
+            let roundNum = 0;
+            const MAX_ROUNDS = 6;          // 6 doodles total (3 each)
+            let scoreP1 = 0, scoreP2 = 0;
+            let gameOver = false;
+
+            // TIMER (2 min)
+            const TOTAL_TIME = 120;
+            let timeLeft = TOTAL_TIME;
+            let timerInterval = null;
+            let timerActive = false;
+
+            // Drawing state
+            let isDrawing = false;
+            let lastX = 0, lastY = 0;
+
+            // Target doodle commands (canvas paths) and player's doodle
+            let targetPaths = [];     // array of {points:[{x,y}...], color, width}
+            let playerPaths = [];     // same structure
+
+            // Scoring / feedback
+            let targetScore = 0;
+
+            const P1_COLOR = '#c0392b';
+            const P2_COLOR = '#1f6c9e';
+
+            // ---------- DOODLE GENERATOR ----------
+            // Generates a simple shape (circle, square, star, house, etc.) as paths
+            // All coordinates are in 0..1 space, then scaled to canvas inner area.
+            function generateDoodle() {
+                const doodles = [
+                    // 0: circle
+                    () => {
+                        const paths = [];
+                        const pts = [];
+                        for (let i = 0; i <= 36; i++) {
+                            const a = (i / 36) * Math.PI * 2;
+                            pts.push({ x: 0.5 + Math.cos(a) * 0.28, y: 0.5 + Math.sin(a) * 0.28 });
+                        }
+                        paths.push({ points: pts, color: '#e74c3c', width: 4 });
+                        return paths;
+                    },
+                    // 1: square
+                    () => {
+                        const p = 0.25, q = 0.75;
+                        const pts = [
+                            { x: p, y: p }, { x: q, y: p }, { x: q, y: q }, { x: p, y: q }, { x: p, y: p }
+                        ];
+                        return [{ points: pts, color: '#2980b9', width: 4 }];
+                    },
+                    // 2: triangle
+                    () => {
+                        const pts = [
+                            { x: 0.5, y: 0.2 }, { x: 0.8, y: 0.75 }, { x: 0.2, y: 0.75 }, { x: 0.5, y: 0.2 }
+                        ];
+                        return [{ points: pts, color: '#27ae60', width: 4 }];
+                    },
+                    // 3: star (5-point)
+                    () => {
+                        const cx = 0.5, cy = 0.5, R = 0.3, r = 0.13;
+                        const pts = [];
+                        for (let i = 0; i <= 10; i++) {
+                            const ang = -Math.PI / 2 + i * Math.PI / 5;
+                            const rad = i % 2 === 0 ? R : r;
+                            pts.push({ x: cx + Math.cos(ang) * rad, y: cy + Math.sin(ang) * rad });
+                        }
+                        return [{ points: pts, color: '#f39c12', width: 4 }];
+                    },
+                    // 4: house (square + triangle roof)
+                    () => {
+                        const square = [
+                            { x: 0.25, y: 0.45 }, { x: 0.75, y: 0.45 }, { x: 0.75, y: 0.8 }, { x: 0.25, y: 0.8 }, { x: 0.25, y: 0.45 }
+                        ];
+                        const roof = [
+                            { x: 0.2, y: 0.45 }, { x: 0.5, y: 0.18 }, { x: 0.8, y: 0.45 }
+                        ];
+                        return [
+                            { points: square, color: '#8e44ad', width: 4 },
+                            { points: roof, color: '#c0392b', width: 4 }
+                        ];
+                    },
+                    // 5: heart-ish shape
+                    () => {
+                        const pts = [];
+                        const N = 40;
+                        for (let i = 0; i <= N; i++) {
+                            const t = (i / N) * Math.PI * 2;
+                            const x = 16 * Math.pow(Math.sin(t), 3) / 40;
+                            const y = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t)) / 40;
+                            pts.push({ x: 0.5 + x, y: 0.5 + y });
+                        }
+                        return [{ points: pts, color: '#e91e63', width: 4 }];
+                    },
+                    // 6: tree (trunk + canopy)
+                    () => {
+                        const trunk = [
+                            { x: 0.45, y: 0.8 }, { x: 0.45, y: 0.55 }, { x: 0.55, y: 0.55 }, { x: 0.55, y: 0.8 }
+                        ];
+                        const canopy = [];
+                        for (let i = 0; i <= 24; i++) {
+                            const a = (i / 24) * Math.PI * 2;
+                            canopy.push({ x: 0.5 + Math.cos(a) * 0.22, y: 0.42 + Math.sin(a) * 0.22 });
+                        }
+                        return [
+                            { points: trunk, color: '#7d5a3c', width: 4 },
+                            { points: canopy, color: '#2ecc71', width: 4 }
+                        ];
+                    },
+                    // 7: arrow
+                    () => {
+                        const shaft = [
+                            { x: 0.2, y: 0.5 }, { x: 0.7, y: 0.5 }
+                        ];
+                        const head = [
+                            { x: 0.55, y: 0.35 }, { x: 0.75, y: 0.5 }, { x: 0.55, y: 0.65 }
+                        ];
+                        return [
+                            { points: shaft, color: '#34495e', width: 4 },
+                            { points: head, color: '#34495e', width: 4 }
+                        ];
+                    }
+                ];
+                return doodles[Math.floor(Math.random() * doodles.length)]();
+            }
+
+            function scalePath(paths, cx, cy, size) {
+                // scale from 0..1 into a square of given size centered at cx, cy
+                return paths.map(p => ({
+                    color: p.color,
+                    width: p.width,
+                    points: p.points.map(pt => ({
+                        x: cx + (pt.x - 0.5) * size,
+                        y: cy + (pt.y - 0.5) * size
+                    }))
+                }));
+            }
+
+            // ---------- TIMER ----------
+            function startTimer() {
+                if (timerInterval) clearInterval(timerInterval);
+                timerActive = true;
+                timerInterval = setInterval(() => {
+                    if (!timerActive || gameOver) return;
+                    timeLeft -= 1;
+                    updateTimerDisplay();
+                    if (timeLeft <= 0) {
+                        timeLeft = 0;
+                        updateTimerDisplay();
+                        endGame('⏰ Time up!');
+                    }
+                }, 1000);
+            }
+
+            function updateTimerDisplay() {
+                const mins = Math.floor(timeLeft / 60);
+                const secs = timeLeft % 60;
+                timerDisplay.textContent = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+                if (timeLeft <= 20) {
+                    timerDisplay.style.background = '#a52a2a';
+                    timerDisplay.style.color = '#ffe4b5';
+                } else {
+                    timerDisplay.style.background = '#1e2b3a';
+                    timerDisplay.style.color = '#f0e68c';
+                }
+            }
+
+            function endGame(reason) {
+                gameOver = true;
+                timerActive = false;
+                if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+                btnDone.disabled = true;
+                let msg = reason + ' ';
+                if (scoreP1 > scoreP2) msg += '🔴 Player 1 wins! 🎉';
+                else if (scoreP2 > scoreP1) msg += '🔵 Player 2 wins! 🎉';
+                else msg += '🤝 It\'s a tie!';
+                info.textContent = msg;
+                draw();
+            }
+
+            // ---------- ROUND FLOW ----------
+            function startRound() {
+                if (gameOver) return;
+                if (roundNum >= MAX_ROUNDS) {
+                    endGame('All rounds done!');
+                    return;
+                }
+                phase = 'memorize';
+                playerPaths = [];
+                targetScore = 0;
+                targetPaths = generateDoodle();
+                // target displayed in center, size 220
+                const scaled = scalePath(targetPaths, W / 2, H / 2, 220);
+                btnDone.disabled = true;
+
+                const playerLabel = currentPlayer === 1 ? '🔴 Player 1' : '🔵 Player 2';
+                info.textContent = `${playerLabel}: memorize the doodle... 👀`;
+                drawTarget(scaled);
+
+                // After 3.5 seconds switch to draw phase
+                setTimeout(() => {
+                    if (gameOver) return;
+                    phase = 'draw';
+                    info.textContent = `${playerLabel}: redraw it from memory! ✏️`;
+                    btnDone.disabled = false;
+                    draw();
+                }, 3500);
+            }
+
+            function drawTarget(scaledPaths) {
+                ctx.clearRect(0, 0, W, H);
+                // paper background
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, W, H);
+                // grid guides (faint)
+                ctx.strokeStyle = '#f0f0f0';
+                ctx.lineWidth = 1;
+                for (let i = 0; i <= 8; i++) {
+                    const x = (W / 8) * i;
+                    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+                    ctx.beginPath(); ctx.moveTo(0, x); ctx.lineTo(W, x); ctx.stroke();
+                }
+                // draw target paths
+                scaledPaths.forEach(p => {
+                    ctx.strokeStyle = p.color;
+                    ctx.lineWidth = p.width + 2;
+                    ctx.lineCap = 'round';
+                    ctx.lineJoin = 'round';
+                    ctx.beginPath();
+                    p.points.forEach((pt, i) => {
+                        if (i === 0) ctx.moveTo(pt.x, pt.y);
+                        else ctx.lineTo(pt.x, pt.y);
+                    });
+                    ctx.stroke();
+                });
+                // "memorize" overlay label
+                ctx.font = 'bold 20px "Segoe UI Emoji", "Apple Color Emoji", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillStyle = 'rgba(0,0,0,0.35)';
+                ctx.fillText('👀 MEMORIZE!', W / 2, H - 20);
+            }
+
+            // ---------- DRAW ----------
+            function draw() {
+                ctx.clearRect(0, 0, W, H);
+                // paper background
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, W, H);
+
+                // grid guides (faint)
+                ctx.strokeStyle = '#f0f0f0';
+                ctx.lineWidth = 1;
+                for (let i = 0; i <= 8; i++) {
+                    const x = (W / 8) * i;
+                    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+                    ctx.beginPath(); ctx.moveTo(0, x); ctx.lineTo(W, x); ctx.stroke();
+                }
+
+                // draw player's strokes
+                playerPaths.forEach(p => {
+                    ctx.strokeStyle = p.color;
+                    ctx.lineWidth = p.width;
+                    ctx.lineCap = 'round';
+                    ctx.lineJoin = 'round';
+                    ctx.beginPath();
+                    p.points.forEach((pt, i) => {
+                        if (i === 0) ctx.moveTo(pt.x, pt.y);
+                        else ctx.lineTo(pt.x, pt.y);
+                    });
+                    ctx.stroke();
+                });
+
+                // if reveal phase, show target overlay in green dashed
+                if (phase === 'reveal') {
+                    const scaled = scalePath(targetPaths, W / 2, H / 2, 220);
+                    ctx.setLineDash([6, 6]);
+                    scaled.forEach(p => {
+                        ctx.strokeStyle = 'rgba(46, 204, 113, 0.55)';
+                        ctx.lineWidth = p.width + 3;
+                        ctx.beginPath();
+                        p.points.forEach((pt, i) => {
+                            if (i === 0) ctx.moveTo(pt.x, pt.y);
+                            else ctx.lineTo(pt.x, pt.y);
+                        });
+                        ctx.stroke();
+                    });
+                    ctx.setLineDash([]);
+                    // label
+                    ctx.font = 'bold 18px "Segoe UI Emoji", "Apple Color Emoji", sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.fillStyle = 'rgba(46, 204, 113, 0.9)';
+                    ctx.fillText('🎯 Target (green)', W / 2, 24);
+                }
+
+                // small hint of current player
+                if (!gameOver && phase !== 'memorize' && phase !== 'reveal') {
+                    ctx.font = 'bold 16px "Segoe UI", sans-serif';
+                    ctx.textAlign = 'left';
+                    ctx.fillStyle = currentPlayer === 1 ? P1_COLOR : P2_COLOR;
+                    ctx.fillText(currentPlayer === 1 ? '🔴 P1' : '🔵 P2', 10, 22);
+                }
+            }
+
+            // ---------- SCORING ----------
+            function computeSimilarity() {
+                if (playerPaths.length === 0) return 0;
+                if (targetPaths.length === 0) return 0;
+
+                // Flatten all player points (sampled) and target points
+                const playerPts = [];
+                playerPaths.forEach(p => p.points.forEach(pt => playerPts.push(pt)));
+                const targetPts = [];
+                const scaled = scalePath(targetPaths, W / 2, H / 2, 220);
+                scaled.forEach(p => p.points.forEach(pt => targetPts.push(pt)));
+
+                if (playerPts.length === 0 || targetPts.length === 0) return 0;
+
+                // Coverage: fraction of target points that have a nearby player point (within 30px)
+                let covered = 0;
+                for (const tp of targetPts) {
+                    let near = false;
+                    for (const pp of playerPts) {
+                        if (Math.hypot(tp.x - pp.x, tp.y - pp.y) < 35) { near = true; break; }
+                    }
+                    if (near) covered++;
+                }
+                const coverage = covered / targetPts.length;
+
+                // Precision: fraction of player points near the target
+                let precise = 0;
+                for (const pp of playerPts) {
+                    let near = false;
+                    for (const tp of targetPts) {
+                        if (Math.hypot(tp.x - pp.x, tp.y - pp.y) < 35) { near = true; break; }
+                    }
+                    if (near) precise++;
+                }
+                const precision = precise / playerPts.length;
+
+                // Penalty for scribbling: lots of player points with low coverage is bad
+                // Score = F1-ish
+                const f1 = (coverage + precision) === 0 ? 0 : (2 * coverage * precision) / (coverage + precision);
+
+                // Bonus for having a reasonable number of points (not too few, not too many)
+                const idealPoints = targetPts.length * 1.5;
+                const ratio = playerPts.length / idealPoints;
+                const densityBonus = ratio > 1 ? 1 / ratio : ratio;
+
+                const finalScore = Math.round(f1 * densityBonus * 100);
+                return Math.max(0, Math.min(100, finalScore));
+            }
+
+            // ---------- PLAYER ACTIONS ----------
+            function getPos(e, isTouch) {
+                const rect = canvas.getBoundingClientRect();
+                const clientX = isTouch ? e.touches[0].clientX : e.clientX;
+                const clientY = isTouch ? e.touches[0].clientY : e.clientY;
+                return {
+                    x: (clientX - rect.left) * (W / rect.width),
+                    y: (clientY - rect.top) * (H / rect.height)
+                };
+            }
+
+            function startStroke(x, y) {
+                if (phase !== 'draw' || gameOver) return;
+                isDrawing = true;
+                lastX = x; lastY = y;
+                playerPaths.push({
+                    color: currentPlayer === 1 ? P1_COLOR : P2_COLOR,
+                    width: 5,
+                    points: [{ x, y }]
+                });
+                draw();
+            }
+
+            function continueStroke(x, y) {
+                if (!isDrawing || phase !== 'draw' || gameOver) return;
+                const p = playerPaths[playerPaths.length - 1];
+                // only add if moved enough
+                const last = p.points[p.points.length - 1];
+                if (Math.hypot(x - last.x, y - last.y) < 2) return;
+                p.points.push({ x, y });
+                draw();
+            }
+
+            function endStroke() {
+                isDrawing = false;
+            }
+
+            // mouse events
+            canvas.addEventListener('mousedown', e => {
+                const p = getPos(e, false);
+                startStroke(p.x, p.y);
+            });
+            canvas.addEventListener('mousemove', e => {
+                const p = getPos(e, false);
+                if (isDrawing) {
+                    continueStroke(p.x, p.y);
+                }
+            });
+            window.addEventListener('mouseup', endStroke);
+
+            // touch events
+            canvas.addEventListener('touchstart', e => {
+                e.preventDefault();
+                const p = getPos(e, true);
+                startStroke(p.x, p.y);
+            }, { passive: false });
+            canvas.addEventListener('touchmove', e => {
+                e.preventDefault();
+                if (isDrawing) {
+                    const p = getPos(e, true);
+                    continueStroke(p.x, p.y);
+                }
+            }, { passive: false });
+            canvas.addEventListener('touchend', e => {
+                e.preventDefault();
+                endStroke();
+            }, { passive: false });
+            canvas.addEventListener('touchcancel', e => {
+                endStroke();
+            });
+
+            // Done button: reveal + score
+            btnDone.addEventListener('click', () => {
+                if (phase !== 'draw' || gameOver) return;
+                phase = 'reveal';
+                btnDone.disabled = true;
+                const score = computeSimilarity();
+                targetScore = score;
+
+                // Assign points based on score thresholds
+                let points = 0;
+                if (score >= 70) points = 3;
+                else if (score >= 45) points = 2;
+                else if (score >= 20) points = 1;
+                else points = 0;
+
+                if (points > 0) {
+                    if (currentPlayer === 1) scoreP1 += points;
+                    else scoreP2 += points;
+                    updateScore();
+                }
+
+                const playerLabel = currentPlayer === 1 ? '🔴 Player 1' : '🔵 Player 2';
+                info.textContent = `${playerLabel} scored ${score}% similarity → +${points} point${points !== 1 ? 's' : ''}!`;
+                draw();
+
+                // After 2.5s move to next round
+                setTimeout(() => {
+                    if (gameOver) return;
+                    roundNum++;
+                    currentPlayer = currentPlayer === 1 ? 2 : 1;
+                    // Check max rounds
+                    if (roundNum >= MAX_ROUNDS) {
+                        endGame('All rounds done!');
+                    } else {
+                        startRound();
+                    }
+                }, 2600);
+            });
+
+            btnReset.addEventListener('click', () => {
+                resetGame();
+            });
+
+            function updateScore() {
+                score1.textContent = '🔴 P1: ' + scoreP1;
+                score2.textContent = '🔵 P2: ' + scoreP2;
+            }
+
+            // ---------- RESET / START ----------
+            function resetGame() {
+                if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+                gameOver = false;
+                phase = 'idle';
+                currentPlayer = 1;
+                roundNum = 0;
+                scoreP1 = 0;
+                scoreP2 = 0;
+                playerPaths = [];
+                targetPaths = [];
+                timeLeft = TOTAL_TIME;
+                updateTimerDisplay();
+                updateScore();
+                btnDone.disabled = true;
+
+                // start the timer once, first round starts immediately
+                startTimer();
+                startRound();
+            }
+
+            // initial start
+            resetGame();
+        })();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🧠 Block & Claim · 2‑Minute Brain Duel</title>
+  <style>
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body {
+      margin: 0; padding: 0;
+      width: 100%; height: 100%;
+      overflow: hidden;
+    }
+    body {
+      background: linear-gradient(145deg, #ffe0f0 0%, #d0e8ff 40%, #d0ffd8 100%);
+      background-attachment: fixed;
+      font-family: 'Comic Sans MS', 'Chalkboard SE', 'Segoe UI', cursive, sans-serif;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 6px 10px;
+    }
+    h1 {
+      font-size: 1.7rem; color: #2e2a4a;
+      text-shadow: 2px 2px 0 #ffefb0, 4px 4px 0 #ffb08a;
+      letter-spacing: 1px; text-align: center;
+      margin: 0 0 4px 0;
+    }
+    .game-card {
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(4px);
+      padding: 10px 12px 12px;
+      border-radius: 36px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.15), 0 0 0 5px #ffea80, 0 0 0 8px #c4b5fd, 0 0 0 10px #a0d8ff;
+      border: 3px solid white;
+      display: flex; flex-direction: column;
+      align-items: center;
+      max-width: 96vw;
+    }
+    .scoreboard {
+      display: flex; gap: 28px; margin-bottom: 4px;
+      font-weight: 800; font-size: 1.15rem;
+    }
+    .score-p1 { color: #c0392b; }
+    .score-p2 { color: #1f6c9e; }
+    .timer-area {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 2px;
+    }
+    .timer-badge {
+      background: #1e2b3a; color: #f0e68c; padding: 3px 16px;
+      border-radius: 40px; font-weight: 900; font-size: 1.25rem;
+      letter-spacing: 2px; border: 3px solid #ffd966;
+      box-shadow: 0 4px 0 #0f1a24; font-family: monospace;
+    }
+    canvas {
+      display: block;
+      width: 100%;
+      max-width: 380px;
+      height: auto;
+      border-radius: 24px;
+      box-shadow: 0 0 0 4px #ffe680, 0 0 0 7px #c4b5fd, 0 0 0 10px #b5e8b0, 0 10px 20px -5px #00000055;
+      cursor: pointer;
+      background: #fdfaf0;
+      touch-action: manipulation;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+    .game-info {
+      text-align: center; font-size: 1.05rem; font-weight: 700; color: #3a2e4a;
+      margin-top: 8px; text-shadow: 1px 1px 0 white;
+      min-height: 1.8rem;
+    }
+    .game-btn {
+      background: #b8a6ff; border: none; border-radius: 40px;
+      padding: 8px 28px; font-weight: 900; font-size: 1rem; color: #1e1233;
+      letter-spacing: 0.5px; cursor: pointer;
+      box-shadow: 0 6px 0 #6a5acd, 0 8px 12px -4px black;
+      display: flex; align-items: center; gap: 8px;
+      border: 2px solid white; font-family: inherit;
+      text-transform: uppercase; margin-top: 8px;
+    }
+    .game-btn:hover { background: #c7b8ff; }
+    .game-btn:active { box-shadow: 0 3px 0 #6a5acd, 0 5px 8px -3px black; }
+    .footer-note {
+      text-align: center; color: #3d2e1f; font-size: 0.85rem; font-weight: 700;
+      text-shadow: 1px 1px 0 white; background: rgba(255,255,200,0.9);
+      padding: 4px 14px; border-radius: 20px; display: inline-block;
+      border: 2px dashed #b8a6ff; margin-top: 8px;
+    }
+    @media (max-width: 500px) {
+      h1 { font-size: 1.25rem; }
+      .game-card { padding: 6px 8px 8px; }
+      canvas { max-width: 290px; }
+      .game-info { font-size: 0.9rem; }
+      .game-btn { padding: 6px 18px; font-size: 0.9rem; }
+      .scoreboard { font-size: 0.95rem; gap: 16px; }
+      .timer-badge { font-size: 1.05rem; padding: 2px 12px; }
+    }
+  </style>
+</head>
+<body>
+  <h1>🧠 Block & Claim 🧠</h1>
+  <div class="game-card">
+    <div class="scoreboard">
+      <span class="score-p1" id="score1">🔴 P1: 0</span>
+      <span class="score-p2" id="score2">🔵 P2: 0</span>
+    </div>
+    <div class="timer-area">
+      <span class="timer-badge" id="timerDisplay">2:00</span>
+    </div>
+    <canvas id="bcCanvas" width="420" height="420"></canvas>
+    <div id="bcInfo" class="game-info">🔴 Player 1's turn!</div>
+    <button id="bcReset" class="game-btn">🔄 New Duel</button>
+  </div>
+  <div class="footer-note">👆 Tap a cell to claim it — line up 3! ⏳</div>
+
+  <script>
+    (function() {
+      const canvas = document.getElementById('bcCanvas');
+      const ctx = canvas.getContext('2d');
+      const info = document.getElementById('bcInfo');
+      const resetBtn = document.getElementById('bcReset');
+      const score1 = document.getElementById('score1');
+      const score2 = document.getElementById('score2');
+      const timerDisplay = document.getElementById('timerDisplay');
+      const W = 420, H = 420;
+
+      // 5x5 grid — claim cells, first to 3-in-a-row scores
+      const GRID = 5;
+      const CELL = (W - 40) / GRID;   // leave margin 20 each side
+      const OFFSET = 20;
+
+      // board[r][c] = 0 empty, 1 = P1, 2 = P2
+      let board, currentPlayer, gameOver;
+      let scoreP1, scoreP2, hoverCell;
+
+      // TIMER (2 min)
+      const TOTAL_TIME = 120;
+      let timeLeft = TOTAL_TIME;
+      let timerInterval = null;
+      let timerActive = false;
+
+      const P1_COLOR = '#c0392b';
+      const P2_COLOR = '#1f6c9e';
+
+      // ---------- INIT ----------
+      function init() {
+        board = Array(GRID).fill().map(() => Array(GRID).fill(0));
+        currentPlayer = 1;
+        gameOver = false;
+        scoreP1 = 0;
+        scoreP2 = 0;
+        hoverCell = null;
+
+        if (timerInterval) {
+          clearInterval(timerInterval);
+          timerInterval = null;
+        }
+        timerActive = true;
+        timeLeft = TOTAL_TIME;
+        updateTimerDisplay();
+        updateScore();
+        info.textContent = '🔴 Player 1\'s turn!';
+        draw();
+
+        timerInterval = setInterval(() => {
+          if (!timerActive || gameOver) return;
+          timeLeft -= 1;
+          updateTimerDisplay();
+          if (timeLeft <= 0) {
+            timeLeft = 0;
+            updateTimerDisplay();
+            timerActive = false;
+            clearInterval(timerInterval);
+            timerInterval = null;
+            gameOver = true;
+            if (scoreP1 > scoreP2) info.textContent = '⏰ Time! 🔴 Player 1 wins!';
+            else if (scoreP2 > scoreP1) info.textContent = '⏰ Time! 🔵 Player 2 wins!';
+            else info.textContent = '⏰ Time! 🤝 It\'s a tie!';
+            draw();
+          } else {
+            draw();
+          }
+        }, 1000);
+      }
+
+      function updateTimerDisplay() {
+        const mins = Math.floor(timeLeft / 60);
+        const secs = timeLeft % 60;
+        timerDisplay.textContent = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        if (timeLeft <= 20) {
+          timerDisplay.style.background = '#a52a2a';
+          timerDisplay.style.color = '#ffe4b5';
+        } else {
+          timerDisplay.style.background = '#1e2b3a';
+          timerDisplay.style.color = '#f0e68c';
+        }
+      }
+
+      function updateScore() {
+        score1.textContent = '🔴 P1: ' + scoreP1;
+        score2.textContent = '🔵 P2: ' + scoreP2;
+      }
+
+      function cellRect(r, c) {
+        return {
+          x: OFFSET + c * CELL,
+          y: OFFSET + r * CELL,
+          w: CELL,
+          h: CELL
+        };
+      }
+
+      // ---------- DRAW ----------
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+
+        // background
+        const grad = ctx.createLinearGradient(0, 0, W, H);
+        grad.addColorStop(0, '#fffbe6');
+        grad.addColorStop(0.5, '#f0e6ff');
+        grad.addColorStop(1, '#e6f7ff');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, W, H);
+
+        // faint polka dots
+        for (let i = 0; i < 9; i++) {
+          for (let j = 0; j < 9; j++) {
+            ctx.beginPath();
+            ctx.arc(i * 50 + 15, j * 50 + 15, 6, 0, Math.PI * 2);
+            ctx.fillStyle = (i + j) % 2 === 0 ? '#ffb3ba15' : '#b5e8b015';
+            ctx.fill();
+          }
+        }
+
+        // draw cells
+        for (let r = 0; r < GRID; r++) {
+          for (let c = 0; c < GRID; c++) {
+            const rect = cellRect(r, c);
+            // cell background
+            if (board[r][c] === 1) {
+              ctx.fillStyle = 'rgba(192,57,43,0.18)';
+            } else if (board[r][c] === 2) {
+              ctx.fillStyle = 'rgba(31,108,158,0.18)';
+            } else {
+              ctx.fillStyle = 'rgba(255,255,255,0.7)';
+            }
+            ctx.fillRect(rect.x, rect.y, rect.w, rect.h);
+
+            // hover highlight
+            if (hoverCell && hoverCell.r === r && hoverCell.c === c &&
+                board[r][c] === 0 && !gameOver && timerActive && timeLeft > 0) {
+              ctx.fillStyle = currentPlayer === 1 ? 'rgba(192,57,43,0.25)' : 'rgba(31,108,158,0.25)';
+              ctx.fillRect(rect.x, rect.y, rect.w, rect.h);
+            }
+
+            // cell border
+            ctx.strokeStyle = '#b0a0c0';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(rect.x + 1, rect.y + 1, rect.w - 2, rect.h - 2);
+
+            // token in cell
+            if (board[r][c] !== 0) {
+              const cx = rect.x + rect.w / 2;
+              const cy = rect.y + rect.h / 2;
+              ctx.font = `bold ${CELL * 0.55}px "Segoe UI Emoji", "Apple Color Emoji", serif`;
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'middle';
+              ctx.fillStyle = board[r][c] === 1 ? P1_COLOR : P2_COLOR;
+              ctx.fillText(board[r][c] === 1 ? '🔴' : '🔵', cx, cy);
+            }
+          }
+        }
+
+        // draw grid lines on top (thin)
+        ctx.strokeStyle = '#b0a0c0';
+        ctx.lineWidth = 1;
+        for (let i = 0; i <= GRID; i++) {
+          ctx.beginPath();
+          ctx.moveTo(OFFSET + i * CELL, OFFSET);
+          ctx.lineTo(OFFSET + i * CELL, OFFSET + GRID * CELL);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(OFFSET, OFFSET + i * CELL);
+          ctx.lineTo(OFFSET + GRID * CELL, OFFSET + i * CELL);
+          ctx.stroke();
+        }
+
+        // outer border
+        ctx.strokeStyle = '#7a5a8a';
+        ctx.lineWidth = 5;
+        ctx.strokeRect(OFFSET - 2, OFFSET - 2, GRID * CELL + 4, GRID * CELL + 4);
+
+        // dim if game over
+        if (gameOver || !timerActive || timeLeft === 0) {
+          ctx.fillStyle = 'rgba(255,255,240,0.25)';
+          ctx.fillRect(0, 0, W, H);
+        }
+      }
+
+      // ---------- LINE CHECK (3-in-a-row) ----------
+      function checkWin(r, c, player) {
+        // Check 4 directions: horizontal, vertical, diag \, diag /
+        const dirs = [[0,1],[1,0],[1,1],[1,-1]];
+        for (const [dr, dc] of dirs) {
+          let count = 1;
+          // forward
+          let nr = r + dr, nc = c + dc;
+          while (nr >= 0 && nr < GRID && nc >= 0 && nc < GRID && board[nr][nc] === player) {
+            count++; nr += dr; nc += dc;
+          }
+          // backward
+          nr = r - dr; nc = c - dc;
+          while (nr >= 0 && nr < GRID && nc >= 0 && nc < GRID && board[nr][nc] === player) {
+            count++; nr -= dr; nc -= dc;
+          }
+          if (count >= 3) return true;
+        }
+        return false;
+      }
+
+      // ---------- PLAY ----------
+      function playCell(r, c) {
+        if (gameOver || !timerActive || timeLeft <= 0) return;
+        if (board[r][c] !== 0) return;
+
+        board[r][c] = currentPlayer;
+        const won = checkWin(r, c, currentPlayer);
+
+        if (won) {
+          if (currentPlayer === 1) scoreP1 += 1;
+          else scoreP2 += 1;
+          updateScore();
+          info.textContent = currentPlayer === 1
+            ? '🔴 Player 1 made 3‑in‑a‑row! +1 point!'
+            : '🔵 Player 2 made 3‑in‑a‑row! +1 point!';
+          // reset board after a win to keep game going (fresh round within timer)
+          // small delay so player sees the win, then reset board
+          draw();
+          setTimeout(() => {
+            if (gameOver || !timerActive || timeLeft <= 0) return;
+            for (let rr = 0; rr < GRID; rr++)
+              for (let cc = 0; cc < GRID; cc++)
+                board[rr][cc] = 0;
+            hoverCell = null;
+            // winner keeps turn
+            info.textContent = currentPlayer === 1
+              ? '🔴 Player 1 got a point! Your turn again!'
+              : '🔵 Player 2 got a point! Your turn again!';
+            draw();
+          }, 700);
+        } else {
+          // check if board full -> no moves, reset
+          let full = true;
+          for (let rr = 0; rr < GRID; rr++)
+            for (let cc = 0; cc < GRID; cc++)
+              if (board[rr][cc] === 0) full = false;
+
+          if (full) {
+            // clear board
+            for (let rr = 0; rr < GRID; rr++)
+              for (let cc = 0; cc < GRID; cc++)
+                board[rr][cc] = 0;
+            info.textContent = 'Board full! Fresh round — keep dueling!';
+            // current player stays
+            draw();
+            return;
+          }
+
+          // switch player
+          currentPlayer = currentPlayer === 1 ? 2 : 1;
+          info.textContent = currentPlayer === 1 ? '🔴 Player 1\'s turn!' : '🔵 Player 2\'s turn!';
+        }
+
+        draw();
+      }
+
+      // ---------- POSITION ----------
+      function getPos(e, isTouch) {
+        const rect = canvas.getBoundingClientRect();
+        const clientX = isTouch ? e.touches[0].clientX : e.clientX;
+        const clientY = isTouch ? e.touches[0].clientY : e.clientY;
+        return {
+          x: (clientX - rect.left) * (W / rect.width),
+          y: (clientY - rect.top) * (H / rect.height)
+        };
+      }
+
+      function getCellFromPos(x, y) {
+        if (x < OFFSET || x > OFFSET + GRID * CELL) return null;
+        if (y < OFFSET || y > OFFSET + GRID * CELL) return null;
+        const c = Math.floor((x - OFFSET) / CELL);
+        const r = Math.floor((y - OFFSET) / CELL);
+        if (r < 0 || r >= GRID || c < 0 || c >= GRID) return null;
+        return { r, c };
+      }
+
+      // ---------- EVENTS ----------
+      canvas.addEventListener('mousemove', e => {
+        if (gameOver || !timerActive || timeLeft <= 0) {
+          if (hoverCell) { hoverCell = null; draw(); }
+          return;
+        }
+        const p = getPos(e, false);
+        const cell = getCellFromPos(p.x, p.y);
+        if (JSON.stringify(cell) !== JSON.stringify(hoverCell)) {
+          hoverCell = cell;
+          draw();
+        }
+      });
+
+      canvas.addEventListener('mouseleave', () => {
+        hoverCell = null;
+        draw();
+      });
+
+      canvas.addEventListener('click', e => {
+        if (gameOver || !timerActive || timeLeft <= 0) return;
+        const p = getPos(e, false);
+        const cell = getCellFromPos(p.x, p.y);
+        if (cell) playCell(cell.r, cell.c);
+      });
+
+      canvas.addEventListener('touchstart', e => {
+        e.preventDefault();
+        if (gameOver || !timerActive || timeLeft <= 0) return;
+        const p = getPos(e, true);
+        const cell = getCellFromPos(p.x, p.y);
+        if (cell) playCell(cell.r, cell.c);
+      }, { passive: false });
+
+      canvas.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
+
+      resetBtn.addEventListener('click', () => {
+        if (timerInterval) {
+          clearInterval(timerInterval);
+          timerInterval = null;
+        }
+        init();
+      });
+
+      init();
+    })();
+  </script>
+</body>
+</html>
